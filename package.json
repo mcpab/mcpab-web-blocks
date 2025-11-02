@@ -1,0 +1,23 @@
+{
+  "name": "@mcpab/web-blocks",
+  "version": "0.1.0",
+  "description": "React + MUI site blocks.",
+  "main": "dist/index.cjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": "[\"dist\"]",
+  "sideEffects": "false",
+  "peerDependencies": {
+    "@mui/icons-material": ">=6",
+    "@mui/material": ">=6",
+    "react": ">=18",
+    "react-dom": ">=18"
+  }
+}
