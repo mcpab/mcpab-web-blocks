@@ -1,4 +1,14 @@
+// tsconfig.json
 {
-  "compilerOptions": { "module": "ESNext", "target": "ES2019", "jsx": "react-jsx", "declaration": true, "outDir": "dist", "strict": true, "moduleResolution": "Bundler", "skipLibCheck": true, "lib": ["ES2022","DOM"] },
+  "compilerOptions": {
+    "target": "ES2019",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": "."
+  },
   "include": ["src"]
 }

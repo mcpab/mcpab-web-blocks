@@ -1,0 +1,23 @@
+# deps (monorepo-safe)
+node_modules/
+**/node_modules/
+.pnpm/
+**/.pnpm/
+
+# builds
+**/dist/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# logs
+pnpm-debug.log*
+npm-debug.log*
+yarn-error.log*
+*.log
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
