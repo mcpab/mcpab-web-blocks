@@ -27,7 +27,6 @@
 export {
   parseInlineMarkdown,
   boldToNodes,
-  type LinkRef
 } from './inline';
 
 // Text transformation utilities

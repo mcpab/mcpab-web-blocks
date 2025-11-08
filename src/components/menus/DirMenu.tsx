@@ -24,7 +24,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { toTitleCase } from '@/src/lib/text/transform';
-import IconPicker from './IconPicker';
+import IconPicker from '../../lib/icon/IconPicker';
 import type { MenuElement, MenuProps } from './types';
 
  

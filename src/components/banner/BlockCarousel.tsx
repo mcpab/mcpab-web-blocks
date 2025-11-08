@@ -474,7 +474,7 @@ import DynamicTransition from "./DynamicTransition";
  * ```
  */
 
-import type { StaticImageDataLike , ImageComponentLike } from "../../core/images/image-types"; 
+import type { StaticImageDataLike , ImageComponentLike } from "../../core/image/image-types"; 
 
 
 /**

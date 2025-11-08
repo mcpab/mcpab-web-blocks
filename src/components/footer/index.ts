@@ -6,4 +6,4 @@
  */
 export { default as Footer } from './Footer';
 export { default as FooterColumn } from './FooterColumn';
-export type { FooterItem } from './FooterColumn';
+

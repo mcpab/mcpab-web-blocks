@@ -152,8 +152,8 @@
  */
 
 import * as React from 'react';
-import  { StaticImageDataLike } from '../../core/images/image-types'
-import type { ImageComponentLike  } from 'src/core/images/image-types';
+import  { StaticImageDataLike } from '../../core/image/image-types'
+import type { ImageComponentLike  } from 'src/core/image/image-types';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 

@@ -1,0 +1,316 @@
+src/:
+total 28
+drwxr-xr-x  2 mcpab mcpab 4096 Nov  2 10:35 design
+-rw-r--r--  1 mcpab mcpab  250 Nov  2 11:36 index.ts
+drwxr-xr-x  4 mcpab mcpab 4096 Nov  2 11:46 theme
+drwxr-xr-x  6 mcpab mcpab 4096 Nov  3 15:00 lib
+drwxr-xr-x  4 mcpab mcpab 4096 Nov  6 08:14 __archive__
+drwxr-xr-x  8 mcpab mcpab 4096 Nov  6 08:14 core
+drwxr-xr-x 18 mcpab mcpab 4096 Nov  6 15:14 components
+
+src/design:
+total 12
+-rw-r--r-- 1 mcpab mcpab 7107 Nov  2 10:35 sectionTokens.ts
+-rw-r--r-- 1 mcpab mcpab   32 Nov  2 10:36 index.js
+
+src/theme:
+total 52
+-rw-r--r-- 1 mcpab mcpab  9122 Nov  2 11:23 typographyScale.ts
+-rw-r--r-- 1 mcpab mcpab   150 Nov  2 11:36 index.ts
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 11:45 presets
+-rw-r--r-- 1 mcpab mcpab  8187 Nov  2 11:47 baseThemeOptions.ts
+-rw-r--r-- 1 mcpab mcpab 17370 Nov  2 11:51 createSiteTheme.ts
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 16:25 types
+
+src/theme/presets:
+total 20
+-rw-r--r-- 1 mcpab mcpab 5678 Nov  2 11:42 psychologySite.ts
+-rw-r--r-- 1 mcpab mcpab 9810 Nov  2 11:52 quantumMathMusic.ts
+
+src/theme/types:
+total 4
+-rw-r--r-- 1 mcpab mcpab 897 Nov  2 11:35 typography-aug.d.ts
+
+src/lib:
+total 20
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  2 11:19 text
+-rw-r--r-- 1 mcpab mcpab 1241 Nov  2 11:20 index.ts
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  3 10:29 script
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  3 11:20 footer
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  3 15:00 icon
+
+src/lib/text:
+total 28
+-rw-r--r-- 1 mcpab mcpab   274 Nov  2 08:38 transform.ts
+-rw-r--r-- 1 mcpab mcpab  1145 Nov  3 09:36 index.ts
+-rw-r--r-- 1 mcpab mcpab 16648 Nov  3 09:40 inline.tsx
+
+src/lib/script:
+total 8
+-rw-r--r-- 1 mcpab mcpab 3216 Nov  3 10:25 HTMLScipt.tsx
+-rw-r--r-- 1 mcpab mcpab 1176 Nov  3 10:39 AnalyticsBridge.tsx
+
+src/lib/footer:
+total 4
+-rw-r--r-- 1 mcpab mcpab 1381 Nov  4 10:48 footerFactory.ts
+
+src/lib/icon:
+total 4
+-rw-r--r-- 1 mcpab mcpab 2049 Nov  3 15:09 IconPicker.tsx
+
+src/__archive__:
+total 8
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  5 09:48 gridCSS
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  5 10:09 gridsCSS
+
+src/__archive__/gridCSS:
+total 48
+-rw-r--r-- 1 mcpab mcpab  5093 Nov  5 09:49 index.ts
+-rw-r--r-- 1 mcpab mcpab  2933 Nov  5 11:07 types.ts
+-rw-r--r-- 1 mcpab mcpab  3147 Nov  5 11:15 helpers.ts
+-rw-r--r-- 1 mcpab mcpab  9555 Nov  5 11:15 gridUnitsHelpers.ts
+-rw-r--r-- 1 mcpab mcpab 13495 Nov  5 11:15 gridChecker.ts
+-rw-r--r-- 1 mcpab mcpab  2852 Nov  5 11:15 gridBuilder.ts
+
+src/__archive__/gridsCSS:
+total 8
+-rw-r--r-- 1 mcpab mcpab 1160 Nov  5 10:41 registry.tsx
+-rw-r--r-- 1 mcpab mcpab  120 Nov  5 11:15 types.ts
+
+src/core:
+total 32
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  3 09:37 link
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  3 10:27 image
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  3 10:28 script
+drwxr-xr-x 3 mcpab mcpab 4096 Nov  3 10:28 layout
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  5 09:48 footer
+-rw-r--r-- 1 mcpab mcpab 5177 Nov  6 08:41 index.ts
+drwxr-xr-x 7 mcpab mcpab 4096 Nov  8 09:21 gridCSS
+
+src/core/link:
+total 8
+-rw-r--r-- 1 mcpab mcpab 2004 Nov  3 10:30 index.ts
+-rw-r--r-- 1 mcpab mcpab  340 Nov  3 10:53 link-types.tsx
+
+src/core/image:
+total 36
+-rw-r--r-- 1 mcpab mcpab 32135 Nov  2 20:01 image-types.tsx
+-rw-r--r-- 1 mcpab mcpab  2349 Nov  3 10:30 index.ts
+
+src/core/script:
+total 8
+-rw-r--r-- 1 mcpab mcpab 2044 Nov  3 10:30 index.ts
+-rw-r--r-- 1 mcpab mcpab 1236 Nov  3 10:39 script-types.tsx
+
+src/core/layout:
+total 8
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  2 20:06 grid
+-rw-r--r-- 1 mcpab mcpab 1464 Nov  3 10:30 index.ts
+
+src/core/layout/grid:
+total 16
+-rw-r--r-- 1 mcpab mcpab  148 Nov  2 19:55 types.ts
+-rw-r--r-- 1 mcpab mcpab  465 Nov  2 20:05 ratio.ts
+-rw-r--r-- 1 mcpab mcpab  175 Nov  2 20:05 describe.ts
+-rw-r--r-- 1 mcpab mcpab 1457 Nov  2 20:16 index.ts
+
+src/core/footer:
+total 8
+-rw-r--r-- 1 mcpab mcpab  571 Nov  4 10:48 types.ts
+-rw-r--r-- 1 mcpab mcpab 2146 Nov  5 09:49 index.ts
+
+src/core/gridCSS:
+total 44
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  6 15:31 ids
+-rw-r--r-- 1 mcpab mcpab   680 Nov  6 15:33 domainTypes.ts
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  7 08:29 lib
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  7 09:40 defaults
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  8 09:17 factories
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  8 09:21 core
+-rw-r--r-- 1 mcpab mcpab 11454 Nov  8 09:21 gridChecker.ts
+-rw-r--r-- 1 mcpab mcpab  7413 Nov  8 09:21 index.ts
+
+src/core/gridCSS/ids:
+total 4
+-rw-r--r-- 1 mcpab mcpab 1405 Nov  6 20:23 kinds.ts
+
+src/core/gridCSS/lib:
+total 24
+-rw-r--r-- 1 mcpab mcpab  9555 Nov  5 11:15 gridUnitsHelpers.ts
+-rw-r--r-- 1 mcpab mcpab 10095 Nov  8 09:21 resolveGridOptions.ts
+
+src/core/gridCSS/defaults:
+total 4
+-rw-r--r-- 1 mcpab mcpab 678 Nov  8 09:21 defaults.ts
+
+src/core/gridCSS/factories:
+total 4
+-rw-r--r-- 1 mcpab mcpab 3473 Nov  8 09:21 OneRowTwoCol.ts
+
+src/core/gridCSS/core:
+total 8
+-rw-r--r-- 1 mcpab mcpab 5248 Nov  8 09:21 layoutTypes.ts
+
+src/components:
+total 92
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 09:41 inputs
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 09:41 header
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 09:41 content
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 09:41 styled
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 09:41 cards
+drwxr-xr-x 3 mcpab mcpab  4096 Nov  2 09:41 meta
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 09:41 media
+drwxr-xr-x 3 mcpab mcpab  4096 Nov  2 09:41 navigation
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 10:27 typography
+-rw-r--r-- 1 mcpab mcpab 12669 Nov  2 10:29 Pad.tsx
+-rw-r--r-- 1 mcpab mcpab  8828 Nov  2 10:41 Section.tsx
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 12:26 banner
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 14:22 buttons
+drwxr-xr-x 3 mcpab mcpab  4096 Nov  2 20:17 sections
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  3 11:20 footer
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  3 15:00 menus
+drwxr-xr-x 4 mcpab mcpab  4096 Nov  6 08:11 layout
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  8 09:17 gridCSSFactories
+
+src/components/inputs:
+total 12
+-rw-r--r-- 1 mcpab mcpab  174 Nov  2 08:38 index.ts
+-rw-r--r-- 1 mcpab mcpab 5066 Nov  2 08:38 DebouncedTextField.tsx
+
+src/components/header:
+total 8
+-rw-r--r-- 1 mcpab mcpab 5658 Nov  2 08:38 Header.tsx
+
+src/components/content:
+total 36
+-rw-r--r-- 1 mcpab mcpab   196 Nov  2 08:38 index.ts
+-rw-r--r-- 1 mcpab mcpab 29501 Nov  3 09:50 TextWithAccordion.tsx
+
+src/components/styled:
+total 24
+-rw-r--r-- 1 mcpab mcpab  349 Nov  2 08:38 index.ts
+-rw-r--r-- 1 mcpab mcpab 3323 Nov  2 10:01 Spacer.tsx
+-rw-r--r-- 1 mcpab mcpab 5265 Nov  2 10:02 StandardStack.tsx
+-rw-r--r-- 1 mcpab mcpab 6542 Nov  2 10:18 TouchButton.tsx
+
+src/components/cards:
+total 20
+-rw-r--r-- 1 mcpab mcpab 16986 Nov  3 09:34 ClickTextImage.tsx
+
+src/components/meta:
+total 4
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  2 09:41 google-recaptcha
+
+src/components/meta/google-recaptcha:
+total 4
+-rw-r--r-- 1 mcpab mcpab 41 Nov  2 08:38 react-google-recaptcha.d.ts
+
+src/components/media:
+total 12
+-rw-r--r-- 1 mcpab mcpab  107 Nov  2 08:38 index.ts
+-rw-r--r-- 1 mcpab mcpab 5556 Nov  2 08:38 VideoModal.tsx
+
+src/components/navigation:
+total 4
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  2 09:41 Breadcrumbs
+
+src/components/navigation/Breadcrumbs:
+total 12
+-rw-r--r-- 1 mcpab mcpab  416 Nov  2 08:38 index.ts
+-rw-r--r-- 1 mcpab mcpab 4727 Nov  2 08:38 BreadMenu.tsx
+
+src/components/typography:
+total 32
+-rw-r--r-- 1 mcpab mcpab   183 Nov  2 08:38 types.ts
+-rw-r--r-- 1 mcpab mcpab   373 Nov  2 08:38 index.ts
+-rw-r--r-- 1 mcpab mcpab  8779 Nov  2 10:24 Title.tsx
+-rw-r--r-- 1 mcpab mcpab 10761 Nov  2 10:26 TitleLabel.tsx
+
+src/components/banner:
+total 160
+-rw-r--r-- 1 mcpab mcpab 21543 Nov  2 12:20 DynamicTransition.tsx
+-rw-r--r-- 1 mcpab mcpab  1044 Nov  2 12:21 index.ts
+-rw-r--r-- 1 mcpab mcpab 23406 Nov  2 12:24 MainTitle.tsx
+-rw-r--r-- 1 mcpab mcpab 18128 Nov  2 12:27 README.md
+-rw-r--r-- 1 mcpab mcpab 36194 Nov  3 09:34 BlockCarousel.tsx
+-rw-r--r-- 1 mcpab mcpab 25496 Nov  3 09:34 BannerStatic.tsx
+-rw-r--r-- 1 mcpab mcpab 24139 Nov  3 09:34 BannerCarousel.tsx
+
+src/components/buttons:
+total 144
+-rw-r--r-- 1 mcpab mcpab  7362 Nov  2 12:29 ActionButton.tsx
+-rw-r--r-- 1 mcpab mcpab  6780 Nov  2 12:31 GetInTouch.tsx
+-rw-r--r-- 1 mcpab mcpab  3355 Nov  2 14:15 CopyButton.tsx
+-rw-r--r-- 1 mcpab mcpab  1239 Nov  2 14:16 BookingButton.tsx
+-rw-r--r-- 1 mcpab mcpab  1819 Nov  2 14:16 WhatsAppButton.tsx
+-rw-r--r-- 1 mcpab mcpab  3352 Nov  2 14:16 FavoriteButton.tsx
+-rw-r--r-- 1 mcpab mcpab 10201 Nov  2 14:16 CallToActionButton.tsx
+-rw-r--r-- 1 mcpab mcpab 14245 Nov  2 14:16 DownloadButton.tsx
+-rw-r--r-- 1 mcpab mcpab 12717 Nov  2 14:17 SocialButton.tsx
+-rw-r--r-- 1 mcpab mcpab 13988 Nov  2 14:17 ShareButton.tsx
+-rw-r--r-- 1 mcpab mcpab  4778 Nov  2 14:17 SubscribeButton.tsx
+-rw-r--r-- 1 mcpab mcpab 12204 Nov  2 14:20 BackButton.tsx
+-rw-r--r-- 1 mcpab mcpab  1466 Nov  2 14:20 index.ts
+-rw-r--r-- 1 mcpab mcpab 28628 Nov  2 14:23 README.md
+
+src/components/sections:
+total 8
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  2 09:41 SectionWithAccordion
+-rw-r--r-- 1 mcpab mcpab  833 Nov  2 20:17 index.ts
+
+src/components/sections/SectionWithAccordion:
+total 8
+-rw-r--r-- 1 mcpab mcpab 2165 Nov  2 08:38 SectionWithAccordion.tsx
+-rw-r--r-- 1 mcpab mcpab 1057 Nov  2 20:17 index.ts
+
+src/components/footer:
+total 16
+-rw-r--r-- 1 mcpab mcpab 2898 Nov  3 11:20 FooterColumn.tsx
+-rw-r--r-- 1 mcpab mcpab  215 Nov  3 11:24 index.ts
+-rw-r--r-- 1 mcpab mcpab 7779 Nov  4 10:48 Footer.tsx
+
+src/components/menus:
+total 24
+-rw-r--r-- 1 mcpab mcpab 1219 Nov  2 08:38 types.ts
+-rw-r--r-- 1 mcpab mcpab 1132 Nov  2 08:38 index.ts
+-rw-r--r-- 1 mcpab mcpab 4578 Nov  2 08:38 DropDown.tsx
+-rw-r--r-- 1 mcpab mcpab 7116 Nov  4 10:48 DirMenu.tsx
+
+src/components/layout:
+total 80
+-rw-r--r-- 1 mcpab mcpab 17586 Nov  2 16:55 PageLayout.tsx
+drwxr-xr-x 2 mcpab mcpab  4096 Nov  2 20:08 grids
+drwxr-xr-x 4 mcpab mcpab  4096 Nov  2 20:16 sections
+-rw-r--r-- 1 mcpab mcpab  2684 Nov  2 20:18 index.tsx
+-rw-r--r-- 1 mcpab mcpab 15355 Nov  2 20:49 README.md
+-rw-r--r-- 1 mcpab mcpab 31398 Nov  3 09:34 BackgroundBox.tsx
+
+src/components/layout/grids:
+total 44
+-rw-r--r-- 1 mcpab mcpab  1217 Nov  2 08:38 GridElement.tsx
+-rw-r--r-- 1 mcpab mcpab   228 Nov  2 20:06 math.ts
+-rw-r--r-- 1 mcpab mcpab   446 Nov  2 20:07 types.ts
+-rw-r--r-- 1 mcpab mcpab   326 Nov  2 20:07 presets.ts
+-rw-r--r-- 1 mcpab mcpab  1920 Nov  2 20:08 split.ts
+-rw-r--r-- 1 mcpab mcpab   219 Nov  2 20:08 describe.ts
+-rw-r--r-- 1 mcpab mcpab  2036 Nov  2 20:14 index.ts
+-rw-r--r-- 1 mcpab mcpab 14274 Nov  2 20:49 AlternateGrid.tsx
+
+src/components/layout/sections:
+total 12
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  2 09:41 HeroBlock
+drwxr-xr-x 2 mcpab mcpab 4096 Nov  2 20:02 MediaText
+-rw-r--r-- 1 mcpab mcpab 1234 Nov  2 20:17 index.ts
+
+src/components/layout/sections/HeroBlock:
+total 36
+-rw-r--r-- 1 mcpab mcpab   956 Nov  2 20:17 index.ts
+-rw-r--r-- 1 mcpab mcpab 31861 Nov  3 09:34 HeroBlock.tsx
+
+src/components/layout/sections/MediaText:
+total 32
+-rw-r--r-- 1 mcpab mcpab  1003 Nov  2 20:16 index.ts
+-rw-r--r-- 1 mcpab mcpab 26718 Nov  3 09:34 MediaText.tsx
+
+src/components/gridCSSFactories:
+total 0

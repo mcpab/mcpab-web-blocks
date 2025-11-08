@@ -131,7 +131,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {ImageComponentLike,  StaticImageDataLike } from '../../../../core/images/image-types';
+import {ImageComponentLike,  StaticImageDataLike } from '../../../../core/image/image-types';
 import Container from '@mui/material/Container';
 import { BackgroundBoxProps } from '../../BackgroundBox';
 import { SubsubsectionTitle  } from '../../../typography';

@@ -3,28 +3,14 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Link from 'next/link';
-import type { SvgIconComponent } from '@mui/icons-material/';
+import { FooterColumnType, FooterItem } from '../../core/footer/types';
+import { LinkTypeComponent } from '../../core/link';
 import { SubsectionTitle } from '../typography';
 
 // Types
-export type FooterItem =
-  | { label: string; href?: `/${string}`; icon?: SvgIconComponent; external?: false }
-  | {
-    label: string;
-    href: `${'http' | 'https'}://${string}` | `mailto:${string}` | `tel:${string}`;
-    icon?: SvgIconComponent;
-    external?: true;
-  }
-  | { label: string; icon?: SvgIconComponent; href?: undefined };
-
-export type FooterColumn = {
-  title: string;
-  items: FooterItem[];
-};
 
 interface FooterColumnProps {
-  column: FooterColumn;
+  column: FooterColumnType;
   sx?: object;
   /** id for the heading used by aria-labelledby on parent Grid */
   headingId?: string;
@@ -32,27 +18,10 @@ interface FooterColumnProps {
   listRole?: React.AriaRole;
   /** render list container as <address> (useful for contact blocks) */
   asAddress?: boolean;
+
+  LinkComponent: LinkTypeComponent;
 }
 
-// Helpers
-function isExternalHref(href?: string) {
-  if (!href) return false;
-  return /^https?:\/\//i.test(href) || href.startsWith('mailto:') || href.startsWith('tel:');
-}
-
-function externalAttrs(href?: string) {
-  if (!href) return {};
-  return isExternalHref(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {};
-}
-
-const srOnly: React.CSSProperties = {
-  position: 'absolute',
-  left: -10000,
-  top: 'auto',
-  width: 1,
-  height: 1,
-  overflow: 'hidden',
-};
 
 const FooterColumn: React.FC<FooterColumnProps> = ({
   column,
@@ -60,14 +29,17 @@ const FooterColumn: React.FC<FooterColumnProps> = ({
   headingId,
   listRole = 'list',
   asAddress = false,
+  LinkComponent,
 }) => {
   const ListWrapper = asAddress ? 'address' : 'div';
 
   return (
-    <Grid container rowSpacing={1} columnSpacing={0} sx={{ justifyContent: 'center', ...sx }}>
+
+
+    <Grid container rowSpacing={1} columnSpacing={0} justifyContent={'center'} sx={{ ...sx }}>
       {/* Heading */}
-      <Grid size={{ xs: 12 }} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <SubsectionTitle id={headingId}   sx={{ fontWeight: 'bold',...sx }}>
+      <Grid size={{ xs: 12 }} display={'flex'} flexDirection={'column'} justifyContent={'center'} >
+        <SubsectionTitle id={headingId} fontWeight={'bold'}  >
           {column.title}
         </SubsectionTitle>
       </Grid>
@@ -76,30 +48,13 @@ const FooterColumn: React.FC<FooterColumnProps> = ({
       <Grid
         size={{ xs: 12 }}
         component={ListWrapper as any}
-        sx={{ all: asAddress ? 'unset' : undefined, display: 'block' }}
+        display={'block'}
+        sx={{ all: asAddress ? 'unset' : undefined }}
       >
         <ul role={listRole} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {column.items.map((item, index) => {
-            const Icon = item.icon;
-            const href = item.href;
 
-            const content = href ? (
-              <Link
-                href={href}
-                {...externalAttrs(href)}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-                prefetch={false}
-              >
-                <Typography
-                  variant="body2"
-                  sx={{ '&:hover': { textDecoration: 'underline' } }}
-                >
-                  {item.label}
-                </Typography>
-              </Link>
-            ) : (
-              <Typography variant="body2">{item.label}</Typography>
-            );
+            const Icon = item.icon;
 
             return (
               <li key={index} style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '6px 0' }}>
@@ -108,7 +63,7 @@ const FooterColumn: React.FC<FooterColumnProps> = ({
                     <Icon fontSize="small" aria-hidden />
                   </span>
                 ) : null}
-                {content}
+                <RenderItem item={item} LinkComponent={LinkComponent} />
               </li>
             );
           })}
@@ -117,5 +72,35 @@ const FooterColumn: React.FC<FooterColumnProps> = ({
     </Grid>
   );
 };
+
+const RenderItem: React.FC<{ item: FooterItem; LinkComponent: LinkTypeComponent }> = ({ item, LinkComponent }) => {
+
+  let trg = '_external' in item ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+
+  if ('href' in item) {
+    const href = item.href;
+    return <LinkComponent
+      href={href}
+      {...trg}
+      style={{ textDecoration: 'none', color: 'inherit' }}
+
+    >
+      <Typography
+        variant="body2"
+        sx={{ '&:hover': { textDecoration: 'underline' } }}
+      >
+        {item.label}
+      </Typography>
+    </LinkComponent>
+  } else {
+    return <Typography
+      variant="body2"
+      sx={{ '&:hover': { textDecoration: 'underline' } }}
+    >
+      {item.label}
+    </Typography>;
+  }
+
+}
 
 export default FooterColumn;

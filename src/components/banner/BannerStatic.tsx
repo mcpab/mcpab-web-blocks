@@ -371,7 +371,7 @@ import type { ImageConf } from "../layout/BackgroundBox";
 import Section from "../Section";
 import Container from "@mui/material/Container";
 import { SectionSize } from "../../design/sectionTokens";
-import {ImageComponentLike} from 'src/core/images/image-types';
+import {ImageComponentLike} from 'src/core/image/image-types';
 
 /**
  * Configuration options for the BannerStatic component.

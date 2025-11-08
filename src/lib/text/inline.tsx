@@ -269,16 +269,13 @@
 import * as React from 'react';
 import MuiLink from '@mui/material/Link'; 
 
+import {LinkRef} from '../../core/link';
 /**
  * LinkRef type for Link component props
  * 
  * Defines the interface for Link components used in markdown processing.
  * Compatible with Next.js Link and custom link implementations.
  */
-export type LinkRef= {
-  href: string;
-  children: React.ReactNode;
-}
 
 /**
  * Convert a string containing **bold** markers into React nodes.

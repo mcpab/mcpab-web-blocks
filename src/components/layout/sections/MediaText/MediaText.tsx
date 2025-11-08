@@ -80,7 +80,7 @@ import Box from '@mui/material/Box';
 import BackgroundBox from '../../BackgroundBox';
 import type { ImageConf } from '../../BackgroundBox';
 import type { SxProps, Theme } from '@mui/material/styles';
-import type { StaticImageDataLike , ImageComponentLike } from '../../../../core/images/image-types';
+import type { StaticImageDataLike , ImageComponentLike } from '../../../../core/image/image-types';
 import {Size} from '../../grids/types';
 import { TEXT_PRESETS , PresetName} from '../../grids/presets';
 import { clampCols , ratioToCols } from '../../grids/math'; 

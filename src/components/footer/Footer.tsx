@@ -10,7 +10,6 @@
  * - Includes an SR-only landmark heading for screen readers.
  */
 
-import * as React from 'react';
 import { useMemo } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -19,10 +18,10 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
-import Link from 'next/link';
-import Script from 'next/script';
+import { LinkTypeComponent } from 'src/core/link';
+ 
 import { SectionTitle } from '../typography';
-import kellieBella from '@/public/images/kellieBella.jpg';
+ 
 
 import HomeIcon from '@mui/icons-material/Home';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -74,6 +73,9 @@ const footerColumns: (Partial<FooterColumnType> & { title?: string })[] = [
 ];
 
 export default function Footer() {
+
+
+  
   // Freeze the year so it doesn’t change during a long SPA session
   const year = useMemo(() => new Date().getFullYear(), []);
 
