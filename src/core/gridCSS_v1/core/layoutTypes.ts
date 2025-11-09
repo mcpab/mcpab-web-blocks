@@ -1,7 +1,8 @@
+import { Vx, Vy } from '../defaults/defaults';
 import { GapValue, GridUnitValue } from "../domainTypes";
-import {Vx,Vy} from '../defaults/defaults';
-export type GridId = string & { readonly __brand: 'GridId' };
-
+import { NodeID } from "../ids/kinds";
+import { GridErrorShape } from './gridErrorShape';
+import { AddNodeFunction, NodeManager } from "./nodeManagerTypes";
 export type GridNodeOptions = {
     zIndex?: number | undefined;
     allowOverlap?: boolean;
@@ -50,15 +51,14 @@ export type GridOptions = GridGaps & GridAuto & {
     | "space-between" | "space-around" | "space-evenly";
 };
 
-export type GridNodeIdentity  = {
-    parentId?: NodeId;
+export type GridNodeIdentity = {
+    parentId?: NodeID;
     name?: string; // display/debug name
 };
+export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
-type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
-type BPs<T> = Record<Breakpoint, T>;
-type PartialBps<T> = { xs: T } & Partial<Record<Exclude<Breakpoint, 'xs'>, T>>
+export type BPs<T> = Record<Breakpoint, T>;
+export type PartialBps<T> = { xs: T } & Partial<Record<Exclude<Breakpoint, 'xs'>, T>>
 
 export type AbsoluteNode = {
     identity: GridNodeIdentity;
@@ -74,7 +74,7 @@ export type AbsoluteGrid<Rows extends number, Columns extends number, Id extends
     columns: Columns;
 
     readonly options: GridOptions;
-    readonly nodes: Partial<Record<NodeId, AbsoluteNode>>;
+    readonly nodes: Partial<Record<NodeID, AbsoluteNode>>;
 
 };
 
@@ -109,46 +109,25 @@ export type GridOptionsInput = Partial<{
     | "space-between" | "space-around" | "space-evenly";
 }>;
 
-export type GridErrorShape = {
-    code:
-    | "implicit-track"
-    | "overlap-without-z"
-    | "invalid-span"
-    | "constraint-violation"
-    | "out-of-bounds"
-    | "duplicate-id"
-    | "overlap-not-allowed"
-    | "invalid-position"
-    | "order-ties"
-    | "explicit-count-unknown"
-    | "plan-mismatch"
-    | "Invalid_Grid_Definition"
-    | "List_Precedence_Applied";
-    elementId?: NodeId;
-    message: string;
-    details?: unknown;
-};
-
-type CanonicalGrid = AbsoluteGrid<Vx, Vy, NodeId>;
+type CanonicalGrid = AbsoluteGrid<Vx, Vy, NodeID>;
 /** Per-breakpoint absolute grids (useful for SSR layout selection) */
 
 export type LayoutsByBP =
     Partial<Record<"xs" | "sm" | "md" | "lg" | "xl", CanonicalGrid>>;
 
-    
-export type NodeId = string & { readonly __brand: 'NodeId' };
-
-
-export type AddNode =  (node: PartialBps<GridNodeAbsoluteCoordinates>)  => NodeId;
+import { PatchIntent } from './nodeManagerTypes';
 
 /** Factory contract: accepts authoring inputs; returns absolute grid + diagnostics. */
-export type LayoutFactory = {
-    addNode: AddNode;
+export type LayoutFactory  = {
+
+    nodeManager: NodeManager<any,any>;
+    addNode: AddNodeFunction;
+
     createLayoutByBp: (
         gridOptions?: GridOptionsInput,
-        nodesOptions?: Partial<Record<NodeId, { options: GridNodeOptions; coordinates: Readonly<PartialBps<GridNodeAbsoluteCoordinates>> }>>
+        nodesOptions?: Partial<Record<K, { options: GridNodeOptions; coordinates: Readonly<BPs<GridNodeAbsoluteCoordinates>> }>>
     ) => { grids: LayoutsByBP; errors: GridErrorShape[]; warnings: GridErrorShape[] };
-    
+
 };
 
 
