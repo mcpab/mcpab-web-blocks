@@ -1,10 +1,12 @@
+// import {NodeId} from '../core/layoutTypes';
+
 // Base alignment tokens
 export type Align = 'start' | 'center' | 'end';
 
 // Logical axes (works for LTR/RTL + vertical writing)
 export type Axis = 'inline' | 'block';
 
-// Single-axis positions (6 total)
+// Single-axis positions (6 total) 
 export type AxisPos =
     | 'inline-start' | 'inline-center' | 'inline-end'
     | 'block-start' | 'block-center' | 'block-end';
@@ -20,19 +22,24 @@ export type Corner =
 export type Position = Align | AxisPos | Corner;
 
 // Pick ranges you actually need; numeric is best for math.
-export type RowNumbers = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20;
-export type ColNumbers = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+// export type Numbers = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20;
+
+/// 
 
 // Optional namespace/letter tag for the block/section
 export type Label = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z';
 
+export type NodeID  = `${Label}-${number}`  ;
 export type SectionCore =
   | 'header' | 'nav' | 'main' | 'aside' | 'content'
   | 'footer' | 'hero' | 'banner' | 'sidebar' | 'cta';
 
-export type SectionId = `section:${SectionCore}`;
+export type Cards = `card_${number}`;
 
-export type GridId    = `${Label}_${RowNumbers}_${ColNumbers}`;
-export type IDS = GridId | SectionId  ;
+export type Blocks = `block_${number}`;
+
+export type Kinds = SectionCore | Cards | Blocks;
+
+
 
 

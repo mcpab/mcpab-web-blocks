@@ -1,15 +1,10 @@
 import { NodeID, Kinds } from "../ids/kinds";
-import { PartialBps, BPs, GridNodeAbsoluteCoordinates, GridNodeOptions } from "./layoutTypes";
-import { GridErrorShape } from "./gridErrorShape";
+import { PartialBps, BPs } from "./layoutTypes";
+import { AbsoluteNode } from "./GridNodeTypes";
+import { NodeAbsoluteCoordinates, GridNodeOptions } from "./GridNodeTypes";
+import { DiagnosticEntry, GridErrorShape } from "./gridErrorShape";
 
-/**
- * Adds a new node to the current layout plan with per-breakpoint coordinates.
- * Implementations should mint a stable, factory-owned NodeId and return it.
- *
- * NOTE: The returned ID type is bound to the NodeManager’s ID generic.
- */
-export type AddNodeFunction<ID extends NodeID = NodeID> =
-  (node: PartialBps<GridNodeAbsoluteCoordinates>) => ID;
+
 
 /**
  * A single patch intent targeting exactly ONE node, addressed by its human-friendly Kind.
@@ -20,7 +15,7 @@ export type AddNodeFunction<ID extends NodeID = NodeID> =
  *  - Omitted breakpoints leave existing values unchanged.
  *  - Multiple intents applied to the same node/bp follow "last wins".
  */
-export type PatchIntent<K extends Kinds> = {
+export type PatchIntentByKind<K extends Kinds> = {
   /** Human-friendly key for the node (bijective with NodeId within a layout/version). */
   selector: K;
 
@@ -28,24 +23,24 @@ export type PatchIntent<K extends Kinds> = {
   options?: Partial<Readonly<BPs<GridNodeOptions>>>;
 
   /** Optional per-breakpoint coordinates patch (partial). Omitted BPs = unchanged. */
-  coordinates?: Partial<Readonly<BPs<GridNodeAbsoluteCoordinates>>>;
+  coordinates?: Partial<Readonly<BPs<NodeAbsoluteCoordinates>>>;
 };
 
 /** Result for a single PatchIntent application. */
-export type PatchResult<ID extends NodeID = NodeID> = {
-  /** The concrete NodeId targeted by this intent (if resolved). */
-  id?: ID;
-  /** Diagnostics produced while resolving & applying this intent. */
-  diagnostics: GridErrorShape[];
-};
+// export type PatchResult = {
+//   /** The concrete NodeId targeted by this intent (if resolved). */
+//   id?: NodeID;
+//   /** Diagnostics produced while resolving & applying this intent. */
+//   diagnostics: GridErrorShape[];
+// };
 
 /** Batch result for an array of PatchIntent objects. */
-export type PatchBatchResult<ID extends NodeID = NodeID> = {
-  /** Per-intent results in the same order as provided. */
-  results: Array<PatchResult<ID>>;
-  /** Quick roll-up counts to drive UI badges / summaries. */
-  summary: { errors: number; warnings: number };
-};
+// export type PatchBatchResult = {
+//   /** Per-intent results in the same order as provided. */
+//   results: Array<PatchResult>;
+//   /** Quick roll-up counts to drive UI badges / summaries. */
+//   summary: { errors: number; warnings: number };
+// };
 
 /**
  * NodeManager — the single source of truth for Kind ↔ NodeId mapping and selector resolution.
@@ -61,12 +56,24 @@ export type PatchBatchResult<ID extends NodeID = NodeID> = {
  * - `nodesVocabularyID_K` should be treated as immutable after successful initialization.
  * - Bijection scope is per layout/version; if the layout version changes, the manager should rebuild & re-validate.
  */
-export type NodeManager<ID extends NodeID, K extends Kinds> = {
+
+export type duplicateKindPolicy = 'allow' | 'warn' | 'error';
+export type AddNodeReturnValue = {
+  id: NodeID | undefined;
+  diagnostic?: DiagnosticEntry;
+}
+
+export interface NodeManagerInterface<K extends Kinds> {
+
+  readonly duplicateKindPolicy: duplicateKindPolicy;
   /** Authoritative ID → Kind map for this layout/version (bijective; validated at init). */
-  readonly nodesVocabularyID_K: Readonly<Record<ID, K>>;
+  // readonly nodesVocabularyID_K: Readonly<Record<ID, K>>;
+
+  /** Sparse registry: not every ID must be present. */
+  readonly nodesRegistry: Partial<Record<NodeID, AbsoluteNode<K>>>;
 
   /** Insert a new node and receive its stable NodeId. */
-  addNode: AddNodeFunction<ID>;
+  addNode: (node: PartialBps<NodeAbsoluteCoordinates>, kind: K, options?: GridNodeOptions) => AddNodeReturnValue;
 
   /**
    * Apply a sequence of patch intents.
@@ -76,5 +83,7 @@ export type NodeManager<ID extends NodeID, K extends Kinds> = {
    *  - Per-breakpoint partials: omitted BPs remain unchanged.
    *  - Diagnostics include resolution issues (UNKNOWN_KIND) and any geometry/policy errors detected during application.
    */
-  patchNodes: (patches: ReadonlyArray<PatchIntent<K>>) => PatchBatchResult<ID>;
+  patchNodes: (patches: ReadonlyArray<PatchIntentByKind<K>>) => ReadonlyArray<DiagnosticEntry>;
+
 };
+

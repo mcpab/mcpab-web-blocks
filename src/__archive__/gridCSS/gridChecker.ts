@@ -1,255 +1,197 @@
 import type {
-    AbsoluteGridElement,
-    AbsoluteGridLayout,
-    GridLayout,
-    GridErrorShape, // assumed: { code: string; elementId: string; message: string; details?: Record<string,unknown> }
-} from "./types";
-import { deriveAutoUnitAndCountFromTemplate } from "./gridUnitsHelpers";
+    AbsoluteGrid,
+    AbsoluteNode,
+    GridErrorShape,
+} from "./core/layoutTypes";
 
-type GridCheckProps = {
-    absoluteGrid: AbsoluteGridLayout;
-    gridLayout: GridLayout;
-    warningsIn?: GridErrorShape[];
-    errorsIn?: GridErrorShape[];
+type GridCheckProps<Id extends PropertyKey> = {
+    absoluteGrid: AbsoluteGrid<Id>;
+    warningsIn?: GridErrorShape<Id>[];
+    errorsIn?: GridErrorShape<Id>[];
 };
 
-export function gridChecker({
+/**
+ * Validates an AbsoluteGrid:
+ * - basic coordinate sanity (starts >=1, exclusive ends > starts)
+ * - out-of-bounds vs explicit track counts (warn → implies implicit tracks)
+ * - implicit-track usage FYI
+ * - overlap errors (unless both sides allowOverlap), zIndex warnings
+ * - order ties warnings
+ * - ancestry constraints: any ancestor with constrainChildren=true must fully contain its descendants
+ */
+export function gridChecker<Id extends PropertyKey>({
     absoluteGrid,
-    gridLayout,
     warningsIn,
     errorsIn,
-}: GridCheckProps): { warnings: GridErrorShape[]; errors: GridErrorShape[] } {
-    
-    let warnings: GridErrorShape[] = warningsIn ?? [];
-    let errors: GridErrorShape[] = errorsIn ?? [];
+}: GridCheckProps<Id>): { warnings: GridErrorShape<Id>[]; errors: GridErrorShape<Id>[] } {
+    let warnings: GridErrorShape<Id>[] = warningsIn ?? [];
+    let errors: GridErrorShape<Id>[] = errorsIn ?? [];
 
-    // --- Build fast lookup maps
-    const elemById = new Map<string, AbsoluteGridElement>();
-    for (const e of absoluteGrid.elements) elemById.set(e.id, e);
-
-    // Ancestor constraints: map childId -> array of ancestorIds that enforce constrainChildren
-    const constrainedAncestorsByChild = computeConstrainedAncestors(gridLayout);
-
-    // --- Explicit track counts (if determinable) + template warnings
-    const implicitRowUnits = gridLayout.implicitRowUnits;
-    const implicitColumnUnits = gridLayout.implicitColumnUnits;
+    // --- Explicit track counts (canonical options)
+    const isUniform = absoluteGrid.options.mode === "uniform";
+    const isList = absoluteGrid.options.mode === "list";
 
     let explicitRowCount: number | undefined;
-    let explicitRowKnown = false;
-
-    if ("rows" in gridLayout.rows) {
-        explicitRowCount = gridLayout.rows.rows;
-        explicitRowKnown = true;
-    } else {
-        const res = deriveAutoUnitAndCountFromTemplate(
-            gridLayout.rows.rowTemplate,
-            implicitRowUnits
-        );
-        if (!res.isUniform) {
-            warnings.push({
-                code: "implicit-track",
-                elementId: "layout",
-                message: `Row template is not uniform; using implicitRowUnits='${implicitRowUnits}' (${res.reason ?? "unknown reason"}).`,
-            });
-        }
-        if (res.explicitCountKnown) {
-            explicitRowCount = res.explicitCount;
-            explicitRowKnown = true;
-        } else {
-            warnings.push({
-                code: "explicit-count-unknown",
-                elementId: "layout",
-                message:
-                    "Row template explicit track count is indeterminate (auto-fill/fit or dynamic); precise out-of-bounds checks skipped.",
-            });
-        }
-    }
-
     let explicitColCount: number | undefined;
+    let explicitRowKnown = false;
     let explicitColKnown = false;
 
-    if ("columns" in gridLayout.columns) {
-        explicitColCount = gridLayout.columns.columns;
-        explicitColKnown = true;
-    } else {
-        const res = deriveAutoUnitAndCountFromTemplate(
-            gridLayout.columns.columnTemplate,
-            implicitColumnUnits
-        );
-        if (!res.isUniform) {
-            warnings.push({
-                code: "implicit-track",
-                elementId: "layout",
-                message: `Column template is not uniform; using implicitColumnUnits='${implicitColumnUnits}' (${res.reason ?? "unknown reason"}).`,
-            });
-        }
-        if (res.explicitCountKnown) {
-            explicitColCount = res.explicitCount;
-            explicitColKnown = true;
-        } else {
-            warnings.push({
-                code: "explicit-count-unknown",
-                elementId: "layout",
-                message:
-                    "Column template explicit track count is indeterminate (auto-fill/fit or dynamic); precise out-of-bounds checks skipped.",
-            });
-        }
+    if (isUniform) {
+        explicitRowCount = absoluteGrid.options.rows;
+        explicitColCount = absoluteGrid.options.columns;
+        explicitRowKnown = explicitColKnown = true;
+    } else if (isList) {
+        explicitRowCount = absoluteGrid.options.rowSizes.length;
+        explicitColCount = absoluteGrid.options.columnSizes.length;
+        explicitRowKnown = explicitColKnown = true;
     }
 
-    // --- Plan integrity (recompute used counts from elements)
-    const recomputedRows =
-        Math.max(0, ...absoluteGrid.elements.map((e) => e.gridRowEnd - 1));
-    const recomputedCols =
-        Math.max(0, ...absoluteGrid.elements.map((e) => e.gridColumnEnd - 1));
+    // --- Effective required size derived from node end lines (exclusive)
+    let requiredRows = 0;
+    let requiredCols = 0;
 
-    if (absoluteGrid.computedRows !== recomputedRows) {
-        warnings.push({
-            code: "plan-mismatch",
-            elementId: "layout",
-            message: `computedRows (${absoluteGrid.computedRows}) != recomputed (${recomputedRows}).`,
-        });
-    }
-    if (absoluteGrid.computedColumns !== recomputedCols) {
-        warnings.push({
-            code: "plan-mismatch",
-            elementId: "layout",
-            message: `computedColumns (${absoluteGrid.computedColumns}) != recomputed (${recomputedCols}).`,
-        });
-    }
+    const nodeEntries = Object.entries(absoluteGrid.nodes) as Array<[Id, AbsoluteNode<Id>]>;
 
-    // --- Element-wise validations
-    const seenIds = new Set<string>();
-    const orders = new Map<number, string[]>(); // order -> ids
-
-    for (const el of absoluteGrid.elements) {
-        // Duplicate ids
-        if (seenIds.has(el.id)) {
+    for (const [nodeId, node] of nodeEntries) {
+        if (!node) {
             errors.push({
-                code: "duplicate-id",
-                elementId: el.id,
-                message: `Duplicate element id '${el.id}'.`,
+                code: "plan-mismatch",
+                elementId: nodeId,
+                message: `Node '${String(nodeId)}' missing from absoluteGrid.nodes.`,
             });
-        } else {
-            seenIds.add(el.id);
+            continue;
         }
+        requiredRows = Math.max(requiredRows, node.coordinates.gridRowEnd - 1);
+        requiredCols = Math.max(requiredCols, node.coordinates.gridColumnEnd - 1);
+    }
 
-        // Positions & spans
-        if (el.gridRowStart < 1) {
+    // --- Per-node validations + order collection
+    const orders = new Map<number, Id[]>(); // order -> [ids]
+
+    for (const [nodeId, node] of nodeEntries) {
+        const { gridRowStart, gridRowEnd, gridColumnStart, gridColumnEnd } = node.coordinates;
+
+        // Starts
+        if (gridRowStart < 1) {
             errors.push({
                 code: "invalid-position",
-                elementId: el.id,
-                message: `gridRowStart < 1 (${el.gridRowStart}).`,
+                elementId: nodeId,
+                message: `gridRowStart < 1 (${gridRowStart}).`,
             });
         }
-        if (el.gridColumnStart < 1) {
+        if (gridColumnStart < 1) {
             errors.push({
                 code: "invalid-position",
-                elementId: el.id,
-                message: `gridColumnStart < 1 (${el.gridColumnStart}).`,
-            });
-        }
-        if (el.gridRowEnd <= el.gridRowStart) {
-            errors.push({
-                code: "invalid-span",
-                elementId: el.id,
-                message: `gridRowEnd (${el.gridRowEnd}) <= gridRowStart (${el.gridRowStart}).`,
-            });
-        }
-        if (el.gridColumnEnd <= el.gridColumnStart) {
-            errors.push({
-                code: "invalid-span",
-                elementId: el.id,
-                message: `gridColumnEnd (${el.gridColumnEnd}) <= gridColumnStart (${el.gridColumnStart}).`,
+                elementId: nodeId,
+                message: `gridColumnStart < 1 (${gridColumnStart}).`,
             });
         }
 
-        // Out-of-bounds relative to explicit counts (when known)
+        // Spans (exclusive ends must be > starts)
+        if (gridRowEnd <= gridRowStart) {
+            errors.push({
+                code: "invalid-span",
+                elementId: nodeId,
+                message: `gridRowEnd (${gridRowEnd}) <= gridRowStart (${gridRowStart}).`,
+            });
+        }
+        if (gridColumnEnd <= gridColumnStart) {
+            errors.push({
+                code: "invalid-span",
+                elementId: nodeId,
+                message: `gridColumnEnd (${gridColumnEnd}) <= gridColumnStart (${gridColumnStart}).`,
+            });
+        }
+
+        // Out-of-bounds vs explicit counts (implies implicit tracks)
         if (explicitColKnown && explicitColCount !== undefined) {
-            const lastExplicitLine = explicitColCount + 1;
-            if (el.gridColumnEnd > lastExplicitLine) {
+            const lastExplicitColLine = explicitColCount + 1;
+            if (gridColumnEnd > lastExplicitColLine) {
                 warnings.push({
                     code: "out-of-bounds",
-                    elementId: el.id,
-                    message: `Column end (${el.gridColumnEnd}) > explicit last line (${lastExplicitLine}).`,
+                    elementId: nodeId,
+                    message: `Column end (${gridColumnEnd}) > explicit last line (${lastExplicitColLine}).`,
                 });
             }
         }
         if (explicitRowKnown && explicitRowCount !== undefined) {
-            const lastExplicitLine = explicitRowCount + 1;
-            if (el.gridRowEnd > lastExplicitLine) {
+            const lastExplicitRowLine = explicitRowCount + 1;
+            if (gridRowEnd > lastExplicitRowLine) {
                 warnings.push({
                     code: "out-of-bounds",
-                    elementId: el.id,
-                    message: `Row end (${el.gridRowEnd}) > explicit last line (${lastExplicitLine}).`,
+                    elementId: nodeId,
+                    message: `Row end (${gridRowEnd}) > explicit last line (${lastExplicitRowLine}).`,
                 });
             }
         }
 
-        // Track order ties
-        if (el.order !== undefined) {
-            const bucket = orders.get(el.order) ?? [];
-            bucket.push(el.id);
-            orders.set(el.order, bucket);
+        // Orders
+        if (node.order !== undefined) {
+            const bucket = orders.get(node.order) ?? [];
+            bucket.push(nodeId);
+            orders.set(node.order, bucket);
         }
     }
 
-    // Order ties (report grouped for clarity)
-    for (const [ord, ids] of orders.entries()) {
+    // --- Order ties (grouped)
+    for (const [ord, ids] of orders) {
         if (ids.length > 1) {
             warnings.push({
                 code: "order-ties",
-                elementId: "layout",
-                message: `Multiple elements share order=${ord}: ${ids.join(", ")}`,
+                elementId: ids[0],
+                message: `Multiple elements share order=${ord}: ${ids.map(String).join(", ")}`,
             });
         }
     }
 
-    // Implicit-track usage vs explicit counts (layout-level FYIs)
-    if (explicitColKnown && explicitColCount !== undefined && recomputedCols > explicitColCount) {
+    // --- Implicit-track usage FYI (layout-level)
+    if (explicitColKnown && explicitColCount !== undefined && requiredCols > explicitColCount) {
         warnings.push({
             code: "implicit-track",
-            elementId: "layout",
-            message: `Computed columns (${recomputedCols}) exceed explicit columns (${explicitColCount}).`,
+            elementId: undefined,
+            message: `Computed columns (${requiredCols}) exceed explicit columns (${explicitColCount}).`,
         });
     }
-    if (explicitRowKnown && explicitRowCount !== undefined && recomputedRows > explicitRowCount) {
+    if (explicitRowKnown && explicitRowCount !== undefined && requiredRows > explicitRowCount) {
         warnings.push({
             code: "implicit-track",
-            elementId: "layout",
-            message: `Computed rows (${recomputedRows}) exceed explicit rows (${explicitRowCount}).`,
+            elementId: undefined,
+            message: `Computed rows (${requiredRows}) exceed explicit rows (${explicitRowCount}).`,
         });
     }
 
-    // --- Overlap checks (unordered pairs)
+    // --- Overlaps
     {
-        const pairs = checkOverlaps(absoluteGrid.elements);
-        warnings = warnings.concat(pairs.warnings);
-        errors = errors.concat(pairs.errors);
+        const pairDiag = checkOverlaps(nodeEntries);
+        warnings = warnings.concat(pairDiag.warnings);
+        errors = errors.concat(pairDiag.errors);
     }
 
-    // --- Children constraints (ancestry containment)
-    // Rule: if any ancestor marks constrainChildren=true, every descendant must be inside it.
-    for (const [childId, ancestorIds] of constrainedAncestorsByChild.entries()) {
-        const child = elemById.get(childId);
-        if (!child) continue;
+    // --- Children / ancestry constraints via identity.parentId chain
+    {
+        const constrainedAncestorsByChild = computeConstrainedAncestorsFromParents(nodeEntries);
+        for (const [childId, ancestorIds] of constrainedAncestorsByChild) {
+            const child = absoluteGrid.nodes[childId as Id];
+            if (!child) continue;
 
-        for (const ancId of ancestorIds) {
-            const anc = elemById.get(ancId);
-            if (!anc) continue;
+            for (const ancId of ancestorIds) {
+                const anc = absoluteGrid.nodes[ancId as Id];
+                if (!anc) continue;
 
-            const inside =
-                child.gridRowStart >= anc.gridRowStart &&
-                child.gridRowEnd <= anc.gridRowEnd &&
-                child.gridColumnStart >= anc.gridColumnStart &&
-                child.gridColumnEnd <= anc.gridColumnEnd;
+                const inside =
+                    child.coordinates.gridRowStart >= anc.coordinates.gridRowStart &&
+                    child.coordinates.gridRowEnd <= anc.coordinates.gridRowEnd &&
+                    child.coordinates.gridColumnStart >= anc.coordinates.gridColumnStart &&
+                    child.coordinates.gridColumnEnd <= anc.coordinates.gridColumnEnd;
 
-            if (!inside) {
-                errors.push({
-                    code: "constraint-violation",
-                    elementId: childId,
-                    message: `Element '${childId}' exceeds constrained ancestor '${ancId}'.`,
-                    details: { ancestorId: ancId },
-                });
+                if (!inside) {
+                    errors.push({
+                        code: "constraint-violation",
+                        elementId: childId,
+                        message: `Element '${String(childId)}' exceeds constrained ancestor '${String(ancId)}'.`,
+                        details: { ancestorId: ancId },
+                    });
+                }
             }
         }
     }
@@ -257,61 +199,62 @@ export function gridChecker({
     return { warnings, errors };
 }
 
-/* ------------------------ internals: overlaps & ancestry ------------------------ */
+/* ====================== internals ====================== */
 
 function intervalsOverlap(aStart: number, aEnd: number, bStart: number, bEnd: number) {
     // strict: touching at boundary is NOT overlap
     return aStart < bEnd && bStart < aEnd;
 }
 
-function checkOverlaps(
-    elements: AbsoluteGridElement[]
-): { errors: GridErrorShape[]; warnings: GridErrorShape[] } {
-    const errors: GridErrorShape[] = [];
-    const warnings: GridErrorShape[] = [];
+function checkOverlaps<Id extends PropertyKey>(
+    entries: Array<[Id, AbsoluteNode<Id>]>
+): { errors: GridErrorShape<Id>[]; warnings: GridErrorShape<Id>[] } {
+    const errors: GridErrorShape<Id>[] = [];
+    const warnings: GridErrorShape<Id>[] = [];
 
-    // Unordered pairs i<j
-    for (let i = 0; i < elements.length - 1; i++) {
-        const A = elements[i];
-        for (let j = i + 1; j < elements.length; j++) {
-            const B = elements[j];
+    for (let i = 0; i < entries.length - 1; i++) {
+        const [ida, A] = entries[i];
+        for (let j = i + 1; j < entries.length; j++) {
+            const [idb, B] = entries[j];
 
-            const rowHit = intervalsOverlap(A.gridRowStart, A.gridRowEnd, B.gridRowStart, B.gridRowEnd);
+            // Axis tests
+            const rowHit = intervalsOverlap(
+                A.coordinates.gridRowStart, A.coordinates.gridRowEnd,
+                B.coordinates.gridRowStart, B.coordinates.gridRowEnd
+            );
             if (!rowHit) continue;
 
             const colHit = intervalsOverlap(
-                A.gridColumnStart,
-                A.gridColumnEnd,
-                B.gridColumnStart,
-                B.gridColumnEnd
+                A.coordinates.gridColumnStart, A.coordinates.gridColumnEnd,
+                B.coordinates.gridColumnStart, B.coordinates.gridColumnEnd
             );
             if (!colHit) continue;
 
             // Rectangles overlap
-            const bothAllow = A.allowOverlap && B.allowOverlap;
+            const bothAllow = !!A.options.allowOverlap && !!B.options.allowOverlap;
             if (!bothAllow) {
                 errors.push({
                     code: "overlap-not-allowed",
-                    elementId: A.id,
-                    message: `Overlaps with '${B.id}'.`,
-                    details: { otherId: B.id },
+                    elementId: ida,
+                    message: `Overlaps with '${String(idb)}'.`,
+                    details: { otherId: idb },
                 });
             } else {
-                const aZ = A.zIndex;
-                const bZ = B.zIndex;
+                const aZ = A.options.zIndex;
+                const bZ = B.options.zIndex;
                 if (aZ === undefined && bZ === undefined) {
                     warnings.push({
                         code: "overlap-without-z",
-                        elementId: A.id,
-                        message: `Overlaps '${B.id}' but neither has zIndex; DOM order will decide.`,
-                        details: { otherId: B.id },
+                        elementId: ida,
+                        message: `Overlaps '${String(idb)}' but neither has zIndex; DOM order will decide.`,
+                        details: { otherId: idb },
                     });
                 } else if (aZ !== undefined && bZ !== undefined && aZ === bZ) {
                     warnings.push({
                         code: "overlap-without-z",
-                        elementId: A.id,
-                        message: `Overlaps '${B.id}' with equal zIndex=${aZ}; DOM order will decide.`,
-                        details: { otherId: B.id, zIndex: aZ },
+                        elementId: ida,
+                        message: `Overlaps '${String(idb)}' with equal zIndex=${aZ}; DOM order will decide.`,
+                        details: { otherId: idb, zIndex: aZ },
                     });
                 }
             }
@@ -322,43 +265,43 @@ function checkOverlaps(
 }
 
 /**
- * Build a map childId -> [ancestorIdsWithConstraint].
- * Walks GridLayout.elements recursion; an ancestor participates ONLY if it has constrainChildren=true.
+ * Build childId -> [ancestorIdsWithConstraint] using the flat parent chain on identity.parentId.
+ * Any ancestor with options.constrainChildren === true constrains all descendants below it.
  */
-function computeConstrainedAncestors(gridLayout: GridLayout): Map<string, string[]> {
-    const result = new Map<string, string[]>();
+function computeConstrainedAncestorsFromParents<Id extends PropertyKey>(
+    entries: Array<[Id, AbsoluteNode<Id>]>
+): Map<Id, Id[]> {
+    const byId = new Map<Id, AbsoluteNode<Id>>(entries);
 
-    function dfs(nodes: GridLayout["elements"], constrainedStack: string[], lineage: string[]) {
-        for (const n of nodes) {
-            // current applicable constraints = previous + any ancestor in lineage with constrainChildren=true
-            const nextStack =
-                n.constrainChildren ? [...constrainedStack, n.id] : constrainedStack.slice();
+    const getParentId = (n: AbsoluteNode<Id>): Id | undefined => n.identity.parentId;
+    const hasConstrainChildren = (n: AbsoluteNode<Id>): boolean => !!n.options.constrainChildren;
 
-            // All descendants of this node inherit nextStack
-            if (n.children && n.children.length) {
-                // Record constraints for each descendant below; current node itself is not "child" of itself
-                dfs(n.children, nextStack, [...lineage, n.id]);
-            }
+    // Memoize constrained-ancestor sets for each node
+    const memo = new Map<Id, Id[]>();
 
-            // For direct children, attach current constraints (note: they already got handled when visited)
-            // We also ensure the current node carries the constraints from its ancestors
-            if (nextStack.length) {
-                // Do not mark the node itself as constrained by itself; filter self if present
-                const filtered = nextStack.filter((id) => id !== n.id);
-                if (filtered.length) {
-                    const prior = result.get(n.id) ?? [];
-                    result.set(n.id, mergeUnique(prior, filtered));
-                }
-            }
+    const collectFor = (id: Id): Id[] => {
+        if (memo.has(id)) return memo.get(id)!;
+        const self = byId.get(id);
+        if (!self) {
+            memo.set(id, []);
+            return [];
         }
+        const pId = getParentId(self);
+        if (pId === undefined || pId === null) {
+            memo.set(id, []);
+            return [];
+        }
+        const parentAnc = collectFor(pId);
+        const parentNode = byId.get(pId);
+        const constrained = parentNode && hasConstrainChildren(parentNode) ? [pId, ...parentAnc] : parentAnc.slice();
+        memo.set(id, constrained);
+        return constrained;
+    };
+
+    const map = new Map<Id, Id[]>();
+    for (const [id] of entries) {
+        const list = collectFor(id);
+        if (list.length) map.set(id, list);
     }
-
-    dfs(gridLayout.elements, [], []);
-    return result;
-}
-
-function mergeUnique<T>(a: T[], b: T[]) {
-    const s = new Set<T>(a);
-    for (const x of b) s.add(x);
-    return [...s];
+    return map;
 }

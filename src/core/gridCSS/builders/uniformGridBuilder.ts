@@ -1,6 +1,7 @@
-import { GridErrorShape } from '../core/gridErrorShape';
-import { AddNodeFunction } from "../core/nodeManagerTypes";
-import { NodeID } from "../ids/kinds";
+import { GridErrorShape , DiagnosticEntry} from '../core/gridErrorShape';
+import { PartialBps } from '../core/layoutTypes';
+import { NodeAbsoluteCoordinates } from "../core/GridNodeTypes";
+import {VIRTUAL_RESOLUTION} from '../defaults/defaults';
 
 // type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 // type GridNodeAbsoluteCoordinates = { gridRowStart: number; gridRowEnd: number; gridColumnStart: number; gridColumnEnd: number; }
@@ -8,16 +9,16 @@ import { NodeID } from "../ids/kinds";
 // type AddNodeFunction = (node: PartialBps<GridNodeAbsoluteCoordinates>) => NodeId;
 
 type UniformGridBuilderProps = {
-  addNode: AddNodeFunction;
   partitionsX: number; // tiles across (columns)
   partitionsY: number; // tiles down (rows)
-  lengthX: number;     // region width  in virtual columns
-  lengthY: number;     // region height in virtual rows
+  lengthX?: number;     // region width  in virtual columns
+  lengthY?: number;     // region height in virtual rows
   offsetX?: number;    // optional region offset from left (default 1)
   offsetY?: number;    // optional region offset from top  (default 1)
   // optional: 'tile' to keep xs tiled too; default stacks vertically at xs
   xsMode?: 'stack-vertical' | 'tile';
 };
+
 
 /**
  * Uniform tiler:
@@ -25,41 +26,54 @@ type UniformGridBuilderProps = {
  *  - xs: stacks vertically full-width by default (xsMode='stack-vertical')
  * Coordinates use half-open [start, end) with 1-based grid lines.
  */
+
 export const uniformGridBuilder = ({
-  addNode,
   partitionsX,
   partitionsY,
-  lengthX,
-  lengthY,
+  lengthX= VIRTUAL_RESOLUTION.vx,
+  lengthY= VIRTUAL_RESOLUTION.vy,
   offsetX = 1,
   offsetY = 1,
   xsMode = 'stack-vertical',
-}: UniformGridBuilderProps): { nodes: NodeID[]; errors: GridErrorShape[] } => {
-  const errors: GridErrorShape[] = [];
-  const nodes: NodeID[] = [];
+}: UniformGridBuilderProps): { nodes: Array<PartialBps<NodeAbsoluteCoordinates>>; errors: DiagnosticEntry[] } => {
+
+  const errors: DiagnosticEntry[] = [];
+  const nodes: Array<PartialBps<NodeAbsoluteCoordinates>> = [];
 
   // ---- Guards (diagnostics, no throws) ----
   if (partitionsX <= 0 || partitionsY <= 0) {
     errors.push({
+      severity: 'error',
+      origin: 'uniformGridBuilder',
+      issue: {
       code: "PARTITIONS_INVALID",
       message: `partitions must be >= 1 (got ${partitionsX}×${partitionsY})`,
       details: { partitionsX, partitionsY }
+      }
     });
     return { nodes, errors };
   }
   if (lengthX <= 0 || lengthY <= 0) {
     errors.push({
+      severity: 'error',
+      origin: 'uniformGridBuilder',
+      issue: {
       code: "LENGTHS_INVALID",
       message: `lengths must be >= 1 (got ${lengthX}×${lengthY})`,
       details: { lengthX, lengthY }
+      }
     });
     return { nodes, errors };
   }
   if (offsetX < 1 || offsetY < 1) {
     errors.push({
+      severity: 'error',
+      origin: 'uniformGridBuilder',
+      issue: {
       code: "OFFSETS_INVALID",
       message: `offsets must be >= 1 (got ${offsetX}, ${offsetY})`,
       details: { offsetX, offsetY }
+      }
     });
     return { nodes, errors };
   }
@@ -86,9 +100,13 @@ export const uniformGridBuilder = ({
       : regionEndY;
     if (endY <= startY) {
       errors.push({
-        code: "ZERO_SPAN_ROW",
-        message: `zero/negative Y span at row ${j}`,
-        details: { j, startY, endY }
+        severity: 'error',
+        origin: 'uniformGridBuilder',
+        issue: {
+          code: "ZERO_SPAN_ROW",
+          message: `zero/negative Y span at row ${j}`,
+          details: { j, startY, endY }
+        } 
       });
       continue;
     }
@@ -102,9 +120,13 @@ export const uniformGridBuilder = ({
         : regionEndX;
       if (endX <= startX) {
         errors.push({
+          severity: 'error',
+          origin: 'uniformGridBuilder',
+          issue: {  
           code: "ZERO_SPAN_COL",
           message: `zero/negative X span at col ${i}`,
           details: { i, startX, endX }
+          }
         });
         continue;
       }
@@ -112,9 +134,9 @@ export const uniformGridBuilder = ({
       // Tile for md (and we’ll mirror to sm/lg/xl)
       const mdCoords = {
         gridColumnStart: startX + 0, // keep explicit numbers for clarity
-        gridColumnEnd:   endX,
-        gridRowStart:    startY,
-        gridRowEnd:      endY,
+        gridColumnEnd: endX,
+        gridRowStart: startY,
+        gridRowEnd: endY,
       };
 
       // xs coords:
@@ -125,22 +147,25 @@ export const uniformGridBuilder = ({
         const sliceHeight = endY - startY;
         xsCoords = {
           gridColumnStart: regionStartX,
-          gridColumnEnd:   regionEndX,
-          gridRowStart:    xsCursorY,
-          gridRowEnd:      xsCursorY + sliceHeight,
+          gridColumnEnd: regionEndX,
+          gridRowStart: xsCursorY,
+          gridRowEnd: xsCursorY + sliceHeight,
         };
         xsCursorY += sliceHeight;
         // guard against overflow (best-effort; renderer may still clip/scroll by policy)
         if (xsCoords.gridRowEnd > regionEndY) {
           errors.push({
+            severity: 'error',
+            origin: 'uniformGridBuilder',
+            issue: {
             code: "XS_STACK_OVERFLOW",
             message: `xs stacking overflowed region (j=${j}, i=${i})`,
             details: { xsRowEnd: xsCoords.gridRowEnd, regionEndY }
-          });
+          }});
         }
       }
 
-      const id = addNode({
+      nodes.push({
         xs: xsCoords,
         sm: mdCoords, // copy-through
         md: mdCoords,
@@ -148,7 +173,6 @@ export const uniformGridBuilder = ({
         xl: mdCoords,
       });
 
-      nodes.push(id);
     }
   }
 

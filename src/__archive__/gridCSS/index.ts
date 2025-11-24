@@ -23,29 +23,33 @@
  * **System Architecture:**
  * ```
  * Grid CSS System
- * ├── Type Definitions
- * │   ├── GridElement (positioning and properties)
- * │   ├── GridLayout (container configuration)
- * │   ├── AbsoluteGridLayout (computed absolute positions)
- * │   └── LayoutsByBP (responsive breakpoint layouts)
- * ├── Grid Builder
- * │   ├── Layout compilation and validation
- * │   ├── Absolute position calculation
- * │   └── Error detection and reporting
- * ├── Grid Checker
- * │   ├── Overlap detection algorithms
- * │   ├── Constraint validation
- * │   └── Layout integrity verification
- * └── Utility Functions
- *     ├── Grid template parsing
- *     ├── Unit derivation helpers
+ * ├── Core Types
+ * │   ├── GridNode definitions (identity, coordinates, options)
+ * │   ├── Grid configuration (tracks, gaps, auto behavior)
+ * │   ├── Absolute positioning and layout computation
+ * │   └── Error reporting and validation types
+ * ├── ID Management
+ * │   ├── Position and alignment types
+ * │   ├── Row and column number constraints
+ * │   ├── Grid and section ID generation
+ * │   └── Type-safe identifier patterns
+ * ├── CSS Types
+ * │   ├── CSS length units and track definitions
+ * │   ├── Grid unit values and gap specifications
+ * │   └── Track breadth and sizing constraints
+ * ├── Defaults
+ * │   ├── Node default configurations
+ * │   └── Uniform grid generation utilities
+ * └── Utility Libraries
+ *     ├── Grid template parsing and analysis
+ *     ├── Grid options resolution
  *     └── Layout transformation utilities
  * ```
  * 
  * **Grid Layout Concepts:**
- * - **GridElement**: Individual items with row/column positioning
- * - **GridLayout**: Container with rows, columns, and element definitions
- * - **AbsoluteGridLayout**: Computed layout with absolute grid positions
+ * - **GridNode**: Individual items with identity, coordinates, and options
+ * - **GridOptions**: Container configuration with tracks, gaps, and behavior
+ * - **AbsoluteGrid**: Computed layout with absolute positioning
  * - **Responsive Layouts**: Breakpoint-specific layout variations
  * 
  * **Validation Features:**
@@ -63,69 +67,135 @@
  * 
  * @author MCPAB Web Blocks
  * @since 1.0.0
- * @version 1.0.0 - Initial advanced grid system
+ * @version 2.0.0 - Reorganized architecture with enhanced type system
  */
 
 // ============================================================================
-// TYPE DEFINITIONS
+// CORE TYPE DEFINITIONS
 // ============================================================================
 
-/** Core grid element definition with positioning and styling */
-export type { GridElement } from './types';
+/** Grid node identity with type-safe ID management */
+export type { GridNodeIdentity } from './core/layoutTypes';
 
-/** Computed grid element with absolute positioning */
-export type { AbsoluteGridElement } from './types';
+/** Grid node relative positioning and coordinates */
+export type { GridNodeRelativeCoordinates } from './core/layoutTypes';
 
-/** Column definition with count/unit or template string */
-export type { columnDef } from './types';
+/** Grid node configuration options and styling */
+export type { GridNodeOptions } from './core/layoutTypes';
 
-/** Row definition with count/unit or template string */
-export type { rowDef } from './types';
+/** Grid node absolute positioning coordinates */
+export type { GridNodeAbsoluteCoordinates } from './core/layoutTypes';
 
-/** Complete grid layout configuration */
-export type { GridLayout } from './types';
+/** Grid track list with unit values */
+export type { TrackList } from './core/layoutTypes';
 
-/** Computed absolute grid layout with positioning */
-export type { AbsoluteGridLayout } from './types';
+/** Grid tracks configuration (rows and columns) */
+export type { GridTracks } from './core/layoutTypes';
 
-/** Grid validation error shape with details */
-export type { GridErrorShape } from './types';
+/** Grid gaps configuration */
+export type { GridGaps } from './core/layoutTypes';
 
-/** Responsive layouts by breakpoint */
-export type { LayoutsByBP } from './types';
+/** Grid auto-sizing behavior configuration */
+export type { GridAuto } from './core/layoutTypes';
 
-/** Template derivation information for grid units */
-export type { TemplateDeriveInfo } from './gridUnitsHelpers';
+/** Complete grid options configuration */
+export type { GridOptions } from './core/layoutTypes';
+
+/** Computed absolute grid node with positioning */
+export type { AbsoluteNode } from './core/layoutTypes';
+
+/** Complete absolute grid layout with computed positions */
+export type { AbsoluteGrid } from './core/layoutTypes';
+
+/** Grid validation error reporting shape */
+export type { GridErrorShape } from './core/layoutTypes';
+
+/** Grid options input with partial configuration */
+export type { GridOptionsInput } from './core/layoutTypes';
+
+/** Responsive layouts by breakpoint mapping */
+export type { LayoutsByBP } from './core/layoutTypes';
+
+/** Layout factory for grid generation */
+export type { LayoutFactory } from './core/layoutTypes';
 
 // ============================================================================
-// GRID BUILDER FUNCTIONS
+// CSS TYPE DEFINITIONS
 // ============================================================================
 
-/** Main grid layout builder with validation and compilation */
-export { gridBuilder } from './gridBuilder';
+/** CSS length units with value and unit specification */
+export type { CssLength } from './domainTypes';
+
+/** CSS Grid track breadth specifications */
+export type { TrackBreadth } from './domainTypes';
+
+/** Grid unit values for track sizing */
+export type { GridUnitValue } from './domainTypes';
+
+/** Gap values for grid spacing */
+export type { GapValue } from './domainTypes';
 
 // ============================================================================
-// GRID VALIDATION FUNCTIONS
+// ID AND POSITION TYPES
+// ============================================================================
+
+/** Alignment options for grid items */
+export type { Align } from './ids/kinds';
+
+/** Axis specifications for grid positioning */
+export type { Axis } from './ids/kinds';
+
+/** Axis position types for grid alignment */
+export type { AxisPos } from './ids/kinds';
+
+/** Corner position specifications */
+export type { Corner } from './ids/kinds';
+
+/** Combined position types */
+export type { Position } from './ids/kinds';
+
+/** Row number constraints (1-20) */
+export type { RowNumbers } from './ids/kinds';
+
+/** Column number constraints (1-12) */
+export type { ColNumbers } from './ids/kinds';
+
+/** Label types for grid identification */
+export type { Label } from './ids/kinds';
+
+/** Section core identification patterns */
+export type { SectionCore } from './ids/kinds';
+
+/** Section ID template literals */
+export type { SectionId } from './ids/kinds';
+
+/** Grid ID template literals */
+export type { GridId } from './ids/kinds';
+
+/** Combined ID types */
+export type { IDS } from './ids/kinds';
+
+// ============================================================================
+// UTILITY FUNCTIONS AND DEFAULTS
 // ============================================================================
 
 /** Grid layout checker with overlap and constraint validation */
 export { gridChecker } from './gridChecker';
 
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
-
-/** Convert grid element to absolute positioning */
-export { convertGridElementToAbsolute } from './helpers';
-
-/** Convert grid layout to absolute positioning */
-export { convertGridLayoutToAbsolute } from './helpers';
-
-/** Derive automatic grid units from layout configuration */
-export { deriveAutoGridUnits } from './helpers';
+/** Template derivation information for grid units */
+export type { TemplateDeriveInfo } from './lib/gridUnitsHelpers';
 
 /** Derive automatic unit from grid template string */
-export { deriveAutoUnitFromTemplate } from './gridUnitsHelpers';
+export { deriveAutoUnitFromTemplate } from './lib/gridUnitsHelpers';
 
 /** Derive unit and count information from grid template */
-export { deriveAutoUnitAndCountFromTemplate } from './gridUnitsHelpers';
+export { deriveAutoUnitAndCountFromTemplate } from './lib/gridUnitsHelpers';
+
+/** Grid options resolution utility */
+export { resolveGridOptions } from './lib/resolveGridOptions';
+
+/** Default node configuration options */
+export { nodeDefaults } from './defaults/defaults';
+
+/** Uniform grid generation utility */
+export { uniformGrid } from './defaults/defaults';

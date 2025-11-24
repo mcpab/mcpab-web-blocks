@@ -1,172 +1,129 @@
-import { ColNumbers, RowNumbers } from "../ids/kinds";
-import { GridUnitValue, GapValue } from "../domainTypes";
+// ============================================================================
+// IMPORTS
+// ============================================================================
 
-/** Identity & hierarchy info used by the checker’s ancestry rules.
- *  `parentId` forms a parent chain; any ancestor with `constrainChildren: true`
- *  (on its node.options) constrains all descendants.
+// Domain types and defaults
+import type { GapValue, GridUnitValue } from "../domainTypes";
+import { Vx, Vy } from '../defaults/defaults';
+// ID management
+import type { Kinds, NodeID } from "../ids/kinds";
+
+// Core types
+import type { PatchIntentByKind } from "./nodeManagerTypes";
+import { AbsoluteNode, GridNodeOptions } from "./GridNodeTypes";
+import { DiagnosticEntry } from "./gridErrorShape";
+/**
+ * Grid gap configuration options
  */
-export type GridNodeIdentity<Id extends PropertyKey> = {
-  parentId?: Id;
-  name?: string; // display/debug name
-};
-
-export type GridNodeRelativeCoordinates = {
-  row: number;
-  column: number;
-  spanx?: number; // columns (x)
-  spany?: number; // rows (y)
-};
-
-export type GridNodeOptions = {
-  zIndex?: number | undefined;
-  allowOverlap?: boolean;
-  constrainChildren?: boolean;
-
-  justifySelf?: "start" | "end" | "center" | "stretch";
-  alignSelf?: "start" | "end" | "center" | "stretch";
-
-  role?: string;
-  tags?: string[];
-
-  visibility?: "visible" | "hidden" | "visuallyHidden";
-  // NOTE: `order` lives on the node (see AbsoluteNode.order) to avoid duplication.
-};
-
-export type GridNodeAbsoluteCoordinates = {
-  gridRowStart: number;
-  gridColumnStart: number;
-  gridRowEnd: number;    // exclusive
-  gridColumnEnd: number; // exclusive
-};
-
-export type TrackList = readonly GridUnitValue[];
-
-export type GridTracks =
-  | {
-      mode: "uniform";
-      rows: RowNumbers;
-      rowUnit: GridUnitValue;
-      columns: ColNumbers;
-      columnUnit: GridUnitValue;
-    }
-  | {
-      mode: "list";
-      rowSizes: TrackList;    // length = number of rows
-      columnSizes: TrackList; // length = number of columns
-    };
-
 export type GridGaps = {
-  gap?: GapValue; // single-gap shorthand
-  rowGap?: GapValue;
-  columnGap?: GapValue;
+    gap?: GapValue; // single-gap shorthand
+    rowGap?: GapValue;
+    columnGap?: GapValue;
 };
 
+/**
+ * Grid auto-sizing configuration
+ */
 export type GridAuto = {
-  /** grid-auto-rows: size of implicitly created row tracks */
-  implicitRowUnits: GridUnitValue;
-  /** grid-auto-columns: size of implicitly created column tracks */
-  implicitColumnUnits: GridUnitValue;
+    /** grid-auto-rows: size of implicitly created row tracks */
+    implicitRowUnits: GridUnitValue;
+    /** grid-auto-columns: size of implicitly created column tracks */
+    implicitColumnUnits: GridUnitValue;
 };
 
-export type GridOptions = GridTracks & GridGaps & GridAuto & {
-  overflow: "visible" | "hidden" | "scroll" | "auto";
-  autoFlow?: "row" | "column" | "dense" | "row dense" | "column dense";
-  justifyItems?: "start" | "end" | "center" | "stretch";
-  alignItems?: "start" | "end" | "center" | "stretch";
-  justifyContent?:
+/**
+ * Complete grid configuration options
+ */
+export type GridOptions = GridGaps & GridAuto & {
+    overflow: "visible" | "hidden" | "scroll" | "auto";
+    autoFlow?: "row" | "column" | "dense" | "row dense" | "column dense";
+    justifyItems?: "start" | "end" | "center" | "stretch";
+    alignItems?: "start" | "end" | "center" | "stretch";
+    justifyContent?:
     | "start" | "end" | "center" | "stretch"
     | "space-between" | "space-around" | "space-evenly";
-  alignContent?:
+    alignContent?:
     | "start" | "end" | "center" | "stretch"
     | "space-between" | "space-around" | "space-evenly";
 };
 
-export type AbsoluteNode<Id extends PropertyKey> = {
-  identity: GridNodeIdentity<Id>;
-  coordinates: GridNodeAbsoluteCoordinates;
-  options: GridNodeOptions;
-  /** Ordering hint for rendering/placement; the checker groups ties */
-  order?: number;
+/**
+ * Standard responsive breakpoint names
+ */
+export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+
+/**
+ * Complete breakpoint record with all breakpoints required
+ */
+export type BPs<T> = Record<Breakpoint, T>;
+
+/**
+ * Partial breakpoint record with only xs required
+ */
+export type PartialBps<T> = { xs: T } & Partial<Record<Exclude<Breakpoint, 'xs'>, T>>
+
+/**
+ * Grid with absolute positioning and fixed dimensions
+ */
+export type AbsoluteGrid<Rows extends number, Columns extends number,   K extends Kinds> = {
+    rows: Rows;
+    columns: Columns;
+    readonly options: GridOptions;
+    readonly nodes: Partial<Record<NodeID, AbsoluteNode<K>>>;
 };
 
-export type AbsoluteGrid<Id extends PropertyKey = PropertyKey> = {
-  readonly options: GridOptions;
-  readonly nodes: Partial<Record<Id, AbsoluteNode<Id>>>;
-};
 
-export type GridErrorShape<Id extends PropertyKey = string> = {
-  code:
-    | "implicit-track"
-    | "overlap-without-z"
-    | "invalid-span"
-    | "constraint-violation"
-    | "out-of-bounds"
-    | "duplicate-id"
-    | "overlap-not-allowed"
-    | "invalid-position"
-    | "order-ties"
-    | "explicit-count-unknown"
-    | "plan-mismatch"
-    | "Invalid_Grid_Definition"
-    | "List_Precedence_Applied";
-  elementId?: Id;
-  message: string;
-  details?: unknown;
-};
-
-/** Authoring-time, flexible options (resolver turns this into strict GridOptions). */
+/**
+ * Flexible grid options for authoring time (resolver converts to strict GridOptions)
+ */
 export type GridOptionsInput = Partial<{
-  /** --- TRACKS / SIZING --- */
-  // Uniform inputs
-  rows: RowNumbers;
-  columns: ColNumbers;
-  rowUnit: GridUnitValue;
-  columnUnit: GridUnitValue;
+    // Subgrid intent for either axis (if present, ignore sizing on that axis during normalization)
+    subgrid: "rows" | "columns" | "both";
 
-  // Per-track explicit lists (wins over uniform if both provided)
-  rowSizes: TrackList;
-  columnSizes: TrackList;
+    /** --- GAPS --- */
+    gap: GapValue;
+    rowGap: GapValue;
+    columnGap: GapValue;
 
-  // Subgrid intent for either axis (if present, ignore sizing on that axis during normalization)
-  subgrid: "rows" | "columns" | "both";
+    /** --- IMPLICIT TRACKS --- */
+    implicitRowUnits: GridUnitValue;    // grid-auto-rows
+    implicitColumnUnits: GridUnitValue; // grid-auto-columns
 
-  /** --- GAPS --- */
-  gap: GapValue;
-  rowGap: GapValue;
-  columnGap: GapValue;
+    /** --- FLOW / OVERFLOW / ALIGN --- */
+    autoFlow: "row" | "column" | "dense" | "row dense" | "column dense";
+    overflow: "visible" | "hidden" | "scroll" | "auto";
 
-  /** --- IMPLICIT TRACKS --- */
-  implicitRowUnits: GridUnitValue;    // grid-auto-rows
-  implicitColumnUnits: GridUnitValue; // grid-auto-columns
+    justifyItems: "start" | "end" | "center" | "stretch";
+    alignItems: "start" | "end" | "center" | "stretch";
 
-  /** --- FLOW / OVERFLOW / ALIGN --- */
-  autoFlow: "row" | "column" | "dense" | "row dense" | "column dense";
-  overflow: "visible" | "hidden" | "scroll" | "auto";
-
-  justifyItems: "start" | "end" | "center" | "stretch";
-  alignItems: "start" | "end" | "center" | "stretch";
-
-  justifyContent:
+    justifyContent:
     | "start" | "end" | "center" | "stretch"
     | "space-between" | "space-around" | "space-evenly";
-  alignContent:
+    alignContent:
     | "start" | "end" | "center" | "stretch"
     | "space-between" | "space-around" | "space-evenly";
+
 }>;
 
-/** Per-breakpoint absolute grids (useful for SSR layout selection) */
-export type LayoutsByBP<Id extends PropertyKey> =
-  Partial<Record<"xs" | "sm" | "md" | "lg" | "xl", AbsoluteGrid<Id>>>;
+/**
+ * Canonical grid type using standard dimensions
+ */
+// Canonical grid type bound to your branded ID
+export type CanonicalGrid<K extends Kinds> = AbsoluteGrid<Vx, Vy, K>;
 
-/** Factory contract: accepts authoring inputs; returns absolute grid + diagnostics. */
-export type LayoutFactory<Id extends PropertyKey> = {
-  createLayoutByBp: (
-    gridOptions?: GridOptionsInput,
-    nodesOptions?: Partial<
-      Record<
-        Id,
-        { options: GridNodeOptions; coordinates: GridNodeRelativeCoordinates }
-      >
-    >
-  ) => { grids: LayoutsByBP<Id>; errors: GridErrorShape<Id>[]; warnings: GridErrorShape<Id>[] };
+/**
+ * Factory contract for grid creation and management
+ */
+export type LayoutFactory<K extends Kinds> = {
+
+    createLayout: (
+        gridOptions?: Readonly<GridOptionsInput>,
+        nodeOptions?: Partial<Record<K, GridNodeOptions>>,
+        nodeIntents?: ReadonlyArray<PatchIntentByKind<K>>
+    ) => {
+        readonly grid: CanonicalGrid<K>;
+        readonly diagnostics: ReadonlyArray<DiagnosticEntry>;
+    };
 };
+
+

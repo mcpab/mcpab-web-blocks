@@ -1,6 +1,7 @@
 import type { ColNumbers, IDS, RowNumbers } from 'src/core/gridCSS/ids/kinds';
-import type { AbsoluteGrid, AbsoluteNode, LayoutFactory as CoreLayoutFactory } from 'src/core/gridCSS/core/layoutTypes';
-import { GridNodeOptions, } from 'src/core/gridCSS/core/layoutTypes';
+import type { AbsoluteGrid, LayoutFactory as CoreLayoutFactory } from 'src/core/gridCSS/core/layoutTypes';
+import type { AbsoluteNode } from "src/core/gridCSS/core/GridNodeTypes";
+import { GridNodeOptions } from "src/core/gridCSS/core/GridNodeTypes";
 import { resolveGridOptions } from 'src/core/gridCSS/lib/resolveGridOptions';
 import { uniformGrid, nodeDefaults } from 'src/core/gridCSS/defaults/defaults';
 
