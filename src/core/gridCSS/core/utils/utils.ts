@@ -1,9 +1,8 @@
-import DefaultNodeManager from "../core/DefaultNodeManager";
-import { DiagnosticEntry } from "../core/gridErrorShape";
-import { GridNodeOptions, NodeAbsoluteCoordinates } from "../core/GridNodeTypes";
-import { PartialBps } from "../core/layoutTypes";
+import DefaultNodeManager from "../defaultNodeManager";
+import { DiagnosticEntry } from "../gridErrorShape";
+import { GridNodeOptions, NodeAbsoluteCoordinates } from "../gridNodeTypes";
+import { PartialBps } from "../breakpoints";
 import { CssLength, GridUnitValue, TrackBreadth } from "../domainTypes";
-import { Kinds } from "../ids/kinds";
 
 function isCssLength(b: TrackBreadth): b is CssLength {
   return b.unit === 'px' || b.unit === 'em' || b.unit === 'rem' || b.unit === '%';
@@ -47,7 +46,7 @@ export function formatGridUnitValue(v: GridUnitValue): string {
 }
 
 
-export function addNodeWithDiagnostics<K extends Kinds>(
+export function addNodeWithDiagnostics<K extends string>(
   manager: DefaultNodeManager<K>,
   diagnostics: DiagnosticEntry[],
   absoluteNode: PartialBps<NodeAbsoluteCoordinates>,

@@ -1,11 +1,12 @@
-import { defaultGridNode } from "../defaults/defaults";
-import { Kinds, NodeID } from "../ids/kinds";
-import { DiagnosticEntry } from "./gridErrorShape";
-import { AbsoluteNode, GridNodeOptions, NodeAbsoluteCoordinates } from "./GridNodeTypes";
-import { PartialBps } from "./layoutTypes";
+import { defaultGridNode } from "./defaultNode";
+import { NodeID } from "../ids/kinds";
+import { DiagnosticEntry, GRID_ERROR_CODE } from "./gridErrorShape";
+import { AbsoluteNode, GridNodeOptions, NodeAbsoluteCoordinates } from "./gridNodeTypes";
+import { PartialBps } from "./breakpoints";
 import { AddNodeReturnValue, duplicateKindPolicy, NodeManagerInterface, PatchIntentByKind } from "./nodeManagerTypes";
+import { makeError, makeWarning } from "./gridErrorShape";
 
-export class DefaultNodeManager<K extends Kinds>
+export class DefaultNodeManager<K extends string>
     implements NodeManagerInterface<K> {
 
     /** Authoritative ID → Kind map for this layout/version (bijective; validated at init). */
@@ -34,36 +35,25 @@ export class DefaultNodeManager<K extends Kinds>
     ): AddNodeReturnValue {
 
         let diagnostics: DiagnosticEntry | undefined = undefined;
-
+        
         if (this.kind.has(kind)) {
             if (this.duplicateKindPolicy === 'error') {
                 return {
                     id: undefined,
-                    diagnostic: {
-                        severity: 'error',
-                        origin: 'nodeManager',
-                        issue: {
-                            code: "DUPLICATE_KIND",
-                            message: `A node with kind '${kind}' has already been added; duplicate kinds are not allowed.`,
-                            details: { kind },
-                            origin: 'nodeManager',
-                        }
-                    }
-                };
-            } else if (this.duplicateKindPolicy === 'warn') {
-                diagnostics = {
-                    severity: 'warning',
-                    origin: 'nodeManager',
-                    issue: {
-                        code: "DUPLICATE_KIND",
-                        message: `A node with kind '${kind}' has already been added; duplicate kinds may lead to unexpected behavior.`,
-                        details: { kind },
-                        origin: 'nodeManager',
-                    }
-                };
-                return { id: undefined, diagnostic: diagnostics };
-            }
-            // If 'allow', do nothing
+                    diagnostic: makeError(
+                        'nodeManager',
+                        GRID_ERROR_CODE.DUPLICATE_KIND,
+                        `A node with kind '${kind}' has already been added; duplicate kinds are not allowed.`,
+                        { details: { kind } })
+                }
+            };
+        } else if (this.duplicateKindPolicy === 'warn') {
+            diagnostics = makeWarning(
+                'nodeManager',
+                GRID_ERROR_CODE.DUPLICATE_KIND,
+                `A node with kind '${kind}' has already been added; duplicate kinds may lead to unexpected behavior.`,
+                { details: { kind } });
+            return { id: undefined, diagnostic: diagnostics };
         }
 
         this.kind.add(kind);
@@ -90,16 +80,9 @@ export class DefaultNodeManager<K extends Kinds>
 
 
         if (!nodes) {
-            results.push({
-                severity: 'error',
-                origin: 'nodeManager',
-                issue: {
-                    code: "NO_NODES",
-                    message: `No nodes are registered in the NodeManager; cannot apply patches.`,
-                    details: {},
-                    origin: 'nodeManager',
-                },
-            });
+            results.push(makeError('nodeManager',
+                GRID_ERROR_CODE.NO_NODES,
+                `No nodes are registered in the NodeManager; cannot apply patches.`));
 
             return results;
         }
@@ -115,16 +98,10 @@ export class DefaultNodeManager<K extends Kinds>
             );
 
             if (!matchedIDS) {
-                results.push({
-                    severity: 'error',
-                    origin: 'nodeManager',
-                    issue: {
-                        code: "UNKNOWN_KIND",
-                        message: `No node matches the selector kind '${selector}'.`,
-                        details: { selector },
-                        origin: 'nodeManager',
-                    }
-                });
+                results.push(makeError('nodeManager',
+                    GRID_ERROR_CODE.UNKNOWN_KIND,
+                    `No node matches the selector kind '${selector}'.`,
+                    { details: { selector } },));
                 //
                 continue;
             }

@@ -1,8 +1,8 @@
-import { DefaultNodeManager } from "../core/DefaultNodeManager";
-import { AbsoluteNode, GridNodeOptions, NodeAbsoluteCoordinates } from "../core/GridNodeTypes";
-import { AbsoluteGrid, BPs, GridOptions, PartialBps } from "../core/layoutTypes";
-import { CssLength } from "../domainTypes";
-import { Kinds, NodeID } from "../ids/kinds";
+import { DefaultNodeManager } from "../core/defaultNodeManager";
+import { BPs } from "../core/breakpoints";
+import { AbsoluteGrid } from "../core/absoluteGridTypes";
+import { GridOptions } from "../core/gridConfig";
+import { CssLength } from "../core/domainTypes";
  
 
  
@@ -33,22 +33,8 @@ export const defaultUniformGridOptions: GridOptions = {
     alignContent: 'start',
 };
 
-export const defaultGridNodeOptions: GridNodeOptions = {
-    zIndex: 0,
-    allowOverlap: false,
-    constrainChildren: false,
 
-    justifySelf: 'stretch',
-    alignSelf: 'stretch',
-
-    role: undefined,
-    tags: [],
-
-    visibility: 'visible',
-};
-
-
-export const defaultGrid = <K extends Kinds>(nodeManager: DefaultNodeManager<K>, 
+export const defaultGrid = <K extends string>(nodeManager: DefaultNodeManager<K>, 
     rows: BPs<number>, columns: BPs<number>, gridOptions?: Partial<GridOptions>,): AbsoluteGrid<K> => {
 
     const canonicalGrid: AbsoluteGrid<K> = {
@@ -63,18 +49,3 @@ export const defaultGrid = <K extends Kinds>(nodeManager: DefaultNodeManager<K>,
     return canonicalGrid;
 
 }
-
-export const defaultGridNode = <K extends Kinds>(kind: K, id: NodeID,
-    coordinates: PartialBps<NodeAbsoluteCoordinates>, options?: Partial<GridNodeOptions>): AbsoluteNode<K> => {
-    return {
-        kind: kind,
-        identity: {
-            id: id,
-        },
-        coordinates: coordinates,
-        options: {
-            ...defaultGridNodeOptions,
-            ...options
-        }
-    }
-};

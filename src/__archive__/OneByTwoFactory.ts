@@ -1,9 +1,9 @@
 import { uniformGridBuilder } from "./uniformGridBuilder";
-import { DefaultNodeManager } from "../core/gridCSS/core/DefaultNodeManager";
+import { DefaultNodeManager } from "../core/gridCSS/core/defaultNodeManager";
 import { DiagnosticEntry } from "../core/gridCSS/core/gridErrorShape";
-import { LayoutFactory } from "../core/gridCSS/core/layoutTypes";
-import { defaultGrid } from "../core/gridCSS/defaults/defaults";
-import { addNodeWithDiagnostics } from "../core/gridCSS/lib/utils";
+import { LayoutFactory } from "../core/gridCSS/core/layoutFactoryTypes";
+import { defaultGrid } from "../core/gridCSS/presets/defaults";
+import { addNodeWithDiagnostics } from "../core/gridCSS/core/utils/utils";
 
 export type Kinds_1_2 = 'block_1' | 'block_2';
 

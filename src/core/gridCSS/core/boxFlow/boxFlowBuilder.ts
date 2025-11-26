@@ -1,7 +1,7 @@
-import { DiagnosticEntry } from "../core/gridErrorShape";
-import { NodeAbsoluteCoordinates, NodeAbsoluteCoordinatesBPS } from "../core/GridNodeTypes";
-import { BPs, Breakpoint, } from "../core/layoutTypes";
-
+import { DiagnosticEntry, GRID_ERROR_CODE } from "../gridErrorShape";
+import { NodeAbsoluteCoordinates, NodeAbsoluteCoordinatesBPS } from "../gridNodeTypes";
+import { BPs, Breakpoint } from "../breakpoints";
+import { makeDiagnostic, makeError, makeWarning } from "../gridErrorShape";
 export type Coordinate = { x: number; y: number };
 export type CoordinateBps = BPs<Coordinate>;
 
@@ -93,15 +93,11 @@ function isAnyNegative(coords: CoordinateBps, errors: DiagnosticEntry[], gridPol
         const c = coords[bp];
         if (c.x < 1 || c.y < 1) {
             hasNegative = true;
-            errors.push({
-                severity: gridPolicy === 'clamp' ? 'warning' : 'error',
-                origin: 'uniformFlowBuilder',
-                issue: {
-                    code: "NEGATIVE_COORDINATE",
-                    message: `negative coordinate at breakpoint ${bp}: (${c.x}, ${c.y} from ${origin})`,
-                    details: { bp, coordinate: c }
-                }
-            });
+
+            errors.push(makeDiagnostic(gridPolicy === 'clamp' ? 'warning' : 'error', 'boxFlow', GRID_ERROR_CODE.NEGATIVE_COORDINATE,
+                `negative coordinate at breakpoint ${bp}: (${c.x}, ${c.y} from ${origin})`,
+                { details: { bp, coordinate: c } }
+            ));
         }
     });
     return hasNegative;
@@ -230,12 +226,14 @@ function clampGrid(nodes: NodeAbsoluteCoordinatesBPS[]): NodeAbsoluteCoordinates
 }
 
 // we allow negative coordinates, and at the end we check whether the policy is clamping or extend the grid
-export class UniformFlowBuilder {
+export class BoxFlowBuilder {
 
     cursor: CoordinateBps;
     nodes: Array<NodeAbsoluteCoordinatesBPS> = [];
 
     gridPolicy: 'clamp' | 'extend' = 'extend';
+
+    invalidNodePolicy: 'allow' | 'skip' = 'allow';
 
     errors: DiagnosticEntry[] = [];
 
@@ -244,8 +242,11 @@ export class UniformFlowBuilder {
 
     isTerminal: boolean = false;
 
-    constructor(policy: 'clamp' | 'extend' = 'extend') {
+    constructor(policy: 'clamp' | 'extend' = 'extend', invalidNodePolicy: 'allow' | 'skip' = 'allow') {
+
         this.gridPolicy = policy;
+        this.invalidNodePolicy = invalidNodePolicy;
+
         this.cursor = {
             xs: { x: 1, y: 1 },
             sm: { x: 1, y: 1 },
@@ -280,17 +281,44 @@ export class UniformFlowBuilder {
             sm: { x: this.cursor.sm.x, y: this.cursor.sm.y },
             md: { x: this.cursor.md.x, y: this.cursor.md.y },
             lg: { x: this.cursor.lg.x, y: this.cursor.lg.y },
-            xl: { x: this.cursor.xl.x, y: this.cursor.xl.y },   
+            xl: { x: this.cursor.xl.x, y: this.cursor.xl.y },
         }
     }
-    addNode(diagonal: CoordinateBps):boolean {
+    addNode(diagonal: CoordinateBps): boolean {
 
         if (this.isTerminal) {
+            this.errors.push(makeError('boxFlow',
+                GRID_ERROR_CODE.BOXFLOW_MUTATION_AFTER_FINALIZE,
+                `attempted to mutate BoxFlowBuilder after finalization with getNodes()`,
+            ));
             return false;
         }
-
+        if (diagonal.xs.x === 0 || diagonal.xs.y === 0) {
+            if (this.invalidNodePolicy === 'skip') {
+                this.errors.push(
+                    makeDiagnostic(
+                        'error',
+                        'boxFlow',
+                        GRID_ERROR_CODE.BOXFLOW_ZERO_DIMENSION_NODE,
+                        'skipped node with zero dimension at xs breakpoint',
+                        { details: { diagonal } }
+                    )
+                );
+                return false;
+            } else {
+                this.errors.push(
+                    makeDiagnostic(
+                        'warning',
+                        'boxFlow',
+                        GRID_ERROR_CODE.BOXFLOW_ZERO_DIMENSION_NODE,
+                        'added node with zero dimension at xs breakpoint',
+                        { details: { diagonal } }
+                    )
+                );
+            }
+        }
         const nodeCoordinates: NodeAbsoluteCoordinatesBPS = createBoxBPS(this.cursor, diagonal);
- 
+
 
         this.cursor = sumCoordinatesBPS(this.cursor, diagonal);
 
@@ -322,26 +350,18 @@ export class UniformFlowBuilder {
 
                 this.nodes = translateGrid(this.nodes, correction);
 
-                this.errors.push({
-                    severity: 'warning',
-                    origin: 'uniformFlowBuilder',
-                    issue: {
-                        code: "NEGATIVE_COORDINATE",
-                        message: `translated grid to positive space by ${JSON.stringify(correction)}`,
-                        details: { correction }
-                    }
-                });
+                this.errors.push(makeDiagnostic('warning', 'boxFlow',
+                    GRID_ERROR_CODE.NEGATIVE_COORDINATE,
+                    `translated grid to positive space by ${JSON.stringify(correction)}`,
+                    { details: { correction } }
+                ));
             } else if (this.gridPolicy === 'clamp') {
                 this.nodes = clampGrid(this.nodes);
-                this.errors.push({
-                    severity: 'warning',
-                    origin: 'uniformFlowBuilder',
-                    issue: {
-                        code: "NEGATIVE_COORDINATE",
-                        message: `clamped grid to positive space`,
-                        details: {}
-                    }
-                });
+                this.errors.push(makeDiagnostic('warning', 'boxFlow',
+                    GRID_ERROR_CODE.NEGATIVE_COORDINATE,
+                    `clamped grid to positive space`,
+                    { details: {} }
+                ));
             }
         }
 
@@ -362,7 +382,7 @@ export class UniformFlowBuilder {
         };
 
         this.isTerminal = true;
-        
+
         return { nodes: this.nodes, errors: this.errors, rows: rows, columns: columns };
     }
 }

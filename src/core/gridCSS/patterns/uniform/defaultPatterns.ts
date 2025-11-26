@@ -1,7 +1,7 @@
 
 
-import { CoordinateBps } from "../../builders/uniformFlowBuilder";
-import { GridPath, Path } from "../../builders/types";
+import { CoordinateBps } from "../../core/boxFlow/boxFlowBuilder";
+import { GridPath, Path } from "../../core/boxFlow/boxFlowBuilderTypes";
 
 export type CreateUniformGridProps = {
     rows: number;

@@ -1,7 +1,7 @@
 import { DiagnosticEntry } from '../core/gridCSS/core/gridErrorShape';
-import { NodeAbsoluteCoordinates } from "../core/gridCSS/core/GridNodeTypes";
-import { PartialBps } from '../core/gridCSS/core/layoutTypes';
-import { VIRTUAL_RESOLUTION } from '../core/gridCSS/defaults/defaults';
+import { NodeAbsoluteCoordinates } from "../core/gridCSS/core/gridNodeTypes";
+import { PartialBps } from "src/core/gridCSS/core/breakpoints";
+import { VIRTUAL_RESOLUTION } from '../core/gridCSS/presets/defaults';
 
 export type xsMode = 'stack-vertical' | 'tile';
 // type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'

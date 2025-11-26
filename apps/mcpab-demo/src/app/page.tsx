@@ -3,70 +3,7 @@
 // Adjust the import to wherever your types live, or inline the type if needed
 // import type { DiagnosticEntry } from "path/to/types";
 
-export function logDiagnostics(diags: readonly DiagnosticEntry[]) {
-  if (!diags || diags.length === 0) {
-    console.log(
-      "%c✔ No grid diagnostics. Layout looks clean.",
-      "color: #4CAF50; font-weight: bold;"
-    );
-    return;
-  }
 
-  console.groupCollapsed(
-    `%c⚠ Grid Diagnostics (${diags.length})`,
-    "color: #FF9800; font-weight: bold; font-size: 14px;"
-  );
-
-  diags.forEach((d, i) => {
-    const { severity, origin, issue } = d;
-    const { code, message, elementId, details, origin: issueOrigin } = issue;
-
-    const color =
-      severity === "error" ? "color: #F44336" : "color: #FFC107";
-
-    const title = `%c${i + 1}. [${severity.toUpperCase()}] ${code}`;
-    const style = `${color}; font-weight: bold;`;
-
-    console.groupCollapsed(title, style);
-
-    console.log(
-      "%cMessage:%c",
-      "color:#2196F3;font-weight:bold",
-      "color:inherit",
-      message
-    );
-
-    if (elementId) {
-      console.log(
-        "%cElement:%c " + elementId,
-        "color:#9C27B0;font-weight:bold",
-        "color:inherit"
-      );
-    }
-
-    // top-level origin + per-issue origin if present
-    if (origin || issueOrigin) {
-      console.log(
-        "%cOrigin:%c " + (issueOrigin ?? origin),
-        "color:#673AB7;font-weight:bold",
-        "color:inherit"
-      );
-    }
-
-    if (details !== undefined) {
-      console.log(
-        "%cDetails:%c",
-        "color:#795548;font-weight:bold",
-        "color:inherit",
-        details
-      );
-    }
-
-    console.groupEnd();
-  });
-
-  console.groupEnd();
-}
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useState } from "react";
 
@@ -78,9 +15,14 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import {
-  createPatternLayoutFactory, DiagnosticEntry, GridCssMuiRenderer, GridPath, Kinds, OneByTwoPattern, TwoByTwoPattern,
+  AbsoluteNode,
+  Breakpoint,
+  createLayoutFactoryFromBoxFlow,
+  GridCssMuiRenderer, GridPath, Kinds,
+  logDiagnostics,
+  OneByTwoPattern,
   ThreeByThreePattern,
-  AbsoluteNode
+  TwoByTwoPattern
 } from "@mcpab/web-blocks";
 import { MenuItem } from "@mui/material";
 
@@ -204,7 +146,7 @@ export default function Home() {
 
 function RenderGrid<K extends Kinds>(pattern: GridPath<K>,): React.ReactNode {
 
-  const layout = createPatternLayoutFactory(pattern)();
+  const layout = createLayoutFactoryFromBoxFlow(pattern)();
 
   const grid = layout.grid;
   console.log('grid', grid);
@@ -340,7 +282,6 @@ function RenderGrid<K extends Kinds>(pattern: GridPath<K>,): React.ReactNode {
 
 
 }
-import { Breakpoint } from "@mcpab/web-blocks";
 
 const renderCoords = <K extends Kinds>(node: AbsoluteNode<K> | undefined) => {
 

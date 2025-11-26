@@ -2,9 +2,9 @@
 // TYPE DEFINITIONS
 // ============================================================================
 
-import type { Kinds, NodeID } from "../ids/kinds";
+import type { NodeID } from "../ids/kinds";
  
-import { PartialBps, BPs} from "./layoutTypes";
+import { PartialBps, BPs } from "./breakpoints";
 
 /**
  * Configuration options for grid nodes
@@ -45,7 +45,7 @@ export type GridNodeIdentity = {
  */
 
 export type NodeAbsoluteCoordinatesBPS = BPs<NodeAbsoluteCoordinates>;
-export type AbsoluteNode<K extends Kinds> = {
+export type AbsoluteNode<K extends string> = {
     kind: K;
     identity: GridNodeIdentity ;
     coordinates: PartialBps<NodeAbsoluteCoordinates>;

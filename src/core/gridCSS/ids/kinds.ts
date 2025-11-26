@@ -30,16 +30,3 @@ export type Position = Align | AxisPos | Corner;
 export type Label = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z';
 
 export type NodeID  = `${Label}-${number}`  ;
-export type SectionCore =
-  | 'header' | 'nav' | 'main' | 'aside' | 'content'
-  | 'footer' | 'hero' | 'banner' | 'sidebar' | 'cta';
-
-export type Cards = `card_${number}`;
-
-export type Blocks = `block_${number}`;
-
-export type Kinds = SectionCore | Cards | Blocks;
-
-
-
-

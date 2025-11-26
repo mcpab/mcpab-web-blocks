@@ -1,8 +1,7 @@
-import { NodeID, Kinds } from "../ids/kinds";
-import { PartialBps, BPs } from "./layoutTypes";
-import { AbsoluteNode } from "./GridNodeTypes";
-import { NodeAbsoluteCoordinates, GridNodeOptions } from "./GridNodeTypes";
-import { DiagnosticEntry, GridErrorShape } from "./gridErrorShape";
+import { NodeID } from "../ids/kinds";
+import { AbsoluteNode, GridNodeOptions, NodeAbsoluteCoordinates } from "./gridNodeTypes";
+import { DiagnosticEntry } from "./gridErrorShape";
+import { BPs, PartialBps } from "./breakpoints";
 
 
 
@@ -15,7 +14,7 @@ import { DiagnosticEntry, GridErrorShape } from "./gridErrorShape";
  *  - Omitted breakpoints leave existing values unchanged.
  *  - Multiple intents applied to the same node/bp follow "last wins".
  */
-export type PatchIntentByKind<K extends Kinds> = {
+export type PatchIntentByKind<K extends string> = {
   /** Human-friendly key for the node (bijective with NodeId within a layout/version). */
   selector: K;
 
@@ -63,7 +62,7 @@ export type AddNodeReturnValue = {
   diagnostic?: DiagnosticEntry;
 }
 
-export interface NodeManagerInterface<K extends Kinds> {
+export interface NodeManagerInterface<K extends string> {
 
   readonly duplicateKindPolicy: duplicateKindPolicy;
   /** Authoritative ID → Kind map for this layout/version (bijective; validated at init). */

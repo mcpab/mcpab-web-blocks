@@ -17,56 +17,54 @@
 // DOMAIN TYPES - Core CSS Grid Types and Values
 // ============================================================================
 
-export * from './domainTypes';
+export * from './core/domainTypes';
 
 // ============================================================================
 // CORE SYSTEM - Layout Types and Management
 // ============================================================================
 
-export * from './core/layoutTypes';
-export * from './core/GridNodeTypes';
+export * from './core/layoutFactoryTypes';
+export * from './core/gridNodeTypes';
 export * from './core/gridErrorShape';
 export * from './core/nodeManagerTypes';
-export * from './core/DefaultNodeManager';
+export * from './core/defaultNodeManager';
 
 // ============================================================================
 // DEFAULTS AND CONFIGURATION
 // ============================================================================
 
-export * from './defaults/defaults';
+export * from './presets/defaults';
 
 // ============================================================================
 // ID MANAGEMENT AND NODE IDENTIFICATION
 // ============================================================================
 
 export * from './ids/kinds';
+export * from './ids/layoutKinds';
 
 // ============================================================================
 // UTILITIES AND HELPER FUNCTIONS
 // ============================================================================
 
-export * from './lib/utils';
+export * from './core/utils/utils';
 
-// ============================================================================
-// BUILDERS - Grid Construction and Validation
-// ============================================================================
 
-export * from '../../__archive__/uniformGridBuilder';
+
 
 // ============================================================================
 // FACTORIES - Predefined Grid Configurations
 // ============================================================================
 
-export * from './factories/uniformGrids/createPatternLayoutFactory';
-export * from './factories/uniformGrids/defaultPatterns';
-export * from './builders/types';
+export * from './core/layoutFactory/createLayoutFactoryFromBoxFlow';
+export * from './patterns/uniform/defaultPatterns';
+export * from './core/boxFlow/boxFlowBuilderTypes';
 
 // ============================================================================
 // RENDERERS - Framework Integration
 // ============================================================================
 
 // Material-UI Integration
-export * from './renderers/mui/GridCssMuiRenderer';
+export * from './integration/mui/GridCssMuiRenderer';
 
 /**
  * Primary GridCSS exports for common usage patterns
@@ -100,13 +98,19 @@ export * from './renderers/mui/GridCssMuiRenderer';
  * ```
  */
 
+export {logDiagnostics} from './core/debug/logDiagnostics';
+
+// ============================================================================
+// ADDITIONAL EXPORTS
+// ============================================================================
+export * from './core/breakpoints';
 export type {
   // Domain types
   CssLength as GridCssLength,
   TrackBreadth as GridTrackBreadth,
   GridUnitValue as GridUnit,
   GapValue as GridGap
-} from './domainTypes';
+} from './core/domainTypes';
 
 /**
  * GridCSS System Information

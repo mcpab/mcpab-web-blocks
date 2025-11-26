@@ -1,54 +1,126 @@
-import { NodeID } from '../ids/kinds';
+import type { NodeID } from '../ids/kinds';
 
 
-export type GridErrorShape = {
-    code: "implicit-track" |
-    "overlap-without-z" |
-    "invalid-span" |
-    "constraint-violation" |
-    "out-of-bounds" |
-    "duplicate-id" |
-    "overlap-not-allowed" |
-    "invalid-position" |
-    "order-ties" |
-    "explicit-count-unknown" |
-    "plan-mismatch" |
-    "Invalid_Grid_Definition" |
-    "List_Precedence_Applied" |
-    "Partition_Error" |
-    "PARTITIONS_INVALID" |
-    "LENGTHS_INVALID" |
-    "OFFSETS_INVALID" |
-    "XS_STACK_OVERFLOW" |
-    "ZERO_SPAN_COL" |
-    "ZERO_SPAN_ROW"|
-    "UNKNOWN_KIND" |
-    "DUPLICATE_KIND" |
-    "NO_NODES" |
-    'NODE_MISSING_FOR_SLOT'|
-    "NEGATIVE_COORDINATE" |
-    "PATTERN_LAYOUT_GENERATED";
-    elementId?: NodeID;
-    message: string;
-    details?: unknown;
-    origin?: 'factory' | 'nodeManager' | 'builder' |  'createPatternLayoutFactory';
+// 1) Severity
+export type DiagnosticSeverity = 'error' | 'warning' | 'info';
 
+// 2) Where the diagnostic comes from (high-level, not per-function)
+export type DiagnosticOrigin =
+  | 'core'        // low-level grid engine (units, tracks, etc.)
+  | 'factory'     // layout factories
+  | 'nodeManager' // DefaultNodeManager / patches
+  | 'boxFlow'     // BoxFlowBuilder / flow-based placement
+  | 'patterns'    // hero/sidebar/uniform presets
+  | 'debug';      // debug / tooling layer
 
-};/**
- * Per-breakpoint absolute grids for responsive layout management
- */
-/** Breakpoint key type (xs required; others optional) */
-// export type LayoutsByBP<K extends Kinds = Kinds> =
-//     { readonly xs: CanonicalGrid<K> } &
-//     Partial<Readonly<Record<'sm' | 'md' | 'lg' | 'xl', CanonicalGrid<K>>>>;
-// I dont think I need this because the nodes already have the bps
-/** Where a diagnostic originated — helps triage quickly */
+// 3) Canonical error codes (SCREAMING_SNAKE_CASE)
+//    Use these constants everywhere instead of string literals.
 
-export type DiagnosticOrigin = 'factory' | 'nodeManager' | 'builder' | 'uniformGridBuilder' |  'createPatternLayoutFactory' | 'uniformFlowBuilder';
-/** Unified diagnostic entry (error or warning) */
-export type DiagnosticEntry = {
-    readonly severity: 'error' | 'warning' | 'info';
-    readonly origin: DiagnosticOrigin;
-    readonly issue: GridErrorShape; // keep your codes hereu
+// Brand marker – only used by the type system
+declare const gridErrorCodeBrand: unique symbol;
+type GridErrorCodeBrand = { readonly [gridErrorCodeBrand]: true };
+
+// Branded string type
+export type GridErrorCode = string & GridErrorCodeBrand;
+
+export const GRID_ERROR_CODE = {
+  // --- Core grid / geometry issues ----------------------------
+  IMPLICIT_TRACK: 'IMPLICIT_TRACK' as GridErrorCode,
+  OVERLAP_WITHOUT_Z: 'OVERLAP_WITHOUT_Z' as GridErrorCode,
+  INVALID_SPAN: 'INVALID_SPAN' as GridErrorCode,
+  CONSTRAINT_VIOLATION: 'CONSTRAINT_VIOLATION' as GridErrorCode,
+  OUT_OF_BOUNDS: 'OUT_OF_BOUNDS' as GridErrorCode,
+  DUPLICATE_ID: 'DUPLICATE_ID' as GridErrorCode,
+  OVERLAP_NOT_ALLOWED: 'OVERLAP_NOT_ALLOWED' as GridErrorCode,
+  INVALID_POSITION: 'INVALID_POSITION' as GridErrorCode,
+  ORDER_TIES: 'ORDER_TIES' as GridErrorCode,
+  EXPLICIT_COUNT_UNKNOWN: 'EXPLICIT_COUNT_UNKNOWN' as GridErrorCode,
+  PLAN_MISMATCH: 'PLAN_MISMATCH' as GridErrorCode,
+  BOXFLOW_ZERO_DIMENSION_NODE: 'BOXFLOW_ZERO_DIMENSION_NODE' as GridErrorCode,
+  // --- Track / partition config issues ------------------------
+  INVALID_GRID_DEFINITION: 'INVALID_GRID_DEFINITION' as GridErrorCode,
+  PARTITION_ERROR: 'PARTITION_ERROR' as GridErrorCode,
+  PARTITIONS_INVALID: 'PARTITIONS_INVALID' as GridErrorCode,
+  LENGTHS_INVALID: 'LENGTHS_INVALID' as GridErrorCode,
+  OFFSETS_INVALID: 'OFFSETS_INVALID' as GridErrorCode,
+
+  // --- Runtime layout anomalies -------------------------------
+  XS_STACK_OVERFLOW: 'XS_STACK_OVERFLOW' as GridErrorCode,
+  ZERO_SPAN_COL: 'ZERO_SPAN_COL' as GridErrorCode,
+  ZERO_SPAN_ROW: 'ZERO_SPAN_ROW' as GridErrorCode,
+  NEGATIVE_COORDINATE: 'NEGATIVE_COORDINATE' as GridErrorCode,
+
+  // --- Pattern / semantic node issues -------------------------
+  UNKNOWN_KIND: 'UNKNOWN_KIND' as GridErrorCode,
+  DUPLICATE_KIND: 'DUPLICATE_KIND' as GridErrorCode,
+  NO_NODES: 'NO_NODES' as GridErrorCode,
+  NODE_MISSING_FOR_SLOT: 'NODE_MISSING_FOR_SLOT' as GridErrorCode,
+  PATTERN_LAYOUT_GENERATED: 'PATTERN_LAYOUT_GENERATED' as GridErrorCode,
+
+  // --- Runtime layout / builder anomalies --------------------
+  BOXFLOW_MUTATION_AFTER_FINALIZE: 'BOXFLOW_MUTATION_AFTER_FINALIZE' as GridErrorCode,
+
+} as const;
+// 4) A single "issue" payload
+export type GridIssue = {
+  code: GridErrorCode;
+  message: string;
+  elementId?: NodeID;
+  details?: unknown;
 };
 
+// 5) Unified diagnostic entry
+export type DiagnosticEntry = {
+  readonly severity: DiagnosticSeverity;
+  readonly origin: DiagnosticOrigin;
+  readonly issue: GridIssue;
+};
+
+// 6) Helper constructors (so you don't repeat the object shape everywhere)
+
+type IssueExtras = Omit<GridIssue, 'code' | 'message'>;
+
+export function makeDiagnostic(
+  severity: DiagnosticSeverity,
+  origin: DiagnosticOrigin,
+  code: GridErrorCode,
+  message: string,
+  extras: IssueExtras = {}
+): DiagnosticEntry {
+  return {
+    severity,
+    origin,
+    issue: {
+      code,
+      message,
+      ...extras,
+    },
+  };
+}
+
+export function makeError(
+  origin: DiagnosticOrigin,
+  code: GridErrorCode,
+  message: string,
+  extras: IssueExtras = {}
+): DiagnosticEntry {
+  return makeDiagnostic('error', origin, code, message, extras);
+}
+
+export function makeWarning(
+  origin: DiagnosticOrigin,
+  code: GridErrorCode,
+  message: string,
+  extras: IssueExtras = {}
+): DiagnosticEntry {
+  return makeDiagnostic('warning', origin, code, message, extras);
+}
+
+export function makeInfo(
+  origin: DiagnosticOrigin,
+  code: GridErrorCode,
+  message: string,
+  extras: IssueExtras = {}
+): DiagnosticEntry {
+  return makeDiagnostic('info', origin, code, message, extras);
+}

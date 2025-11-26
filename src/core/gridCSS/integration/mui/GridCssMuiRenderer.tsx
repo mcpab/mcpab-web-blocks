@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
-import { Kinds } from "../../ids/kinds";
-import { AbsoluteGrid } from "../../core/layoutTypes";
+import { Kinds } from "../../ids/layoutKinds";
+import { AbsoluteGrid } from "../../core/absoluteGridTypes";
 import React from "react";
-import { AbsoluteNode } from "../../core/GridNodeTypes";
-import { formatGridUnitValue } from "../../lib/utils";
+import { AbsoluteNode } from "../../core/gridNodeTypes";
+import { formatGridUnitValue } from "../../core/utils/utils";
 
 
 type MainProps<K extends Kinds> = {

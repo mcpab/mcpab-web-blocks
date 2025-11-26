@@ -1,12 +1,12 @@
 
-import { CoordinateBps } from "./uniformFlowBuilder";
-import { Kinds } from "../ids/kinds";
+import { CoordinateBps } from "./boxFlowBuilder";
+
 
 export type Path = {
     origin?: CoordinateBps;
     steps: Array<CoordinateBps>;    
 }
-export type GridPath<K extends Kinds> = {
+export type GridPath<K extends string> = {
 
     name: string;
     paths: Array<Path>;
