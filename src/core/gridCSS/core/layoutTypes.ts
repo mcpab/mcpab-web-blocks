@@ -4,7 +4,7 @@
 
 // Domain types and defaults
 import type { GapValue, GridUnitValue } from "../domainTypes";
-import { Vx, Vy } from '../defaults/defaults';
+ 
 // ID management
 import type { Kinds, NodeID } from "../ids/kinds";
 
@@ -15,11 +15,11 @@ import { DiagnosticEntry } from "./gridErrorShape";
 /**
  * Grid gap configuration options
  */
-export type GridGaps = {
-    gap?: GapValue; // single-gap shorthand
-    rowGap?: GapValue;
-    columnGap?: GapValue;
-};
+// export type GridGaps = {
+//     gap?: GapValue; // single-gap shorthand
+//     rowGap?: GapValue;
+//     columnGap?: GapValue;
+// };
 
 /**
  * Grid auto-sizing configuration
@@ -34,7 +34,7 @@ export type GridAuto = {
 /**
  * Complete grid configuration options
  */
-export type GridOptions = GridGaps & GridAuto & {
+export type GridOptions =  GridAuto & {
     overflow: "visible" | "hidden" | "scroll" | "auto";
     autoFlow?: "row" | "column" | "dense" | "row dense" | "column dense";
     justifyItems?: "start" | "end" | "center" | "stretch";
@@ -65,9 +65,9 @@ export type PartialBps<T> = { xs: T } & Partial<Record<Exclude<Breakpoint, 'xs'>
 /**
  * Grid with absolute positioning and fixed dimensions
  */
-export type AbsoluteGrid<Rows extends number, Columns extends number,   K extends Kinds> = {
-    rows: Rows;
-    columns: Columns;
+export type AbsoluteGrid< K extends Kinds> = {
+    rows: BPs<number>;
+    columns: BPs<number>;
     readonly options: GridOptions;
     readonly nodes: Partial<Record<NodeID, AbsoluteNode<K>>>;
 };
@@ -109,21 +109,24 @@ export type GridOptionsInput = Partial<{
  * Canonical grid type using standard dimensions
  */
 // Canonical grid type bound to your branded ID
-export type CanonicalGrid<K extends Kinds> = AbsoluteGrid<Vx, Vy, K>;
+ 
+
+export type LayoutResult<K extends Kinds> = {
+  readonly grid: AbsoluteGrid<K> | undefined;
+  readonly diagnostics: ReadonlyArray<DiagnosticEntry>;
+};
+
 
 /**
  * Factory contract for grid creation and management
  */
-export type LayoutFactory<K extends Kinds> = {
 
-    createLayout: (
-        gridOptions?: Readonly<GridOptionsInput>,
-        nodeOptions?: Partial<Record<K, GridNodeOptions>>,
-        nodeIntents?: ReadonlyArray<PatchIntentByKind<K>>
-    ) => {
-        readonly grid: CanonicalGrid<K>;
-        readonly diagnostics: ReadonlyArray<DiagnosticEntry>;
-    };
+export type LayoutFactoryProps<K extends Kinds> = {
+  gridOptions?: Readonly<GridOptionsInput>;
+  nodeOptions?: Partial<Record<K, GridNodeOptions>>;
+  nodeIntents?: ReadonlyArray<PatchIntentByKind<K>>;
 };
-
+export type LayoutFactory<K extends Kinds> = (
+  props?: LayoutFactoryProps<K>
+) => LayoutResult<K>;
 

@@ -24,11 +24,14 @@ export type GridErrorShape = {
     "ZERO_SPAN_ROW"|
     "UNKNOWN_KIND" |
     "DUPLICATE_KIND" |
-    "NO_NODES";
+    "NO_NODES" |
+    'NODE_MISSING_FOR_SLOT'|
+    "NEGATIVE_COORDINATE" |
+    "PATTERN_LAYOUT_GENERATED";
     elementId?: NodeID;
     message: string;
     details?: unknown;
-    origin?: 'factory' | 'nodeManager' | 'builder';
+    origin?: 'factory' | 'nodeManager' | 'builder' |  'createPatternLayoutFactory';
 
 
 };/**
@@ -41,10 +44,10 @@ export type GridErrorShape = {
 // I dont think I need this because the nodes already have the bps
 /** Where a diagnostic originated — helps triage quickly */
 
-export type DiagnosticOrigin = 'factory' | 'nodeManager' | 'builder' | 'uniformGridBuilder';
+export type DiagnosticOrigin = 'factory' | 'nodeManager' | 'builder' | 'uniformGridBuilder' |  'createPatternLayoutFactory' | 'uniformFlowBuilder';
 /** Unified diagnostic entry (error or warning) */
 export type DiagnosticEntry = {
-    readonly severity: 'error' | 'warning';
+    readonly severity: 'error' | 'warning' | 'info';
     readonly origin: DiagnosticOrigin;
     readonly issue: GridErrorShape; // keep your codes hereu
 };

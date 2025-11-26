@@ -1,4 +1,9 @@
+import DefaultNodeManager from "../core/DefaultNodeManager";
+import { DiagnosticEntry } from "../core/gridErrorShape";
+import { GridNodeOptions, NodeAbsoluteCoordinates } from "../core/GridNodeTypes";
+import { PartialBps } from "../core/layoutTypes";
 import { CssLength, GridUnitValue, TrackBreadth } from "../domainTypes";
+import { Kinds } from "../ids/kinds";
 
 function isCssLength(b: TrackBreadth): b is CssLength {
   return b.unit === 'px' || b.unit === 'em' || b.unit === 'rem' || b.unit === '%';
@@ -39,4 +44,19 @@ export function formatGridUnitValue(v: GridUnitValue): string {
   }
 
   return formatTrackBreadth(v);
+}
+
+
+export function addNodeWithDiagnostics<K extends Kinds>(
+  manager: DefaultNodeManager<K>,
+  diagnostics: DiagnosticEntry[],
+  absoluteNode: PartialBps<NodeAbsoluteCoordinates>,
+  kind: K,
+  options?: GridNodeOptions
+): void {
+  const { diagnostic } = manager.addNode(absoluteNode, kind, options);
+  if (diagnostic) {
+    diagnostics.push(diagnostic);
+  }
+  // you probably don’t care about id here, but you *could* store it if needed
 }

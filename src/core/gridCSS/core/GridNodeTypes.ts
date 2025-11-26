@@ -4,7 +4,7 @@
 
 import type { Kinds, NodeID } from "../ids/kinds";
  
-import { PartialBps } from "./layoutTypes";
+import { PartialBps, BPs} from "./layoutTypes";
 
 /**
  * Configuration options for grid nodes
@@ -44,6 +44,7 @@ export type GridNodeIdentity = {
  * Absolute positioned grid node with identity, coordinates, and options
  */
 
+export type NodeAbsoluteCoordinatesBPS = BPs<NodeAbsoluteCoordinates>;
 export type AbsoluteNode<K extends Kinds> = {
     kind: K;
     identity: GridNodeIdentity ;

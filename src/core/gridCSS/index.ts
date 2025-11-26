@@ -51,13 +51,15 @@ export * from './lib/utils';
 // BUILDERS - Grid Construction and Validation
 // ============================================================================
 
-export * from './builders/uniformGridBuilder';
+export * from '../../__archive__/uniformGridBuilder';
 
 // ============================================================================
 // FACTORIES - Predefined Grid Configurations
 // ============================================================================
 
-export * from './factories/OneByTwoFactory';
+export * from './factories/uniformGrids/createPatternLayoutFactory';
+export * from './factories/uniformGrids/defaultPatterns';
+export * from './builders/types';
 
 // ============================================================================
 // RENDERERS - Framework Integration
@@ -76,12 +78,17 @@ export * from './renderers/mui/GridCssMuiRenderer';
  *   AbsoluteGrid, 
  *   LayoutFactory,
  *   uniformGridBuilder,
+ *   createPatternLayoutFactory,
+ *   defaultPatterns,
  *   GridCssMuiRenderer
  * } from '@/core/gridCSS';
  * 
- * // Create a responsive grid
- * const factory = uniformGridBuilder(12, 6);
- * const layouts = factory.createLayoutByBp(gridOptions, nodeIntents);
+ * // Create a uniform grid
+ * const uniformFactory = uniformGridBuilder(12, 6);
+ * const layouts = uniformFactory.createLayoutByBp(gridOptions, nodeIntents);
+ * 
+ * // Or create a pattern-based grid
+ * const patternFactory = createPatternLayoutFactory(defaultPatterns.twoColumn);
  * 
  * // Render with Material-UI
  * <GridCssMuiRenderer 
@@ -104,7 +111,7 @@ export type {
 /**
  * GridCSS System Information
  */
-export const GRIDCSS_VERSION = '1.0.0' as const;
+export const GRIDCSS_VERSION = '1.1.0' as const; // Updated to include new pattern factories
 export const GRIDCSS_NAME = 'McPab GridCSS System' as const;
 
 /**

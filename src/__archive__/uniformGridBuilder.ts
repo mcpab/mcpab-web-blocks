@@ -1,8 +1,9 @@
-import { GridErrorShape , DiagnosticEntry} from '../core/gridErrorShape';
-import { PartialBps } from '../core/layoutTypes';
-import { NodeAbsoluteCoordinates } from "../core/GridNodeTypes";
-import {VIRTUAL_RESOLUTION} from '../defaults/defaults';
+import { DiagnosticEntry } from '../core/gridCSS/core/gridErrorShape';
+import { NodeAbsoluteCoordinates } from "../core/gridCSS/core/GridNodeTypes";
+import { PartialBps } from '../core/gridCSS/core/layoutTypes';
+import { VIRTUAL_RESOLUTION } from '../core/gridCSS/defaults/defaults';
 
+export type xsMode = 'stack-vertical' | 'tile';
 // type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 // type GridNodeAbsoluteCoordinates = { gridRowStart: number; gridRowEnd: number; gridColumnStart: number; gridColumnEnd: number; }
 // type PartialBps<T> = Partial<Record<Breakpoint, T>>
@@ -16,7 +17,7 @@ type UniformGridBuilderProps = {
   offsetX?: number;    // optional region offset from left (default 1)
   offsetY?: number;    // optional region offset from top  (default 1)
   // optional: 'tile' to keep xs tiled too; default stacks vertically at xs
-  xsMode?: 'stack-vertical' | 'tile';
+  xsMode?: xsMode;
 };
 
 
