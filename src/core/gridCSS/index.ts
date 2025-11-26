@@ -56,7 +56,7 @@ export * from './core/utils/utils';
 // ============================================================================
 
 export * from './core/layoutFactory/createLayoutFactoryFromBoxFlow';
-export * from './patterns/uniform/defaultPatterns';
+export * from './patterns/uniformPatterns';
 export * from './core/boxFlow/boxFlowBuilderTypes';
 
 // ============================================================================

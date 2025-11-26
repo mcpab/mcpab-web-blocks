@@ -1,5 +1,5 @@
 import type { NodeID } from "../ids/kinds";
-import { GridOptions } from "./gridConfig";
+import { GridOptions } from "./gridConfigTypes";
 import { AbsoluteNode } from "./gridNodeTypes";
 import { BPs } from "./breakpoints";
 

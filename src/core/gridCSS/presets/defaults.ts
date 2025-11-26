@@ -1,7 +1,7 @@
 import { DefaultNodeManager } from "../core/defaultNodeManager";
 import { BPs } from "../core/breakpoints";
 import { AbsoluteGrid } from "../core/absoluteGridTypes";
-import { GridOptions } from "../core/gridConfig";
+import { GridOptions } from "../core/gridConfigTypes";
 import { CssLength } from "../core/domainTypes";
  
 

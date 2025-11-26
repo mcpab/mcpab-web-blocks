@@ -1,13 +1,13 @@
+import { CoordinateBps } from "../core/boxFlow/boxFlowBuilder";
+import { Path } from "../core/boxFlow/boxFlowBuilderTypes";
 
 
-import { CoordinateBps } from "../../core/boxFlow/boxFlowBuilder";
-import { GridPath, Path } from "../../core/boxFlow/boxFlowBuilderTypes";
 
 export type CreateUniformGridProps = {
     rows: number;
     columns: number;
     step: number;
-}
+};
 
 export function createUniformGrid({ rows, columns, step }: CreateUniformGridProps): Path[] {
 
@@ -17,27 +17,25 @@ export function createUniformGrid({ rows, columns, step }: CreateUniformGridProp
 
         let path = {
             origin: {
-                xs: { x: 1, y: 1 + c * columns*step },
+                xs: { x: 1, y: 1 + c * columns * step },
                 sm: { x: 1, y: 1 + c * step },
                 md: { x: 1, y: 1 + c * step },
                 lg: { x: 1, y: 1 + c * step },
                 xl: { x: 1, y: 1 + c * step },
             },
             steps: zigZag({ length: step, direction: 'right', steps: columns }),
-        }
+        };
 
         paths.push(path);
     }
 
     return paths;
 }
-
-
 type ZigZagProps = {
     length: number;
     direction: 'up' | 'down' | 'left' | 'right';
     steps: number;
-}
+};
 export function zigZag({ length, direction, steps }: ZigZagProps): CoordinateBps[] {
 
     let path: CoordinateBps[] = [];
@@ -65,7 +63,7 @@ export function ZigZagLeftOrRight(length: number, steps: number, direction: 'lef
     let ct = 1 * length;
     for (let i = 0; i < steps; i++) {
         path.push({
-            xs: { x: 0, y: length},
+            xs: { x: 0, y: length },
             sm: { x: dr * 1, y: ct * 1 },
             md: { x: dr * 1, y: ct * 1 },
             lg: { x: dr * 1, y: ct * 1 },
@@ -103,26 +101,3 @@ export function ZigZagUpOrDown(length: number, steps: number, direction: 'up' | 
     return path;
 
 }
-
-export const OneByTwoPattern: GridPath<'block_1' | 'block_2'> = {
-    name: '1x2',
-    paths: createUniformGrid({ rows: 1, columns: 2, step: 1 }),
-    slots: ['block_1', 'block_2'],
-};
-
-
-export const TwoByTwoPattern: GridPath<'block_1' | 'block_2' | 'block_3' | 'block_4'> = {
-    name: '2x2',
-    paths: createUniformGrid({ rows: 2, columns: 2, step: 1 }),
-    slots: ['block_1', 'block_2', 'block_3', 'block_4'],
-};
-
-export const ThreeByThreePattern: GridPath<'block_1' | 'block_2' | 'block_3' | 'block_4' | 'block_5' | 'block_6' | 'block_7' | 'block_8' | 'block_9'> = {
-    name: '3x3',
-    paths: createUniformGrid({ rows: 3, columns: 3, step: 1 }),
-    slots: [
-        'block_1', 'block_2', 'block_3',
-        'block_4', 'block_5', 'block_6',
-        'block_7', 'block_8', 'block_9',
-    ],
-};

@@ -11,6 +11,7 @@ export type DiagnosticOrigin =
   | 'nodeManager' // DefaultNodeManager / patches
   | 'boxFlow'     // BoxFlowBuilder / flow-based placement
   | 'patterns'    // hero/sidebar/uniform presets
+  | 'absoluteGrid'// absolute grid checker
   | 'debug';      // debug / tooling layer
 
 // 3) Canonical error codes (SCREAMING_SNAKE_CASE)

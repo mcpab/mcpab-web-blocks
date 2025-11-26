@@ -10,7 +10,7 @@
 import type { PatchIntentByKind } from "./nodeManagerTypes";
 import { GridNodeOptions } from "./gridNodeTypes";
 import { DiagnosticEntry } from "./gridErrorShape";
-import { GridOptionsInput } from "./gridConfig";
+import { GridOptionsInput } from "./gridConfigTypes";
 import { AbsoluteGrid } from "./absoluteGridTypes";
 
  

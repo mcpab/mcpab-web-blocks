@@ -2,7 +2,9 @@
 /**
  * Standard responsive breakpoint names
  */
-export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+export const BREAKPOINTS = ["xs", "sm", "md", "lg", "xl"] as const;
+export type Breakpoint = (typeof BREAKPOINTS)[number];
 /**
  * Complete breakpoint record with all breakpoints required
  */
