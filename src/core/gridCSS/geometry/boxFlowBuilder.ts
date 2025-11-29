@@ -1,7 +1,6 @@
-import { DiagnosticEntry, GRID_ERROR_CODE } from "../gridErrorShape";
-import { NodeAbsoluteCoordinates, NodeAbsoluteCoordinatesBPS } from "../gridNodeTypes";
-import { BPs, Breakpoint } from "../breakpoints";
-import { makeDiagnostic, makeError, makeWarning } from "../gridErrorShape";
+import { BPs, Breakpoint } from "../core/breakpoints";
+import { DiagnosticEntry, GRID_ERROR_CODE, makeDiagnostic, makeError } from "../core/gridErrorShape";
+import { NodeAbsoluteCoordinates, NodeAbsoluteCoordinatesBPS } from "../core/gridNodeTypes";
 export type Coordinate = { x: number; y: number };
 export type CoordinateBps = BPs<Coordinate>;
 

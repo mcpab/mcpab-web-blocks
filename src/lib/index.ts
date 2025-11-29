@@ -38,5 +38,4 @@ export {
   parseInlineMarkdown,
   boldToNodes,
   toTitleCase,
-  type LinkRef
 } from './text';

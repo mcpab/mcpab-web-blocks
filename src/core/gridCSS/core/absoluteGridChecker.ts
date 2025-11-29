@@ -3,7 +3,7 @@
 // AbsoluteGrid checker - structural invariants + simple overlap detection
 // ============================================================================
 
-import type { NodeID } from "../ids/kinds";
+import type { NodeID } from "../templates/layoutIDs";
 import type { AbsoluteGrid } from "./absoluteGridTypes";
 import { BREAKPOINTS } from "./breakpoints";
 import { GRID_ERROR_CODE, makeDiagnostic, makeError } from "./gridErrorShape";
@@ -14,7 +14,7 @@ type CheckResult = {
     warnings: ReturnType<typeof makeDiagnostic>[];
 };
 
-export function checkAbsoluteGrid<K extends string>(
+export function checkAbsoluteGrid<K extends NodeID>(
     grid: AbsoluteGrid<K>
 ): CheckResult {
     const errors: CheckResult["errors"] = [];
@@ -56,7 +56,7 @@ export function checkAbsoluteGrid<K extends string>(
 
     for (const node of Object.values(grid.nodes)) {
         if (!node) continue;
-        for (const bp of Object.keys(node.coordinates)) {
+        for (const bp of Object.keys(node.node.coordinates)) {
             breakpointSet.add(bp);
         }
     }
@@ -68,23 +68,23 @@ export function checkAbsoluteGrid<K extends string>(
     // --------------------------------------------------------------------------
     type NodeAtBp<K extends string> = {
         id: NodeID;
-        kind: K;
+
         bp: string;
         coords: NodeAbsoluteCoordinates;
-        allowOverlap: boolean;
+
     };
 
     const nodesPerBreakpoint = new Map<string, NodeAtBp<K>[]>();
 
     for (const [id, node] of Object.entries(grid.nodes) as [
         NodeID,
-        typeof grid.nodes[NodeID]
+        typeof grid.nodes[number]
     ][]) {
         if (!node) continue;
 
         for (const bp of BREAKPOINTS) {
             
-            const coords = node.coordinates[bp];
+            const coords = node.node.coordinates[bp];
             if (!coords) continue;
 
             const { gridRowStart, gridRowEnd, gridColumnStart, gridColumnEnd } = coords;
@@ -188,48 +188,15 @@ export function checkAbsoluteGrid<K extends string>(
             const list = nodesPerBreakpoint.get(bp) ?? [];
             list.push({
                 id,
-                kind: node.kind,
                 bp,
                 coords,
-                allowOverlap: node.options.allowOverlap === true,
+                 
             });
             nodesPerBreakpoint.set(bp, list);
         }
     }
 
-    // --------------------------------------------------------------------------
-    // 3) Simple overlap detection (if neither node explicitly allows overlap)
-    // --------------------------------------------------------------------------
-    for (const bp of allBreakpoints) {
-        const list = nodesPerBreakpoint.get(bp);
-        if (!list || list.length < 2) continue;
-
-        for (let i = 0; i < list.length; i++) {
-            const a = list[i];
-            for (let j = i + 1; j < list.length; j++) {
-                const b = list[j];
-
-                if (a.allowOverlap || b.allowOverlap) continue;
-
-                if (rectanglesOverlap(a.coords, b.coords)) {
-                    errors.push(
-                        makeError(
-                            "absoluteGrid",
-                            GRID_ERROR_CODE.INVALID_GRID_DEFINITION,
-                            `nodes "${a.id}" and "${b.id}" overlap at breakpoint "${bp}"`,
-                            {
-                                details: {
-                                    breakpoint: bp,
-                                    a: { id: a.id, coords: a.coords },
-                                    b: { id: b.id, coords: b.coords },
-                                },
-                            }
-                        )
-                    );
-                }
-            }
-        }
-    }
+    
 
     return { errors, warnings };
 }

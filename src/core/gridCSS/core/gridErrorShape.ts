@@ -1,4 +1,4 @@
-import type { NodeID } from '../ids/kinds';
+import { NodeID } from "../templates/layoutIDs";
 
 
 // 1) Severity
@@ -57,6 +57,7 @@ export const GRID_ERROR_CODE = {
   NO_NODES: 'NO_NODES' as GridErrorCode,
   NODE_MISSING_FOR_SLOT: 'NODE_MISSING_FOR_SLOT' as GridErrorCode,
   PATTERN_LAYOUT_GENERATED: 'PATTERN_LAYOUT_GENERATED' as GridErrorCode,
+  NODE_ORDER_MISMATCH: 'NODE_ORDER_MISMATCH' as GridErrorCode,
 
   // --- Runtime layout / builder anomalies --------------------
   BOXFLOW_MUTATION_AFTER_FINALIZE: 'BOXFLOW_MUTATION_AFTER_FINALIZE' as GridErrorCode,

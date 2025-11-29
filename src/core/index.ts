@@ -104,15 +104,6 @@ export * from './layout';
 // ADVANCED GRID SYSTEM
 // ============================================================================
 
-/** Advanced CSS Grid layout management with validation */
-export * from '../__archive__/gridCSS';
-
-// ============================================================================
-// FOOTER SYSTEM
-// ============================================================================
-
-/** Footer component type definitions and utilities */
-export * from './footer';
 
 // ============================================================================
 // LINK SYSTEM

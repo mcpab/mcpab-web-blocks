@@ -1,14 +1,5 @@
-import { DefaultNodeManager } from "../core/defaultNodeManager";
-import { BPs } from "../core/breakpoints";
-import { AbsoluteGrid } from "../core/absoluteGridTypes";
-import { GridOptions } from "../core/gridConfigTypes";
-import { CssLength } from "../core/domainTypes";
+import { GridOptions } from "../../core/gridOptionsTypes";
  
-
- 
-
-const px = (value: number): CssLength => ({ unit: 'px', value });
-
 export const defaultUniformGridOptions: GridOptions = {
     // --- Gaps ---
     // Single shorthand → same for row & column
@@ -33,19 +24,4 @@ export const defaultUniformGridOptions: GridOptions = {
     alignContent: 'start',
 };
 
-
-export const defaultGrid = <K extends string>(nodeManager: DefaultNodeManager<K>, 
-    rows: BPs<number>, columns: BPs<number>, gridOptions?: Partial<GridOptions>,): AbsoluteGrid<K> => {
-
-    const canonicalGrid: AbsoluteGrid<K> = {
  
-        rows: rows,
-        columns: columns,
-        options: { ...defaultUniformGridOptions, ...gridOptions },
-        nodes: nodeManager.nodesRegistry
-
-
-    }
-    return canonicalGrid;
-
-}

@@ -23,30 +23,33 @@ export * from './core/domainTypes';
 // CORE SYSTEM - Layout Types and Management
 // ============================================================================
 
-export * from './core/layoutFactoryTypes';
 export * from './core/gridNodeTypes';
 export * from './core/gridErrorShape';
-export * from './core/nodeManagerTypes';
-export * from './core/defaultNodeManager';
+export * from './core/idManagers/idManagerTypes';
+export * from './core/idManagers/defaultIDManager';
+export * from './core/absoluteGridTypes';
+export * from './core/nodeViewOptions';
+export * from './core/gridOptionsTypes';
 
 // ============================================================================
 // DEFAULTS AND CONFIGURATION
 // ============================================================================
 
-export * from './presets/defaults';
+export * from './templates/presets/defaultUniformGridOptions';
 
 // ============================================================================
 // ID MANAGEMENT AND NODE IDENTIFICATION
 // ============================================================================
 
-export * from './ids/kinds';
-export * from './ids/layoutKinds';
+export * from './templates/layoutIDs';
 
 // ============================================================================
 // UTILITIES AND HELPER FUNCTIONS
 // ============================================================================
 
 export * from './core/utils/utils';
+export * from './core/gridBuilder';
+export * from './core/absoluteGridChecker';
 
 
 
@@ -55,9 +58,9 @@ export * from './core/utils/utils';
 // FACTORIES - Predefined Grid Configurations
 // ============================================================================
 
-export * from './core/layoutFactory/createLayoutFactoryFromBoxFlow';
-export * from './patterns/uniformPatterns';
-export * from './core/boxFlow/boxFlowBuilderTypes';
+export * from './geometry/boxFlowBuilder';
+export * from './geometry/gridPathTypes';
+export * from '../patterns/threeBandMultiColumnPattern';
 
 // ============================================================================
 // RENDERERS - Framework Integration
@@ -65,6 +68,7 @@ export * from './core/boxFlow/boxFlowBuilderTypes';
 
 // Material-UI Integration
 export * from './integration/mui/GridCssMuiRenderer';
+export * from './integration/mui/muiLayoutsRegistry';
 
 /**
  * Primary GridCSS exports for common usage patterns
