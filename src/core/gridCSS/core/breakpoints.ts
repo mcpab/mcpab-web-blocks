@@ -15,3 +15,4 @@ export type BPs<T> = Record<Breakpoint, T>;
  */
 
 export type PartialBps<T> = { xs: T; } & Partial<Record<Exclude<Breakpoint, 'xs'>, T>>;
+

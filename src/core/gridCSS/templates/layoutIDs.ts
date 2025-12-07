@@ -8,4 +8,6 @@ export type Cards = `card_${number}`;
 
 export type Blocks = `block_${number}`;
 
-export type NodeID = SectionCore | Cards | Blocks;
+export type Rows = `row_${number}`;
+
+export type NodeID = SectionCore | Cards | Blocks | Rows;

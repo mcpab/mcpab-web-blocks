@@ -1,4 +1,5 @@
 import { NodeID } from "../templates/layoutIDs";
+import { AllBoxMovesProps } from "./boxTransformations/boxTransformationsProps";
 
 
 // 1) Severity
@@ -12,7 +13,8 @@ export type DiagnosticOrigin =
   | 'boxFlow'     // BoxFlowBuilder / flow-based placement
   | 'patterns'    // hero/sidebar/uniform presets
   | 'absoluteGrid'// absolute grid checker
-  | 'debug';      // debug / tooling layer
+  | 'debug'      // debug / tooling layer
+  | AllBoxMovesProps<any>;  // box transformations
 
 // 3) Canonical error codes (SCREAMING_SNAKE_CASE)
 //    Use these constants everywhere instead of string literals.
@@ -58,9 +60,12 @@ export const GRID_ERROR_CODE = {
   NODE_MISSING_FOR_SLOT: 'NODE_MISSING_FOR_SLOT' as GridErrorCode,
   PATTERN_LAYOUT_GENERATED: 'PATTERN_LAYOUT_GENERATED' as GridErrorCode,
   NODE_ORDER_MISMATCH: 'NODE_ORDER_MISMATCH' as GridErrorCode,
-
+  UNKNOWN_NODE_ID: 'UNKOWN_NODE_ID' as GridErrorCode,
+  UNKNOWN_ANCHOR: 'UNKNOW_ANCHOR' as GridErrorCode,
+  INVALID_TRANSFORMATION_PARAMS: 'INVALID_TRANSFORMATION_PARAMS' as GridErrorCode,
   // --- Runtime layout / builder anomalies --------------------
   BOXFLOW_MUTATION_AFTER_FINALIZE: 'BOXFLOW_MUTATION_AFTER_FINALIZE' as GridErrorCode,
+  NO_BOXES_PROCESSED: 'NO_BOXES_PROCESSED' as GridErrorCode,
 
 } as const;
 // 4) A single "issue" payload

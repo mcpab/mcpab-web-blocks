@@ -59,8 +59,8 @@ export * from './core/absoluteGridChecker';
 // ============================================================================
 
 export * from './geometry/boxFlowBuilder';
-export * from './geometry/gridPathTypes';
-export * from '../patterns/threeBandMultiColumnPattern';
+export * from './geometry/coordinatePathTypes';
+// export * from '../patterns/threeBandMultiColumnPattern';
 
 // ============================================================================
 // RENDERERS - Framework Integration
