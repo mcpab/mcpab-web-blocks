@@ -1,4 +1,4 @@
-import { BoxShapeId } from "./boxShapeType";
+import { BoxDimensionId } from "../boxShapes/boxShapeType";
 import { BPs, PartialBps } from "../breakpoints";
 import { NodeID } from "../../templates/layoutIDs";
 import { BoxMovesProps } from "../boxTransformations/boxTransformationsProps";
@@ -6,47 +6,284 @@ import { GridBox } from "../box/gridBoxTypes";
 import { NodeAbsoluteCoordinates } from "../gridNodeTypes";
 
 //each box can have a bp dependent shape
-type BoxLayoutShape = BoxShapeId | PartialBps<BoxShapeId>;
+type BoxLayoutShape = BoxDimensionId | PartialBps<BoxDimensionId>;
 
 // and so can transformations be bp dependent
 type BoxTransformations<BoxId extends NodeID> = PartialBps<Array<BoxMovesProps<BoxId>>>;
 
 
-// making sure that SectionID and BoxID are disjoint sets of IDs
-type Disjoint<A, B> = [A & B] extends [never] ? true : false;
+export type LayoutSpec<SectionID extends NodeID,
+    BoxID extends NodeID> = Record<SectionID, { boxes: Partial<Record<BoxID, BoxLayoutShape>> }>;
 
-// type LayoutElement = GridBox | BoxLayoutShape;
+export type LayoutTransform<SectionID extends NodeID,
+    BoxID extends NodeID> = Record<SectionID, {
+        boxes: Partial<Record<BoxID, BoxLayoutShape>>;
+        transformations?: BoxTransformations<BoxID>;
+    }> & { transformations?: BoxTransformations<SectionID> }
 
 
-type DesignSteps<SectionID extends NodeID, BoxID extends NodeID> = {
+export type LayoutSectionLocal<SectionID extends NodeID,
+    BoxID extends NodeID> = Record<SectionID, {
+        boxes: Partial<Record<BoxID, BPs<GridBox>>>;
+    }> & { transformations?: BoxTransformations<SectionID> }
 
-    spec: {
-        BoxValue: BoxLayoutShape;
-        Innertransformation: BoxTransformations<BoxID>;
-        Outertransformation: BoxTransformations<SectionID>;
-        BoundingBox: never;
-    };
-    sectionLocal: {
-        BoxValue: BPs<GridBox>;
-        Innertransformation: never;
-        Outertransformation: BoxTransformations<SectionID>;
-        BoundingBox: never;
-    };
-    sectionBounds: {
-        BoxValue: BPs<GridBox>;
-        Innertransformation: never;
-        Outertransformation: never;
-        BoundingBox: BPs<GridBox>;
-    };
-    absolute: {
-        BoxValue: BPs<NodeAbsoluteCoordinates>;
-        Innertransformation: never;
-        Outertransformation: never;
-        BoundingBox: never;
-    };
+
+
+export type LayoutSectionBounds<SectionID extends NodeID,
+    BoxID extends NodeID> = Record<SectionID, {
+        boxes: Partial<Record<BoxID, BPs<GridBox>>>;
+        boundingBox: BPs<GridBox>;
+    }>
+
+export type Layoutabsolute<SectionID extends NodeID,
+    BoxID extends NodeID> = {
+        gridDimensions: {
+            rows: BPs<number>;
+            columns: BPs<number>;
+        };
+    } & Record<SectionID, {
+        boxes: Partial<Record<BoxID, BPs<NodeAbsoluteCoordinates>>>;
+    }>
+
+
+const exS: LayoutSpec<'header' | 'footer', 'block_1' | 'block_2'> = {
+
+    header: {
+        boxes: {
+            block_1: 'unitCell',
+            block_2: { xs: 'doubleCell' },
+         
+        },
+
+
+    },
+    footer: {
+        boxes: {
+            block_1: 'unitCell',
+            block_2: { xs: 'doubleCell' },
+        },
+
+
+    },
+
+
 }
 
-export type DesignActions = keyof DesignSteps<any, any>;
+
+const ex: LayoutTransform<'header' | 'footer', 'block_1' | 'block_2'> = {
+
+    header: {
+        boxes: {
+            block_1: 'unitCell',
+            block_2: { xs: 'doubleCell' },
+        },
+        transformations: {
+            xs: [
+                {
+                    moveTo: {
+                        from: {
+                            boxId: 'block_1',
+                            anchor: 'topLeft'
+                        },
+                        to: {
+                            boxId: 'block_1',
+                            anchor: 'bottomRight'
+                        }
+                    }
+                }
+            ]
+        }
+
+    },
+    footer: {
+        boxes: {
+            block_1: 'unitCell',
+            block_2: { xs: 'doubleCell' },
+        },
+        transformations: {
+            xs: [{
+                alignAllToX: {
+                    to: 500,
+                    anchor: 'center'
+                }
+            }]
+        }
+
+    },
+    transformations: {
+        xs: [{
+            stackHorizontally: { gap: 20 }
+        }]
+    },
+
+}
+
+ 
+
+// type Spec = typeof exS;
+// type SectionsID1 = keyof Spec;
+// type BoxesID1 = keyof Spec[keyof Spec]['boxes'];
+
+type SectionsID<Layout extends LayoutSpec<any, any>> = keyof Layout;
+type BoxesID<Layout extends LayoutSpec<any, any>> = keyof Layout[keyof Layout]['boxes'];
+
+const ex1: LayoutSectionLocal<SectionsID<typeof exS>, BoxesID<typeof exS>> = {
+
+    header: {
+        boxes: {
+            block_1: {
+                xs: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                md: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                lg: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                xl: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                sm: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' }
+            },
+
+
+            block_2: {
+                xs: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                md: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                lg: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                xl: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                sm: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' }
+            },
+
+        },
+
+    },
+    footer: {
+        boxes: {
+            block_1: {
+                xs: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                md: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                lg: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                xl: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                sm: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' }
+            },
+
+
+            block_2: {
+                xs: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                md: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                lg: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                xl: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' },
+                sm: { origin: { x: 0, y: 0 }, diagonal: { x: 100, y: 100 }, _normalized: 'GridBox' }
+            },
+
+        },
+
+    },
+    transformations: ex.transformations
+}
+
+
+
+// and an example of usage
+// const example: Layout<'header' | 'footer', 'block_1' | 'block_2', 'spec'> = {
+
+//     header: {
+//         boxes: {
+//             block_1: 'unitCell',
+//             // block_2: 'doubleCell',
+//         },
+
+//         transformations:
+//         {
+//             xs: [
+//                 {
+//                     moveTo: {
+//                         from: {
+//                             boxId: 'block_1',
+//                             anchor: 'topLeft'
+//                         },
+//                         to: {
+//                             boxId: 'block_1',
+//                             anchor: 'bottomRight'
+//                         }
+//                     }
+//                 },
+//                 {
+//                     alignToY: {
+//                         from: {
+//                             boxId: 'block_1',
+//                             anchor: 'center'
+//                         },
+//                         to: 300
+//                     }
+//                 }
+//             ]
+//         }
+
+//     },
+//     footer: {
+//         boxes: {
+//             block_1: 'unitCell',
+//             block_2: { xs: 'doubleCell' },
+//         },
+//         transformations: {
+//             xs: [{
+//                 alignAllToX: {
+//                     to: 500,
+//                     anchor: 'center'
+//                 }
+//             }]
+//         }
+
+//     },
+//     transformations: {
+//         xs: [{
+//             stackHorizontally: { gap: 20 }
+//         }],
+
+//         lg: [{
+//             moveTo: {
+//                 from: {
+//                     boxId: 'footer',
+//                     anchor: 'topLeft'
+//                 },
+//                 to: {
+//                     boxId: 'footer',
+//                     anchor: 'bottomRight'
+//                 }
+//             }
+//         }]
+//     },
+// };
+
+// export type LayoutCatalog = Record<string,Layout<any, any, 'spec'>>;
+// type CatalogKeys = keyof LayoutCatalog;
+
+
+
+
+// let kii: BoxMovesProps<'block_1' | 'aside'> = {
+//     moveTo: {
+//         from: {
+//             boxId: 'aside',
+//             anchor: 'center'
+//         },
+//         to: {
+//             boxId: 'block_1',
+//             anchor: 'topLeft'
+//         }
+//     },
+// }
+
+
+
+// export type Layoutabsolute1<SectionID extends NodeID,
+//     BoxID extends NodeID, Spec extends LayoutSpec<SectionID, BoxID>> =
+//     {
+//         grid: {
+//             rows: BPs<number>;
+//             columns: BPs<number>;
+//         };
+//     } & {
+
+//         [K in Exclude<keyof Spec, 'transformations'>]: {
+//             boxes: { [B in BoxID]?: BPs<NodeAbsoluteCoordinates> };
+//         };
+//     }
 
 
 // export type Layout<
@@ -61,19 +298,6 @@ export type DesignActions = keyof DesignSteps<any, any>;
 //         }
 
 //     } & { transformations?: DesignSteps<SectionID, BoxID>[designAction]['Outertransformation'] } : never;
-
-export type Layout<
-    SectionID extends NodeID,
-    BoxID extends NodeID, designAction extends DesignActions> = Disjoint<SectionID, BoxID> extends true
-    ? {
-        // this is the key part of the game. We can make this type dependent on BoxLayoutShape and transformations type
-        [K1 in SectionID]: {
-            boxes: Partial<Record<BoxID, DesignSteps<SectionID, BoxID>[designAction]['BoxValue']>>;
-            transformations?: DesignSteps<SectionID, BoxID>[designAction]['Innertransformation'];
-            boundingBox?: DesignSteps<SectionID, BoxID>[designAction]['BoundingBox'];
-        }
-
-    } & { transformations?: DesignSteps<SectionID, BoxID>[designAction]['Outertransformation'] } : never;
 
 
 // export type LayoutBySection<
@@ -112,94 +336,81 @@ export type Layout<
 //     } & { transformations?: Transformations<Element> } : never;
 
 
+// making sure that SectionID and BoxID are disjoint sets of IDs
+// type Disjoint<A, B> = [A & B] extends [never] ? true : false;
 
-// and an example of usage
-const example: Layout<'header' | 'footer', 'block_1' | 'block_2', 'spec'> = {
-
-    header: {
-        boxes: {
-            block_1: 'unitCell',
-            // block_2: 'doubleCell',
-        },
-
-        transformations:
-        {
-            xs: [
-                {
-                    moveTo: {
-                        from: {
-                            boxId: 'block_1',
-                            anchor: 'topLeft'
-                        },
-                        to: {
-                            boxId: 'block_1',
-                            anchor: 'bottomRight'
-                        }
-                    }
-                },
-                {
-                    alignToY: {
-                        from: {
-                            boxId: 'block_1',
-                            anchor: 'center'
-                        },
-                        to: 300
-                    }
-                }
-            ]
-        }
-
-    },
-    footer: {
-        boxes: {
-            block_1: 'unitCell',
-            block_2: { xs: 'doubleCell' },
-        },
-        transformations: {
-            xs: [{
-                alignAllToX: {
-                    to: 500,
-                    anchor: 'center'
-                }
-            }]
-        }
-
-    },
-    transformations: {
-        xs: [{
-            stackHorizontally: { gap: 20 }
-        }],
-
-        lg: [{
-            moveTo: {
-                from: {
-                    boxId: 'footer',
-                    anchor: 'topLeft'
-                },
-                to: {
-                    boxId: 'footer',
-                    anchor: 'bottomRight'
-                }
-            }
-        }]
-    },
-};
-
-// export type LayoutCatalog = Record<string,Layout<any, any, 'spec'>>;
-// type CatalogKeys = keyof LayoutCatalog;
+// // type LayoutElement = GridBox | BoxLayoutShape;
 
 
+// type DesignSteps<SectionID extends NodeID, BoxID extends NodeID> = {
 
-
-// let kii: BoxMovesProps<'block_1' | 'aside'> = {
-//     moveTo: {
-//         from: {
-//             boxId: 'aside',
-//             anchor: 'center'
-//         },
-//         to: {
-//             boxId: 'block_1',
-//             anchor: 'topLeft'
-//         }
-//     },
+//     spec: {
+//         BoxValue: BoxLayoutShape;
+//         Innertransformation: BoxTransformations<BoxID>;
+//         Outertransformation: BoxTransformations<SectionID>;
+//         BoundingBox: never;
+//     };
+//     sectionLocal: {
+//         BoxValue: BPs<GridBox>;
+//         Innertransformation: never;
+//         Outertransformation: BoxTransformations<SectionID>;
+//         BoundingBox: never;
+//     };
+//     sectionBounds: {
+//         BoxValue: BPs<GridBox>;
+//         Innertransformation: never;
+//         Outertransformation: never;
+//         BoundingBox: BPs<GridBox>;
+//     };
+//     absolute: {
+//         BoxValue: BPs<NodeAbsoluteCoordinates>;
+//         Innertransformation: never;
+//         Outertransformation: never;
+//         BoundingBox: never;
+//     };
 // }
+
+// export type DesignActions = keyof DesignSteps<any, any>;
+
+
+// export type Layout<
+//     SectionID extends NodeID,
+//     BoxID extends NodeID, designAction extends DesignActions> = Disjoint<SectionID, BoxID> extends true
+//     ? {
+//         // this is the key part of the game. We can make this type dependent on BoxLayoutShape and transformations type
+//         [K1 in SectionID]: {
+//             boxes: Partial<Record<BoxID, DesignSteps<SectionID, BoxID>[designAction]['BoxValue']>>;
+//             transformations?: DesignSteps<SectionID, BoxID>[designAction]['Innertransformation'];
+//             boundingBox?: DesignSteps<SectionID, BoxID>[designAction]['BoundingBox'];
+//         }
+
+//     } & { transformations?: DesignSteps<SectionID, BoxID>[designAction]['Outertransformation'] } : never;
+
+// export type LayoutSpec<SectionID extends NodeID,
+//     BoxID extends NodeID> = {
+//         // this is the key part of the game. We can make this type dependent on BoxLayoutShape and transformations type
+//         [S in SectionID]: {
+//             boxes: { [B in BoxID]?: BoxLayoutShape };
+//         } }
+
+// export type LayoutTransform<SectionID extends NodeID,
+//     BoxID extends NodeID, Spec extends LayoutSpec<SectionID, BoxID>> = {
+//         // this is the key part of the game. We can make this type dependent on BoxLayoutShape and transformations type
+//         [S in keyof Spec]: {
+//             boxes: { [B in keyof Spec[S]['boxes']]?: BoxLayoutShape };
+//             transformations?: BoxTransformations<keyof Spec[S]['boxes']>;
+//         } } & { transformations?: BoxTransformations<keyof Spec> }
+
+// export type LayoutSectionLocal1<SectionID extends NodeID,
+//     BoxID extends NodeID, Spec extends LayoutSpec<SectionID, BoxID>> = {
+//         [K in keyof Spec]: {
+//             boxes: { [B in BoxID]?: BPs<GridBox> };
+//         };
+//     } & { transformations: BoxTransformations<SectionID> }
+// export type LayoutSectionBounds1<SectionID extends NodeID,
+//     BoxID extends NodeID, Spec extends LayoutSpec<SectionID, BoxID>> = {
+//         [K in keyof Spec]: {
+//             boxes: { [B in BoxID]?: BPs<GridBox> };
+//             boundingBox: BPs<GridBox>;
+//         };
+//     }

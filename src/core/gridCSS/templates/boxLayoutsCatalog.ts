@@ -1,27 +1,19 @@
-import { GridBox } from "../core/box/gridBoxTypes";
-import { Layout } from "../core/boxLayout/boxLayoutTypes";
+
+import { LayoutSpec } from "../core/boxLayout/boxLayoutTypes";
 
 
-const OneByTwo: Layout<'row_1', 'block_1' | 'block_2', 'spec'> = {
+const OneByTwo: LayoutSpec<'row_1', 'block_1' | 'block_2'> = {
 
     row_1: {
         boxes: {
             block_1: 'unitCell',
             block_2: 'unitCell',
         },
-        transformations: {
-            xs: [
-                { 'stackVertically': {} }
-            ],
-            md: [
-                { 'stackHorizontally': {} }
-            ]
-
-        }
+            
     }
 };
 
-const OneByThree: Layout<'row_1', 'block_1' | 'block_2' | 'block_3', 'spec'> = {
+const OneByThree: LayoutSpec<'row_1', 'block_1' | 'block_2' | 'block_3' > = {
 
     row_1: {
         boxes: {
@@ -29,15 +21,7 @@ const OneByThree: Layout<'row_1', 'block_1' | 'block_2' | 'block_3', 'spec'> = {
             block_2: 'unitCell',
             block_3: 'unitCell',
         },
-        transformations: {
-            xs: [
-                { 'stackVertically': {} }
-            ],
-            md: [
-                { 'stackHorizontally': {} }
-            ]
-
-        }
+      
     }
 };
 

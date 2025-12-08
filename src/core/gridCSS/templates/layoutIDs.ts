@@ -1,13 +1,15 @@
 
+type nb = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+export type Rows = `row_${nb}`;
+
+export type SectionIds = `header` | 'nav' | 'main' | 'aside' | 'content' |
+  'footer' | 'hero' | 'banner' | 'sidebar' | 'cta' | `section_${nb}` | Rows;
+
+export type Cards = `card_${nb}`;
+
+export type Blocks = `block_${nb}`;
 
 
-export type SectionCore = 'header' | 'nav' | 'main' | 'aside' | 'content' |
-  'footer' | 'hero' | 'banner' | 'sidebar' | 'cta';
 
-export type Cards = `card_${number}`;
-
-export type Blocks = `block_${number}`;
-
-export type Rows = `row_${number}`;
-
-export type NodeID = SectionCore | Cards | Blocks | Rows;
+export type NodeID = SectionIds | Cards | Blocks ;
