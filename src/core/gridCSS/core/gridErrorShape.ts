@@ -14,7 +14,13 @@ export type DiagnosticOrigin =
   | 'patterns'    // hero/sidebar/uniform presets
   | 'absoluteGrid'// absolute grid checker
   | 'debug'      // debug / tooling layer
-  | AllBoxMovesProps<any>;  // box transformations
+  | AllBoxMovesProps<any>  // box transformations
+  | 'layoutTxToSectionLocal'   // layout transformation to section local converter
+  | 'transformBoxMove' // box move transformer
+
+
+
+
 
 // 3) Canonical error codes (SCREAMING_SNAKE_CASE)
 //    Use these constants everywhere instead of string literals.
@@ -66,7 +72,10 @@ export const GRID_ERROR_CODE = {
   // --- Runtime layout / builder anomalies --------------------
   BOXFLOW_MUTATION_AFTER_FINALIZE: 'BOXFLOW_MUTATION_AFTER_FINALIZE' as GridErrorCode,
   NO_BOXES_PROCESSED: 'NO_BOXES_PROCESSED' as GridErrorCode,
-
+  NO_SECTION_ID: 'NO_SECTION_ID' as GridErrorCode,
+  BOX_SHAPE_MISSING_BP: 'BOX_SHAPE_MISSING_BP' as GridErrorCode,
+  UNKNOWN_TRANSFORMATION: 'UNKNOWN_TRANSFORMATION' as GridErrorCode,
+  BOX_NOT_FOUND: 'BOX_NOT_FOUND' as GridErrorCode,
 } as const;
 // 4) A single "issue" payload
 export type GridIssue = {

@@ -1,0 +1,43 @@
+
+> @mcpab/web-blocks@0.1.0 test
+> jest ./src/core/gridCSS/core/boxDesign/__test__/moveTwoBlocks.test.ts
+
+FAIL src/core/gridCSS/core/boxDesign/__test__/moveTwoBlocks.test.ts
+  moveTwoBlocks Transformation
+    ✕ should move two blocks without errors (5 ms)
+
+  ● moveTwoBlocks Transformation › should move two blocks without errors
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+    @@ -3,9 +3,9 @@
+        "diagonal": Object {
+          "x": 1,
+          "y": 1,
+        },
+        "origin": Object {
+    -     "x": 10,
+    -     "y": 10,
+    +     "x": 0,
+    +     "y": 0,
+        },
+      }
+
+      123 |             _normalized: 'GridBox',
+      124 |         });
+    > 125 |         expect(gridBoxes.xs.block_2).toEqual({
+          |                                      ^
+      126 |             origin: { x: 10, y: 10 },
+      127 |             diagonal: { x: 1, y: 1 },
+      128 |             _normalized: 'GridBox',
+
+      at Object.<anonymous> (src/core/gridCSS/core/boxDesign/__test__/moveTwoBlocks.test.ts:125:38)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        2.031 s, estimated 3 s
+Ran all test suites matching ./src/core/gridCSS/core/boxDesign/__test__/moveTwoBlocks.test.ts.

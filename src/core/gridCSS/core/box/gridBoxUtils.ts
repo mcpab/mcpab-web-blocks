@@ -3,7 +3,7 @@ import { Coordinate } from "../../geometry/coordinateTypes";
 import { GridBox } from "./gridBoxTypes";
 
 
-/**
+/** 
  * Creates a normalized {@link GridBox} from an origin and a diagonal vector.
  *
  * @remarks

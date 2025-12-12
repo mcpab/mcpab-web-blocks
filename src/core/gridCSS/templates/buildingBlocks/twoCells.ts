@@ -1,287 +1,353 @@
-import { BBCatalog } from "./bbCatalogTypes";
+import { defineEntry } from "./bbCatalogTypes";
 import { DefaultTransformations } from "./defaultBPTransformations";
 
 const transformations = DefaultTransformations;
-export const twoCells: BBCatalog = {
+export const twoCells = {
     // Unit cell combinations
-    'twoUnitCells' : {
+    'twoUnitCells': defineEntry({
         description: 'Two 1x1 blocks',
-        boxes: {
-            block_1: 'unitCell',
-            block_2: 'unitCell'
-        },
-        transformations: transformations
-    },
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
+                block_1: 'unitCell',
+                block_2: 'unitCell'
+            },
+            transformations: transformations
+        }
+    }),
     
     // Unit cell with double cells
-    'unitCellWithDoubleWide': {
+    'unitCellWithDoubleWide': defineEntry({
         description: 'One 1x1 and one 2x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'doubleWideCell'
         },
-        transformations: transformations
-    },
-    'unitCellWithDoubleTall': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWithDoubleTall': defineEntry({
         description: 'One 1x1 and one 1x2 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'doubleTallCell'
         },
-        transformations: transformations
-    },
-    'unitCellWithDouble': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWithDouble': defineEntry({
         description: 'One 1x1 and one 2x2 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'doubleCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Double cell combinations
-    'twoDoubleWide': {
+    'twoDoubleWide': defineEntry({
         description: 'Two 2x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell',
             block_2: 'doubleWideCell'
         },
-        transformations: transformations
-    },
-    'twoDoubleTall': {
+            transformations: transformations
+        }
+    }),
+    'twoDoubleTall': defineEntry({
         description: 'Two 1x2 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleTallCell',
             block_2: 'doubleTallCell'
         },
-        transformations: transformations
-    },
-    'twoDouble': {
+            transformations: transformations
+        }
+    }),
+    'twoDouble': defineEntry({
         description: 'Two 2x2 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleCell',
             block_2: 'doubleCell'
         },
-        transformations: transformations
-    },
-    'doubleWideWithDoubleTall': {
+            transformations: transformations
+        }
+    }),
+    'doubleWideWithDoubleTall': defineEntry({
         description: 'One 2x1 and one 1x2 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell',
             block_2: 'doubleTallCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Unit cell with triple cells
-    'unitCellWithTripleWide': {
+    'unitCellWithTripleWide': defineEntry({
         description: 'One 1x1 and one 3x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'tripleWideCell'
         },
-        transformations: transformations
-    },
-    'unitCellWithTripleTall': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWithTripleTall': defineEntry({
         description: 'One 1x1 and one 1x3 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'tripleTallCell'
         },
-        transformations: transformations
-    },
-    'unitCellWithTriple': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWithTriple': defineEntry({
         description: 'One 1x1 and one 3x3 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'tripleCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Triple cell combinations
-    'twoTripleWide': {
+    'twoTripleWide': defineEntry({
         description: 'Two 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'tripleWideCell',
             block_2: 'tripleWideCell'
         },
-        transformations: transformations
-    },
-    'twoTripleTall': {
+            transformations: transformations
+        }
+    }),
+    'twoTripleTall': defineEntry({
         description: 'Two 1x3 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'tripleTallCell',
             block_2: 'tripleTallCell'
         },
-        transformations: transformations
-    },
-    'twoTriple': {
+            transformations: transformations
+        }
+    }),
+    'twoTriple': defineEntry({
         description: 'Two 3x3 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'tripleCell',
             block_2: 'tripleCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // 5-cell combinations
-    'unitCellWith5Wide': {
+    'unitCellWith5Wide': defineEntry({
         description: 'One 1x1 and one 5x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: '5WideCell'
         },
-        transformations: transformations
-    },
-    'unitCellWith5Tall': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWith5Tall': defineEntry({
         description: 'One 1x1 and one 1x5 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: '5TallCell'
         },
-        transformations: transformations
-    },
-    'unitCellWith5x5': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWith5x5': defineEntry({
         description: 'One 1x1 and one 5x5 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: '5Wide5TallCell'
         },
-        transformations: transformations
-    },
-    'two5Wide': {
+            transformations: transformations
+        }
+    }),
+    'two5Wide': defineEntry({
         description: 'Two 5x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '5WideCell',
             block_2: '5WideCell'
         },
-        transformations: transformations
-    },
-    'two5Tall': {
+            transformations: transformations
+        }
+    }),
+    'two5Tall': defineEntry({
         description: 'Two 1x5 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '5TallCell',
             block_2: '5TallCell'
         },
-        transformations: transformations
-    },
-    'two5x5': {
+            transformations: transformations
+        }
+    }),
+    'two5x5': defineEntry({
         description: 'Two 5x5 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '5Wide5TallCell',
             block_2: '5Wide5TallCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // 10-cell combinations
-    'unitCellWith10Wide': {
+    'unitCellWith10Wide': defineEntry({
         description: 'One 1x1 and one 10x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: '10WideCell'
         },
-        transformations: transformations
-    },
-    'unitCellWith10Tall': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWith10Tall': defineEntry({
         description: 'One 1x1 and one 1x10 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: '10TallCell'
         },
-        transformations: transformations
-    },
-    'unitCellWith10x10': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWith10x10': defineEntry({
         description: 'One 1x1 and one 10x10 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: '10Wide10TallCell'
         },
-        transformations: transformations
-    },
-    'two10Wide': {
+            transformations: transformations
+        }
+    }),
+    'two10Wide': defineEntry({
         description: 'Two 10x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '10WideCell',
             block_2: '10WideCell'
         },
-        transformations: transformations
-    },
-    'two10Tall': {
+            transformations: transformations
+        }
+    }),
+    'two10Tall': defineEntry({
         description: 'Two 1x10 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '10TallCell',
             block_2: '10TallCell'
         },
-        transformations: transformations
-    },
-    'two10x10': {
+            transformations: transformations
+        }
+    }),
+    'two10x10': defineEntry({
         description: 'Two 10x10 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '10Wide10TallCell',
             block_2: '10Wide10TallCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Mixed size combinations (some interesting pairs)
-    'doubleWith5Wide': {
+    'doubleWith5Wide': defineEntry({
         description: 'One 2x2 and one 5x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleCell',
             block_2: '5WideCell'
         },
-        transformations: transformations
-    },
-    'tripleWith10Wide': {
+            transformations: transformations
+        }
+    }),
+    'tripleWith10Wide': defineEntry({
         description: 'One 3x3 and one 10x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'tripleCell',
             block_2: '10WideCell'
         },
-        transformations: transformations
-    },
-    '5x5With10Tall': {
+            transformations: transformations
+        }
+    }),
+    '5x5With10Tall': defineEntry({
         description: 'One 5x5 and one 1x10 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '5Wide5TallCell',
             block_2: '10TallCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Large combinations
-    'unitCellWith15Wide': {
+    'unitCellWith15Wide': defineEntry({
         description: 'One 1x1 and one 15x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: '15WideCell'
         },
-        transformations: transformations
-    },
-    'unitCellWith20Wide': {
+            transformations: transformations
+        }
+    }),
+    'unitCellWith20Wide': defineEntry({
         description: 'One 1x1 and one 20x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: '20WideCell'
         },
-        transformations: transformations
-    },
-    'two15x15': {
+            transformations: transformations
+        }
+    }),
+    'two15x15': defineEntry({
         description: 'Two 15x15 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '15Wide15TallCell',
             block_2: '15Wide15TallCell'
         },
-        transformations: transformations
-    },
-    'two20x20': {
+            transformations: transformations
+        }
+    }),
+    'two20x20': defineEntry({
         description: 'Two 20x20 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '20Wide20TallCell',
             block_2: '20Wide20TallCell'
         },
-        transformations: transformations
-    }
-}
+            transformations: transformations
+        }
+    })
+}  as const ;

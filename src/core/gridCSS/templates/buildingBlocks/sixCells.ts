@@ -1,20 +1,15 @@
-import { BBCatalog } from "./bbCatalogTypes";
- 
-const transformations = {
-                xs: [
-                    { 'stackVertically': {} }
-                ],
-                md: [
-                    { 'stackHorizontally': {} }
-                ]
-            };
+import { defineEntry } from "./bbCatalogTypes";
+import { DefaultTransformations } from "./defaultBPTransformations";
 
-/// Single Cells
-export const sixCells: BBCatalog = {
+const transformations = DefaultTransformations;
+
+/// Six Cells
+export const sixCells = {
     // Six unit cells (1x1 each)
-    'sixUnitCells': {
+    'sixUnitCells': defineEntry({
         description: 'Six 1x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -22,13 +17,15 @@ export const sixCells: BBCatalog = {
             block_5: 'unitCell',
             block_6: 'unitCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Five unit cells with one double wide
-    'fiveUnitOneDoubleWide': {
+    'fiveUnitOneDoubleWide': defineEntry({
         description: 'Five 1x1 and one 2x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -36,13 +33,15 @@ export const sixCells: BBCatalog = {
             block_5: 'unitCell',
             block_6: 'doubleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Four unit cells with two double wide
-    'fourUnitTwoDoubleWide': {
+    'fourUnitTwoDoubleWide': defineEntry({
         description: 'Four 1x1 and two 2x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -50,13 +49,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'doubleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Three unit cells with three double wide
-    'threeUnitThreeDoubleWide': {
+    'threeUnitThreeDoubleWide': defineEntry({
         description: 'Three 1x1 and three 2x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -64,13 +65,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'doubleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Two unit cells with four double wide
-    'twoUnitFourDoubleWide': {
+    'twoUnitFourDoubleWide': defineEntry({
         description: 'Two 1x1 and four 2x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'doubleWideCell',
@@ -78,13 +81,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'doubleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // One unit cell with five double wide
-    'oneUnitFiveDoubleWide': {
+    'oneUnitFiveDoubleWide': defineEntry({
         description: 'One 1x1 and five 2x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'doubleWideCell',
             block_3: 'doubleWideCell',
@@ -92,13 +97,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'doubleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Six double wide cells
-    'sixDoubleWide': {
+    'sixDoubleWide': defineEntry({
         description: 'Six 2x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell',
             block_2: 'doubleWideCell',
             block_3: 'doubleWideCell',
@@ -106,13 +113,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'doubleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Five unit cells with one triple wide
-    'fiveUnitOneTripleWide': {
+    'fiveUnitOneTripleWide': defineEntry({
         description: 'Five 1x1 and one 3x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -120,13 +129,15 @@ export const sixCells: BBCatalog = {
             block_5: 'unitCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Four unit cells with two triple wide
-    'fourUnitTwoTripleWide': {
+    'fourUnitTwoTripleWide': defineEntry({
         description: 'Four 1x1 and two 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -134,13 +145,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Three unit cells with three triple wide
-    'threeUnitThreeTripleWide': {
+    'threeUnitThreeTripleWide': defineEntry({
         description: 'Three 1x1 and three 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -148,13 +161,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Two unit cells with four triple wide
-    'twoUnitFourTripleWide': {
+    'twoUnitFourTripleWide': defineEntry({
         description: 'Two 1x1 and four 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'tripleWideCell',
@@ -162,13 +177,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // One unit cell with five triple wide
-    'oneUnitFiveTripleWide': {
+    'oneUnitFiveTripleWide': defineEntry({
         description: 'One 1x1 and five 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'tripleWideCell',
             block_3: 'tripleWideCell',
@@ -176,13 +193,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Six triple wide cells
-    'sixTripleWide': {
+    'sixTripleWide': defineEntry({
         description: 'Six 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'tripleWideCell',
             block_2: 'tripleWideCell',
             block_3: 'tripleWideCell',
@@ -190,13 +209,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Four unit, one double, one triple
-    'fourUnitDoubleTriple': {
+    'fourUnitDoubleTriple': defineEntry({
         description: 'Four 1x1, one 2x1, and one 3x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -204,13 +225,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Three unit, two double, one triple
-    'threeUnitTwoDoubleTriple': {
+    'threeUnitTwoDoubleTriple': defineEntry({
         description: 'Three 1x1, two 2x1, and one 3x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -218,13 +241,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Two unit, three double, one triple
-    'twoUnitThreeDoubleTriple': {
+    'twoUnitThreeDoubleTriple': defineEntry({
         description: 'Two 1x1, three 2x1, and one 3x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'doubleWideCell',
@@ -232,13 +257,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // One unit, four double, one triple
-    'oneUnitFourDoubleTriple': {
+    'oneUnitFourDoubleTriple': defineEntry({
         description: 'One 1x1, four 2x1, and one 3x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'doubleWideCell',
             block_3: 'doubleWideCell',
@@ -246,13 +273,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Five double, one triple
-    'fiveDoubleTriple': {
+    'fiveDoubleTriple': defineEntry({
         description: 'Five 2x1 and one 3x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell',
             block_2: 'doubleWideCell',
             block_3: 'doubleWideCell',
@@ -260,13 +289,15 @@ export const sixCells: BBCatalog = {
             block_5: 'doubleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Three unit, one double, two triple
-    'threeUnitDoubleTwoTriple': {
+    'threeUnitDoubleTwoTriple': defineEntry({
         description: 'Three 1x1, one 2x1, and two 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'unitCell',
@@ -274,13 +305,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Two unit, two double, two triple
-    'twoUnitTwoDoubleTwoTriple': {
+    'twoUnitTwoDoubleTwoTriple': defineEntry({
         description: 'Two 1x1, two 2x1, and two 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'doubleWideCell',
@@ -288,13 +321,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // One unit, three double, two triple
-    'oneUnitThreeDoubleTwoTriple': {
+    'oneUnitThreeDoubleTwoTriple': defineEntry({
         description: 'One 1x1, three 2x1, and two 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'doubleWideCell',
             block_3: 'doubleWideCell',
@@ -302,13 +337,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Four double, two triple
-    'fourDoubleTwoTriple': {
+    'fourDoubleTwoTriple': defineEntry({
         description: 'Four 2x1 and two 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell',
             block_2: 'doubleWideCell',
             block_3: 'doubleWideCell',
@@ -316,13 +353,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Two unit, one double, three triple
-    'twoUnitDoubleThreeTriple': {
+    'twoUnitDoubleThreeTriple': defineEntry({
         description: 'Two 1x1, one 2x1, and three 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'unitCell',
             block_3: 'doubleWideCell',
@@ -330,13 +369,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // One unit, two double, three triple
-    'oneUnitTwoDoubleThreeTriple': {
+    'oneUnitTwoDoubleThreeTriple': defineEntry({
         description: 'One 1x1, two 2x1, and three 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'doubleWideCell',
             block_3: 'doubleWideCell',
@@ -344,13 +385,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Three double, three triple
-    'threeDoubleThreeTriple': {
+    'threeDoubleThreeTriple': defineEntry({
         description: 'Three 2x1 and three 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell',
             block_2: 'doubleWideCell',
             block_3: 'doubleWideCell',
@@ -358,13 +401,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // One unit, one double, four triple
-    'oneUnitDoubleWourTriple': {
+    'oneUnitDoubleWourTriple': defineEntry({
         description: 'One 1x1, one 2x1, and four 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'unitCell',
             block_2: 'doubleWideCell',
             block_3: 'tripleWideCell',
@@ -372,13 +417,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // Two double, four triple
-    'twoDoubleFourTriple': {
+    'twoDoubleFourTriple': defineEntry({
         description: 'Two 2x1 and four 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell',
             block_2: 'doubleWideCell',
             block_3: 'tripleWideCell',
@@ -386,13 +433,15 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    },
+            transformations: transformations
+        }
+    }),
     
     // One double, five triple
-    'oneDoubleFiveTriple': {
+    'oneDoubleFiveTriple': defineEntry({
         description: 'One 2x1 and five 3x1 blocks',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell',
             block_2: 'tripleWideCell',
             block_3: 'tripleWideCell',
@@ -400,6 +449,7 @@ export const sixCells: BBCatalog = {
             block_5: 'tripleWideCell',
             block_6: 'tripleWideCell'
         },
-        transformations: transformations
-    }
-}
+            transformations: transformations
+        }
+    })
+}  as const;

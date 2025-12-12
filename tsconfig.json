@@ -2,13 +2,28 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "lib": ["ES2022", "DOM"],
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
     "strict": true,
     "skipLibCheck": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    // 👇 Add this line:
+    "types": [
+      "jest",
+      "node"
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src"]
+  // 👇 Make sure tests are included in the project
+  "include": [
+    "src",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }

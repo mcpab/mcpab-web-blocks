@@ -5,7 +5,7 @@ import { makeGridBox } from "../box/gridBoxUtils";
 import { NodeID } from "../../templates/layoutIDs";
 import { DiagnosticEntry, GRID_ERROR_CODE, makeError } from "../gridErrorShape";
 import { boxPosition } from "../box/boxPositions";
-import { AllBoxMovesProps, BoxMovesFunctions, BoxMovesFunctionsProps, BoxPropBase } from "./boxTransformationsProps";
+import { AllBoxMovesProps, BoxMovesFunctions, BoxMovesFunctionsProps, BoxMovesProps, BoxPropBase } from "./boxTransformationsProps";
 
 
 // In my world, my boxes are in an sparse map object "boxes: Partial<Record<NodeID, GridBox>>" and I
@@ -86,7 +86,6 @@ const moveTo = (props: BoxMovesFunctionsProps<NodeID>['moveTo']) => {
 
     const { boxprops, boxes, diagnostics } = props;
 
-
     const { from, to, gap } = boxprops;
 
     const boxFrom = validateBoxFrom(from.boxId, boxes, diagnostics, 'moveTo');
@@ -100,7 +99,6 @@ const moveTo = (props: BoxMovesFunctionsProps<NodeID>['moveTo']) => {
     if (!toPoint) {
         return undefined;
     };
-
 
     const fromAnchor = boxPosition(boxFrom, from.anchor);
     if (!fromAnchor) {
@@ -119,6 +117,8 @@ const moveTo = (props: BoxMovesFunctionsProps<NodeID>['moveTo']) => {
     let newOrigin = addCoordinates(boxFrom.origin, displacement);
 
     const newBox = makeGridBox(newOrigin, boxFrom.diagonal);
+
+    boxes[from.boxId] = newBox;
 
     return newBox;
 
@@ -156,6 +156,8 @@ const moveBy = (props: BoxMovesFunctionsProps<NodeID>['moveBy']) => {
     const newOrigin = addCoordinates(boxFrom.origin, delta);
 
     const newBox = makeGridBox(newOrigin, boxFrom.diagonal);
+
+    boxes[from.boxId] = newBox;
 
     return newBox;
 
@@ -201,6 +203,8 @@ const alignToY = (props: BoxMovesFunctionsProps<NodeID>['alignToY']) => {
 
     const newBox = makeGridBox(newOrigin, boxFrom.diagonal);
 
+    boxes[from.boxId] = newBox;
+
     return newBox;
 
 }
@@ -244,11 +248,12 @@ const alignToX = (props: BoxMovesFunctionsProps<NodeID>['alignToX']) => {
 
     const newBox = makeGridBox(newOrigin, boxFrom.diagonal);
 
+    boxes[from.boxId] = newBox;
+
     return newBox;
 
 }
 
-// align all boxes to a given X coordinate
 const alignAllToX = (props: BoxMovesFunctionsProps<NodeID>['alignAllToX']) => {
 
     const { boxprops, boxes, diagnostics } = props;
@@ -273,7 +278,10 @@ const alignAllToX = (props: BoxMovesFunctionsProps<NodeID>['alignAllToX']) => {
 
         if (newBox) {
             newBoxes[id] = newBox;
+            boxes[id] = newBox;
         }
+
+
 
     }
 
@@ -315,8 +323,10 @@ const alignAllToY = (props: BoxMovesFunctionsProps<NodeID>['alignAllToY']) => {
 
         if (newBox) {
             newBoxes[id] = newBox;
+            boxes[id] = newBox;
         }
-        
+
+
     }
 
     if (Object.keys(newBoxes).length === 0) {
@@ -324,10 +334,10 @@ const alignAllToY = (props: BoxMovesFunctionsProps<NodeID>['alignAllToY']) => {
             'alignAllToY',
             GRID_ERROR_CODE.NO_BOXES_PROCESSED,
             `alignAllToY transformation could not process any box`,));
-  
 
-      return undefined;
-    }    return newBoxes;
+
+        return undefined;
+    } return newBoxes;
 
 }
 
@@ -359,7 +369,7 @@ const stackHorizontally = (props: BoxMovesFunctionsProps<NodeID>['stackHorizonta
         if (newBox) {
             newBoxes[id] = newBox;
             x0 += newBox.diagonal.x + (gap ? gap : 0);
-
+            boxes[id] = newBox;
         }
     }
 
@@ -368,13 +378,13 @@ const stackHorizontally = (props: BoxMovesFunctionsProps<NodeID>['stackHorizonta
             'stackHorizontally',
             GRID_ERROR_CODE.NO_BOXES_PROCESSED,
             `stackHorizontally transformation could not process any box`,));
-  
 
-      return undefined;
-    }    
-    
+
+        return undefined;
+    }
+
     return newBoxes;
- 
+
 }
 
 
@@ -406,7 +416,7 @@ const stackVertically = (props: BoxMovesFunctionsProps<NodeID>['stackVertically'
         if (newBox) {
             newBoxes[id] = newBox;
             y0 += newBox.diagonal.y + (gap ? gap : 0);
-
+            boxes[id] = newBox;
         }
     }
 
@@ -415,16 +425,17 @@ const stackVertically = (props: BoxMovesFunctionsProps<NodeID>['stackVertically'
             'stackVertically',
             GRID_ERROR_CODE.NO_BOXES_PROCESSED,
             `stackVertically transformation could not process any box`,));
-  
 
-      return undefined;
-    }    
-    
+
+        return undefined;
+    }
+
     return newBoxes;
 }
+
 // the factory of default transformations
 // a registry of all verbs
-export const DefaultBoxTransformations =  (): BoxMovesFunctions<NodeID> => {
+export const DefaultBoxTransformations = (): BoxMovesFunctions<NodeID> => {
 
     return {
 
@@ -442,7 +453,7 @@ export const DefaultBoxTransformations =  (): BoxMovesFunctions<NodeID> => {
 
         stackHorizontally: stackHorizontally,
 
-        stackVertically: stackVertically
+        stackVertically: stackVertically,
 
     }
 

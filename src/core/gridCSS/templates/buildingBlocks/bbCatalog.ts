@@ -1,20 +1,18 @@
-import { BBCatalog } from "./bbCatalogTypes";
-import { singleCells } from "./singleCells";
-import { twoCells } from "./twoCells";
-import { threeCells } from "./threeCells";
-import { fourCells } from "./fourCells";
 import { fiveCells } from "./fiveCells";
+import { fourCells } from "./fourCells";
+import { singleCells } from "./singleCells";
 import { sixCells } from "./sixCells";
+import { threeCells } from "./threeCells";
+import { twoCells } from "./twoCells";
 
- 
-export const bbCatalog: BBCatalog = {
+export const bbCatalog  = {
     ...singleCells,
     ...twoCells,
     ...threeCells,
     ...fourCells,
-    ...fiveCells,
+    ...fiveCells, 
     ...sixCells
-}
+}  as const;
 
 export type bbCatalogKeys = keyof typeof bbCatalog;
 

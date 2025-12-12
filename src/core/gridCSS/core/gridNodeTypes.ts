@@ -15,12 +15,13 @@ export type GridNodeLayoutFlags = {
  * Absolute coordinates for grid node positioning
  */
 
-export type NodeAbsoluteCoordinates = {
+export type CSSCoordinates = {
     gridRowStart: number;
     gridColumnStart: number;
     gridRowEnd: number; // exclusive
     gridColumnEnd: number; // exclusive
-};/**
+};
+/**
  * Grid node identity and metadata
  */
 
@@ -33,9 +34,9 @@ export type NodeAbsoluteCoordinates = {
  * Absolute positioned grid node with identity, coordinates, and options
  */
 
-export type NodeAbsoluteCoordinatesBPS = BPs<NodeAbsoluteCoordinates>;
+export type CSSCoordinatesBPS = BPs<CSSCoordinates>;
 export type AbsoluteNode = {
     name?: string;
     parent?: string;
-    coordinates: PartialBps<NodeAbsoluteCoordinates>;
+    coordinates: PartialBps<CSSCoordinates>;
 };

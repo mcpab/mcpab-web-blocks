@@ -10,7 +10,7 @@ import { Coordinate } from "../../geometry/coordinateTypes"
  * @remarks
  * - `GridBox` is purely geometric and lives in a local reference system shared
  *   with other boxes; it is not tied to any CSS or pixel space.
- * - `origin` is the bottom-left corner of the box in that local coordinate system.
+ * - `origin` is the bottom-left corner of the box in that local coordinate system. 
  * - `diagonal` is a vector (extent) from `origin` to the opposite corner, not the
  *   absolute position of that corner.
  * - The box is considered “normalized” if its `diagonal` components are

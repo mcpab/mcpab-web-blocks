@@ -1,123 +1,142 @@
-import { BBCatalog } from "./bbCatalogTypes";
+import { defineEntry } from "./bbCatalogTypes";
+ 
  
 /// Single Cells
-export const singleCells: BBCatalog = {
+export const singleCells = {
 
-    'unitCell' : {
+    'unitCell': defineEntry({
         description: 'A simple 1x1 block',
-        boxes: {
-            block_1: 'unitCell'
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
+                block_1: 'unitCell'
+            }
         }
-    },
-    'doubleWideCell': {
+    }),
+    'doubleWideCell': defineEntry({
         description: 'A 2x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleWideCell'
         }
-    },
-    'doubleTallCell': {
+        }}),
+    'doubleTallCell': defineEntry({
         description: 'A 1x2 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleTallCell'
         }
-    },
-    'doubleCell': {
+        }}),
+    'doubleCell': defineEntry({
         description: 'A 2x2 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: 'doubleCell'
         }
-    },
-     'tripleWideCell': {
+        }}),
+    'tripleWideCell': defineEntry({
         description: 'A large 3x1 block',
-        boxes: {
-            block_1:  'tripleWideCell'
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
+            block_1: 'tripleWideCell'
         }
-    },
-    'tripleTallCell': {
+        }}),
+    'tripleTallCell': defineEntry({
         description: 'A large 1x3 block',
-        boxes: {
-            block_1:  'tripleTallCell'
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
+            block_1: 'tripleTallCell'
         }
-    },
-    'tripleCell': {
+        }}),
+    'tripleCell': defineEntry({
         description: 'A large 3x3 block',
-        boxes: {
-            block_1:  'tripleCell'
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
+            block_1: 'tripleCell'
         }
-    },
-    '5WideCell': {  
+        }}),
+    '5WideCell': defineEntry({
         description: 'A large 5x1 block',
-        boxes: {
-            block_1:  '5WideCell'
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
+            block_1: '5WideCell'
         }
-    },
-    '5TallCell': {
+        }}),
+    '5TallCell': defineEntry({
         description: 'A large 1x5 block',
-        boxes: {
-            block_1:  '5TallCell'
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
+            block_1: '5TallCell'
         }
-    },
-    '5Wide5TallCell': {
+        }}),
+    '5Wide5TallCell': defineEntry({
         description: 'A large 5x5 block',
-        boxes: {
-            block_1:  '5Wide5TallCell'
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
+            block_1: '5Wide5TallCell'
         }
-    },
-    '10WideCell': {
+        }}),
+    '10WideCell': defineEntry({
         description: 'An extra large 10x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '10WideCell'
         }
-    },
-    '10TallCell': {
+        }}),
+    '10TallCell': defineEntry({
         description: 'An extra large 1x10 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '10TallCell'
         }
-    },
-    '10Wide10TallCell': {
+        }}),
+    '10Wide10TallCell': defineEntry({
         description: 'An extra large 10x10 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '10Wide10TallCell'
         }
-    },
-    '15WideCell': {
+        }}),
+    '15WideCell': defineEntry({
         description: 'A massive 15x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '15WideCell'
         }
-    },
-    '15TallCell': {
+        }}),
+    '15TallCell': defineEntry({
         description: 'A massive 1x15 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '15TallCell'
         }
-    },
-    '15Wide15TallCell': {
+        }}),
+    '15Wide15TallCell': defineEntry({
         description: 'A massive 15x15 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '15Wide15TallCell'
         }
-    },
-    '20WideCell': {
+        }}),
+    '20WideCell': defineEntry({
         description: 'An enormous 20x1 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '20WideCell'
         }
-    },
-    '20TallCell': {
+        }}),
+    '20TallCell': defineEntry({
         description: 'An enormous 1x20 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '20TallCell'
         }
-    },
-    '20Wide20TallCell': {
+        }}),
+    '20Wide20TallCell': defineEntry({
         description: 'An enormous 20x20 block',
-        boxes: {
+        boxDimensionIdsAndTx: {
+            boxDimensionIds: {
             block_1: '20Wide20TallCell'
         }
-    },
-   
+        }})
 
-
-}
+} as const;

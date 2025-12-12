@@ -2,7 +2,7 @@ import { BoxShapeCatalog } from "./boxShapeType";
 
 
 // this is the default catalog of box shapes
-export const boxShapesCatalog: BoxShapeCatalog = {
+export const boxShapesCatalog: BoxShapeCatalog = { 
    'unitCell': [1, 1],
    'doubleWideCell': [2, 1],
    'doubleTallCell': [1, 2],
@@ -10,7 +10,7 @@ export const boxShapesCatalog: BoxShapeCatalog = {
    'tripleWideCell': [3, 1],
    'tripleTallCell': [1, 3],
    'tripleCell': [3, 3],
-   '5WideCell': [5, 1],
+   '5WideCell': [5, 1], 
    '5TallCell': [1, 5],
    '5Wide5TallCell': [5, 5],
    '10WideCell': [10, 1],

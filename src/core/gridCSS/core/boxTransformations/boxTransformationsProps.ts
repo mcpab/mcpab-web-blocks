@@ -14,11 +14,12 @@ export type BoxPropBase<BoxIDFrom extends NodeID> = {
     anchor: Anchor;
 }
 
+
 //I can do different things with my boxes. One, I can move a box from a position to the next "export type 
 // BoxMoveToProps<BoxIDFrom extends NodeID> = { from: BoxPropBase<BoxIDFrom>; to: Coordinate | BoxPropBase<NotEqualBox<BoxIDFrom>>; gap?: Coordinate; }" 
 // with "type NotEqualBox<BaseBoxId extends NodeID> = Exclude<NodeID, BaseBoxId>;",
 //  which means that the next position can be the anchor of any other different box
-export type BoxMoveToProps<BoxID extends NodeID > = {
+export type BoxMoveToProps<BoxID extends NodeID> = {
     from: BoxPropBase<BoxID>;
     to: Coordinate | BoxPropBase<BoxID>;
     gap?: Coordinate;
@@ -49,17 +50,18 @@ export type BoxAlignXProps<BoxID extends NodeID> = {
 
 
 // I define a type for use, maybe I need it later
-export type BoxProps<BoxID extends NodeID > =
+export type BoxProps<BoxID extends NodeID> =
     | BoxMoveToProps<BoxID>
     | BoxMoveByProps<BoxID>
     | BoxAlignYProps<BoxID>
-    | BoxAlignXProps<BoxID>;
+    | BoxAlignXProps<BoxID>
+
 
 
 // at this point I can create the database of all possible box transformations 
 // and I am making sure that all transformation IDS are corresponding to the
 // meaningful transformation props
-export type BoxMovesPropsAll<BoxID extends NodeID> = {
+export type BoxMovesPropsObject<BoxID extends NodeID> = {
     moveTo: BoxMoveToProps<BoxID>;
     moveBy: BoxMoveByProps<BoxID>;
     alignToY: BoxAlignYProps<BoxID>;
@@ -68,17 +70,37 @@ export type BoxMovesPropsAll<BoxID extends NodeID> = {
     alignAllToX: { to: number; anchor: Anchor };
     stackVertically: { gap?: number };
     stackHorizontally: { gap?: number };
+
 };
 
-// I define a type that contains all possible box transformation IDS
-export type AllBoxMovesProps<BoxID extends NodeID> = keyof BoxMovesPropsAll<BoxID>;
+export type TransformationIDs<BoxID extends NodeID> = keyof BoxMovesPropsObject<BoxID>;
+
+export const transformationIDs = [
+    "moveTo",
+    "moveBy",
+    "alignToY",
+    "alignToX",
+    "alignAllToY",
+    "alignAllToX",
+    "stackVertically",
+    "stackHorizontally"
+] as const satisfies readonly TransformationIDs<any>[];
+
+
+export type BoxMovesProps<BoxID extends NodeID> = {
+    [M in keyof BoxMovesPropsObject<any>]: { [K in M]: BoxMovesPropsObject<BoxID>[M] };
+}[keyof BoxMovesPropsObject<any>];
+
+
+// I define a type that contains all possible box transformation IDS 
+export type AllBoxMovesProps<BoxID extends NodeID> = keyof BoxMovesPropsObject<BoxID>;
 
 // ... AND, now the interesting thing, I know I will need functions that will
 // implement the transformations, so I define the props that those functions
 // will receive
 export type BoxMovesFunctionsProps<BoxID extends NodeID> = {
-    [M in keyof BoxMovesPropsAll<any>]: {
-        boxprops: BoxMovesPropsAll<BoxID>[M],
+    [M in keyof BoxMovesPropsObject<any>]: {
+        boxprops: BoxMovesPropsObject<BoxID>[M],
         boxes: Partial<Record<NodeID, GridBox>>,
         diagnostics: DiagnosticEntry[]
     };
@@ -86,28 +108,63 @@ export type BoxMovesFunctionsProps<BoxID extends NodeID> = {
 
 // from here I define the function signatures for each transformation
 // and what I am expecting as return value
-export type BoxMovesFunctions<BoxID extends NodeID>= {
-    [M in keyof BoxMovesPropsAll<any>]: (props: BoxMovesFunctionsProps<BoxID>[M]) => GridBox | undefined | Partial<Record<NodeID, GridBox>>;
+// we will assume that each function will change the array of nodes,
+// and replace in situ the transformed boxes
+// if there is an error it will be recorded in the diagnostic.
+// The function returns void always.
+export type BoxMovesFunctions<BoxID extends NodeID> = {
+    [M in keyof BoxMovesPropsObject<any>]: (props: BoxMovesFunctionsProps<BoxID>[M]) => GridBox | undefined | Partial<Record<NodeID, GridBox>>;
 }
 
-
 // and another usefule type  
-export type BoxMovesProps<BoxID extends NodeID> = Partial<BoxMovesPropsAll<BoxID>>;
+// export type BoxMovesProps<BoxID extends NodeID> = Partial<BoxMovesPropsAll<BoxID>>;
+
+// type ExactlyOne<T> = {
+//   [K in keyof T]: { [P in K]: T[P] } & { [Q in Exclude<keyof T, K>]?: never }
+// }[keyof T];
+
+// export type SingleBoxMoveProps<BoxID extends NodeID> = ExactlyOne<BoxMovesPropsObject<BoxID>>;
 
 //Example usages
 
- let kii: BoxMovesProps<'block_1' | 'aside'> = {
-    moveTo: {
-        from: {
-            boxId: 'aside',
-            anchor: 'center'
-        },
-        to: {
-           boxId: 'block_1',
-           anchor: 'topLeft'
-        }
-    },
-}
+// let kii: Array<BoxMovesProps<'block_1' | 'aside'>> = [
+//     {
+//         moveTo: {
+//             from: {
+//                 boxId: 'aside',
+//                 anchor: 'center'
+//             },
+//             to: {
+//                 boxId: 'block_1',
+//                 anchor: 'topLeft'
+//             }
+//         }
+//     },
+//     {
+//         moveBy: {
+//             from: {
+//                 boxId: 'aside',
+
+//             },
+//             by: {
+//                 x: 100,
+//                 y: 200
+//             },
+//         }
+//     },
+//     {
+//         moveTo: {
+//             from: {
+//                 boxId: 'aside',
+//                 anchor: 'center'
+//             },
+//             to: {
+//                 boxId: 'block_1',
+//                 anchor: 'topLeft'
+//             }
+//         }
+//     },
+// ];
 
 
 

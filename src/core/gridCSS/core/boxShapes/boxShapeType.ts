@@ -1,11 +1,12 @@
+import { BPs } from "../breakpoints";
 
 // this the shape type used in box layouts and box shape catalogs
 export type BoxDimensions= [number, number]; // [width, height]
-
+  
 export type BoxDimensionId =
   | 'unitCell'
   | 'doubleWideCell'
-  | 'doubleTallCell'
+  | 'doubleTallCell' 
   | 'doubleCell'
   | 'tripleWideCell'
   | 'tripleTallCell'
@@ -25,4 +26,5 @@ export type BoxDimensionId =
   ;
   
 export type BoxShapeCatalog = Record<BoxDimensionId, BoxDimensions>;
+export type BoxDimensionIdsCSS = BoxDimensionId | BPs<BoxDimensionId>; // we enforce full responsiveness for box shapes
 
