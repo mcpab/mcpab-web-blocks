@@ -40,12 +40,12 @@ export type LayoutSectionLocal<SectionID extends SectionIDs, BlockIDs extends Bl
 // bounding boxes are the overall boxes that contain all the boxes in the section
 export type LayoutSectionBounds<SectionID extends SectionIDs, BlockIDs extends BlocksIDs> = {
     sections: Record<SectionID, LocalGridBoxes<BlockIDs>>;
-    boundingBoxes: Record<SectionID, BPs<GridBox>>;
+    boundingBoxes: BPs<Record<SectionID, GridBox>>;
     transformations?: BoxTransformations<SectionID>; 
 }
 
 // 
-export type Layoutabsolute<SectionID extends SectionIDs, BlockIDs extends BlocksIDs> = {
+export type LayoutAbsolute<SectionID extends SectionIDs, BlockIDs extends BlocksIDs> = {
     gridDimensions: {
         rows: BPs<number>;
         columns: BPs<number>;

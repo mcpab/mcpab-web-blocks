@@ -17,7 +17,8 @@ export type DiagnosticOrigin =
   | AllBoxMovesProps<any>  // box transformations
   | 'layoutTxToSectionLocal'   // layout transformation to section local converter
   | 'transformBoxMove' // box move transformer
-
+  | 'layoutSectionToBounds' // layout section to bounds converter
+  | 'layoutSectionBtoAbsolute'
 
 
 
@@ -76,6 +77,11 @@ export const GRID_ERROR_CODE = {
   BOX_SHAPE_MISSING_BP: 'BOX_SHAPE_MISSING_BP' as GridErrorCode,
   UNKNOWN_TRANSFORMATION: 'UNKNOWN_TRANSFORMATION' as GridErrorCode,
   BOX_NOT_FOUND: 'BOX_NOT_FOUND' as GridErrorCode,
+  MISSING_BOX: 'MISSING_BOX' as GridErrorCode,
+  INVALID_TRACK: 'INVALID_TRACK' as GridErrorCode,
+  EMPTY_GRID: 'EMPTY_GRID' as GridErrorCode,
+  GRID_NORMALIZED_TO_POSITIVE_LINES: 'GRID_NORMALIZED_TO_POSITIVE_LINES' as GridErrorCode
+
 } as const;
 // 4) A single "issue" payload
 export type GridIssue = {
