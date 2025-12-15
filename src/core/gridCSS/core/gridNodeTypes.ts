@@ -3,7 +3,7 @@
 // ============================================================================
 
  
-import { PartialBps, BPs } from "./breakpoints";
+import { BPs } from "./breakpoints";
 
 export type GridNodeLayoutFlags = {
   allowOverlap?: boolean;
@@ -35,8 +35,3 @@ export type CSSCoordinates = {
  */
 
 export type CSSCoordinatesBPS = BPs<CSSCoordinates>;
-export type AbsoluteNode = {
-    name?: string;
-    parent?: string;
-    coordinates: PartialBps<CSSCoordinates>;
-};

@@ -22,7 +22,7 @@ export type BoxesCoordinates<BlockIDs extends NodeID> = {
   coordinates: BPs<Partial<Record<BlockIDs, CSSCoordinates>>>;
 };
 
-/// Layouts
+/// Layouts 
 
 // basic layout, with box dimension ids and optional transformations per section
 export type LayoutWithTx<SectionID extends SectionIDs, BlockIDs extends BlocksIDs> = {

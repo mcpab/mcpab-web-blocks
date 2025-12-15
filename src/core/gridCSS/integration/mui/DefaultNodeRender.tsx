@@ -1,7 +1,6 @@
 import { Box } from "@mui/system";
 import { GridNodeViewOptions } from "../../core/nodeViewOptions";
 import { NodeID } from "../../templates/layoutIDs";
-import { AbsoluteNode } from "../../core/gridNodeTypes";
 
 type DefaultNodeRenderProps<K extends NodeID> = {
     node: AbsoluteNode;
