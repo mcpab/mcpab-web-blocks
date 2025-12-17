@@ -1,65 +1,117 @@
-import { Box } from "@mui/system";
+import { Box, SxProps, SystemStyleObject, Theme } from "@mui/system";
+import { BPs } from "../../core/breakpoints";
+import { CSSCoordinates } from "../../core/gridNodeTypes";
 import { GridNodeViewOptions } from "../../core/nodeViewOptions";
-import { NodeID } from "../../templates/layoutIDs";
 
-type DefaultNodeRenderProps<K extends NodeID> = {
-    node: AbsoluteNode;
-    view:GridNodeViewOptions;
+type DefaultNodeRenderProps = {
+    cssCoordinateBPs: BPs<CSSCoordinates>;
+    view: GridNodeViewOptions;
     children?: React.ReactNode;
 };
 
-export function DefaultNodeRender<K extends NodeID>({ node, view, children }: DefaultNodeRenderProps<K>) {
+
+const visuallyHiddenStyle: SystemStyleObject<Theme> = {
+    position: "absolute",
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: "visible",
+    clip: "rect(0 0 0 0)",
+    whiteSpace: "nowrap",
+    border: 0,
+};
+
+export function getNodeSxProps(view?: GridNodeViewOptions): SystemStyleObject<Theme> {
+    const v = view ?? {};
+
+    const minWidth0 = v.minWidth0 ?? true;
+    const minHeight0 = v.minHeight0 ?? true;
+
+    return {
+        ...(minWidth0 ? { minWidth: 0 } : {}),
+        ...(minHeight0 ? { minHeight: 0 } : {}),
+
+        justifySelf: v.justifySelf ?? "stretch",
+        alignSelf: v.alignSelf ?? "stretch",
+
+        ...(v.zIndex != null ? { zIndex: v.zIndex } : {}),
+        pointerEvents: v.pointerEvents ?? "auto",
+
+        ...(v.visibility === "hidden" ? { visibility: "hidden" } : {}),
+        ...(v.visibility === "visuallyHidden" ? visuallyHiddenStyle : {}),
+    };
+}
+
+export function getNodeDomProps(view?: GridNodeViewOptions): React.HTMLAttributes<HTMLElement> {
+    const v = view ?? {};
+    const aria = v.aria ?? {};
+
+    const domProps: React.HTMLAttributes<HTMLElement> & Record<string, string> = {};
+
+    if (aria.role) domProps.role = aria.role;
+    if (aria.label) domProps["aria-label"] = aria.label;
+    if (aria.labelledBy) domProps["aria-labelledby"] = aria.labelledBy;
+    if (aria.describedBy) domProps["aria-describedby"] = aria.describedBy;
+
+    if (v.dataAttrs) {
+        for (const [k, val] of Object.entries(v.dataAttrs)) {
+            const key = k.startsWith("data-") ? k : `data-${k}`;
+            domProps[key] = String(val);
+        }
+    }
+
+    return domProps;
+}
+
+export function DefaultNodeRender({ cssCoordinateBPs, view, children }: DefaultNodeRenderProps) {
+    const nodeSx = getNodeSxProps(view);
+    const domProps = getNodeDomProps(view);
 
     return (
         <Box
-           
+            {...domProps}
             sx={{
-                // 🔒 grid item must be allowed to shrink
-                minWidth: 0,
-                minHeight: 0,
-                maxWidth: "100%",
-                maxHeight: "100%",
-                overflow: "hidden",
+                // Good page-layout defaults:
+                boxSizing: "border-box",
+                position: "relative", // helps absolutely-positioned children anchor to the node
+                overflow: "visible",  // don't clip by default (clipping should be opt-in via view later)
 
+                // Grid placement (responsive)
                 gridColumnStart: {
-                    xs: node.coordinates.xs.gridColumnStart,
-                    sm: node.coordinates.sm?.gridColumnStart ?? node.coordinates.xs.gridColumnStart,
-                    md: node.coordinates.md?.gridColumnStart ?? node.coordinates.xs.gridColumnStart,
-                    lg: node.coordinates.lg?.gridColumnStart ?? node.coordinates.xs.gridColumnStart,
-                    xl: node.coordinates.xl?.gridColumnStart ?? node.coordinates.xs.gridColumnStart,
+                    xs: cssCoordinateBPs.xs.gridColumnStart,
+                    sm: cssCoordinateBPs.sm.gridColumnStart,
+                    md: cssCoordinateBPs.md.gridColumnStart,
+                    lg: cssCoordinateBPs.lg.gridColumnStart,
+                    xl: cssCoordinateBPs.xl.gridColumnStart,
                 },
                 gridColumnEnd: {
-                    xs: node.coordinates.xs.gridColumnEnd,
-                    sm: node.coordinates.sm?.gridColumnEnd ?? node.coordinates.xs.gridColumnEnd,
-                    md: node.coordinates.md?.gridColumnEnd ?? node.coordinates.xs.gridColumnEnd,
-                    lg: node.coordinates.lg?.gridColumnEnd ?? node.coordinates.xs.gridColumnEnd,
-                    xl: node.coordinates.xl?.gridColumnEnd ?? node.coordinates.xs.gridColumnEnd,
+                    xs: cssCoordinateBPs.xs.gridColumnEnd,
+                    sm: cssCoordinateBPs.sm.gridColumnEnd,
+                    md: cssCoordinateBPs.md.gridColumnEnd,
+                    lg: cssCoordinateBPs.lg.gridColumnEnd,
+                    xl: cssCoordinateBPs.xl.gridColumnEnd,
                 },
                 gridRowStart: {
-                    xs: node.coordinates.xs.gridRowStart,
-                    sm: node.coordinates.sm?.gridRowStart ?? node.coordinates.xs.gridRowStart,
-                    md: node.coordinates.md?.gridRowStart ?? node.coordinates.xs.gridRowStart,
-                    lg: node.coordinates.lg?.gridRowStart ?? node.coordinates.xs.gridRowStart,
-                    xl: node.coordinates.xl?.gridRowStart ?? node.coordinates.xs.gridRowStart,
+                    xs: cssCoordinateBPs.xs.gridRowStart,
+                    sm: cssCoordinateBPs.sm.gridRowStart,
+                    md: cssCoordinateBPs.md.gridRowStart,
+                    lg: cssCoordinateBPs.lg.gridRowStart,
+                    xl: cssCoordinateBPs.xl.gridRowStart,
                 },
                 gridRowEnd: {
-                    xs: node.coordinates.xs.gridRowEnd,
-                    sm: node.coordinates.sm?.gridRowEnd ?? node.coordinates.xs.gridRowEnd,
-                    md: node.coordinates.md?.gridRowEnd ?? node.coordinates.xs.gridRowEnd,
-                    lg: node.coordinates.lg?.gridRowEnd ?? node.coordinates.xs.gridRowEnd,
-                    xl: node.coordinates.xl?.gridRowEnd ?? node.coordinates.xs.gridRowEnd,
+                    xs: cssCoordinateBPs.xs.gridRowEnd,
+                    sm: cssCoordinateBPs.sm.gridRowEnd,
+                    md: cssCoordinateBPs.md.gridRowEnd,
+                    lg: cssCoordinateBPs.lg.gridRowEnd,
+                    xl: cssCoordinateBPs.xl.gridRowEnd,
                 },
-            }}
-            visibility={view.visibility === "hidden" ? "hidden" : "visible"}
-            justifySelf={view.justifySelf}
-            alignSelf={view.alignSelf}
-            zIndex={view.zIndex}
-            style={{
-                pointerEvents:
-                    view.visibility === "hidden" ? "none" : "auto",
+
+                // View-driven overrides (minWidth0/minHeight0, alignSelf/justifySelf, zIndex, pointerEvents, visibility, etc.)
+                ...nodeSx,
             }}
         >
-           {children}
+            {children}
         </Box>
     );
 }

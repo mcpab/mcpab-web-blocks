@@ -1,8 +1,8 @@
 import { Box, Breakpoint } from "@mui/material";
 import React from "react";
 
-import { AbsoluteNode, GridCssMuiRenderer, GridCssMuiRendererProps, NodeID } from "src/core/gridCSS";
-import { GridRenderersRegistry } from "src/core/gridCSS/core/nodeViewOptions";
+import {  GridCssMuiRenderer, GridCssMuiRendererProps, NodeID } from "src/core/gridCSS";
+
 
 function renderNode<K extends NodeID>(nodeId: K,node:AbsoluteNode): React.ReactNode {
 

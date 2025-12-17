@@ -4,7 +4,6 @@ import { DefaultTransformations } from "./defaultBPTransformations";
 // const transformations = DefaultTransformations();
 const transformations = DefaultTransformations;
 
-type kl = typeof transformations;
 /// Five Cells
 export const fiveCells = {
     // Five unit cells (1x1 each)

@@ -1,5 +1,6 @@
 import { fiveCells } from "./fiveCells";
 import { fourCells } from "./fourCells";
+import { pagePartitions20 } from "./pagePartitions20";
 import { singleCells } from "./singleCells";
 import { sixCells } from "./sixCells";
 import { threeCells } from "./threeCells";
@@ -11,8 +12,10 @@ export const bbCatalog  = {
     ...threeCells,
     ...fourCells,
     ...fiveCells, 
-    ...sixCells
+    ...sixCells,
+    ...pagePartitions20,
 }  as const;
 
-export type bbCatalogKeys = keyof typeof bbCatalog;
-
+type BB = typeof bbCatalog;
+type EntriesInBBCatalog =  BB[keyof BB];
+export type BoxesInBBCatalog = EntriesInBBCatalog["boxDimensionIdsAndTx"]; 

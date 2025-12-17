@@ -16,44 +16,50 @@ import {
     Typography,
 } from "@mui/material";
 import * as React from "react";
-
+import type { LayoutWithTx } from "src/core/gridCSS/core/boxLayout/boxLayoutTypes";
 import {
     DiagnosticEntry,
     GridCssMuiRenderer,
-    GridCssMuiRendererProps,
     type Breakpoint,
     type NodeID
 } from "../..";
-import { GridPreview } from "./GridPreview";
 
+import { layoutsCatalog } from "src/core/gridCSS/templates/boxLayoutsCatalog";
 
-import { LayoutsRegistry } from "../../core/gridCSS/integration/mui/muiLayoutsRegistry";
+const layoutCategoriesKeys = Object.keys(layoutsCatalog) as (keyof typeof layoutsCatalog)[];
 
-const layoutsKeys = Object.keys(LayoutsRegistry);
+type CategoryID = keyof typeof layoutsCatalog;
 
-type PatternId = keyof typeof LayoutsRegistry;
+type LayoutID<C extends CategoryID> = keyof typeof layoutsCatalog[C];
 
 export const DevTools: Story = () => {
 
-    console.log(layoutsKeys);
-    const [patternId, setPatternId] = React.useState<PatternId>('1x2');
+
+    const [categoryID, setCategoryID] = React.useState<CategoryID>('primary20');
     const [tab, setTab] = React.useState(0);
 
-    const layout = LayoutsRegistry[patternId];
+    const [layoutID, setLayoutID] = React.useState<LayoutID<'primary20'>>('page_band');
+layoutsCatalog['primary20']['page_band']
 
-    const grid = layout.gridBuilder.buildGrid().grid;
-    const diagnostics = layout.gridBuilder.buildGrid().diagnostics;
-    const registry = layout.register;
+    const layout: LayoutWithTx<any, any> = layoutsCatalog['primary20']['page_band'];
 
+    const layoutKeys = Object.keys(layout) as (keyof typeof layout)[];
 
-    const handlePatternChange = (
+    const handleCategoryChange = (
         event: React.ChangeEvent<{ value: unknown }> | any
     ) => {
-        console.log("changing pattern to ", event.target.value);
-        setPatternId(event.target.value as PatternId);
+        console.log("changing category to ", event.target.value);
+        setCategoryID(event.target.value as CategoryID);
     };
 
-    if (!grid) {
+    const handleLayoutChange = (
+        event: React.ChangeEvent<{ value: unknown }> | any
+    ) => {
+        console.log("changing layout to ", event.target.value);
+        setLayoutID(event.target.value as LayoutID<CategoryID>);
+    };
+
+    if (!layout) {
         return (
             <Box sx={{ minHeight: "100vh", bgcolor: "grey.100", py: 4 }}>
                 <Container maxWidth="lg">
@@ -62,7 +68,7 @@ export const DevTools: Story = () => {
                             GridCSS DevTools
                         </Typography>
                         <Typography color="error">
-                            No grid returned for pattern <code>{patternId}</code>.
+                            No layout returned for pattern <code>{categoryID}</code>.
                         </Typography>
                     </Paper>
                 </Container>
@@ -82,34 +88,53 @@ export const DevTools: Story = () => {
                                 GridCSS DevTools
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Pattern: <code>{patternId}</code>
+                                Pattern: <code>{categoryID}</code>
                             </Typography>
                         </Box>
 
                         <Divider />
 
-                        {/* pattern selector */}
-                        <Box>
+                        {/* category selector */}
+                        <Box display={'flex'} flexDirection={'row'} gap={4}> <Box>
                             <Typography
                                 variant="caption"
                                 color="text.secondary"
                                 sx={{ display: "block", mb: 0.5 }}
                             >
-                                Select pattern
+                                Select category
                             </Typography>
                             <Select
                                 size="small"
-                                value={patternId}
-                                onChange={handlePatternChange}
+                                value={categoryID}
+                                onChange={handleCategoryChange}
                             >
-                                {Object.entries(layoutsKeys).map(([id, p]) => (
+                                {Object.entries(layoutCategoriesKeys).map(([id, p]) => (
                                     <MenuItem key={p} value={p}>
-                                        <Typography component="span">( {p})</Typography>
+                                        <Typography component="span">{p}</Typography>
                                     </MenuItem>
                                 ))}
                             </Select>
                         </Box>
-
+                            <Box>
+                                <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                    sx={{ display: "block", mb: 0.5 }}
+                                >
+                                    Select layout
+                                </Typography>
+                                <Select
+                                    size="small"
+                                    value={layoutID}
+                                    onChange={handleLayoutChange}
+                                >
+                                    {Object.entries(layoutKeys).map(([id, p]) => (
+                                        <MenuItem key={p} value={p}>
+                                            <Typography component="span">{p}</Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Box></Box>
 
                         <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
                             {/* Left: rendered grid */}
@@ -117,11 +142,7 @@ export const DevTools: Story = () => {
                                 <Typography variant="subtitle1" gutterBottom>
                                     Grid preview
                                 </Typography>
-                                {grid ? (
-                                    <GridPreview grid={grid as any} nodesRegister={registry as any} />
-                                ) : (
-                                    <Typography color="error">No grid returned.</Typography>
-                                )}
+                                TO BE DONE
                             </Box>
 
                             {/* Right: inspector */}
@@ -141,12 +162,7 @@ export const DevTools: Story = () => {
                                     <Tab label="Diagnostics" />
                                 </Tabs>
 
-                                <Box sx={{ mt: 2, maxHeight: 400, overflow: "auto" }}>
-                                    {tab === 0 && <NodesPanel grid={grid} />}
-                                    {tab === 1 && <CoordsPanel grid={grid} />}
-                                    {tab === 2 && <GridJsonPanel grid={grid} />}
-                                    {tab === 3 && <DiagnosticsPanel diagnostics={diagnostics} />}
-                                </Box>
+
                             </Box>
                         </Stack>
                     </Stack>
@@ -155,129 +171,7 @@ export const DevTools: Story = () => {
         </Box>
     );
 };
-type GridAny = Parameters<typeof GridCssMuiRenderer>[0]["grid"];
-
-function NodesPanel({
-    grid,
-}: {
-    grid: GridAny;
-}) {
-
-
-    return (
-        <List dense>
-            {grid.nodes.map((node) => {
-
-                return (
-                    <ListItem key={node.id} disableGutters>
-                        <ListItemText
-                            primary={
-                                <>
-                                    <code>{String(node.id)}</code>{" "}
-
-                                </>
-                            }
-                            secondary={
-                                <>
-                                    kind: <code>{String(node.id)}</code>{" "}
-
-                                </>
-                            }
-                        />
-                    </ListItem>
-                );
-            })}
-        </List>
-    );
-}
-
-const ORDERED_BPS: Breakpoint[] = ["xs", "sm", "md", "lg", "xl"];
-
-function CoordsPanel<K extends NodeID>({
-    grid,
-
-}: {
-    grid: GridAny;
-
-}) {
-
-
-    return (
-        <Stack spacing={1}>
-            {grid.nodes.map((node) => (
-                <Box
-                    key={node.id}
-                    sx={{
-                        p: 1,
-                        borderRadius: 1,
-                        border: "1px solid",
-                        borderColor: "divider",
-                        bgcolor: "grey.50",
-                    }}
-                >
-                    <Typography variant="body2" fontWeight={600}>
-                        {String(node.id)}
-                    </Typography>
-                    <Box sx={{ fontFamily: "monospace", fontSize: 12 }}>
-                        {ORDERED_BPS.map((bp) => {
-                            const c = node.node.coordinates[bp];
-                            if (!c) return null;
-                            return (
-                                <div key={bp}>
-                                    {bp}: C{c.gridColumnStart}–{c.gridColumnEnd} · R
-                                    {c.gridRowStart}–{c.gridRowEnd}
-                                </div>
-                            );
-                        })}
-                    </Box>
-                </Box>))}
-
-        </Stack>
-    );
-}
-
-function GridJsonPanel({ grid }: { grid: GridAny }) {
-    if (!grid) return <Typography>No grid.</Typography>;
-
-    const snapshot = {
-        rows: grid.rows,
-        columns: grid.columns,
-        options: grid.options,
-        nodes: Object.fromEntries(
-            Object.entries(grid.nodes).map(([id, node]) => [
-                id,
-                node && {
-
-                    id: node.id,
-
-                    coordinates: node.node.coordinates,
-
-                },
-            ])
-        ),
-    };
-
-    return (
-        <Box
-            component="pre"
-            sx={{
-                fontFamily: "monospace",
-                fontSize: 11,
-                whiteSpace: "pre",
-                overflowX: "auto",
-                m: 0,
-            }}
-        >
-            {JSON.stringify(snapshot, null, 2)}
-        </Box>
-    );
-}
-type LayoutWithDiagnostics = {
-    diagnostics: {
-        warnings: any[];
-        errors: any[];
-    };
-};
+function renderGrid
 
 function DiagnosticsPanel({
     diagnostics,
