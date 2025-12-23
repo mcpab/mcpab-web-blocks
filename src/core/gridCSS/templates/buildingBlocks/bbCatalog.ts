@@ -6,16 +6,26 @@ import { sixCells } from "./sixCells";
 import { threeCells } from "./threeCells";
 import { twoCells } from "./twoCells";
 
-export const bbCatalog  = {
+export const bbCatalog = {
     ...singleCells,
     ...twoCells,
     ...threeCells,
     ...fourCells,
-    ...fiveCells, 
+    ...fiveCells,
     ...sixCells,
     ...pagePartitions20,
-}  as const;
+} as const;
 
 type BB = typeof bbCatalog;
-type EntriesInBBCatalog =  BB[keyof BB];
-export type BoxesInBBCatalog = EntriesInBBCatalog["boxDimensionIdsAndTx"]; 
+
+export type KeysInBBCatalog = keyof BB;
+
+export type EntriesInBBCatalog = BB[keyof BB];
+
+export type BoxesInBBCatalog = EntriesInBBCatalog["boxDimensionIdsAndTx"];
+
+// export const getBoxesAndTx = <K extends KeysInBBCatalog>(key: K) => bbCatalog[key].boxDimensionIdsAndTx;
+
+export function getBoxesAndTx<K extends KeysInBBCatalog>(key: K): BB[K]["boxDimensionIdsAndTx"] {
+  return bbCatalog[key].boxDimensionIdsAndTx;
+}

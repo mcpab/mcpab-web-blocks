@@ -1,31 +1,50 @@
-import { SectionIDs, BlocksIDs } from "../../templates/layoutIDs";
-import { LayoutSectionBounds, LayoutAbsolute, LayoutSectionLocal } from "../boxLayout/boxLayoutTypes";
+import { layoutsCatalog, LayoutsCatalogEntries } from "../../templates/boxLayoutsCatalog";
+import { BoxesInBBCatalog } from "../../templates/buildingBlocks/bbCatalog";
+import { DefaultTransformations } from "../../templates/buildingBlocks/defaultBPTransformations";
+import { BlocksIDs, SectionIDs } from "../../templates/layoutIDs";
+import { BoxTransformations, LayoutAbsolute, LayoutSectionBounds, LayoutTxOverrides } from "../boxLayout/boxLayoutTypes";
 import { BREAKPOINTS } from "../breakpoints";
 import { DiagnosticEntry, GRID_ERROR_CODE, makeError, makeWarning } from "../gridErrorShape";
 import { CSSCoordinates } from "../gridNodeTypes";
 import { layoutSectionBtoAbsolute } from "./layoutSectionBtoAbsolute";
 import { layoutSectionToBounds } from "./layoutSectionToBounds";
-import {bbCatalog, BoxesInBBCatalog} from "../../templates/buildingBlocks/bbCatalog";
-import { LayoutsCatalogEntries , layoutsCatalog } from "../../templates/boxLayoutsCatalog";
 
 type GridDiagnostic = {
     overlapPolicy?: "allow" | "warn" | "error";
     breakpoints?: readonly (typeof BREAKPOINTS)[number][];
 }
 
- 
-const kk = layoutsCatalog['secondary']['mixedDensityShowcase'];
-type ll = keyof typeof kk;
-
-
-type CSSLayoutProps = {
-    BBentry: LayoutSectionLocal<sectionIDs, blockIDs>;
+export type CSSLayoutProps<E extends Partial<Record<SectionIDs, BoxesInBBCatalog >>> = {
+    BBentry: E;
     diagnostics: DiagnosticEntry[];
+    layoutTxOverrides?: LayoutTxOverrides<E>
     gridDiagnostic?: GridDiagnostic;
 }
 
-export function CSSLayout<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs>({
-    layoutSectionLocal, diagnostics, gridDiagnostic = { overlapPolicy: "allow", breakpoints: BREAKPOINTS } }: CSSLayoutProps<sectionIDs, blockIDs>): LayoutAbsolute<sectionIDs, blockIDs> {
+const transformations = DefaultTransformations;
+
+
+const kk = layoutsCatalog['primary20']['page_twoCol_16_4'];
+type kkj = typeof kk;
+type oo = LayoutTxOverrides<kkj>;
+const ty: BoxTransformations<"header" | "main" | "footer"> = DefaultTransformations;
+
+const poij: LayoutTxOverrides<typeof kk> = {
+    transformations: ty
+};
+
+const rt: CSSLayoutProps<typeof kk> = {
+    BBentry: kk,
+    diagnostics: [],
+    layoutTxOverrides: {
+        transformations: ty
+    }
+};
+
+export function CSSLayout<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs, E extends LayoutsCatalogEntries>({
+    BBentry, diagnostics, layoutTxOverrides, gridDiagnostic = { overlapPolicy: "allow", breakpoints: BREAKPOINTS } }: CSSLayoutProps<E>): LayoutAbsolute<sectionIDs, blockIDs> {
+
+
 
     const layoutSecBonds: LayoutSectionBounds<sectionIDs, blockIDs> = layoutSectionToBounds(layoutSectionLocal, diagnostics)
 
@@ -47,6 +66,7 @@ export function CSSLayout<sectionIDs extends SectionIDs, blockIDs extends Blocks
     return layoutSecAbs;
 
 }
+
 type OverlapRect = {
     colStart: number;
     colEnd: number;

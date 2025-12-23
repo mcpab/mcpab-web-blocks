@@ -1,3 +1,4 @@
+import { layoutsCatalog } from "../../templates/boxLayoutsCatalog";
 import { BlocksIDs, NodeID, SectionIDs } from "../../templates/layoutIDs";
 import { GridBox } from "../box/gridBoxTypes";
 import { BoxDimensionIdsCSS } from "../boxShapes/boxShapeType";
@@ -26,9 +27,9 @@ export type BoxesCoordinates<BlockIDs extends NodeID> = {
 /// Layouts 
 
 // basic layout, with box dimension ids and optional transformations per section
-export type LayoutWithTx<SectionID extends SectionIDs, BlockIDs extends BlocksIDs> = {
-  sections: Record<SectionID, BoxDimensionIdsAndTx<BlockIDs>>;
-  transformations?: BoxTransformations<SectionID>;
+export type LayoutWithTx<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs> = {
+  sections: Record<sectionIDs, BoxDimensionIdsAndTx<blockIDs>>;
+  transformations?: BoxTransformations<sectionIDs>;
 };
 
 // layout after applying transformations to sections children, with local grid boxes per section children
@@ -93,3 +94,23 @@ export type LayoutAbsoluteRendering<LA extends LayoutAbsolute<any, any>> = Parti
     }>;
   }>;
 }>;
+
+const kk = layoutsCatalog['primary20']['page_twoCol_16_4'];
+type ll = keyof typeof kk;
+type lk = BoxTransformations<keyof typeof kk>;
+type lka = typeof layoutsCatalog;
+type ld = lka[keyof lka];
+type kkak = keyof  ld;
+// Getting the keys for transformations
+type llk = LayoutTxOverrides<typeof kk>;
+
+
+export type LayoutTxOverrides<LA extends Record<string, BoxDimensionIdsAndTx<any>>> = {
+  // override ONLY the block-level transformations inside each section payload
+
+    [S in keyof LA]?: LA[S]["transformations"];
+}&{
+  // add OPTIONAL section-level transformations (same move language, but ids are section keys)
+  transformations?: BoxTransformations<keyof LA & SectionIDs>;
+};
+
