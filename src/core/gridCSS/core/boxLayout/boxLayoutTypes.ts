@@ -1,6 +1,8 @@
-import { layoutsCatalog } from "../../templates/boxLayoutsCatalog";
+import { AnyBBEntry, layoutsCatalog } from "../../templates/boxLayoutsCatalog";
+
 import { BlocksIDs, NodeID, SectionIDs } from "../../templates/layoutIDs";
 import { GridBox } from "../box/gridBoxTypes";
+import { bbEntryToLayoutWithTx } from "../boxDesign/bbEntryToLayoutWithTx";
 import { BoxDimensionIdsCSS } from "../boxShapes/boxShapeType";
 import { BoxMovesProps } from "../boxTransformations/boxTransformationsProps";
 import { BPs, BREAKPOINTS } from "../breakpoints";
@@ -58,59 +60,135 @@ export type LayoutAbsolute<SectionID extends SectionIDs, BlockIDs extends Blocks
 type Breakpoint = (typeof BREAKPOINTS)[number];
 
 export type NodeRenderCtx<
-  LA extends LayoutAbsolute<any, any>,
-  S extends keyof LA["sections"],
-  BP extends Breakpoint,
-  B extends keyof LA["sections"][S]["coordinates"][BP]
+  sectionID extends SectionIDs,
+  blockIDs extends BlocksIDs,
+  BP extends Breakpoint = Breakpoint
 > = {
-  sectionId: S;
+  sectionId: sectionID;
   bp: BP;
-  boxId: B;
-  coords: CSSCoordinates; // <- key fix: don't make coords depend on BP in the type
+  boxId: blockIDs;
+  coords: CSSCoordinates;
 };
 
-
-export type NodeRenderConfig<LA extends LayoutAbsolute<any, any>> = {
-  contentRenderer?: <
-    S extends keyof LA["sections"],
-    BP extends Breakpoint,
-    B extends keyof LA["sections"][S]["coordinates"][BP]
-  >(
-    ctx: NodeRenderCtx<LA, S, BP, B>
-  ) => React.ReactNode;
-
+export type NodeRenderConfig<
+  sectionID extends SectionIDs,
+  blockIDs extends BlocksIDs
+> = {
+  contentRenderer?: (ctx: NodeRenderCtx<sectionID, blockIDs>) => React.ReactNode;
   view?: GridNodeViewOptions;
 };
+
 /**
- * A key-safe, ergonomic "rendering overrides" shape derived from a LayoutAbsolute.
+ * Rendering overrides derived from a LayoutAbsolute:
  * - sections optional
  * - breakpoints optional
  * - box IDs optional
  */
-export type LayoutAbsoluteRendering<LA extends LayoutAbsolute<any, any>> = Partial<{
-  [S in keyof LA["sections"]]: Partial<{
-    [BP in Breakpoint]: Partial<{
-      [B in keyof LA["sections"][S]["coordinates"][BP]]: NodeRenderConfig<LA>;
-    }>;
+export type LayoutRenderingOverride<
+  sectionID extends SectionIDs,
+  blockIDs extends BlocksIDs
+> = Partial<{
+  [S in sectionID]: Partial<{
+    [BP in Breakpoint]: Partial<Record<blockIDs, NodeRenderConfig<sectionID, blockIDs>>>;
   }>;
 }>;
 
-const kk = layoutsCatalog['primary20']['page_twoCol_16_4'];
-type ll = keyof typeof kk;
-type lk = BoxTransformations<keyof typeof kk>;
-type lka = typeof layoutsCatalog;
-type ld = lka[keyof lka];
-type kkak = keyof  ld;
-// Getting the keys for transformations
-type llk = LayoutTxOverrides<typeof kk>;
-
-
-export type LayoutTxOverrides<LA extends Record<string, BoxDimensionIdsAndTx<any>>> = {
-  // override ONLY the block-level transformations inside each section payload
-
-    [S in keyof LA]?: LA[S]["transformations"];
-}&{
-  // add OPTIONAL section-level transformations (same move language, but ids are section keys)
-  transformations?: BoxTransformations<keyof LA & SectionIDs>;
+export type LayoutTxOverrides<E extends AnyBBEntry> = {
+  [S in SectionsFromBBEntry<E>]?: BoxTransformations<BlockIdsFromBBEntry<E>>;
+} & {
+  transformations?: BoxTransformations<SectionsFromBBEntry<E>>;
 };
+// section ids (literal union)
+export type SectionsFromBBEntry<E extends AnyBBEntry> = keyof E & SectionIDs;
+
+// block ids used anywhere in this layout (literal union, cleaned)
+export type BlockIdsFromBBEntry<E extends AnyBBEntry> = {
+  [S in SectionsFromBBEntry<E>]:
+    NonNullable<E[S]> extends { boxDimensionIds: infer BD }
+      ? keyof BD & BlocksIDs
+      : never;
+}[SectionsFromBBEntry<E>];
+
+// import { DefaultTransformations } from "../../templates/buildingBlocks/defaultBPTransformations";
+// const kk = layoutsCatalog['secondary']['mixedDensityShowcase'];
+// type llk = typeof kk;
+// type sections = keyof typeof kk;
+// type blockids = {
+//   [S in sections]: keyof llk[S]['boxDimensionIds'];
+// }[sections];
+ 
+// const kk = layoutsCatalog['primary20']['page_twoCol_16_4'];
+// const mn: LayoutTxOverrides<typeof kk> = {
+
+//     main: DefaultTransformations,
+// }
+// const kkk = bbEntryToLayoutWithTx({
+//     BBentry: kk, diagnostics: [], layoutTxOverrides: {
+//         header: DefaultTransformations,
+//         main: {
+//             xs: [
+//                 {
+//                     moveBy: {
+//                         from: { boxId: 'block_1' },
+//                         by: {
+//                             x: 100,
+//                             y: 200
+//                         }
+//                     }
+//                 }
+//             ],
+//             sm: [
+//                 {
+//                     moveBy: {
+//                         from: { boxId: 'block_1' },
+//                         by: {
+//                             x: 100,
+//                             y: 200
+//                         }
+//                     }
+//                 }
+//             ],
+//             md: [
+//                 {
+//                     moveBy: {
+//                         from: { boxId: 'block_1' },
+//                         by: {
+//                             x: 100,
+//                             y: 200
+//                         }
+//                     }
+//                 }
+//             ],
+//             lg: [
+//                 {
+//                     moveBy: {
+//                         from: { boxId: 'block_1' },
+//                         by: {
+//                             x: 100,
+//                             y: 200
+//                         }
+//                     }
+//                 }
+//             ],
+//             xl: [
+//                 {
+//                     moveBy: {
+//                         from: { boxId: 'block_1' },
+//                         by: {
+//                             x: 100,
+//                             y: 200
+//                         }
+//                     }
+//                 }
+//             ]
+//         }
+//     }
+// });
+// type ll = keyof typeof kk;
+// type lk = BoxTransformations<keyof typeof kk>;
+// type lka = typeof layoutsCatalog;
+// type ld = lka[keyof lka];
+// type kkak = keyof  ld;
+// // Getting the keys for transformations
+// type llk = LayoutTxOverrides<typeof kk>;
 

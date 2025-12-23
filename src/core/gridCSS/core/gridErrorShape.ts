@@ -21,6 +21,7 @@ export type DiagnosticOrigin =
   | 'layoutSectionBtoAbsolute'
   | 'CSSLayout'
   | 'GridCssMuiRenderer'
+  | 'bbEntryToLayoutWithTx'
   ;
 
 
@@ -82,7 +83,7 @@ export const GRID_ERROR_CODE = {
   MISSING_BOX: 'MISSING_BOX' as GridErrorCode,
   INVALID_TRACK: 'INVALID_TRACK' as GridErrorCode,
   EMPTY_GRID: 'EMPTY_GRID' as GridErrorCode,
-  GRID_NORMALIZED_TO_POSITIVE_LINES: 'GRID_NORMALIZED_TO_POSITIVE_LINES' as GridErrorCode ,
+  GRID_NORMALIZED_TO_POSITIVE_LINES: 'GRID_NORMALIZED_TO_POSITIVE_LINES' as GridErrorCode,
   MISSING_COORDINATES: 'MISSING_COORDINATES' as GridErrorCode,
   SECTION_SHAPES_MISSING_BP: 'SECTION_SHAPES_MISSING_BP' as GridErrorCode,
 

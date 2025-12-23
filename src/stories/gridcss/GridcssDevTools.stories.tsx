@@ -4,27 +4,23 @@ import {
     Box,
     Container,
     Divider,
-    List,
-    ListItem,
-    ListItemText,
     MenuItem,
     Paper,
     Select,
     Stack,
     Tab,
     Tabs,
-    Typography,
+    Typography
 } from "@mui/material";
 import * as React from "react";
-import type { LayoutWithTx } from "src/core/gridCSS/core/boxLayout/boxLayoutTypes";
-import {
-    DiagnosticEntry,
-    GridCssMuiRenderer,
-    type Breakpoint,
-    type NodeID
-} from "../..";
-
+ 
 import { layoutsCatalog } from "src/core/gridCSS/templates/boxLayoutsCatalog";
+import { CSSLayout } from "src/core/gridCSS/core/boxDesign/CSSlayout";
+import { DiagnosticEntry } from "src/core/gridCSS/core/gridErrorShape";
+import { GridCssMuiRenderer } from "src/core/gridCSS/integration/mui/GridCssMuiRenderer";
+
+import { BREAKPOINTS } from "src/core/gridCSS/core/breakpoints";
+import { LayoutRenderingOverride } from "src/core/gridCSS/core/boxLayout/boxLayoutTypes";
 
 const layoutCategoriesKeys = Object.keys(layoutsCatalog) as (keyof typeof layoutsCatalog)[];
 
@@ -32,34 +28,42 @@ type CategoryID = keyof typeof layoutsCatalog;
 
 type LayoutID<C extends CategoryID> = keyof typeof layoutsCatalog[C];
 
-export const DevTools: Story = () => {
+export function typedKeys<T extends object>(obj: T): Array<keyof T> {
+    return Object.keys(obj) as Array<keyof T>;
+}
 
+export const DevTools: Story = () => {
 
     const [categoryID, setCategoryID] = React.useState<CategoryID>('primary20');
     const [tab, setTab] = React.useState(0);
 
-    const [layoutID, setLayoutID] = React.useState<LayoutID<'primary20'>>('page_band');
-layoutsCatalog['primary20']['page_band']
+    const [BBEntry, setBBEntry] = React.useState<string>('page_band');
+    console.log("Rendering DevTools with category ", categoryID, " and layout ", BBEntry);
 
-    const layout: LayoutWithTx<any, any> = layoutsCatalog['primary20']['page_band'];
+    const handleCategoryChange = (event: any) => {
+        const nextCategory = event.target.value as CategoryID;
 
-    const layoutKeys = Object.keys(layout) as (keyof typeof layout)[];
+        setCategoryID(nextCategory);
 
-    const handleCategoryChange = (
-        event: React.ChangeEvent<{ value: unknown }> | any
-    ) => {
-        console.log("changing category to ", event.target.value);
-        setCategoryID(event.target.value as CategoryID);
+        const nextCat = layoutsCatalog[nextCategory];
+
+        // if current BBEntry exists in the next category, keep it
+        if (BBEntry in nextCat) return;
+
+        // otherwise reset to the first valid key of the next category
+        setBBEntry(typedKeys(nextCat)[0]);
     };
+
+    const BBentries = typedKeys(layoutsCatalog[categoryID]);
 
     const handleLayoutChange = (
         event: React.ChangeEvent<{ value: unknown }> | any
     ) => {
         console.log("changing layout to ", event.target.value);
-        setLayoutID(event.target.value as LayoutID<CategoryID>);
+        setBBEntry(event.target.value as string);
     };
 
-    if (!layout) {
+    if (!BBEntry) {
         return (
             <Box sx={{ minHeight: "100vh", bgcolor: "grey.100", py: 4 }}>
                 <Container maxWidth="lg">
@@ -76,7 +80,40 @@ layoutsCatalog['primary20']['page_band']
         );
     }
 
+    // ---- render-time safe lookup ----
+    const cat = layoutsCatalog[categoryID];
+    const fallbackKey = typedKeys(cat)[0];
 
+    // narrow BBEntry to a real key of cat
+    const safeKey = (BBEntry in cat ? BBEntry : fallbackKey) as keyof typeof cat;
+
+    // now TS is happy: safeKey is keyof cat
+    const layout = cat[safeKey];
+
+    let diagnostics: DiagnosticEntry[] = [];
+
+    const layoutAbsolute = CSSLayout({ BBentry: layout, diagnostics });
+
+    let layoutRendering: LayoutRenderingOverride<typeof layoutAbsolute>  = {} ;
+
+    for (const sectionId of typedKeys(layoutAbsolute.sections)) {
+
+        layoutRendering[sectionId]  = {};
+        const coord = layoutAbsolute.sections[sectionId].coordinates; 
+
+        for( const bp of BREAKPOINTS) {
+
+                layoutRendering[sectionId][bp]  = {};
+
+        }
+    }
+       
+    
+    const layoutRendered = GridCssMuiRenderer({ layoutAbsolute, diagnostics });
+
+    console.log("Diagnostics: ", diagnostics);
+    console.log("LayoutAbsolute: ", layoutAbsolute);
+    console.log("Layout rendered: ", layoutRendered);
     return (
         <Box sx={{ minHeight: "100vh", bgcolor: "grey.100", py: 4 }}>
             <Container maxWidth="lg">
@@ -125,10 +162,10 @@ layoutsCatalog['primary20']['page_band']
                                 </Typography>
                                 <Select
                                     size="small"
-                                    value={layoutID}
+                                    value={BBEntry}
                                     onChange={handleLayoutChange}
                                 >
-                                    {Object.entries(layoutKeys).map(([id, p]) => (
+                                    {Object.entries(BBentries).map(([id, p]) => (
                                         <MenuItem key={p} value={p}>
                                             <Typography component="span">{p}</Typography>
                                         </MenuItem>
@@ -142,7 +179,7 @@ layoutsCatalog['primary20']['page_band']
                                 <Typography variant="subtitle1" gutterBottom>
                                     Grid preview
                                 </Typography>
-                                TO BE DONE
+                                {layoutRendered}
                             </Box>
 
                             {/* Right: inspector */}
@@ -171,7 +208,7 @@ layoutsCatalog['primary20']['page_band']
         </Box>
     );
 };
-function renderGrid
+
 
 function DiagnosticsPanel({
     diagnostics,

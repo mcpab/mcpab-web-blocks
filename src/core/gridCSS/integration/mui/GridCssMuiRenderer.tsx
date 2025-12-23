@@ -1,11 +1,10 @@
 import { Box } from "@mui/material";
-import type { Theme } from "@mui/system";
-import { grid, SxProps } from "@mui/system";
+import { SxProps } from "@mui/system";
 import React from "react";
-import { LayoutAbsolute, LayoutAbsoluteRendering } from "../../core/boxLayout/boxLayoutTypes";
+import { LayoutAbsolute, LayoutRenderingOverride } from "../../core/boxLayout/boxLayoutTypes";
 import { BPs, BREAKPOINTS } from "../../core/breakpoints";
 import { gapValueToString, gridUnitValueToString } from "../../core/cssStringify";
-import { DiagnosticEntry, GRID_ERROR_CODE, makeError, makeWarning } from "../../core/gridErrorShape";
+import { DiagnosticEntry, GRID_ERROR_CODE, makeError } from "../../core/gridErrorShape";
 import { CSSCoordinates } from "../../core/gridNodeTypes";
 import { GridOptions } from "../../core/gridOptionsTypes";
 import { GridNodeViewOptions } from "../../core/nodeViewOptions";
@@ -96,7 +95,7 @@ function TopContainer<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs>
 export type GridCssMuiRendererProps<LA extends LayoutAbsolute<any, any>> = {
     layoutAbsolute: LA;
     diagnostics: DiagnosticEntry[];
-    layoutRendering?: LayoutAbsoluteRendering<LA>;
+    layoutRendering?: LayoutRenderingOverride<LA>;
     gridOptionsOverride?: Partial<GridOptions>;
 };
 

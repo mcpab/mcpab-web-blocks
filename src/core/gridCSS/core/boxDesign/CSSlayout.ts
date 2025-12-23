@@ -1,61 +1,46 @@
-import { layoutsCatalog, LayoutsCatalogEntries } from "../../templates/boxLayoutsCatalog";
-import { BoxesInBBCatalog } from "../../templates/buildingBlocks/bbCatalog";
-import { DefaultTransformations } from "../../templates/buildingBlocks/defaultBPTransformations";
+import { AnyBBEntry } from "../../templates/boxLayoutsCatalog";
 import { BlocksIDs, SectionIDs } from "../../templates/layoutIDs";
-import { BoxTransformations, LayoutAbsolute, LayoutSectionBounds, LayoutTxOverrides } from "../boxLayout/boxLayoutTypes";
+import { BlockIdsFromBBEntry, BoxDimensionIdsAndTx, LayoutAbsolute, LayoutSectionBounds, LayoutTxOverrides, SectionsFromBBEntry } from "../boxLayout/boxLayoutTypes";
 import { BREAKPOINTS } from "../breakpoints";
 import { DiagnosticEntry, GRID_ERROR_CODE, makeError, makeWarning } from "../gridErrorShape";
 import { CSSCoordinates } from "../gridNodeTypes";
+import { bbEntryToLayoutWithTx } from "./bbEntryToLayoutWithTx";
 import { layoutSectionBtoAbsolute } from "./layoutSectionBtoAbsolute";
 import { layoutSectionToBounds } from "./layoutSectionToBounds";
+import { layoutTxToSectionLocal } from "./layoutTxToSectionLocal";
 
 type GridDiagnostic = {
     overlapPolicy?: "allow" | "warn" | "error";
     breakpoints?: readonly (typeof BREAKPOINTS)[number][];
 }
 
-export type CSSLayoutProps<E extends Partial<Record<SectionIDs, BoxesInBBCatalog >>> = {
-    BBentry: E;
-    diagnostics: DiagnosticEntry[];
-    layoutTxOverrides?: LayoutTxOverrides<E>
-    gridDiagnostic?: GridDiagnostic;
-}
+type CSSLayoutProps<E extends AnyBBEntry>  =
+    {
+         BBentry: E;
+        diagnostics: DiagnosticEntry[];
+        layoutTxOverrides?: LayoutTxOverrides<E>;
+        gridDiagnostic?: GridDiagnostic;
+    };
+ 
 
-const transformations = DefaultTransformations;
+export function CSSLayout<E extends AnyBBEntry>({
+    BBentry, diagnostics, layoutTxOverrides, gridDiagnostic = { overlapPolicy: "allow", breakpoints: BREAKPOINTS } }: CSSLayoutProps<E>): 
+    LayoutAbsolute<SectionsFromBBEntry<E>, BlockIdsFromBBEntry<E>> {
 
+    const layoutWithTx = bbEntryToLayoutWithTx({ BBentry, diagnostics, layoutTxOverrides });
 
-const kk = layoutsCatalog['primary20']['page_twoCol_16_4'];
-type kkj = typeof kk;
-type oo = LayoutTxOverrides<kkj>;
-const ty: BoxTransformations<"header" | "main" | "footer"> = DefaultTransformations;
+    const layoutSectionLocal = layoutTxToSectionLocal<SectionsFromBBEntry<E>, BlockIdsFromBBEntry<E>>(layoutWithTx, diagnostics);
 
-const poij: LayoutTxOverrides<typeof kk> = {
-    transformations: ty
-};
+    const layoutSecBonds: LayoutSectionBounds<SectionsFromBBEntry<E>, BlockIdsFromBBEntry<E>> = layoutSectionToBounds(layoutSectionLocal, diagnostics)
 
-const rt: CSSLayoutProps<typeof kk> = {
-    BBentry: kk,
-    diagnostics: [],
-    layoutTxOverrides: {
-        transformations: ty
-    }
-};
-
-export function CSSLayout<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs, E extends LayoutsCatalogEntries>({
-    BBentry, diagnostics, layoutTxOverrides, gridDiagnostic = { overlapPolicy: "allow", breakpoints: BREAKPOINTS } }: CSSLayoutProps<E>): LayoutAbsolute<sectionIDs, blockIDs> {
-
-
-
-    const layoutSecBonds: LayoutSectionBounds<sectionIDs, blockIDs> = layoutSectionToBounds(layoutSectionLocal, diagnostics)
-
-    const layoutSecAbs: LayoutAbsolute<sectionIDs, blockIDs> = layoutSectionBtoAbsolute(layoutSecBonds, diagnostics)
+    const layoutSecAbs: LayoutAbsolute<SectionsFromBBEntry<E>, BlockIdsFromBBEntry<E>> = layoutSectionBtoAbsolute(layoutSecBonds, diagnostics)
 
     const overlapPolicy = gridDiagnostic.overlapPolicy || "allow";
     const breakpoints = gridDiagnostic.breakpoints || BREAKPOINTS;
 
     // we check overlap of sections boxes if needed
     if (overlapPolicy !== "allow") {
-        checkSectionsOverlap<sectionIDs, blockIDs>(
+        checkSectionsOverlap<SectionsFromBBEntry<E>, BlockIdsFromBBEntry<E>>(
             layoutSecAbs,
             diagnostics,
             overlapPolicy,

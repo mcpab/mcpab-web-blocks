@@ -1,7 +1,7 @@
 import { NodeID } from "../layoutIDs"
 import { BoxTransformations } from "../../core/boxLayout/boxLayoutTypes";
 
-
+ 
 // export const DefaultTransformations: <BoxId extends NodeID>() => BoxTransformations<BoxId> = () => ({
 //   xs: [{ stackVertically: {} }],
 //   sm: [{ stackHorizontally: {} }],

@@ -2,7 +2,7 @@ import { NodeID } from "../../templates/layoutIDs";
 import { Anchor } from "../box/gridBoxTypes";
 import { Coordinate } from "../../geometry/coordinateTypes"
 import { GridBox } from "../box/gridBoxTypes";
-import { DiagnosticEntry } from "../..";
+import { DiagnosticEntry } from "../gridErrorShape";
 
 
 // here the localIDS are the NodeIDs that I can use in my box layout
