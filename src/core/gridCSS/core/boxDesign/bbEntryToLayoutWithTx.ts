@@ -1,6 +1,5 @@
-import { AnyBBEntry } from "../../templates/boxLayoutsCatalog";
-import { DefaultTransformations } from "../../templates/buildingBlocks/defaultBPTransformations";
-import { BlockIdsFromBBEntry, BoxDimensionIdsAndTx, BoxTransformations, LayoutTxOverrides, LayoutWithTx, SectionsFromBBEntry } from "../boxLayout/boxLayoutTypes";
+import { DefaultTransformationsResponsiveColumns, DefaultTransformationsResponsiveRows } from "../../templates/buildingBlocks/defaultBPTransformations";
+import { BlockIdsFromBBEntry, BoxDimensionIdsAndTx, LayoutTxOverrides, LayoutWithTx, SectionsFromBBEntry } from "../boxLayout/boxLayoutTypes";
 import { DiagnosticEntry, GRID_ERROR_CODE, makeError } from "../gridErrorShape";
 
 export function typedKeys<T extends object>(obj: T): Array<keyof T> {
@@ -28,7 +27,7 @@ export function bbEntryToLayoutWithTx<E extends AnyBBEntry>(
 
     layoutWithTx["sections"] = {} as Record<sectionIDs, BoxDimensionIdsAndTx<blockIDs>>;
 
-    layoutWithTx.transformations = DefaultTransformations;
+    layoutWithTx.transformations = DefaultTransformationsResponsiveColumns;
     // we have defined the object now.
     for (const secID of typedSectionKeys(BBentry)) {
         const v = BBentry[secID];

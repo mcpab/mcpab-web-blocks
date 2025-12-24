@@ -40,6 +40,7 @@ export type BoxDimensionId =
   | '20TallCell'
   | '20Wide20TallCell';
 
+export type BoxDimensionIdsCSS = BoxDimensionId | BPs<BoxDimensionId>;
 export type BoxShapeCatalog = Record<BoxDimensionId, BoxDimensions>;
-export type BoxDimensionIdsCSS = BoxDimensionId | BPs<BoxDimensionId>; // we enforce full responsiveness for box shapes
+
 

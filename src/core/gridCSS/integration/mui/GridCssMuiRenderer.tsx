@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { SxProps } from "@mui/system";
 import React from "react";
-import { LayoutAbsolute, LayoutRenderingOverride } from "../../core/boxLayout/boxLayoutTypes";
+import { LayoutAbsolute, LayoutRenderingOverride, NodeRenderConfig, NodeRenderCtx } from "../../core/boxLayout/boxLayoutTypes";
 import { BPs, BREAKPOINTS } from "../../core/breakpoints";
 import { gapValueToString, gridUnitValueToString } from "../../core/cssStringify";
 import { DiagnosticEntry, GRID_ERROR_CODE, makeError } from "../../core/gridErrorShape";
@@ -92,10 +92,10 @@ function TopContainer<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs>
 }
 
 
-export type GridCssMuiRendererProps<LA extends LayoutAbsolute<any, any>> = {
+export type GridCssMuiRendererProps<sectionID extends SectionIDs, blockID extends BlocksIDs, LA extends LayoutAbsolute<sectionID, blockID>> = {
     layoutAbsolute: LA;
     diagnostics: DiagnosticEntry[];
-    layoutRendering?: LayoutRenderingOverride<LA>;
+    layoutRendering?: LayoutRenderingOverride<sectionID, blockID>;
     gridOptionsOverride?: Partial<GridOptions>;
 };
 
@@ -114,11 +114,10 @@ type NodePair<LA extends LayoutAbsolute<any, any>> = {
     }[BOXID<LA, S>];
 }[SEID<LA>];
 
-type BoxRenderer<LA extends LayoutAbsolute<any, any>> =
+type BoxRenderer<sectionID extends SectionIDs, blockID extends BlocksIDs, LA extends LayoutAbsolute<sectionID, blockID>> =
     NodePair<LA> & {
         coordinate: BPs<CSSCoordinates>;
-        content: React.ReactNode;
-        view: GridNodeViewOptions;
+        content: NodeRenderConfig<sectionID, blockID>;
     };
 
 const dummyCSSCoordinates: CSSCoordinates = {
@@ -128,18 +127,21 @@ const dummyCSSCoordinates: CSSCoordinates = {
     gridRowEnd: 0,
 };
 
-export function GridCssMuiRenderer<LA extends LayoutAbsolute<any, any>>(
-    { layoutAbsolute, layoutRendering, diagnostics, gridOptionsOverride }: GridCssMuiRendererProps<LA>) {
+export function typedKeys<T extends object>(obj: T): Array<keyof T> {
+    return Object.keys(obj) as Array<keyof T>;
+}
+export function GridCssMuiRenderer<sectionID extends SectionIDs, blockID extends BlocksIDs, LA extends LayoutAbsolute<sectionID, blockID>>(
+    { layoutAbsolute, layoutRendering, diagnostics, gridOptionsOverride }: GridCssMuiRendererProps<sectionID, blockID, LA>) {
 
-    let nodes: Record<string, BoxRenderer<LA>> = {};
+    let nodes: Record<string, BoxRenderer<sectionID, blockID, LA>> = {};
 
     // here we have the section
-    for (const sectionId in layoutAbsolute.sections) {
+    for (const sectionId of typedKeys(layoutAbsolute.sections)) {
 
         // the bps
         BREAKPOINTS.forEach(bp => {
 
-            const boxesAtBP: Partial<Record<BOXID<LA, SEID<LA>>, CSSCoordinates>> = layoutAbsolute.sections[sectionId as SEID<LA>].coordinates[bp];
+            const boxesAtBP = layoutAbsolute.sections[sectionId].coordinates[bp];
 
             if (!boxesAtBP) {
                 diagnostics.push(makeError("GridCssMuiRenderer", GRID_ERROR_CODE.SECTION_SHAPES_MISSING_BP, `Missing box shapes for section "${sectionId}" at breakpoint "${bp}"`, { details: { sectionId, bp } }));
@@ -149,7 +151,7 @@ export function GridCssMuiRenderer<LA extends LayoutAbsolute<any, any>>(
             // the box ids
             for (const boxId in boxesAtBP) {
 
-                const crd = boxesAtBP[boxId as BOXID<LA, SEID<LA>>];
+                const crd = boxesAtBP[boxId];
 
                 if (!crd) {
                     diagnostics.push(makeError("GridCssMuiRenderer", GRID_ERROR_CODE.BOX_SHAPE_MISSING_BP, `Missing box shape for box "${boxId}" in section "${sectionId}" at breakpoint "${bp}"`, { details: { sectionId, boxId, bp } }));
@@ -161,29 +163,25 @@ export function GridCssMuiRenderer<LA extends LayoutAbsolute<any, any>>(
 
                 const nodeKey = `${sectionId}::${boxId}`;
 
-                let renderConfig: GridNodeViewOptions = {};
-
-                let content: React.ReactNode = <></>;
-
+                let content: NodeRenderConfig<sectionID, blockID> = {
+                    contentRenderer: ({ sectionId, boxId, bp, coords }) => { return <></>; },
+                    view: {}
+                }
 
                 if (layoutRendering &&
                     layoutRendering[sectionId] &&
                     layoutRendering[sectionId][bp] &&
                     layoutRendering[sectionId][bp][boxId]) {
 
-                    renderConfig = layoutRendering[sectionId][bp][boxId].view || {};
+                    content.view = layoutRendering[sectionId][bp][boxId].view || {};
                     const renderer = layoutRendering?.[sectionId]?.[bp]?.[boxId]?.contentRenderer;
 
                     if (renderer) {
-                        content = renderer({
-                            sectionId: sectionId as any,
-                            boxId: boxId as any,
-                            bp,
-                            coords: crd,
-                        });
+                        content.contentRenderer = renderer;
                     }
 
                 }
+
                 // check if the node key exists
                 if (!nodes[nodeKey]) {
                     nodes[nodeKey] = {
@@ -196,22 +194,20 @@ export function GridCssMuiRenderer<LA extends LayoutAbsolute<any, any>>(
                             lg: dummyCSSCoordinates,
                             xl: dummyCSSCoordinates,
                         },
-                        view: renderConfig,
                         content: content,
                     };
-                } else {
-                    nodes[nodeKey].coordinate[bp] = boxCrd;
                 }
+                nodes[nodeKey].coordinate[bp] = boxCrd;
 
-            }
 
-        })
+
+            }})
 
     }
 
     for (const key in nodes) {
 
-        const box: BoxRenderer<LA> = nodes[key];
+        const box: BoxRenderer<sectionID, blockID, LA> = nodes[key];
 
         BREAKPOINTS.forEach((bp, index) => {
 
@@ -219,7 +215,7 @@ export function GridCssMuiRenderer<LA extends LayoutAbsolute<any, any>>(
             // if any coordinate is zero, we need to fix it
             if (crd.gridColumnStart === 0 && crd.gridColumnEnd === 0 && crd.gridRowStart === 0 && crd.gridRowEnd === 0) {
                 const message = `Box "${String(box.boxId)}" in section "${String(box.sectionId)}" is missing coordinates for breakpoint "${bp}". Recovering with default coordinates.`;
-                diagnostics.push(makeError("CSSLayout", GRID_ERROR_CODE.MISSING_COORDINATES, message));
+                diagnostics.push(makeError("GridCssMuiRenderer", GRID_ERROR_CODE.MISSING_COORDINATES, message));
                 box.coordinate[bp] = {
                     gridColumnStart: 1,
                     gridColumnEnd: 2,
@@ -238,10 +234,10 @@ export function GridCssMuiRenderer<LA extends LayoutAbsolute<any, any>>(
             <DefaultNodeRender
                 key={nodeKey}
                 cssCoordinateBPs={node.coordinate}
-                view={node.view}
-            >
-                {node.content}
-            </DefaultNodeRender>
+                section={node.sectionId as sectionID}
+                boxId={node.boxId as blockID}
+                content={node.content}
+            />
 
 
 

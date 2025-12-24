@@ -9,13 +9,21 @@ import { BoxTransformations } from "../../core/boxLayout/boxLayoutTypes";
 //   lg: [{ stackHorizontally: {} }],
 //   xl: [{ stackVertically: {} }], 
 // }) as const;
-
+ 
 // const kl = { stackVertically: {} } satisfies SingleBoxMoveProps<NodeID>;
 
-export const DefaultTransformations= {
+export const DefaultTransformationsResponsiveRows= {
   xs: [{ stackVertically: {} }],
   sm: [{ stackHorizontally: {} }],
   md: [{ stackHorizontally: {} }],
   lg: [{ stackHorizontally: {} }],
   xl: [{ stackHorizontally: {} }], 
+} as const satisfies BoxTransformations<NodeID>;
+
+export const DefaultTransformationsResponsiveColumns= {
+  xs: [{ stackVertically: {} }],
+  sm: [{ stackVertically: {} }],
+  md: [{ stackVertically: {} }],
+  lg: [{ stackVertically: {} }],
+  xl: [{ stackVertically: {} }], 
 } as const satisfies BoxTransformations<NodeID>;

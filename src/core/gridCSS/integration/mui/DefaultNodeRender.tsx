@@ -1,14 +1,14 @@
-import { Box, SxProps, SystemStyleObject, Theme } from "@mui/system";
-import { BPs } from "../../core/breakpoints";
+'use client';
+
+import { Box, SystemStyleObject, Theme } from "@mui/system";
+import React from "react";
+import { NodeRenderConfig } from "../../core/boxLayout/boxLayoutTypes";
+import { BPs, BREAKPOINTS } from "../../core/breakpoints";
 import { CSSCoordinates } from "../../core/gridNodeTypes";
 import { GridNodeViewOptions } from "../../core/nodeViewOptions";
-
-type DefaultNodeRenderProps = {
-    cssCoordinateBPs: BPs<CSSCoordinates>;
-    view: GridNodeViewOptions;
-    children?: React.ReactNode;
-};
-
+import { BlocksIDs, SectionIDs } from "../../templates/layoutIDs";
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const visuallyHiddenStyle: SystemStyleObject<Theme> = {
     position: "absolute",
@@ -64,9 +64,29 @@ export function getNodeDomProps(view?: GridNodeViewOptions): React.HTMLAttribute
     return domProps;
 }
 
-export function DefaultNodeRender({ cssCoordinateBPs, view, children }: DefaultNodeRenderProps) {
-    const nodeSx = getNodeSxProps(view);
-    const domProps = getNodeDomProps(view);
+
+type DefaultNodeRenderProps<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs> = {
+    section: sectionIDs;
+    boxId: blockIDs;
+    cssCoordinateBPs: BPs<CSSCoordinates>;
+    content: NodeRenderConfig<sectionIDs, blockIDs>;
+};
+
+
+export function DefaultNodeRender<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs>({ section, boxId, cssCoordinateBPs, content }: DefaultNodeRenderProps<sectionIDs, blockIDs>) {
+
+    const nodeSx = getNodeSxProps(content.view);
+    const domProps = getNodeDomProps(content.view);
+
+    const theme = useTheme();
+    let bp: (typeof BREAKPOINTS)[number]='xs';
+
+    for (const breakpoint of BREAKPOINTS) {
+        if (useMediaQuery(theme.breakpoints.up(breakpoint))) {
+            bp = breakpoint;
+        }
+    }
+
 
     return (
         <Box
@@ -76,6 +96,8 @@ export function DefaultNodeRender({ cssCoordinateBPs, view, children }: DefaultN
                 boxSizing: "border-box",
                 position: "relative", // helps absolutely-positioned children anchor to the node
                 overflow: "visible",  // don't clip by default (clipping should be opt-in via view later)
+                minWidth: 0,         // allow content to shrink below its minimum width by default
+                minHeight: 0,        // allow content to shrink below its minimum height by default
 
                 // Grid placement (responsive)
                 gridColumnStart: {
@@ -111,7 +133,7 @@ export function DefaultNodeRender({ cssCoordinateBPs, view, children }: DefaultN
                 ...nodeSx,
             }}
         >
-            {children}
+            {content.contentRenderer ? content.contentRenderer({ sectionId: section, bp, boxId, coords: cssCoordinateBPs[bp] }) : null}
         </Box>
     );
 }

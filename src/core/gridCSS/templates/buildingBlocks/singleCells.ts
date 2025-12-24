@@ -1,4 +1,4 @@
-import { defineEntry } from "./bbCatalogTypes";
+import { defineEntry } from "./defineBBCatalogEntry";
  
  
 /// Single Cells

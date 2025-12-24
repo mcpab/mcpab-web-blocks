@@ -1,8 +1,7 @@
-import { AnyBBEntry, layoutsCatalog } from "../../templates/boxLayoutsCatalog";
+import { AnyBBEntry } from "../../templates/boxLayoutsCatalog";
 
 import { BlocksIDs, NodeID, SectionIDs } from "../../templates/layoutIDs";
 import { GridBox } from "../box/gridBoxTypes";
-import { bbEntryToLayoutWithTx } from "../boxDesign/bbEntryToLayoutWithTx";
 import { BoxDimensionIdsCSS } from "../boxShapes/boxShapeType";
 import { BoxMovesProps } from "../boxTransformations/boxTransformationsProps";
 import { BPs, BREAKPOINTS } from "../breakpoints";

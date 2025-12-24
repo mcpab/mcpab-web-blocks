@@ -1,7 +1,7 @@
-import { defineEntry } from "./bbCatalogTypes";
-import { DefaultTransformations } from "./defaultBPTransformations";
+import { defineEntry } from "./defineBBCatalogEntry";
+import { DefaultTransformationsResponsiveRows } from "./defaultBPTransformations";
 
-const transformations = DefaultTransformations;
+const transformations = DefaultTransformationsResponsiveRows;
 
 /// Six Cells
 export const sixCells = {
