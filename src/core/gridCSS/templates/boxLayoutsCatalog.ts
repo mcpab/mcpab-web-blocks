@@ -41,7 +41,7 @@ export const layoutsCatalog = {
     page_band: defineLayout({
       sections: { row_1: getBoxesAndTx("20WideCell") },
       transformations: DefaultTransformationsResponsiveColumns
-    }) ,
+    }),
 
     page_headerContentFooter: defineLayout({
       sections: {

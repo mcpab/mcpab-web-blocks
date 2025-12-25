@@ -1,10 +1,9 @@
 
 import { BlocksIDs, SectionIDs } from "../../templates/layoutIDs";
-import { BlockIdsFromBBEntry, LayoutAbsolute, LayoutSectionBounds, LayoutTxOverrides, LayoutWithTx, SectionsFromBBEntry } from "../boxLayout/boxLayoutTypes";
+import { BlocksInLayoutWithTx, LayoutAbsolute, LayoutSectionBounds, LayoutWithTx, SectionsInLayoutWithTx } from "../boxLayout/boxLayoutTypes";
 import { BREAKPOINTS } from "../breakpoints";
 import { DiagnosticEntry, GRID_ERROR_CODE, makeError, makeWarning } from "../gridErrorShape";
 import { CSSCoordinates } from "../gridNodeTypes";
-import { bbEntryToLayoutWithTx } from "./bbEntryToLayoutWithTx";
 import { layoutSectionBtoAbsolute } from "./layoutSectionBtoAbsolute";
 import { layoutSectionToBounds } from "./layoutSectionToBounds";
 import { layoutTxToSectionLocal } from "./layoutTxToSectionLocal";
@@ -14,30 +13,28 @@ type GridDiagnostic = {
     breakpoints?: readonly (typeof BREAKPOINTS)[number][];
 }
 
-type CSSLayoutProps<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs, L extends LayoutWithTx<sectionIDs, blockIDs>> = {
+type CSSLayoutProps<L extends LayoutWithTx<any, any>> = {
     layoutWithTx: L;
     diagnostics: DiagnosticEntry[];
     gridDiagnostic?: GridDiagnostic;
 };
 
 
-export function CSSLayout<sectionIDs extends SectionIDs, blockIDs extends BlocksIDs, L extends LayoutWithTx<sectionIDs, blockIDs>>({
-    layoutWithTx, diagnostics, gridDiagnostic = { overlapPolicy: "allow", breakpoints: BREAKPOINTS } }: CSSLayoutProps<sectionIDs, blockIDs, L>):
-    LayoutAbsolute<sectionIDs, blockIDs> {
+export function CSSLayout<L extends LayoutWithTx<any, any>>({
+    layoutWithTx, diagnostics, gridDiagnostic = { overlapPolicy: "allow", breakpoints: BREAKPOINTS } }: CSSLayoutProps<L>):
+    LayoutAbsolute<SectionsInLayoutWithTx<L>, BlocksInLayoutWithTx<L>> {
 
-     
+    const layoutSectionLocal = layoutTxToSectionLocal<SectionsInLayoutWithTx<L>, BlocksInLayoutWithTx<L>>(layoutWithTx, diagnostics);
 
-    const layoutSectionLocal = layoutTxToSectionLocal<sectionIDs, blockIDs>(layoutWithTx, diagnostics);
+    const layoutSecBonds: LayoutSectionBounds<SectionsInLayoutWithTx<L>, BlocksInLayoutWithTx<L>> = layoutSectionToBounds(layoutSectionLocal, diagnostics)
 
-    const layoutSecBonds: LayoutSectionBounds<sectionIDs, blockIDs> = layoutSectionToBounds(layoutSectionLocal, diagnostics)
-
-    const layoutSecAbs: LayoutAbsolute<sectionIDs, blockIDs> = layoutSectionBtoAbsolute(layoutSecBonds, diagnostics)
+    const layoutSecAbs: LayoutAbsolute<SectionsInLayoutWithTx<L>, BlocksInLayoutWithTx<L>> = layoutSectionBtoAbsolute(layoutSecBonds, diagnostics)
     const overlapPolicy = gridDiagnostic.overlapPolicy || "allow";
     const breakpoints = gridDiagnostic.breakpoints || BREAKPOINTS;
 
     // we check overlap of sections boxes if needed
     if (overlapPolicy !== "allow") {
-        checkSectionsOverlap<sectionIDs, blockIDs>(
+        checkSectionsOverlap<SectionsInLayoutWithTx<L>, BlocksInLayoutWithTx<L>>(
             layoutSecAbs,
             diagnostics,
             overlapPolicy,

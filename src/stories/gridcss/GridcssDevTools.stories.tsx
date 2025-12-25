@@ -12,13 +12,14 @@ import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 
-import { AnyBBEntry, layoutsCatalog } from "src/core/gridCSS/templates/boxLayoutsCatalog";
+import { layoutsCatalog } from "src/core/gridCSS/templates/boxLayoutsCatalog";
 import { CSSLayout } from "src/core/gridCSS/core/boxDesign/CSSlayout";
 import { DiagnosticEntry } from "src/core/gridCSS/core/gridErrorShape";
 import { GridCssMuiRenderer } from "src/core/gridCSS/integration/mui/GridCssMuiRenderer";
 
 import { BREAKPOINTS } from "src/core/gridCSS/core/breakpoints";
-import { BlockIdsFromBBEntry, LayoutRenderingOverride, SectionsFromBBEntry } from "src/core/gridCSS/core/boxLayout/boxLayoutTypes";
+import { BlocksInLayoutWithTx, LayoutRenderingOverride, LayoutWithTx, SectionsInLayoutWithTx } from "src/core/gridCSS/core/boxLayout/boxLayoutTypes";
+import { SectionIDs, BlocksIDs } from "src/core/gridCSS/templates/layoutIDs";
 
 const layoutCategoriesKeys = Object.keys(layoutsCatalog) as (keyof typeof layoutsCatalog)[];
 
@@ -47,7 +48,7 @@ export function resolveLayout(
     entryID: string,
     fallbackCategory: keyof LayoutsCatalog = "primary20",
     fallbackEntry: string = "page_band",
-): AnyBBEntry {
+): LayoutWithTx<any, any> | false {
 
     // 1) If category exists, use it
     if (hasOwn(catalog, categoryID)) {
@@ -55,13 +56,13 @@ export function resolveLayout(
 
         // 1a) If entry exists in that category, use it
         if (hasOwn(category, entryID)) {
-            return category[entryID as keyof typeof category] as AnyBBEntry;
+            return category[entryID as keyof typeof category] as LayoutWithTx<any, any>;
         }
 
         // 1b) Otherwise fall back to first entry in that category (if any)
         const firstKey = Object.keys(category)[0];
         if (firstKey && hasOwn(category, firstKey)) {
-            return category[firstKey as keyof typeof category] as AnyBBEntry;
+            return category[firstKey as keyof typeof category] as LayoutWithTx<any, any>;
         }
     }
 
@@ -70,16 +71,16 @@ export function resolveLayout(
     const fallbackFirstKey = Object.keys(fallbackCat)[0];
 
     if (fallbackFirstKey && hasOwn(fallbackCat, fallbackFirstKey)) {
-        return fallbackCat[fallbackFirstKey as keyof typeof fallbackCat] as AnyBBEntry;
+        return fallbackCat[fallbackFirstKey as keyof typeof fallbackCat] as LayoutWithTx<any, any>;
     }
 
     // 3) Absolute last resort: a specific known layout
     // (kept explicit so you always have *some* layout)
-    const hard = catalog[fallbackCategory] as unknown as Record<string, AnyBBEntry>;
+    const hard = catalog[fallbackCategory] as unknown as Record<string, LayoutWithTx<any, any>>;
     if (hasOwn(hard, fallbackEntry)) return hard[fallbackEntry];
 
     // 4) If even that doesn't exist (shouldn't happen), return an empty entry
-    return {};
+    return false;
 }
 
 function NodesPanel({ layoutAbsolute }: { layoutAbsolute: any }) {
@@ -145,8 +146,8 @@ function GridJsonPanel({ layoutAbsolute }: { layoutAbsolute: any }) {
             <Typography variant="subtitle2" gutterBottom>
                 Layout JSON
             </Typography>
-            <Box sx={{ 
-                maxHeight: 400, 
+            <Box sx={{
+                maxHeight: 400,
                 overflow: 'auto',
                 bgcolor: 'grey.50',
                 p: 1,
@@ -154,9 +155,9 @@ function GridJsonPanel({ layoutAbsolute }: { layoutAbsolute: any }) {
                 border: 1,
                 borderColor: 'grey.300'
             }}>
-                <pre style={{ 
-                    fontSize: 11, 
-                    margin: 0, 
+                <pre style={{
+                    fontSize: 11,
+                    margin: 0,
                     whiteSpace: 'pre-wrap',
                     wordBreak: 'break-word'
                 }}>
@@ -198,7 +199,7 @@ export const DevTools: Story = () => {
         setBBEntry(event.target.value as string);
     };
 
-    const layout: AnyBBEntry = resolveLayout(layoutsCatalog, categoryID, BBEntry);
+    const layout = resolveLayout(layoutsCatalog, categoryID, BBEntry);
 
     type LayoutType = typeof layout;
 
@@ -219,13 +220,16 @@ export const DevTools: Story = () => {
         );
     }
 
-
     let diagnostics: DiagnosticEntry[] = [];
 
-    const layoutAbsolute = CSSLayout({ BBentry: layout, diagnostics });
+    const layoutAbsolute = CSSLayout({ layoutWithTx: layout, diagnostics });
     console.log("LayoutAbsolute in DevTools: ", layoutAbsolute);
 
-    let layoutRendering: LayoutRenderingOverride<SectionsFromBBEntry<LayoutType>, BlockIdsFromBBEntry<LayoutType>> = {};
+    const definOverrides = <  L extends LayoutWithTx<any, any>>(layout: L) => {
+        return {} as LayoutRenderingOverride<SectionsInLayoutWithTx<L>, BlocksInLayoutWithTx<L>>;
+    }
+
+    let layoutRendering = definOverrides(layout);
 
     for (const sectionId of typedKeys(layoutAbsolute.sections)) {
 
@@ -233,8 +237,7 @@ export const DevTools: Story = () => {
         const coord = layoutAbsolute.sections[sectionId].coordinates;
 
         for (const bp of BREAKPOINTS) {
-
- 
+            
             layoutRendering[sectionId][bp] = {};
             for (const boxId of typedKeys(coord[bp])) {
                 console.log("Defining rendering for ", sectionId, boxId, " at bp ", bp);

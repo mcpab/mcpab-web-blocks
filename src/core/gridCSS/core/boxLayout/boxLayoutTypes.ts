@@ -1,5 +1,6 @@
-import { AnyBBEntry } from "../../templates/boxLayoutsCatalog";
+ 
 
+import { layoutsCatalog } from "../../templates/boxLayoutsCatalog";
 import { BlocksIDs, NodeID, SectionIDs } from "../../templates/layoutIDs";
 import { GridBox } from "../box/gridBoxTypes";
 import { BoxDimensionIdsCSS } from "../boxShapes/boxShapeType";
@@ -32,6 +33,16 @@ export type LayoutWithTx<sectionIDs extends SectionIDs, blockIDs extends BlocksI
   sections: Record<sectionIDs, BoxDimensionIdsAndTx<blockIDs>>;
   transformations?: BoxTransformations<sectionIDs>;
 };
+
+
+export type SectionsInLayoutWithTx<L extends LayoutWithTx<any, any>> = keyof L["sections"] & SectionIDs;
+export type BlocksInLayoutWithTx<L extends LayoutWithTx<any, any>> = {
+  [S in keyof L["sections"]]:
+    keyof NonNullable<L["sections"][S]>["boxDimensionIds"] & BlocksIDs;
+}[keyof L["sections"]];
+
+
+
 
 // layout after applying transformations to sections children, with local grid boxes per section children
 export type LayoutSectionLocal<SectionID extends SectionIDs, BlockIDs extends BlocksIDs> = {
@@ -91,23 +102,9 @@ export type LayoutRenderingOverride<
     [BP in Breakpoint]: Partial<Record<blockIDs, NodeRenderConfig<sectionID, blockIDs>>>;
   }>;
 }>;
-
-export type LayoutTxOverrides<E extends AnyBBEntry> = {
-  [S in SectionsFromBBEntry<E>]?: BoxTransformations<BlockIdsFromBBEntry<E>>;
-} & {
-  transformations?: BoxTransformations<SectionsFromBBEntry<E>>;
-};
-// section ids (literal union)
-export type SectionsFromBBEntry<E extends AnyBBEntry> = keyof E & SectionIDs;
-
-// block ids used anywhere in this layout (literal union, cleaned)
-export type BlockIdsFromBBEntry<E extends AnyBBEntry> = {
-  [S in SectionsFromBBEntry<E>]:
-    NonNullable<E[S]> extends { boxDimensionIds: infer BD }
-      ? keyof BD & BlocksIDs
-      : never;
-}[SectionsFromBBEntry<E>];
-
+ 
+//const layoutWithTx = layoutsCatalog.primary20.page_twoCol_16_4;
+// type ll = BlocksInLayoutWithTx<typeof layoutWithTx>;
 // import { DefaultTransformations } from "../../templates/buildingBlocks/defaultBPTransformations";
 // const kk = layoutsCatalog['secondary']['mixedDensityShowcase'];
 // type llk = typeof kk;
