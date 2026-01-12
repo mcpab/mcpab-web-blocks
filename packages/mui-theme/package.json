@@ -1,0 +1,29 @@
+{
+  "name": "@mcpab/mui-theme",
+  "version": "0.1.0",
+  "private": true,
+"sideEffects": [
+  "./dist/mui-augment.*"
+],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./mui-augment": {
+      "types": "./dist/mui-augment.d.ts",
+      "import": "./dist/mui-augment.mjs",
+      "require": "./dist/mui-augment.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup && tsc -p tsconfig.build.json",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist"
+  },
+  "files": [
+    "dist"
+  ]
+}

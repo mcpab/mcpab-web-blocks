@@ -1,15 +1,8 @@
-export type LinkRef= {
-  href: string;
-  children: React.ReactNode;
-  style?: React.CSSProperties;
-}
-
-export type LinkTypeComponent = React.ComponentType<LinkRef>;
-
-export type ExternalLink = {
-  href: `${'http' | 'https'}://${string}` | `mailto:${string}` | `tel:${string}`;   
+export type LinkProps = React.ComponentPropsWithoutRef<'a'> & {
+  href: string; // keep required
 };
 
-export type InternalLink = {
-  href: `/${string}`;   
-};
+export type LinkTypeComponent = React.ForwardRefExoticComponent<
+  LinkProps & React.RefAttributes<HTMLAnchorElement>
+>;
+ 

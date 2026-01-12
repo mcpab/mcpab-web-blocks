@@ -25,10 +25,3 @@
 
 export { default as DirMenu } from './DirMenu';
 export { default as DropDown } from './DropDown';
-
-// Re-export types so consumers can import from the module root
-export type { MenuElement, MenuPosition, MenuProps } from './types';
-
-// (Optional) re-export the icon mapper if you want it available to consumers.
-// If you prefer to keep it private, delete the line below.
-// export { default as IconPicker } from './IconPicker';

@@ -37,7 +37,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import type { SxProps, Theme } from '@mui/material/styles';
-import type { StaticImageData } from 'next/image';
+import type { ImageComponentLike, StaticImageDataLike } from '../../core/image/image-types';
 import { SubsectionTitle } from '../typography';
 
 export type VideoModalProps = {
@@ -53,7 +53,7 @@ export type VideoModalProps = {
     trigger?: React.ReactNode;
 
     /** Default trigger: avatar image (string URL or static import). */
-    avatarSrc?: string | StaticImageData;
+    avatarSrc?: string | StaticImageDataLike;
     /** Default trigger: button label. @default "Learn More" */
     buttonLabel?: string;
     /** Default trigger alignment. @default 'flex-end' */

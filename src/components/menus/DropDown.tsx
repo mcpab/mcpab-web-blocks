@@ -5,16 +5,16 @@
  */
 
 import * as React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { toTitleCase } from '@/src/lib/text/transform';
+
 import type { MenuElement, MenuProps } from './types';
- 
+import { Link } from '@mui/material';
+import { toTitleCase } from 'src/lib';
 
 /** Uppercase transformer. */
 const upper = (s: string) => s.toUpperCase();
@@ -22,30 +22,46 @@ const upper = (s: string) => s.toUpperCase();
 /** Stable, recursive sort by `order` (undefined => bottom). */
 const sortMenus = (menus: MenuElement[]): MenuElement[] =>
   menus
-    .map(m => ({ ...m, children: sortMenus(m.children || []) }))
+    .map((m) => ({ ...m, children: sortMenus(m.children || []) }))
     .sort((a, b) => (a.order ?? Number.POSITIVE_INFINITY) - (b.order ?? Number.POSITIVE_INFINITY));
 
 const Gap = 10;
 
 /*** Main Function */
 const DropDown: React.FC<MenuProps> = ({ menus, position, capitalize = true }) => {
-  
-  const sorted = React.useMemo(() => sortMenus(menus).filter(m => m.display !== false), [menus]);
+  //
+  const sorted = React.useMemo(() => sortMenus(menus).filter((m) => m.display !== false), [menus]);
   const transform = capitalize ? upper : toTitleCase;
 
-  const content = sorted.map(m => (
+  const content = sorted.map((m) => (
     <TopItem key={`${m.path}-${m.name}`} menu={m} transform={transform} />
   ));
- 
+
   switch (position) {
     case 'left':
-      return <Box sx={{ display: 'flex', gap: Gap, alignItems: 'center', justifyContent: 'flex-start' }}>{content}</Box>;
+      return (
+        <Box sx={{ display: 'flex', gap: Gap, alignItems: 'center', justifyContent: 'flex-start' }}>
+          {content}
+        </Box>
+      );
     case 'center':
-      return <Box sx={{ display: 'flex', gap: Gap, alignItems: 'center', justifyContent: 'center' }}>{content}</Box>;
+      return (
+        <Box sx={{ display: 'flex', gap: Gap, alignItems: 'center', justifyContent: 'center' }}>
+          {content}
+        </Box>
+      );
     case 'right':
-      return <Box sx={{ display: 'flex', gap: Gap, alignItems: 'center', justifyContent: 'flex-end' }}>{content}</Box>;
+      return (
+        <Box sx={{ display: 'flex', gap: Gap, alignItems: 'center', justifyContent: 'flex-end' }}>
+          {content}
+        </Box>
+      );
     default:
-      return <Box sx={{ display: 'flex', gap: Gap, alignItems: 'center', justifyContent: 'center' }}>{content}</Box>;
+      return (
+        <Box sx={{ display: 'flex', gap: Gap, alignItems: 'center', justifyContent: 'center' }}>
+          {content}
+        </Box>
+      );
   }
 };
 
@@ -53,7 +69,7 @@ export default React.memo(DropDown);
 
 /** First-level button. Decides link vs. submenu opener. */
 function TopItem({ menu, transform }: { menu: MenuElement; transform: (s: string) => string }) {
-
+  //
   const hasChildren = (menu.children?.length ?? 0) > 0;
   const label = transform(menu.name);
 
@@ -61,7 +77,7 @@ function TopItem({ menu, transform }: { menu: MenuElement; transform: (s: string
     // Simple link (no submenu)
     return (
       <Button component={Link} href={menu.path} sx={{ textTransform: 'none' }}>
-        <Typography variant="body2">{label}</Typography>
+        <Typography variant="narrative">{label}</Typography>
       </Button>
     );
   }
@@ -72,15 +88,16 @@ function TopItem({ menu, transform }: { menu: MenuElement; transform: (s: string
 
 /** Submenu trigger + controlled MUI Menu. */
 function Opener({ menu, label }: { menu: MenuElement; label: string }) {
+  //
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const btnRef = React.useRef<HTMLButtonElement | null>(null);
 
   // Close submenu on route change
-  React.useEffect(() => {
-    if (anchorEl) setAnchorEl(null);
-  }, [pathname]);
+  // React.useEffect(() => {
+  //   if (anchorEl) setAnchorEl(null);
+  // }, [pathname]);
 
   const id = `menu-${menu.name.replace(/\s+/g, '-')}`;
 
@@ -108,7 +125,7 @@ function Opener({ menu, label }: { menu: MenuElement; label: string }) {
         onKeyDown={onTriggerKeyDown}
         sx={{ textTransform: 'none' }}
       >
-        <Typography variant="body2">{label}</Typography>
+        <Typography variant="narrative">{label}</Typography>
       </Button>
 
       <Menu
@@ -133,7 +150,7 @@ function Opener({ menu, label }: { menu: MenuElement; label: string }) {
             onClick={handleClose}
             sx={{ textDecoration: 'none' }}
           >
-            <Typography variant="body2">{toTitleCase(child.name)}</Typography>
+            <Typography variant="narrative">{toTitleCase(child.name)}</Typography>
           </MenuItem>
         ))}
       </Menu>

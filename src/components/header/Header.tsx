@@ -1,4 +1,12 @@
 'use client';
+
+import { Theme } from "@emotion/react";
+import { AppBar, Toolbar, Typography } from "@mui/material";
+import { SxProps, Box } from "@mui/system";
+import React from "react";
+import { MenuElement, DirMenu, DropDown } from "../menus";
+import { BreadMenu } from "../navigation/Breadcrumbs";
+import {StaticImageDataLike} from "../../core/image/image-types";
 /**
  * @packageDocumentation
  *
@@ -10,19 +18,6 @@
  * Menus default to `src/data/menu.json` but can be injected via props.
  */
 
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Image, { StaticImageData } from 'next/image';
-
-import { DropDown, DirMenu } from '@/src/components/menus';
-import rawMenu from '@/src/data/menu.json';
-import { BreadMenu } from '../navigation/Breadcrumbs';
-
-import type { MenuElement } from '@/src/components/menus/types';
-import type { SxProps, Theme } from '@mui/material/styles';
 
 /** Where to align the menu trigger/content in the header band. */
 export type HeaderMenuPosition = 'left' | 'center' | 'right';
@@ -33,7 +28,7 @@ export type HeaderProps = {
     menus?: MenuElement[];
 
     /** Brand logo (static import or URL string). */
-    logo: StaticImageData | string;
+    logo: StaticImageDataLike | string;
     /** Alt text for the logo image. */
     altLogo?: string;
     /** Subtitle under the logo (optional). */
@@ -73,7 +68,7 @@ export type HeaderProps = {
  * ```
  */
 const Header: React.FC<HeaderProps> = ({
-    menus: menusProp,
+    menus,
     showBreadcrumbs = true,
     appBarSx,
     toolbarSx,
@@ -83,8 +78,8 @@ const Header: React.FC<HeaderProps> = ({
     menuType = 'dropDown',
     menuPosition = 'left',
 }) => {
-    // Use menus from props or fall back to the JSON data file.
-    const menus = (menusProp ?? (rawMenu as MenuElement[]));
+ 
+ 
 
     // For consistent spacing when breadcrumbs are hidden, we keep a middle placeholder.
     const BreadcrumbSlot = showBreadcrumbs ? (

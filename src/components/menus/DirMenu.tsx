@@ -5,25 +5,26 @@
 
 'use client';
 import * as React from 'react';
-import { useState, useMemo, Fragment } from 'react';
-import Link from 'next/link';
+import { Fragment, useMemo, useState } from 'react';
 
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListSubheader from '@mui/material/ListSubheader';
-import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
 import Typography from '@mui/material/Typography';
-import { toTitleCase } from '@/src/lib/text/transform';
+
+import { Link } from '@mui/material';
+import { toTitleCase } from '../../lib';
 import IconPicker from '../../lib/icon/IconPicker';
 import type { MenuElement, MenuProps } from './types';
 
@@ -89,7 +90,7 @@ const DirMenu: React.FC<DirMenuProps> = ({ menus, position, capitalize = true })
                     subheader={<ListSubheader component="div"><b>Menu</b></ListSubheader>}
                 >
                     {/* Recursive list */}
-                    <Typography component="div" sx={{ p: 2 }}>
+                    <Typography variant="narrative" sx={{ p: 2 }}>
                         {renderMenu(sorted, 0, openCollapse, toggleItem, setOpen, transform)}
                     </Typography>
                 </List>
@@ -137,7 +138,7 @@ function renderMenu(
                                 <ListItemText
                                     primary={
                                         <Typography
-                                            variant="body1"
+                                            variant="narrative"
                                             sx={{
                                                 transition: 'transform .2s cubic-bezier(.4,2,.6,1), color .2s',
                                                 cursor: 'pointer',

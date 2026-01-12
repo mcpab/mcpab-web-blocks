@@ -15,7 +15,7 @@ import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
 import { SvgIconComponent } from 'node_modules/@mui/icons-material';
 
 export interface IconPickerProps {
-    /** Semantic name used to choose an icon (e.g., 'home', 'about-us'). */
+    /** Semantic name used to choose an icon (e.g., 'home', 'about-us'). */ 
     name: string;
 }
 
@@ -23,39 +23,39 @@ export interface IconPickerProps {
  * Map a semantic name to a Material Icon.
  * Defaults to a chevron if there is no specific match.
  */
-const IconPicker= ({ name }: IconPickerProps): SvgIconComponent => {
+const IconPicker: React.FC<IconPickerProps> = ({ name }) => {
 
     const key = name.toLowerCase();
 
     switch (key) {
         case 'home':
-            return HomeIcon ;
+            return <HomeIcon />;
         case 'settings':
-            return SettingsIcon;
+            return <SettingsIcon />;
         case 'profile':
-            return AccountCircleIcon;
+            return <AccountCircleIcon />;
         case 'contact':
-            return ContactMailIcon;
+            return <ContactMailIcon />;
         case 'help':
-            return HelpIcon;
+            return <HelpIcon />;
         case 'dashboard':
-            return DashboardIcon;
+            return <DashboardIcon />;
         case 'notifications':
-            return NotificationsIcon;
+            return <NotificationsIcon />;
         case 'logout':
-            return ExitToAppIcon;
+            return <ExitToAppIcon />;
         case 'login':
-            return LoginIcon;
+            return <LoginIcon />;
         case 'information':
         case 'info':
-            return InfoIcon;
+            return <InfoIcon />;
         case 'about-us':
-            return PeopleIcon;
+            return <PeopleIcon />;
         case 'privacy':
         case 'privacy-policy':
-            return PrivacyTipIcon;
+            return <PrivacyTipIcon />;
         default:
-            return ChevronRightIcon;
+            return null;
     }
 };
 

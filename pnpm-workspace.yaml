@@ -1,3 +1,2 @@
 packages:
-  - .          # the web-blocks library at the root
-  - apps/*     # your Next.js apps
+  - "packages/*"

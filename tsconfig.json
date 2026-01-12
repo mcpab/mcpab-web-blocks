@@ -13,10 +13,10 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     // 👇 Add this line:
-    "types": [
-      "jest",
-      "node"
-    ],
+    // "types": [
+    //   "jest",
+    //   "node"
+    // ],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
