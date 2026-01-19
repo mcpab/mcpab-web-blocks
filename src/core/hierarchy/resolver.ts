@@ -1,11 +1,52 @@
+/**
+ * @module HierarchyResolver
+ * @remarks
+ * Runtime validation for {@link HierarchyTree} / {@link HierarchyRelations}.
+ *
+ * Types prevent some invalid states (e.g. self-parenting), but runtime validation is still required for:
+ * - missing parents / missing nodes
+ * - invalid parent references
+ * - cycle detection
+ * - ensuring at least one node attaches to `"root"`
+ */
 import { HIERARCHY_ERROR_CODE, HierarchyIssue } from './hierarchyErrorShape';
 import { HierarchyRelations, HierarchyTree } from './hierarchyTypes';
 
-type ResolverReturn =
+/**
+ * Result of {@link resolver}.
+ *
+ * @remarks
+ * - When `ok: false`, `issues` contains one or more {@link HierarchyIssue} entries.
+ * - When `ok: true`, `resolvedHierarchy` is the validated hierarchy tree.
+ */
+export type ResolverReturn<H extends HierarchyTree<any, any>> =
   | { ok: false; issues: HierarchyIssue[] }
-  | { ok: true; resolvedHierarchy: HierarchyTree<any> };
+  | { ok: true; resolvedHierarchy: H };
 
-export function resolver<H extends HierarchyTree<any>>(hierarchyTree: H): ResolverReturn {
+/**
+ * Validate a hierarchy tree and detect invalid relations.
+ *
+ * @remarks
+ * Checks performed:
+ * 1. No `"root"` key inside `nodes`
+ * 2. No undefined node entries
+ * 3. Every node has a parent (non-null/undefined)
+ * 4. Parent must be `"root"` or an existing node id
+ * 5. No self-parenting
+ * 6. At least one node attaches to `"root"`
+ * 7. No cycles (DFS)
+ *
+ * @example
+ * ```ts
+ * const result = resolver(tree);
+ * if (!result.ok) {
+ *   console.log(result.issues);
+ * } else {
+ *   const valid = result.resolvedHierarchy;
+ * }
+ * ```
+ */
+export function resolver<H extends HierarchyTree<any, any>>(hierarchyTree: H): ResolverReturn<H> {
   //
   let issues: HierarchyIssue[] = [];
 
@@ -76,7 +117,13 @@ export function resolver<H extends HierarchyTree<any>>(hierarchyTree: H): Resolv
       message: `Hierarchy is missing an element with parent 'root'.`,
     });
   }
-  if (hasMissingParents || hasUndefinedElements || !hasRoot || hasInvalidParent || hasInvalidHierarchy) {
+  if (
+    hasMissingParents ||
+    hasUndefinedElements ||
+    !hasRoot ||
+    hasInvalidParent ||
+    hasInvalidHierarchy
+  ) {
     return {
       ok: false,
       issues,
@@ -94,7 +141,7 @@ export function resolver<H extends HierarchyTree<any>>(hierarchyTree: H): Resolv
       if (!acyclicResult) {
         hasCycle = true;
         issues.push({
-          code: HIERARCHY_ERROR_CODE.INVALID_HIERARCHY,
+          code: HIERARCHY_ERROR_CODE.INVALID_CYCLE,
           message: `Cycle detected in hierarchy: ${path.join(' -> ')}`,
         });
         break;
@@ -116,7 +163,16 @@ export function resolver<H extends HierarchyTree<any>>(hierarchyTree: H): Resolv
 }
 
 type status = 'visiting' | 'visited';
-
+/**
+ * DFS helper used by {@link resolver} to detect cycles by following parent links.
+ *
+ * @remarks
+ * Uses a color/state map:
+ * - `"visiting"` means the node is on the current recursion stack
+ * - `"visited"` means the node has been fully validated with no cycles
+ *
+ * @returns `true` if the traversal from `node` reaches `"root"` without encountering a cycle.
+ */
 function acyclic(
   node: string,
   hierarchy: HierarchyRelations<any>,

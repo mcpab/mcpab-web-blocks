@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api",
+  "name": "@mcpab/web-blocks",
+  "readme": "README.md",
+  "tsconfig": "tsconfig.build.json",
+  "plugin": ["typedoc-plugin-markdown"],
+  "excludePrivate": true,
+  "excludeInternal": true
+}

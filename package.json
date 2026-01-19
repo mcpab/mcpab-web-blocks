@@ -24,7 +24,9 @@
     "format:write": "prettier -w \"src/**/*.{ts,tsx,md,json}\"",
     "ladle": "ladle serve",
     "ladle:build": "ladle build",
-    "test": "jest"
+    "test": "jest",
+    "docs": "typedoc",
+    "docs:watch": "typedoc --watch"
   },
   "peerDependencies": {
     "@mui/icons-material": ">=6",
@@ -51,6 +53,8 @@
     "react-dom": "19.2.0",
     "ts-jest": "^29.4.6",
     "tsup": "^8.0.0",
+    "typedoc": "^0.28.16",
+    "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {

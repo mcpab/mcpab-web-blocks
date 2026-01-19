@@ -17,6 +17,8 @@ import { useState } from 'react';
 import {
   HierarchyRelations,
   HierarchyRelationsOverrides,
+  HierarchyTree,
+  HierarchyTreeOverrides,
   PayloadMap,
 } from 'src/core/hierarchy/hierarchyTypes';
 import { resolver } from 'src/core/hierarchy/resolver';
@@ -25,12 +27,16 @@ import { capitalizeWords } from 'src/lib/utils';
 
 import { RenderNode, RenderRootNode } from 'src/core/hierarchyRendering/HierarchyElementType';
 import IconPicker from '../../lib/icon/IconPicker';
-import { stratify } from 'd3-hierarchy';
-import { R } from 'node_modules/@mcpab/gridcss/dist/mui-Dn7Eo95z';
+import { HierarchyNode } from 'd3-hierarchy';
+
+import { DefaultLinkLike } from 'src/core/link/link-types';
+import { HIERARCHY_ERROR_CODE, HierarchyIssue } from 'src/core/hierarchy/hierarchyErrorShape';
+import { convertToTree } from './convertToTree';
 
 export type MenuTreeElement = {
   label: string;
   link?: string;
+  order?: number;
 };
 
 export type RootTreeElement = {
@@ -43,15 +49,15 @@ export type MenuTreeElementUI = {
   divider?: boolean;
 };
 
-type RootOverridesUI = {
+export type RootOverridesUI = {
   linkComponent: LinkTypeComponent;
   rootPath?: string;
 };
 
 type DrawerMenuProps<
-  P extends PayloadMap<MenuTreeElement, RootTreeElement>,
-  H extends HierarchyRelations<P>,
-  HR extends HierarchyRelationsOverrides<H, MenuTreeElementUI, RootOverridesUI>,
+  P extends PayloadMap<MenuTreeElement>,
+  H extends HierarchyTree<P, RootTreeElement>,
+  HR extends HierarchyTreeOverrides<P, H, RootOverridesUI, MenuTreeElementUI>,
 > = {
   hierarchy: H;
   overrides: HR;
@@ -59,9 +65,9 @@ type DrawerMenuProps<
 };
 
 export function DrawerMenu<
-  P extends PayloadMap<MenuTreeElement, RootTreeElement>,
-  H extends HierarchyRelations<P>,
-  HR extends HierarchyRelationsOverrides<H, MenuTreeElementUI, RootOverridesUI>,
+  P extends PayloadMap<MenuTreeElement>,
+  H extends HierarchyTree<P, RootTreeElement>,
+  HR extends HierarchyTreeOverrides<P, H, RootOverridesUI, MenuTreeElementUI>,
 >({ hierarchy, overrides, anchor = 'left' }: DrawerMenuProps<P, H, HR>) {
   //
   // checking the integrity of the hierarchy
@@ -71,10 +77,84 @@ export function DrawerMenu<
     console.error('Hierarchy issues detected:', resolverReturn.issues);
     return <div>Hierarchy issues detected. Check console for details.</div>;
   }
+  let issues: HierarchyIssue[] = [];
+
+  // getting the tree structure from the hierarchy
+  const root = convertToTree<P, H, HR>(hierarchy, overrides, issues);
+
+  if (root === null) {
+    console.error('Failed to convert hierarchy to tree:', issues);
+    return <div>Failed to convert hierarchy to tree. Check console for details.</div>;
+  }
+
+
+  type MenuTreeNode = {
+    element: MenuTreeElementType;
+    children?: Record<string, MenuTreeNode>;
+  };
+
+  const menuTree: Record<string, MenuTreeNode> = {};
+
+  const buildMenuTree = (node: HierarchyNode<MenuTreeElementType>) => {
+    //
+    // getting the payload which is of type MenuTreeElementType
+    const payload: MenuTreeElementType = node.data;
+
+    // getting the id of the node
+    const id = node.id;
+
+    if (id === undefined) {
+      issues.push({
+        code: HIERARCHY_ERROR_CODE.INVALID_HIERARCHY,
+        message: `Node with undefined id found.`,
+      });
+      return;
+    }
+
+    const element: MenuTreeNode = {
+      element: payload,
+    };
+
+    // if the node has children, initialize the children object
+    if (node.children !== undefined) {
+      element.children = {};
+    }
+
+    // getting the parent node
+    const parent = node.parent;
+
+    // if there is no parent,   this is the root node
+    if (parent === null) {
+      menuTree[id] = element;
+      return;
+    }
+
+    const parentId = parent.id;
+
+    if (parentId === undefined) {
+      issues.push({
+        code: HIERARCHY_ERROR_CODE.INVALID_HIERARCHY,
+        message: `Parent node with undefined id found.`,
+      });
+      return;
+    }
+    if (!(parentId in menuTree)) {
+      issues.push({
+        code: HIERARCHY_ERROR_CODE.INVALID_HIERARCHY,
+        message: `Parent node with id ${parentId} not found in menu tree.`,
+      });
+      return;
+    }
+    if (menuTree[parentId].children === undefined) {
+      menuTree[parentId].children = {};
+    }
+    menuTree[parentId].children[id] = element;
+  };
 
   //
   // the link like component from root
-  const linkLikeComponent = overrides.root.payload.linkComponent;
+  //
+  const linkLikeComp: LinkTypeComponent = overrides.root?.payload.linkComponent ?? DefaultLinkLike;
 
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
@@ -82,14 +162,7 @@ export function DrawerMenu<
     setOpenDrawer(drawerState);
   };
 
-  const menusElements = initializeMenus();
-
   const initialStoreState: Record<string, boolean> = {};
-
-  // transforming the hierarchy into menu elements
-  for (const nodeId in hierarchy) {
-    const node = hierarchy[nodeId];
-  }
 
   return (
     <Box display={'flex'} alignItems="center" justifyContent="center" height="100vh" width="100%">
@@ -114,125 +187,11 @@ export function DrawerMenu<
               Menu
             </ListSubheader>
           }
-        >
-          <SingleElement element={props.elements} />
-        </List>
+        ></List>
       </Drawer>
       <MenuIcon onClick={toggleDrawer(true)} />
     </Box>
   );
-
-  function initializeMenus() {
-    //
-    return {
-      root: {
-        key: 'root-menu',
-        Component: Box,
-        props: {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-          width: '100%',
-        },
-        //children elements
-        children: {
-          drawer: {
-            key: 'drawer-menu',
-            Component: Drawer,
-            props: {
-              open: openDrawer,
-              onClose: toggleDrawer(false),
-              anchor: anchor,
-              slotProps: {
-                paper: {
-                  sx: { minWidth: 240, pl: 1, pt: 2, overflowY: 'scroll' }, // style the Paper
-                  elevation: 2, // Paper prop
-                },
-              },
-            },
-          } satisfies RenderNode,
-          menuIcon: {
-            key: 'menu-icon',
-            Component: MenuIcon,
-            props: {
-              onClick: toggleDrawer(true),
-            },
-          } satisfies RenderNode,
-        },
-      },
-    } satisfies RenderRootNode<any>;
-  }
 }
 
-
-
-type MenuTreeElementType = {
-  menuTreeElement: MenuTreeElement;
-  id: string;
-  ui?: MenuTreeElementUI;
-  kind: 'item';
-};
-
-type RootElementType = {
-  rootTreeElement: RootTreeElement;
-  id: string;
-  rootUi?: RootOverridesUI;
-  kind: 'root';
-};
-type D3StratifyData<NodePayload = MenuTreeElementType | RootElementType> = {
-  id: string;
-  parentId: string | null;
-  payload: NodePayload;
-};
-
-function convertToTree<
-  P extends PayloadMap<MenuTreeElement, RootTreeElement>,
-  H extends HierarchyRelations<P>,
-  HR extends HierarchyRelationsOverrides<H, MenuTreeElementUI, RootOverridesUI>,
->(hierarchy: H, overrides: HR) {
-  //
-  const data: D3StratifyData[] = [];
-
-  const rootElement: RootTreeElement = hierarchy['root'].payload;
-  const rootOverride: RootOverridesUI = overrides['root'].payload;
-
-  data.push({
-    id: 'root',
-    parentId: null,
-    payload: {
-      rootTreeElement: rootElement,
-      rootUi: rootOverride,
-      id: 'root',
-      kind: 'root',
-    } satisfies RootElementType,
-  });
-
-  for (const key in hierarchy) {
-    //
-    if (key === 'root') continue;
-    //
-    let payload: MenuTreeElementType = {
-      menuTreeElement: hierarchy[key].payload,
-      id: key,
-      kind: 'item',
-    } ;
-
-    const k = key as Exclude<Extract<keyof H, string>, 'root'>;
-let hj = overrides[k];
-
-    if (key in overrides) {
-      const oveR = overrides[key];
-      if (oveR !== undefined) {
-        payload['ui'] = oveR.payload;
-      }
-    }
-    data.push({
-      id: key,
-      parentId: hierarchy[key].parent,
-      payload: payload,
-    });
-  }
-try { what is d3 emitting as error?
-  const root = stratify()(data);
-}
+ 
