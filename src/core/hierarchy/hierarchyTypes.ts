@@ -9,6 +9,11 @@
  */
 export type PayloadMap<NodePayload = unknown> = Record<string, NodePayload>;
 
+type ForbidRootKey<P extends Record<string, any>> = 'root' extends keyof P ? never : P;
+
+export type NodeId<P extends PayloadMap> = Extract<keyof ForbidRootKey<P>, string>;
+type ParentId<P extends PayloadMap, K> = "root" | Exclude<NodeId<P>, K>;
+
 type AllowedParents<N extends string, P extends PayloadMap> = Exclude<Extract<keyof P, string>, N>;
 
 /**
@@ -43,7 +48,7 @@ type AllowedParents<N extends string, P extends PayloadMap> = Exclude<Extract<ke
  * @typeParam P - Node ID → payload type map. `"root"` may be present as an anchor key.
  */
 export type HierarchyRelations<P extends PayloadMap> = {
-  [K in Exclude<keyof P, 'root'>]: {
+  [K in NodeId<P>]: {
     /** Payload associated with node {@link K}. */
     payload: P[K];
     /**
@@ -137,3 +142,13 @@ export type HierarchyTreeOverrides<
  * } as const satisfies HierarchyRelationsOverrides<typeof ex, typeof rt, { id: string }>;
  * ```
  */
+export type NodeInferred<P> = P extends PayloadMap<infer NodeType> ? NodeType : never;
+
+const ex = {
+  a: { name: 'a' },
+  b: { name: 'b', other: 'aa' },
+  c: { name: 'c', jk: 'b' },
+  root: { name: 'root', pp: 'c' }, // allowed as an anchor payload
+} as const satisfies PayloadMap;
+
+type lk = NodeInferred<typeof ex>;

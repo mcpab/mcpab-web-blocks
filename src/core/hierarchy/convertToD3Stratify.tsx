@@ -9,6 +9,7 @@
 import type { HierarchyNode } from 'd3-hierarchy';
 import { stratify } from 'd3-hierarchy';
 import { type HierarchyIssue, HIERARCHY_ERROR_CODE } from './hierarchyErrorShape';
+import { PayloadMap } from './hierarchyTypes';
 
 /**
  * Payload stored on each `d3-hierarchy` node after stratification.
@@ -43,13 +44,6 @@ export type D3StratifyData<Node, NodeOverrides> = {
  */
 export type Stratify<Node, NodeOverrides> = HierarchyNode<D3StratifyData<Node, NodeOverrides>>;
 
-
-
-
-type HNodes<Node> = Record<string, { payload: Node; parent: string | 'root' }>;
-type HNodesOverwrites<NodeOverrides, Node, H extends HNodes<Node>> = Partial<
-  Record<Extract<keyof H, string>, { payload: NodeOverrides }>
->;
 /**
  * Convert a normalized hierarchy map into a `d3-hierarchy` stratified tree.
  *
@@ -76,14 +70,13 @@ type HNodesOverwrites<NodeOverrides, Node, H extends HNodes<Node>> = Partial<
  * console.log(res.root.children);
  * ```
  */
-export function convertToD3Stratify<
-  Node,
-  NodeOverrides,
-  H extends HNodes<Node>,
-  HR extends HNodesOverwrites<NodeOverrides, Node, H>,
->(
-  hierarchy: H,
-  overridesNodes?: HR,
+
+import { HierarchyRelations } from './hierarchyTypes';
+import { HierarchyRelationsOverrides } from './hierarchyTypes';
+
+export function convertToD3Stratify<Node, NodeOverrides, P extends PayloadMap<Node>>(
+  hierarchy: HierarchyRelations<P>,
+  overridesNodes?: HierarchyRelationsOverrides<P, HierarchyRelations<P>, NodeOverrides>,
 ): { ok: true; root: Stratify<Node, NodeOverrides> } | { ok: false; issues: HierarchyIssue[] } {
   //
   const data: D3StratifyData<Node, NodeOverrides>[] = [];

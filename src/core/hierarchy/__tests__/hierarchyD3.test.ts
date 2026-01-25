@@ -18,7 +18,12 @@ import { sortD3Stratify } from '../sortD3Stratify';
 import { buildTreeFromStratify } from '../buildTreeFromStratify';
 
 // ✅ adjust if your types live elsewhere
-import type { PayloadMap, HierarchyTree, HierarchyTreeOverrides } from '../hierarchyTypes';
+import type {
+  PayloadMap,
+  HierarchyTree,
+  HierarchyTreeOverrides,
+  HierarchyRelations,
+} from '../hierarchyTypes';
 
 type MenuNode = { label: string; order: number };
 type MenuUI = { icon?: string; dense?: boolean };
@@ -49,14 +54,16 @@ describe('convertToD3Stratify', () => {
       c: { label: 'C', order: 3 },
     } as const satisfies PayloadMap<MenuNode>;
 
+    type RootPayload = { label: string };
+
     const hierarchyTree = {
       root: { label: 'MenuRoot' },
       nodes: {
         a: { payload: { label: 'A', order: 2 }, parent: 'root' },
         b: { payload: { label: 'B', order: 1 }, parent: 'root' },
         c: { payload: { label: 'C', order: 3 }, parent: 'a' },
-      },
-    } as const satisfies HierarchyTree<typeof map, { label: string }>;
+      } as const satisfies HierarchyRelations<typeof map>,
+    } as const satisfies HierarchyTree<typeof map, RootPayload>;
 
     const overrides = {
       root: { payload: { anything: true } },
@@ -72,9 +79,12 @@ describe('convertToD3Stratify', () => {
     >;
 
     const issues = makeIssues();
-    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes );
+    const returnValue = convertToD3Stratify<MenuNode, MenuUI, typeof map>(
+      hierarchyTree.nodes,
+      overrides.nodes,
+    );
 
-    if( returnValue.ok === false ) {
+    if (returnValue.ok === false) {
       console.error('Issues:', returnValue.issues);
     }
 
@@ -129,8 +139,7 @@ describe('convertToD3Stratify', () => {
       MenuUI
     >;
 
- 
-    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes );
+    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes);
 
     expect(returnValue.ok).toBe(false);
     const issues = returnValue.ok ? [] : returnValue.issues;
@@ -169,14 +178,17 @@ describe('sortD3Stratify', () => {
     >;
 
     const issues = makeIssues();
-    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes );
+    const returnValue = convertToD3Stratify<MenuNode, MenuUI, typeof payloadMap>(
+      hierarchyTree.nodes,
+      overrides.nodes,
+    );
 
     expect(returnValue.ok).toBe(true);
     const root = returnValue.ok ? returnValue.root : null;
     expect(issues).toHaveLength(0);
 
     const issues2 = makeIssues();
-    const returnValue2 = sortD3Stratify(root as any );
+    const returnValue2 = sortD3Stratify(root as any);
     expect(returnValue2.ok).toBe(true);
     const sortedRoot = returnValue2.ok ? returnValue2.root : null;
     expect(issues2).toHaveLength(0);
@@ -204,14 +216,14 @@ describe('sortD3Stratify', () => {
     >;
 
     const issues = makeIssues();
-    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes );
+    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes);
     expect(returnValue.ok).toBe(true);
     const root = returnValue.ok ? returnValue.root : null;
     expect(issues).toHaveLength(0);
     expect(root).not.toBeNull();
 
     const issues2 = makeIssues();
-    const returnValue2 = sortD3Stratify(root as any );
+    const returnValue2 = sortD3Stratify(root as any);
     expect(returnValue2.ok).toBe(true);
   });
 });
@@ -243,19 +255,22 @@ describe('buildTreeFromStratify', () => {
     } as const satisfies HierarchyTreeOverrides<typeof map, typeof hierarchyTree, unknown, MenuUI>;
 
     const issues = makeIssues();
-    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes );
+    const returnValue = convertToD3Stratify<MenuNode, MenuUI, typeof map>(
+      hierarchyTree.nodes,
+      overrides.nodes,
+    );
     expect(returnValue.ok).toBe(true);
     const root = returnValue.ok ? returnValue.root : null;
     expect(issues).toHaveLength(0);
 
     // optional: sort then build (if you want stable ordering before materializing)
     const issues2 = makeIssues();
-    const returnValue2 = sortD3Stratify(root as any );
+    const returnValue2 = sortD3Stratify(root as any);
     expect(returnValue2.ok).toBe(true);
     const sortedRoot = returnValue2.ok ? returnValue2.root : null;
     expect(issues2).toHaveLength(0);
 
-    console.log('sortedRoot',sortedRoot);
+    console.log('sortedRoot', sortedRoot);
     const tree = buildTreeFromStratify(sortedRoot as any);
 
     console.log('tree', tree);
@@ -317,7 +332,7 @@ describe('buildTreeFromStratify', () => {
     >;
 
     const issues = makeIssues();
-    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes );
+    const returnValue = convertToD3Stratify(hierarchyTree.nodes, overrides.nodes);
     expect(returnValue.ok).toBe(true);
     const root = returnValue.ok ? returnValue.root : null;
     expect(issues).toHaveLength(0);
@@ -325,7 +340,6 @@ describe('buildTreeFromStratify', () => {
     const tree = buildTreeFromStratify(root!);
     console.log('tree:', tree);
     expect(tree.root!.children).toBeDefined();
-
 
     // Validate that every node appears exactly once in the nested tree
     const seen = new Set<string>();
@@ -340,9 +354,9 @@ describe('buildTreeFromStratify', () => {
         walk(child, cid);
       }
     };
-    walk(tree.root!,'root');
+    walk(tree.root!, 'root');
 
-    expect(seen.size).toBe(N+1);
+    expect(seen.size).toBe(N + 1);
 
     // Validate parent-child integrity: for every node whose parent is 'root', it must be a direct child of dummy root
     const direct = new Set(Object.keys(tree.root!.children!));

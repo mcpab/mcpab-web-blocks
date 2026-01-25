@@ -19,7 +19,7 @@ import { HIERARCHY_ERROR_CODE, type HierarchyIssue } from './hierarchyErrorShape
  * @typeParam NodeOverrides - Optional override payload type embedded in {@link StratifyPayload}.
  */
 
-export function sortD3Stratify<Node extends { order: number }, NodeOverrides>(
+export function sortD3Stratify<Node extends { order?: number }, NodeOverrides>(
   stratify: Stratify<Node, NodeOverrides>,
 ): { ok: true; root: Stratify<Node, NodeOverrides> } | { ok: false; issues: HierarchyIssue[] } {
   //
