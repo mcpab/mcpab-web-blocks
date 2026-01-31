@@ -18,41 +18,50 @@ export type MenuTreeElement = {
 };
 
 export type RootTreeElement = {
-  label: 'Menu';
+  label: string;
 };
 
 export type MenuTreeElementUI = {
   onClick?: React.MouseEventHandler<HTMLElement>;
   display?: boolean;
   divider?: boolean;
+  pickIcon?: boolean;
+  fontWeight?: 'normal' | 'bold';
+  capitalize?: boolean;
+  pl?: number;
 };
 
 export type RootOverridesUI = {
-  linkComponent: LinkTypeComponent;
+  linkComponent?: LinkTypeComponent;
   rootPath?: string;
 };
 
-type DrawerMenuProps<
-  P extends PayloadMap<MenuTreeElement>,
-  H extends HierarchyTree<P, RootTreeElement>,
-  HR extends HierarchyTreeOverrides<P, H, RootOverridesUI, MenuTreeElementUI>,
-> = {
-  hierarchy: H;
-  overrides: HR;
+type DrawerMenuProps<P extends PayloadMap<MenuTreeElement>> = {
+  hierarchy: HierarchyTree<P, RootTreeElement>;
+  overrides: HierarchyTreeOverrides<
+    P,
+    HierarchyTree<P, RootTreeElement>,
+    RootOverridesUI,
+    MenuTreeElementUI
+  >;
+  indent?: number;
 };
 
-export function DrawerMenu<
-  P extends PayloadMap<MenuTreeElement>,
-  H extends HierarchyTree<P, RootTreeElement>,
-  HR extends HierarchyTreeOverrides<P, H, RootOverridesUI, MenuTreeElementUI>,
->({ hierarchy, overrides }: DrawerMenuProps<P, H, HR>) {
+export function DrawerMenu<P extends PayloadMap<MenuTreeElement>>({
+  hierarchy,
+  overrides,
+  indent = 0,
+}: DrawerMenuProps<P>) {
   //
-  // checking the integrity of the hierarchy
+  //
+
+  type H = typeof hierarchy;
   const resolverReturn = resolver<H>(hierarchy);
-  //
+
   if (!resolverReturn.ok) {
+    const msg = resolverReturn.issues[0]?.message ?? 'Unknown hierarchy error';
     console.error('Hierarchy issues detected:', resolverReturn.issues);
-    return <div>Hierarchy issues detected. Check console for details.</div>;
+    return <div>Menu hierarchy error: {msg}</div>;
   }
 
   const resultHtoD3 = convertToD3Stratify<MenuTreeElement, MenuTreeElementUI, P>(
@@ -61,27 +70,32 @@ export function DrawerMenu<
   );
 
   if (!resultHtoD3.ok) {
+    const msg = resultHtoD3.issues[0]?.message ?? 'Unknown stratify error';
     console.error('Failed to convert hierarchy to D3 Stratify:', resultHtoD3.issues);
-    return <div>Failed to convert hierarchy to D3 Stratify. Check console for details.</div>;
+    return <div>Menu stratify error: {msg}</div>;
   }
 
-  const d3StratifyRoot = resultHtoD3.root;
-
-  const sortedNodes = sortD3Stratify<MenuTreeElement, MenuTreeElementUI>(d3StratifyRoot);
-
-  if (sortedNodes.ok === false) {
-    console.error('Failed to sort D3 Stratify:', sortedNodes.issues);
-    return <div>Failed to sort D3 Stratify. Check console for details.</div>;
+  const sorted = sortD3Stratify<MenuTreeElement, MenuTreeElementUI>(resultHtoD3.root);
+  if (!sorted.ok) {
+    const msg = sorted.issues[0]?.message ?? 'Unknown sort error';
+    console.error('Failed to sort D3 Stratify:', sorted.issues);
+    return <div>Menu sort error: {msg}</div>;
   }
 
-  const treeBuildResult = buildTreeFromStratify(sortedNodes.root);
+  // console.log('DrawerMenu sorted stratify:', sorted.root);
 
+  const treeBuildResult = buildTreeFromStratify(sorted.root);
+  ///
+  const root = hierarchy.root;
+  const rootOverrides = overrides.root?.payload;
+
+  // console.log('DrawerMenu treeBuildResult:', treeBuildResult);
   if (treeBuildResult.issues.length > 0) {
+    const msg = treeBuildResult.issues[0]?.message ?? 'Unknown build error';
     console.error('Failed to build tree from D3 Stratify:', treeBuildResult.issues);
-    return <div>Failed to build tree from D3 Stratify. Check console for details.</div>;
+    return <div>Menu build error: {msg}</div>;
   }
-
-  const root = treeBuildResult.root;
-
-  return <DrawerMenu_Client root={root} />;
+  //
+  return <DrawerMenu_Client root={root} treeFromRoot={treeBuildResult.root} rootOverrides={rootOverrides} indent={indent} />;
+  //
 }

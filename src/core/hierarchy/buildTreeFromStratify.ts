@@ -1,4 +1,5 @@
-import { Stratify, StratifyPayload } from './convertToD3Stratify';
+import { Stratify } from './convertToD3Stratify';
+import { StratifyPayload } from './D3StratifyTypes';
 import { HIERARCHY_ERROR_CODE, HierarchyIssue } from './hierarchyErrorShape';
 /**
  * Build a nested `{ children: Record<id, payload> }` tree from a `d3-hierarchy` stratified root.
@@ -25,6 +26,8 @@ import { HIERARCHY_ERROR_CODE, HierarchyIssue } from './hierarchyErrorShape';
  * console.log(built.root?.children);
  * ```
  */
+
+
 export function buildTreeFromStratify<Node, NodeOverrides>(
   stratify: Stratify<Node, NodeOverrides>,
 ): { root: StratifyPayload<Node, NodeOverrides>; issues: HierarchyIssue[] } {
@@ -46,11 +49,13 @@ export function buildTreeFromStratify<Node, NodeOverrides>(
   root.children = stratify.data.payload.children;
 
   return { root, issues };
+  //
 }
 
 function createBuildNode<Node, NodeOverrides>(
   issues: HierarchyIssue[],
 ): (node: Stratify<Node, NodeOverrides>) => void {
+  ///
   return (nodeStratify: Stratify<Node, NodeOverrides>) => {
     ///
 
@@ -80,8 +85,6 @@ function createBuildNode<Node, NodeOverrides>(
       parentChildren = {};
       parent.data.payload.children = parentChildren;
     }
-
-    // const cld = nodeStratify.children && nodeStratify.children.length > 0 ? {} : undefined;
 
     ///
     parentChildren[id] = nodeStratify.data.payload;

@@ -1,24 +1,32 @@
-import { ListItemIcon, ListItemText, Typography } from "@mui/material";
-import IconPicker from "../../lib/icon/IconPicker";
-import { capitalizeWords } from "../../lib/utils";
-
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import IconPicker from '../../lib/icon/IconPicker';
+import { capitalizeWords } from '../../lib/utils';
+import { MenuTreeElement, MenuTreeElementUI } from './DrawerMenu';
 
 export type ElementLabelProps = {
-  label: string;
-  fontWeight?: 'normal' | 'bold';
-  capitalize?: boolean; 
-  pickIcon?: boolean;
+  menuElement: MenuTreeElement;
+  overrides?: MenuTreeElementUI;
 };
 
-export function ElementLabel({ label, fontWeight = 'normal' , capitalize = true, pickIcon = true }: ElementLabelProps) {
+export function ElementLabel({ menuElement, overrides }: ElementLabelProps) {
   //
-  const elementIcon = (
-    <ListItemIcon sx={{ minWidth: 36 }}>{pickIcon ? <IconPicker name={label} /> : null}</ListItemIcon>
-  );
+  const {
+    display = true,
+    pickIcon = true,
+    fontWeight = 'normal',
+    capitalize = false,
+  } = overrides ?? {};
+
+  if (!display) return null;
+
+  const label = menuElement.label;
 
   return (
     <>
-      {elementIcon}
+      <ListItemIcon sx={{ minWidth: 36 }}>{pickIcon && <IconPicker name={label} />}</ListItemIcon>
+
       <ListItemText
         primary={
           <Typography variant="narrative" fontWeight={fontWeight}>
@@ -26,6 +34,8 @@ export function ElementLabel({ label, fontWeight = 'normal' , capitalize = true,
           </Typography>
         }
       />
+
+   
     </>
   );
 }

@@ -59,12 +59,8 @@ export function useNodeOpen(store: MenuStore<MenuState>, nodeId: string): boolea
 
 // this function returns a setter function to set the open state of a specific menu node in the store
 // the way to use it is to pass the store and the node id, and it will return a function that takes a boolean to set the open state
-export function setOpen(
-  store: MenuStore<MenuState>,
-  nodeId: string,
-): (open: boolean) => void {
+export function setOpen(store: MenuStore<MenuState>, nodeId: string): (open: boolean) => void {
   return (open: boolean) => {
-    const newState = { ...store.getState(), [nodeId]: open };
-    store.setState(newState);
+    store.setState((prev) => ({ ...prev, [nodeId]: open }));
   };
 }

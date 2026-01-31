@@ -1,45 +1,84 @@
-import { DrawerMenu } from './DrawerMenu';
-import { MenuElement } from './types';
+import * as React from "react";
+import type { Story } from "@ladle/react";
 
-export const DrawerStory = () => {
-  const elements: MenuElement = {
-    name: 'menu',
-    divider:true,
-    children: [
-      { name: 'home', children: [] , path: '/home' },
-      { name: 'about-us', children: [] , path: '/about-us' },
-      {
-        name: 'services',
-        children: [
-          { name: 'consulting', children: [], path: '/services/consulting' },
-          { name: 'development', children: [
-                { name: 'web-development', children: [], path: '/services/development/web-development' },
-                { name: 'mobile-development', children: [], path: '/services/development/mobile-development' },
-                
-          ], path: '/services/development' },
-        ],
-        path: '/services',
-      },
-    ],
-    path: '/',
-  };
-  return <DrawerMenu anchor="left" elements={elements} />;
-};
+import { DrawerMenu } from "./DrawerMenu";
+import type {
+  MenuTreeElement,
+  MenuTreeElementUI,
+  RootOverridesUI,
+} from "./DrawerMenu";
+import { PayloadMap, HierarchyTree, HierarchyTreeOverrides } from "src/core/hierarchy/hierarchyTypes";
+import { DefaultLinkLike } from "src/core/link";
 
  
-type keysOfGH<T extends readonly any[]> = T[number];
 
-const kk = ["one", "two", 'lk', 1] as const;
+/**
+ * A simple demo menu hierarchy to exercise:
+ * - leaf nodes
+ * - parent nodes
+ * - open / close behavior
+ * - overrides
+ */
+const menuPayloads = {
+  home: { label: "Home", link: "/" , order: 1},
+  docs: { label: "Docs" },
+  api: { label: "API", link: "/api" },
+  guides: { label: "Guides" },
+  intro: { label: "Introduction", link: "/docs/intro" },
+  advanced: { label: "Advanced", link: "/docs/advanced" },
+  about: { label: "About", link: "/about" },
+  whoarewe: { label: "Who We Are", link: "/about/whoarewe"  },
+  thisiswho: { label: "This is Who", link: "/about/thisiswho"  },
+  thisiswhat: { label: "This is What", link: "/about/thisiswhat"  },
+  readmore: { label: "Read More", link: "/readmore"  },
+    readmoremore: { label: "Read More", link: "/readmore"  },
+} as const satisfies PayloadMap<MenuTreeElement>;
 
-type qlkj = typeof kk[number];
+type P = typeof menuPayloads;
 
-type lkj = keysOfGH<typeof kk>;
+const hierarchy = {
+  root: { label: "Menu" },
+  nodes: {
+    home: { payload: menuPayloads.home, parent: "root" },
+    docs: { payload: menuPayloads.docs, parent: "root" },
+    about: { payload: menuPayloads.about, parent: "root" },
+    intro: { payload: menuPayloads.intro, parent: "docs" },
+    advanced: { payload: menuPayloads.advanced, parent: "docs" },
+    guides: { payload: menuPayloads.guides, parent: "root" },
+    api: { payload: menuPayloads.api, parent: "guides" },
+    whoarewe: { payload: menuPayloads.whoarewe, parent: "about" },
+    thisiswho: { payload: menuPayloads.thisiswho, parent: "about" },
+    thisiswhat: { payload: menuPayloads.thisiswhat, parent: "whoarewe" },
+    readmore: { payload: menuPayloads.readmore, parent: "about"},
+    readmoremore: { payload: menuPayloads.readmoremore, parent: "readmore"  },
+  },
+} as const satisfies HierarchyTree<P, { label: string }>;
 
-type arr<T extends readonly any[]> = Record<T[number], string>;
+const overrides: HierarchyTreeOverrides<
+  P,
+  typeof hierarchy,
+  RootOverridesUI,
+  MenuTreeElementUI
+> = {
+  root: {
+    payload: {
+      linkComponent: DefaultLinkLike,
+    },
+  },
+  nodes: {
+    docs: { payload: { fontWeight: "bold", divider: true } },
+    guides: { payload: { fontWeight: "bold" } },
+    api: { payload: { pickIcon: false } },
+    about: { payload: { divider: true } },
+  },
+};
 
-const jk: arr<typeof kk> ={
-  one: "one",
-  two: "two",
-  lk: "lk",
-  1: "1"
-}
+export const Default: Story = () => {
+ return (
+    <div style={{ padding: 16 }}>
+      <DrawerMenu hierarchy={hierarchy} overrides={overrides} indent={2} />
+    </div>
+  );
+};
+
+Default.storyName = "Drawer Menu / Default";

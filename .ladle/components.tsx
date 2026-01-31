@@ -7,12 +7,13 @@ import Box from "@mui/material/Box";
 import "@fontsource/crimson-pro/index.css";
 import "@fontsource/inter/index.css";
 
-import { quantumMathMusicPaperPreset } from "../src/theme/presets/quantumMathMusic";
+// import { quantumMathMusicPaperPreset } from "../src/theme/presets/quantumMathMusic";
 
-const theme = createTheme(quantumMathMusicPaperPreset);
+// const theme = createTheme(quantumMathMusicPaperPreset);
 
 export const Provider: GlobalProvider = ({ children }) => (
-  <ThemeProvider theme={theme}>
+  <>
+  {/* // <ThemeProvider theme={theme}> */}
     <CssBaseline />
     <Box
       sx={{
@@ -24,5 +25,6 @@ export const Provider: GlobalProvider = ({ children }) => (
     >
       {children}
     </Box>
-  </ThemeProvider>
+  {/* // </ThemeProvider> */}
+  </>
 );

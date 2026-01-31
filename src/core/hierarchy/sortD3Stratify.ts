@@ -54,14 +54,22 @@ export function sortD3Stratify<Node extends { order?: number }, NodeOverrides>(
     const aOrder = a.data.payload.node.order;
     const bOrder = b.data.payload.node.order;
 
-    if (aOrder === undefined || bOrder === undefined) {
+    if (aOrder === undefined && bOrder === undefined) {
       return a.data.id.localeCompare(b.data.id);
     }
-    return aOrder - bOrder;
+
+    if (aOrder === undefined && bOrder !== undefined) return 1;
+    if (aOrder !== undefined && bOrder === undefined) return -1;
+
+    if (aOrder !== undefined && bOrder !== undefined) return aOrder - bOrder;
+
+    return 0;
+    //
   });
 
   if (issues.length > 0) {
     return { ok: false, issues };
   }
+
   return { root, ok: true };
 }
