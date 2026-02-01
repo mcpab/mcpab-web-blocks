@@ -1,41 +1,39 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import IconPicker from '../../lib/icon/IconPicker';
-import { capitalizeWords } from '../../lib/utils';
-import { MenuTreeElement, MenuTreeElementUI } from './DrawerMenu';
+import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+
+import { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
+
+import { useMenuRenderContext } from './MenuContext';
+import { useMenuDepthContext } from './MenuDepthContext';
 
 export type ElementLabelProps = {
-  menuElement: MenuTreeElement;
-  overrides?: MenuTreeElementUI;
+  node: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
 };
 
-export function ElementLabel({ menuElement, overrides }: ElementLabelProps) {
+export function ElementLabel({ node }: ElementLabelProps) {
   //
-  const {
-    display = true,
-    pickIcon = true,
-    fontWeight = 'normal',
-    capitalize = false,
-  } = overrides ?? {};
+  // console.log('ElementLabel render:', menuElement);
+  // console.log('ElementLabel overrides:', overrides);
+
+  const { display = true } = node.overrides ?? {};
+
+  const { depth } = useMenuDepthContext();
+
+  const { rowPolicy } = useMenuRenderContext();
+ 
+  const { typographyProps, icon ,text} = rowPolicy({ depth, node });
 
   if (!display) return null;
 
-  const label = menuElement.label;
+ 
 
   return (
     <>
-      <ListItemIcon sx={{ minWidth: 36 }}>{pickIcon && <IconPicker name={label} />}</ListItemIcon>
+      <ListItemIcon sx={{ minWidth: 36 }}>{icon}</ListItemIcon>
 
-      <ListItemText
-        primary={
-          <Typography variant="narrative" fontWeight={fontWeight}>
-            {capitalize ? capitalizeWords(label) : label}
-          </Typography>
-        }
-      />
-
-   
+      <ListItemText primary={<Typography {...typographyProps}>{text}</Typography>} />
     </>
   );
 }

@@ -1,16 +1,15 @@
-import * as React from "react";
 import type { Story } from "@ladle/react";
 
-import { DrawerMenu } from "./DrawerMenu";
+import { HierarchyTree, HierarchyTreeOverrides, PayloadMap } from "src/core/hierarchy/hierarchyTypes";
+import { DefaultLinkLike } from "src/core/link";
+import { DropDown } from "./DropDown";
 import type {
   MenuTreeElement,
   MenuTreeElementUI,
   RootOverridesUI,
-} from "./DrawerMenu";
-import { PayloadMap, HierarchyTree, HierarchyTreeOverrides } from "src/core/hierarchy/hierarchyTypes";
-import { DefaultLinkLike } from "src/core/link";
+} from "../MenuTypes";
 
- 
+ import Box from '@mui/material/Box';
 
 /**
  * A simple demo menu hierarchy to exercise:
@@ -66,19 +65,26 @@ const overrides: HierarchyTreeOverrides<
     },
   },
   nodes: {
-    docs: { payload: { fontWeight: "bold", divider: true } },
-    guides: { payload: { fontWeight: "bold" } },
+    docs: { payload: {  divider: true } },
+    guides: { payload: {   } },
     api: { payload: { pickIcon: false } },
     about: { payload: { divider: true } },
   },
 };
 
-export const Default: Story = () => {
+export default {
+  title: "Menu/Dropdown",
+};
+
+
+export const DropDownDefault: Story = () => {
  return (
-    <div style={{ padding: 16 }}>
-      <DrawerMenu hierarchy={hierarchy} overrides={overrides} indent={2} />
-    </div>
+  <Box display="flex" justifyContent="center" alignItems="top" width='100%'  >
+ 
+      <DropDown hierarchy={hierarchy} overrides={overrides} indent={2} />
+ 
+  </Box>
   );
 };
 
-Default.storyName = "Drawer Menu / Default";
+DropDownDefault.storyName = "Drop Down Menu / Default";

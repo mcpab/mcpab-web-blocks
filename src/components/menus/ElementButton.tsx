@@ -1,39 +1,50 @@
 'use client';
-import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import { MenuTreeElement, MenuTreeElementUI } from './DrawerMenu';
+import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
 import { ElementLabel } from './ElementLabel';
-import { useMenuContext } from './MenuContext';
-import { Indent } from './DrawerMenu_Client';
+import { useMenuRenderContext } from './MenuContext';
+import { useMenuDepthContext } from './MenuDepthContext';
+import { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
 
 export type ElementButtonProps = {
-  menuElement: MenuTreeElement;
-  overrides?: MenuTreeElementUI;
-  indent: Indent;
+  node: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
 };
-export function ElementButton({ menuElement, overrides, indent }: ElementButtonProps) {
+export function ElementButton({ node }: ElementButtonProps) {
   ///
+  // console.log('ElementButton render:', menuElement);
+  // console.log('ElementButton overrides:', overrides);
+
+  const menuElement = node.node;
+  const overrides = node.overrides;
+
+  if (!menuElement) return null;
+
   const display = overrides?.display ?? true;
   if (!display) return null;
 
-  const { linkLikeComp: LinkComponent } = useMenuContext();
+    const { depth } = useMenuDepthContext();
+
+  const { linkLikeComp: LinkComponent , rowPolicy } = useMenuRenderContext();
+
+  const {paddingInlineStart: rowPaddingLeft} = rowPolicy({ depth, node });
 
   const onClick = overrides?.onClick;
   const link = menuElement.link;
 
-  const elementLabel = <ElementLabel menuElement={menuElement} overrides={overrides} />;
-console.log('Indent in ElementButton:', indent);
-  const button = link ? (
-    <ListItemButton component={LinkComponent} href={link} onClick={onClick} sx={{ pl: indent.indentValue * indent.depth }}>
-      {elementLabel}
-    </ListItemButton>
-  ) : (
-    <ListItemButton onClick={onClick} sx={{ pl: indent.indentValue * indent.depth }}>{elementLabel}</ListItemButton>
-  );
+  const elementLabel = <ElementLabel node={node} />;
 
-  return (
-    <>
-      {button}
-    </>
-  );
+  if (link) {
+    return (
+      <ListItemButton component={LinkComponent} href={link} onClick={onClick} sx={{ pl: rowPaddingLeft }}>
+        {elementLabel}
+      </ListItemButton>
+    );
+  } else if (onClick) {
+    return <ListItemButton onClick={onClick} sx={{ pl: rowPaddingLeft }}>{elementLabel}</ListItemButton>;
+  }
+
+  return <ListItem disablePadding sx={{ pl: rowPaddingLeft }}>{ elementLabel }</ListItem>;
+
+
 }
