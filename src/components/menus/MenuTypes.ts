@@ -1,9 +1,4 @@
-import {
-  HierarchyTree,
-  HierarchyTreeOverrides,
-  PayloadMap,
-} from 'src/core/hierarchy/hierarchyTypes';
-import { LinkTypeComponent } from 'src/core/link';
+import { LinkTypeComponent } from '../../core/link';
 
 
 export type MenuTreeElement = {
@@ -26,13 +21,3 @@ export type RootOverridesUI = {
   linkComponent?: LinkTypeComponent;
 };
 
-export type MenuProps<P extends PayloadMap<MenuTreeElement>> = {
-  hierarchy: HierarchyTree<P, RootTreeElement>;
-  overrides: HierarchyTreeOverrides<
-    P,
-    HierarchyTree<P, RootTreeElement>,
-    RootOverridesUI,
-    MenuTreeElementUI
-  >;
-  indent?: number;
-};

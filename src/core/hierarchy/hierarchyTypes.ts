@@ -12,7 +12,6 @@ export type PayloadMap<NodePayload = unknown> = Record<string, NodePayload>;
 type ForbidRootKey<P extends Record<string, any>> = 'root' extends keyof P ? never : P;
 
 export type NodeId<P extends PayloadMap> = Extract<keyof ForbidRootKey<P>, string>;
-type ParentId<P extends PayloadMap, K> = "root" | Exclude<NodeId<P>, K>;
 
 type AllowedParents<N extends string, P extends PayloadMap> = Exclude<Extract<keyof P, string>, N>;
 
@@ -151,4 +150,4 @@ const ex = {
   root: { name: 'root', pp: 'c' }, // allowed as an anchor payload
 } as const satisfies PayloadMap;
 
-type lk = NodeInferred<typeof ex>;
+ 

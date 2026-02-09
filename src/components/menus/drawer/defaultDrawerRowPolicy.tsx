@@ -1,5 +1,5 @@
 import IconPicker from '../../../lib/icon/IconPicker';
-import { MenuLabelTypographyProps, RowPolicy } from '../RowPolicyTypes';
+import { MenuLabelTypographyProps, RowPlan, RowPolicy, RowPolicyProps } from '../RowPolicyTypes';
 
 import { safeTitleCase } from '../../../lib/utils';
 
@@ -15,39 +15,67 @@ export const defaultDrawerRowPolicy = ({
   closeIndicator,
 }: DefaultRowPolicyProps): RowPolicy => {
   //
-  return ({ depth, node, isOpen }) => {
+  return ({
+    depth,
+    menuTreeElement,
+    menuTreeElementUI,
+    isOpen,
+    isSelected,
+    isAncestorSelected,
+    hasChildren,
+  }: RowPolicyProps) => {
     ///
 
-    const hasChildren = node.children !== undefined && Object.keys(node.children).length > 0;
-
-    let label = node.node ? node.node.label : '';
-    let color = 'text.secondary';
-
-    if (depth === 0) {
-      // Capitalize root label
-      label = safeTitleCase(label);
-      color = 'text.primary';
-    }
-
-    const paddingInlineStart = baseIndent * depth;
-
-    const typographyProps: MenuLabelTypographyProps = {
-      variant: 'narrative',
-      noWrap: true,
-      color: color,
-    };
-
+    let label = menuTreeElement.label;
     const icon = depth === 0 ? <IconPicker name={label ?? ''} fontSize="medium" /> : undefined;
 
     const indicator = hasChildren ? (isOpen ? openIndicator : closeIndicator) : undefined;
 
-    return {
+    const paddingInlineStart = baseIndent * depth;
+
+    let rowPolicy: RowPlan = {
       text: label,
-      typographyProps: typographyProps,
+      typographyProps: {},
       icon: icon,
       indicator: indicator,
       indicatorPlacement: 'end',
       paddingInlineStart: paddingInlineStart,
     };
+
+
+    const typographyProps: MenuLabelTypographyProps = {
+      variant: 'narrative',
+      noWrap: true,
+      // color: color,
+      // fontWeight: fontWeight,
+    };
+
+    if (depth === 0) {
+      // Capitalize root label
+      label = safeTitleCase(label);
+      typographyProps.color = 'text.primary';
+    }
+
+    if (isSelected) {
+      typographyProps.color = 'primary.main';
+      rowPolicy.rowSx = {
+        backgroundColor: 'action.selected',
+        borderInlineStart: '3px solid',
+        borderColor: 'primary.main',
+      };
+    }
+
+    if (isAncestorSelected) {
+      typographyProps.fontWeight = 500;
+    }
+    if (isAncestorSelected) {
+      typographyProps.sx = {
+        opacity: 0.9,
+      };
+    }
+
+    rowPolicy.typographyProps = typographyProps;
+
+    return  rowPolicy;
   };
 };

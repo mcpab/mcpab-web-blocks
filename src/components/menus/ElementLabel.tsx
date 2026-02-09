@@ -1,34 +1,20 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
 
-import { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
+import { MenuLabelTypographyProps } from './RowPolicyTypes';
 
-import { useMenuRenderContext } from './MenuContext';
-import { useMenuDepthContext } from './MenuDepthContext';
-
-export type ElementLabelProps = {
-  node: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
+export type ElementLabelProps = {  
+  icon: React.ReactNode;
+  text: React.ReactNode;
+  typographyProps?: MenuLabelTypographyProps;
 };
 
-export function ElementLabel({ node }: ElementLabelProps) {
-  //
-  // console.log('ElementLabel render:', menuElement);
-  // console.log('ElementLabel overrides:', overrides);
-
-  const { display = true } = node.overrides ?? {};
-
-  const { depth } = useMenuDepthContext();
-
-  const { rowPolicy } = useMenuRenderContext();
+export function ElementLabel({ typographyProps, icon, text }: ElementLabelProps) {
  
-  const { typographyProps, icon ,text} = rowPolicy({ depth, node });
-
-  if (!display) return null;
+  // console.log('ElementLabel props:', { typographyProps, icon, text });
 
  
-
   return (
     <>
       <ListItemIcon sx={{ minWidth: 36 }}>{icon}</ListItemIcon>

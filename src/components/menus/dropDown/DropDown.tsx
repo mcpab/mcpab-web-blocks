@@ -1,7 +1,7 @@
 import { PayloadMap } from 'src/core/hierarchy/hierarchyTypes';
 import { MenuTreeElement, MenuProps } from '../MenuTypes';
-import prepareMenuTree from '../prepareMenuTree';
-import { DropDown_Client } from './drawer/dropDown/DropDown_Client';
+import createMenuTree from '../prepareMenuTree';
+import { DropDown_Client } from  './DropDown_Client';
 
 export function DropDown<P extends PayloadMap<MenuTreeElement>>({
   hierarchy,
@@ -11,7 +11,7 @@ export function DropDown<P extends PayloadMap<MenuTreeElement>>({
   //
   //
 
-  const treeRoot = prepareMenuTree<P>({ hierarchy, overrides, issues: [] });
+  const treeRoot = createMenuTree<P>({ hierarchy, overrides, issues: [] });
 
   if (!treeRoot.ok) {
     const msg = treeRoot.issues[0]?.message ?? 'Unknown prepareMenuTree error';

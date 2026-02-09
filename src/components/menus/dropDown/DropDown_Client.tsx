@@ -2,9 +2,9 @@
 import Box from '@mui/material/Box';
 import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
 import { DefaultLinkLike, LinkTypeComponent } from 'src/core/link';
-import { DropDownElement } from '../../DropDownElement';
-import { MenuRenderContext } from '../../MenuContext';
-import { MenuTreeElement, MenuTreeElementUI, RootOverridesUI, RootTreeElement } from '../../MenuTypes';
+import { DropDownElement } from './DropDownElement';
+import { MenuRenderContext } from '../MenuRenderContext';
+import { MenuTreeElement, MenuTreeElementUI, RootOverridesUI, RootTreeElement } from '../MenuTypes';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 type DropDownPlacement = 'block-start' | 'block-end' | 'inline-start' | 'inline-end';
 

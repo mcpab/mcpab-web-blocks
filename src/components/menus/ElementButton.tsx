@@ -1,50 +1,64 @@
 'use client';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import type { SxProps, Theme } from '@mui/material/styles';
+import { LinkTypeComponent } from 'src/core/link';
 import { ElementLabel } from './ElementLabel';
-import { useMenuRenderContext } from './MenuContext';
-import { useMenuDepthContext } from './MenuDepthContext';
 import { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
+import { RowPlan } from './RowPolicyTypes';
 
 export type ElementButtonProps = {
-  node: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
+  menuElement: MenuTreeElement  ;
+  overrides: MenuTreeElementUI | undefined;
+  linkComponent: LinkTypeComponent;
+  rowPlan: RowPlan;
 };
-export function ElementButton({ node }: ElementButtonProps) {
-  ///
-  // console.log('ElementButton render:', menuElement);
-  // console.log('ElementButton overrides:', overrides);
+export function ElementButton({
+  menuElement,
+  overrides,
+  linkComponent,
+  rowPlan,
+}: ElementButtonProps) {
+ 
 
-  const menuElement = node.node;
-  const overrides = node.overrides;
+  if (overrides?.display === false) return null;
 
-  if (!menuElement) return null;
+  // const { rowPolicy } = useMenuRenderContext();
 
-  const display = overrides?.display ?? true;
-  if (!display) return null;
+  // Compute row plan ONCE
+  // const { typographyProps, icon, text } = rowPolicy({ depth, node });
 
-    const { depth } = useMenuDepthContext();
-
-  const { linkLikeComp: LinkComponent , rowPolicy } = useMenuRenderContext();
-
-  const {paddingInlineStart: rowPaddingLeft} = rowPolicy({ depth, node });
+  // console.log('ElementButton rowPolicy result:', { paddingInlineStart, rowSx, typographyProps, icon, text });
 
   const onClick = overrides?.onClick;
   const link = menuElement.link;
 
-  const elementLabel = <ElementLabel node={node} />;
+  const { typographyProps, icon, text, paddingInlineStart, rowSx } = rowPlan;
+
+  const elementLabel = <ElementLabel typographyProps={typographyProps} icon={icon} text={text} />;
+
+  const sx: SxProps<Theme> = [
+    { paddingInlineStart },
+    ...(Array.isArray(rowSx) ? rowSx : rowSx ? [rowSx] : []),
+  ];
 
   if (link) {
     return (
-      <ListItemButton component={LinkComponent} href={link} onClick={onClick} sx={{ pl: rowPaddingLeft }}>
+      <ListItemButton component={linkComponent} href={link} onClick={onClick} sx={sx}>
         {elementLabel}
       </ListItemButton>
     );
   } else if (onClick) {
-    return <ListItemButton onClick={onClick} sx={{ pl: rowPaddingLeft }}>{elementLabel}</ListItemButton>;
+    return (
+      <ListItemButton onClick={onClick} sx={sx}>
+        {elementLabel}
+      </ListItemButton>
+    );
   }
 
-  return <ListItem disablePadding sx={{ pl: rowPaddingLeft }}>{ elementLabel }</ListItem>;
-
-
+  return (
+    <ListItem disablePadding sx={sx}>
+      {elementLabel}
+    </ListItem>
+  );
 }

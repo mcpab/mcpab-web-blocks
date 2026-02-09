@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Story } from '@ladle/react';
 
-import { DrawerMenu } from './DrawerMenu';
+import { hierarchyToDrawerProps } from './hierarchyToDrawerProps';
 import type { MenuTreeElement, MenuTreeElementUI, RootOverridesUI } from '../MenuTypes';
 import {
   PayloadMap,
@@ -9,6 +9,10 @@ import {
   HierarchyTreeOverrides,
 } from 'src/core/hierarchy/hierarchyTypes';
 import { DefaultLinkLike } from 'src/core/link';
+import { Drawer } from '@mui/material';
+import { DrawerMenu_Client } from './DrawerMenu_Client';
+import { DrawerMenu } from './DrawerMenu';
+import { IsSelectedMenuElement } from './pathSelectors';
 
 /**
  * A simple demo menu hierarchy to exercise:
@@ -63,16 +67,45 @@ const overrides: HierarchyTreeOverrides<P, typeof hierarchy, RootOverridesUI, Me
     about: { payload: { divider: true } },
   },
 };
+
 export default {
   title: 'Menu/Drawer',
 };
 
-export const DrawerDefault: Story = () => {
-  return (
-    <div style={{ padding: 16 }}>
-      <DrawerMenu hierarchy={hierarchy} overrides={overrides} indent={2} />
+const result = hierarchyToDrawerProps({
+  hierarchy,
+  overrides,
+});
+
+let Component = <></>;
+if (!result.ok) {
+  console.error('Failed to prepare menu tree for story:', result.issues);
+  Component = (
+    <div style={{ color: 'red' }}>
+      Menu preparation error: {result.issues[0]?.message ?? 'Unknown error'}
     </div>
   );
+} else {
+  const { root, treeFromRoot, rootOverrides } = result;
+  const selector: IsSelectedMenuElement = (id, menuTreeElement) => {
+  return id === 'readmoremore';
+};
+  Component = (
+    <DrawerMenu
+      root={root}
+      treeFromRoot={treeFromRoot}
+      rootOverrides={rootOverrides}
+      anchor="left"
+      indent={2}
+      selector={selector}
+    />
+  );
+}
+
+
+
+export const DrawerDefault: Story = () => {
+  return <div style={{ padding: 16 }}>{Component}</div>;
 };
 
 DrawerDefault.storyName = 'Drawer Menu / Default';

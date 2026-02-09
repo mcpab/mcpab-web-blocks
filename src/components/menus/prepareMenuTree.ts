@@ -5,14 +5,15 @@ import { HierarchyIssue } from 'src/core/hierarchy/hierarchyErrorShape';
 import { PayloadMap } from 'src/core/hierarchy/hierarchyTypes';
 import { resolver } from 'src/core/hierarchy/resolver';
 import { sortD3Stratify } from 'src/core/hierarchy/sortD3Stratify';
-import { type MenuProps, MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
+import {  MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
+import {type MenuProps} from './drawer/hierarchyToDrawerProps';
 
 export type PrepareMenuTreeProps<P extends PayloadMap<MenuTreeElement>> = Omit<
   MenuProps<P>,
-  'indent'
+  'indent' | 'payloadMap'
 > & { issues: HierarchyIssue[] };
 
-export default function prepareMenuTree<P extends PayloadMap<MenuTreeElement>>({
+export default function createMenuTree<P extends PayloadMap<MenuTreeElement>>({
   hierarchy,
   overrides,
 }: PrepareMenuTreeProps<P>):

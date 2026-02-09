@@ -1,4 +1,5 @@
 'use client';
+
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -9,16 +10,17 @@ import React, { useMemo, useState } from 'react';
 import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
 import { LinkTypeComponent } from 'src/core/link';
 import { DefaultLinkLike } from 'src/core/link/link-types';
-import { MenuControllerContext, MenuRenderContext, MenuRenderContextType } from '../MenuContext';
+import { MenuControllerContext } from '../MenuControllerContext';
+import { MenuRenderContext, MenuRenderContextType } from '../MenuRenderContext';
 import { createMenuStore, MenuState } from '../menuStore';
 import { MenuTreeElement, MenuTreeElementUI, RootOverridesUI, RootTreeElement } from '../MenuTypes';
-import { DrawerOpenClose } from './DrawerOpenClose';
 
 import { MenuDepthContext } from '../MenuDepthContext';
 import { defaultDrawerRowPolicy } from './defaultDrawerRowPolicy';
 import { DrawerElement } from './DrawerElement';
+
 ///
-type DrawerMenuClientProps = {
+export type DrawerMenuClientProps = {
   root: RootTreeElement;
   treeFromRoot: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
   rootOverrides?: RootOverridesUI;
@@ -35,7 +37,9 @@ export function DrawerMenu_Client({
 }: DrawerMenuClientProps) {
   //
   //
-
+  // console.log('DrawerMenu_Client root:', root);
+  // console.log('DrawerMenu_Client treeFromRoot:', treeFromRoot);
+  //
   const linkLikeComp: LinkTypeComponent = rootOverrides?.linkComponent ?? DefaultLinkLike;
 
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -47,13 +51,6 @@ export function DrawerMenu_Client({
   treeFromRoot.node = {
     label: rootLabel,
   };
-
-  const menuStore = useMemo(() => {
-    const initialStoreState: MenuState = {};
-    populateInitialStoreState(treeFromRoot, initialStoreState);
-    initialStoreState['root'] = false;
-    return createMenuStore(initialStoreState);
-  }, [treeFromRoot]);
 
   const renderContext: MenuRenderContextType = {
     linkLikeComp: linkLikeComp,
@@ -67,56 +64,47 @@ export function DrawerMenu_Client({
   const childrenComponents = treeFromRoot.children
     ? Object.entries(treeFromRoot.children).map(([childId, childBranch]) => (
         <React.Fragment key={childId}>
-          <DrawerElement id={childId} node={childBranch} />
+          <DrawerElement
+            id={childId}
+            menuTreeElement={childBranch.node}
+            overrides={childBranch.overrides}
+            children={childBranch.children}
+          />
         </React.Fragment>
       ))
     : [];
 
+  console.log('Children Components:', childrenComponents);
   return (
-    <MenuControllerContext.Provider value={{ menuStore }}>
-      <MenuRenderContext.Provider value={renderContext}>
-        <Box display="flex" alignItems="center" justifyContent="center" height="100vh" width="100%">
-          <Drawer
-            open={openDrawer}
-            onClose={toggleDrawer(false)}
-            anchor={anchor}
-            slotProps={{
-              paper: {
-                sx: { minWidth: 240, pl: 1, pt: 2, overflowY: 'auto' },
-                elevation: 2,
-              },
-            }}
+    <MenuRenderContext.Provider value={renderContext}>
+      <Box display="flex" alignItems="center" justifyContent="center" height="100vh" width="100%">
+        <Drawer
+          open={openDrawer}
+          onClose={toggleDrawer(false)}
+          anchor={anchor}
+          slotProps={{
+            paper: {
+              sx: { minWidth: 240, pl: 1, pt: 2, overflowY: 'auto' },
+              elevation: 2,
+            },
+          }}
+        >
+          <List
+            dense
+            disablePadding
+            component="nav"
+            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
           >
-            <List
-              dense
-              disablePadding
-              component="nav"
-              sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-            >
-              <MenuDepthContext.Provider value={{ depth: 0 }}>
-                {childrenComponents}
-              </MenuDepthContext.Provider>
-            </List>
-          </Drawer>
+            <MenuDepthContext.Provider value={{ depth: 0 }}>
+              {childrenComponents}
+            </MenuDepthContext.Provider>
+          </List>
+        </Drawer>
 
-          <IconButton onClick={toggleDrawer(true)} aria-label="Open menu">
-            <MenuIcon />
-          </IconButton>
-        </Box>
-      </MenuRenderContext.Provider>
-    </MenuControllerContext.Provider>
+        <IconButton onClick={toggleDrawer(true)} aria-label="Open menu">
+          <MenuIcon />
+        </IconButton>
+      </Box>
+    </MenuRenderContext.Provider>
   );
-}
-
-function populateInitialStoreState(
-  node: StratifyPayload<MenuTreeElement, MenuTreeElementUI>,
-  store: Record<string, boolean>,
-) {
-  //
-  if (node.children) {
-    for (const key in node.children) {
-      store[key] = false;
-      populateInitialStoreState(node.children[key], store);
-    }
-  }
 }
