@@ -1,64 +1,80 @@
 import { useSyncExternalStore } from 'react';
 
-// the state of a store is simply a record of string and a boolean, indicating whether a menu node is open or closed
+/**
+ * State shape for a menu store: a map of node id → open/closed boolean.
+ * Only nodes that have been explicitly toggled appear in the map;
+ * absent nodes default to `false` (closed).
+ */
 export type MenuState = Record<string, boolean>;
 
-// the menu store interface, defining methods to get and set state, and to subscribe to state changes
+/**
+ * Minimal observable store for menu open/close state.
+ *
+ * Compatible with React's `useSyncExternalStore`. Supports both direct
+ * state replacement and functional updates to avoid stale closures.
+ *
+ * @see {@link createMenuStore} to create an instance.
+ * @see {@link useNodeOpen} / {@link setOpen} for component-level helpers.
+ */
 export type MenuStore<MenuState> = {
+  /** Returns the current state snapshot. */
   getState: () => MenuState;
+  /** Replaces the state or applies a functional update. Notifies all subscribers. */
   setState: (next: MenuState | ((prev: MenuState) => MenuState)) => void;
+  /** Subscribes a listener that is called on every state change. Returns an unsubscribe function. */
   subscribe: (listener: () => void) => () => void;
 };
 
-// this is the factory of stores, creating a new store with the given initial state
+/**
+ * Creates a new {@link MenuStore} with the given initial state.
+ *
+ * @example
+ * ```ts
+ * const store = createMenuStore({});
+ * ```
+ */
 export function createMenuStore(initialState: MenuState): MenuStore<MenuState> {
-  //
   let menusState = { ...initialState };
-
   let listeners = new Set<() => void>();
 
   return {
-    getState: () => {
-      return menusState;
-    },
+    getState: () => menusState,
     setState: (next: MenuState | ((prev: MenuState) => MenuState)) => {
-      //
-      if (next === menusState) {
-        return;
-      }
-      if (typeof next === 'function') {
-        menusState = next(menusState);
-      } else {
-        menusState = next;
-      }
+      if (next === menusState) return;
+      menusState = typeof next === 'function' ? next(menusState) : next;
       listeners.forEach((listener) => listener());
     },
     subscribe: (listener: () => void) => {
       listeners.add(listener);
-      return () => {
-        listeners.delete(listener);
-      };
+      return () => listeners.delete(listener);
     },
-    //
   };
 }
 
-// this function is a hook to use the open state of a specific menu node from the store
-// the way to use it is to pass the store and the node id, and it will return the open state of that node
+/**
+ * React hook that subscribes to the open/closed state of a single node.
+ *
+ * Returns `false` for nodes that have never been explicitly toggled.
+ * Safe for server rendering (snapshot always returns `false`).
+ *
+ * @param store - The store created by {@link createMenuStore}.
+ * @param nodeId - The node whose open state to read.
+ */
 export function useNodeOpen(store: MenuStore<MenuState>, nodeId: string): boolean {
   return useSyncExternalStore(
     store.subscribe,
-    () => {
-      return store.getState()[nodeId] ?? false;
-    },
-    () => {
-      return false;
-    },
+    () => store.getState()[nodeId] ?? false,
+    () => false,
   );
 }
 
-// this function returns a setter function to set the open state of a specific menu node in the store
-// the way to use it is to pass the store and the node id, and it will return a function that takes a boolean to set the open state
+/**
+ * Returns a stable setter that toggles the open state of a single node.
+ *
+ * @param store - The store created by {@link createMenuStore}.
+ * @param nodeId - The node whose open state to update.
+ * @returns A function `(open: boolean) => void` to call on toggle events.
+ */
 export function setOpen(store: MenuStore<MenuState>, nodeId: string): (open: boolean) => void {
   return (open: boolean) => {
     store.setState((prev) => ({ ...prev, [nodeId]: open }));

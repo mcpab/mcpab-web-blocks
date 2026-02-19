@@ -5,28 +5,20 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Drawer, List } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import Box from 'node_modules/@mui/system/esm/Box/Box';
-import React, { useMemo, useState } from 'react';
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import Box from '@mui/material/Box';
+import React, { useEffect, useState } from 'react';
 import { LinkTypeComponent } from 'src/core/link';
 import { DefaultLinkLike } from 'src/core/link/link-types';
-import { MenuControllerContext } from '../MenuControllerContext';
-import { MenuRenderContext, MenuRenderContextType } from '../MenuRenderContext';
-import { createMenuStore, MenuState } from '../menuStore';
-import { MenuTreeElement, MenuTreeElementUI, RootOverridesUI, RootTreeElement } from '../MenuTypes';
-
+import { useMenuControllerContext } from '../MenuControllerContext';
 import { MenuDepthContext } from '../MenuDepthContext';
+import { MenuRenderContext, MenuRenderContextType } from '../MenuRenderContext';
+import { useMenuSelectorContext } from '../MenuSelectorContext';
+import { setOpen } from '../menuStore';
 import { defaultDrawerRowPolicy } from './defaultDrawerRowPolicy';
 import { DrawerElement } from './DrawerElement';
+import { DrawerMenuProps } from './DrawerMenuTypes';
 
 ///
-export type DrawerMenuClientProps = {
-  root: RootTreeElement;
-  treeFromRoot: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
-  rootOverrides?: RootOverridesUI;
-  anchor?: 'left' | 'right' | 'top' | 'bottom';
-  indent?: number;
-};
 
 export function DrawerMenu_Client({
   root: root,
@@ -34,7 +26,7 @@ export function DrawerMenu_Client({
   rootOverrides,
   anchor = 'left',
   indent = 0,
-}: DrawerMenuClientProps) {
+}: DrawerMenuProps) {
   //
   //
   // console.log('DrawerMenu_Client root:', root);
@@ -61,6 +53,18 @@ export function DrawerMenu_Client({
     }),
   };
 
+  const selectors = useMenuSelectorContext();
+  const menuController = useMenuControllerContext();
+  const selectedPathIds = selectors.selectedPathIds;
+  const selectId = selectors.selectedId;
+  const menuStore = menuController.menuStore;
+
+  useEffect(() => {
+    for (const selectedId of selectedPathIds) {
+      if (selectedId !== selectId) setOpen(menuStore, selectedId)(true);
+    }
+  }, [selectId, menuStore]);
+
   const childrenComponents = treeFromRoot.children
     ? Object.entries(treeFromRoot.children).map(([childId, childBranch]) => (
         <React.Fragment key={childId}>
@@ -74,37 +78,34 @@ export function DrawerMenu_Client({
       ))
     : [];
 
-  console.log('Children Components:', childrenComponents);
   return (
     <MenuRenderContext.Provider value={renderContext}>
-      <Box display="flex" alignItems="center" justifyContent="center" height="100vh" width="100%">
-        <Drawer
-          open={openDrawer}
-          onClose={toggleDrawer(false)}
-          anchor={anchor}
-          slotProps={{
-            paper: {
-              sx: { minWidth: 240, pl: 1, pt: 2, overflowY: 'auto' },
-              elevation: 2,
-            },
-          }}
+      <Drawer
+        open={openDrawer}
+        onClose={toggleDrawer(false)}
+        anchor={anchor}
+        slotProps={{
+          paper: {
+            sx: { minWidth: 240, pl: 1, pt: 2, overflowY: 'auto' },
+            elevation: 2,
+          },
+        }}
+      >
+        <List
+          dense
+          disablePadding
+          component="nav"
+          sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
         >
-          <List
-            dense
-            disablePadding
-            component="nav"
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-          >
-            <MenuDepthContext.Provider value={{ depth: 0 }}>
-              {childrenComponents}
-            </MenuDepthContext.Provider>
-          </List>
-        </Drawer>
+          <MenuDepthContext.Provider value={{ depth: 0 }}>
+            {childrenComponents}
+          </MenuDepthContext.Provider>
+        </List>
+      </Drawer>
 
-        <IconButton onClick={toggleDrawer(true)} aria-label="Open menu">
-          <MenuIcon />
-        </IconButton>
-      </Box>
+      <IconButton onClick={toggleDrawer(true)} aria-label="Open menu">
+        <MenuIcon />
+      </IconButton>
     </MenuRenderContext.Provider>
   );
 }

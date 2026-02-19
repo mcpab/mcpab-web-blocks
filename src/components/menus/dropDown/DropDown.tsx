@@ -1,27 +1,71 @@
-import { PayloadMap } from 'src/core/hierarchy/hierarchyTypes';
-import { MenuTreeElement, MenuProps } from '../MenuTypes';
-import createMenuTree from '../prepareMenuTree';
-import { DropDown_Client } from  './DropDown_Client';
+import { useMemo } from 'react';
+import { getSelectors, IsSelectedMenuElement } from '../drawer/pathSelectors';
+import { MenuSelectorContext } from '../MenuSelectorContext';
+import { MenuProps } from '../MenuTypes';
+import { DropDown_Client } from './DropDown_Client';
+import { MegaMenuPolicy } from '../RowPolicyTypes';
 
-export function DropDown<P extends PayloadMap<MenuTreeElement>>({
-  hierarchy,
-  overrides,
-  indent = 0,
-}: MenuProps<P>) {
+/** Props for the {@link DropDown} component. Extends the shared {@link MenuProps}. */
+export type DropDownMenuProps = MenuProps & {
+  /**
+   * Callback that identifies the currently active menu item (e.g. the current page).
+   * Drives selected and ancestor-selected visual states via {@link MenuSelectorContext}.
+   * If omitted, no item is highlighted.
+   */
+  selector?: IsSelectedMenuElement;
+  /**
+   * Layout and styling policy for the mega menu panels.
+   * Controls column dividers, item dividers, column min-width, and outer padding.
+   * @defaultValue {@link standardMegaMenuPolicy}
+   */
+  megaMenuPolicy?: MegaMenuPolicy;
+};
+
+/**
+ * Top-level entry point for the horizontal dropdown (mega menu) navigation bar.
+ *
+ * Sets up {@link MenuSelectorContext} from the `selector` callback, then delegates
+ * rendering to {@link DropDown_Client} which mounts a sticky MUI `AppBar`.
+ *
+ * Top-level items are rendered at depth 0. Items with children open a MUI `Popover`
+ * containing a {@link DropDownMegaMenu} panel laid out as columns.
+ *
+ * @example
+ * ```tsx
+ * const result = hierarchyToDrawerProps({ hierarchy, overrides });
+ * if (result.ok) {
+ *   return (
+ *     <DropDown
+ *       {...result}
+ *       selector={(id) => id === currentPageId}
+ *       megaMenuPolicy={compactMegaMenuPolicy}
+ *     />
+ *   );
+ * }
+ * ```
+ *
+ * @see {@link hierarchyToDrawerProps} to build the required props from a hierarchy definition.
+ * @see {@link defaultDropDownPolicy} for the default row styling policy.
+ * @see {@link standardMegaMenuPolicy} / {@link compactMegaMenuPolicy} for built-in mega menu policies.
+ */
+export function DropDown({ root, treeFromRoot, rootOverrides, selector, megaMenuPolicy }: DropDownMenuProps) {
   //
   //
 
-  const treeRoot = createMenuTree<P>({ hierarchy, overrides, issues: [] });
+  const selectors = useMemo(
+    () =>
+      getSelectors({
+        treeFromRoot,
+        selector: selector,
+      }),
+    [treeFromRoot, selector],
+  );
 
-  if (!treeRoot.ok) {
-    const msg = treeRoot.issues[0]?.message ?? 'Unknown prepareMenuTree error';
-    console.error('Failed to prepare menu tree:', treeRoot.issues);
-    return <div>Menu prepare error: {msg}</div>;
-  }
-  const root = hierarchy.root;
-  const rootOverrides = overrides.root?.payload;
-
-  return <DropDown_Client root={root} treeFromRoot={treeRoot.root} rootOverrides={rootOverrides} />;
+  return (
+    <MenuSelectorContext.Provider value={selectors}>
+      <DropDown_Client root={root} treeFromRoot={treeFromRoot} rootOverrides={rootOverrides} megaMenuPolicy={megaMenuPolicy}/>
+    </MenuSelectorContext.Provider>
+  );
 
   //
 }

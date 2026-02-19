@@ -11,7 +11,7 @@ import { useMenuDepthContext } from '../MenuDepthContext';
 import { setOpen, useNodeOpen } from '../menuStore';
 import { useMenuSelectorContext } from '../MenuSelectorContext';
 
-////
+/** @internal */
 type DrawerElementProps = {
   id: string;
   menuTreeElement: MenuTreeElement | null;
@@ -19,10 +19,20 @@ type DrawerElementProps = {
   children: Record<string, StratifyPayload<MenuTreeElement, MenuTreeElementUI>> | undefined;
 };
 
+/**
+ * Renders a single node in the drawer menu tree.
+ *
+ * Decides between two render paths based on whether the node has children:
+ * - **Parent node** → {@link DrawerOpenClose}: expand/collapse via Zustand store + MUI `Collapse`.
+ * - **Leaf node** → {@link ElementButton}: a link or plain list item.
+ *
+ * Reads open/close state from {@link MenuControllerContext}, selection state from
+ * {@link MenuSelectorContext}, and calls the active {@link RowPolicy} to compute visual properties.
+ *
+ * @internal Rendered recursively inside {@link DrawerOpenClose}.
+ */
 export function DrawerElement({ id, menuTreeElement, overrides, children }: DrawerElementProps) {
   ///
-
-  console.log('DrawerElement render:', id, menuTreeElement);
 
   if (!menuTreeElement) return null;
 
@@ -71,7 +81,7 @@ export function DrawerElement({ id, menuTreeElement, overrides, children }: Draw
   return (
     <>
       <ElementButton
-        menuElement={menuTreeElement}
+        link={menuTreeElement.link}
         overrides={overrides}
         rowPlan={rowPlan}
         linkComponent={linkLikeComp}

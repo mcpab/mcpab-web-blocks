@@ -1,7 +1,18 @@
-import { HierarchyRelations, PayloadMap } from 'src';
 import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
 
+/**
+ * Callback used to determine whether a menu node is the currently active (selected) item.
+ *
+ * @param id - The node's unique string key in the hierarchy.
+ * @param menuTreeElement - The node's data payload, or `null` if the node has no data.
+ * @returns `true` if this node should be treated as the selected item.
+ *
+ * @example
+ * ```ts
+ * const selector: IsSelectedMenuElement = (id) => id === currentPageId;
+ * ```
+ */
 export type IsSelectedMenuElement = (
   id: string,
   menuTreeElement: MenuTreeElement | null,
@@ -19,10 +30,18 @@ type GetselectorsProps = {
   selector: IsSelectedMenuElement | undefined;
 };
 
+/**
+ * Derived selection state computed from a single {@link IsSelectedMenuElement} callback.
+ * Consumed by {@link MenuSelectorContext} throughout the menu tree.
+ */
 export type GetSelectorsReturnType = {
+  /** Returns `true` if the given node is the selected item. */
   isSelected: (nodeId: string) => boolean;
+  /** Returns `true` if the given node is an ancestor of the selected item (but not selected itself). */
   isAncestorSelected: (nodeId: string) => boolean;
+  /** The id of the selected node, or `null` if nothing is selected. */
   selectedId: string | null;
+  /** Set of all node ids on the path from root to the selected node (inclusive). */
   selectedPathIds: Set<string>;
 };
 
@@ -35,6 +54,17 @@ const EarlyReturnValue = {
 
 const DefaultNullSelector: IsSelectedMenuElement = () => false;
 
+/**
+ * Walks the menu tree using a depth-first search to find the selected node and
+ * records the full ancestor path along the way.
+ *
+ * Returns {@link GetSelectorsReturnType} with stable function references for
+ * `isSelected` and `isAncestorSelected`, suitable for passing into React context.
+ * If no node matches the selector, all functions return `false`/`null`.
+ *
+ * @param treeFromRoot - The stratified menu tree produced by {@link hierarchyToDrawerProps}.
+ * @param selector - Callback that identifies the selected node.
+ */
 export function getSelectors({
   treeFromRoot,
   selector,
@@ -133,41 +163,3 @@ export function getSelectedAndPath({ nodeId, menuNode, selector, path }: GetSele
   return null;
 }
 
-// export function geetPathSelectors<P extends PayloadMap<MenuTreeElement>>(
-//   nodes: HierarchyRelations<P>,
-// ): SelectorsReturn {
-//   //
-
-//   const getSelectedId: GetSelectedId = (selector: IsSelected) => {
-//     //
-//     const found =
-//       Object.keys(nodes).find((id) => {
-//         const menuTreeElement = nodes[id].payload;
-//         return selector(id, menuTreeElement);
-//       }) ?? null;
-//     return found;
-//   };
-
-//   const getAncestorPath: GetAncestorPath = (selectedId: string) => {
-//     //
-
-//     if (!selectedId) return new Set<string>();
-
-//     let cursor = selectedId;
-//     const path = new Set<string>();
-
-//     while (cursor) {
-//       path.add(cursor);
-//       const parent = nodes[cursor].parent;
-//       if (parent === 'root') break;
-//       cursor = parent;
-//     }
-
-//     return path;
-//   };
-
-//   return {
-//     getAncestorPath,
-//     getSelectedId,
-//   };
-// }
