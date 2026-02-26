@@ -8,8 +8,8 @@ import {
 } from '@mcpab/gridcss';
 import { Box } from '@mui/system';
 
-/** Props for {@link FiveColumnsFooter}. All slots are optional. */
-export type FiveColumnsFooterProps = {
+/** Props for {@link TwoColumnsFooter}. All slots are optional. */
+export type TwoColumnsFooterProps = {
   /** Content rendered in the top header band of the footer. */
   header?: React.ReactNode;
   /** Content rendered in the bottom strip of the footer (e.g. copyright line). */
@@ -18,12 +18,6 @@ export type FiveColumnsFooterProps = {
   column_1?: React.ReactNode;
   /** Second column content. */
   column_2?: React.ReactNode;
-  /** Third column content. */
-  column_3?: React.ReactNode;
-  /** Fourth column content. */
-  column_4?: React.ReactNode;
-  /** Fifth column content. */
-  column_5?: React.ReactNode;
 };
 
 /** Type-inference helper so `defineOverride` preserves the literal layout type. */
@@ -33,28 +27,24 @@ const defineOverride = <L extends Layout<any, any>>(
 ) => override;
 
 /**
- * A footer divided into five equal content columns, with an optional header
- * band at the top and a footer strip at the bottom.
+ * A footer divided into two content columns, with an optional header band at
+ * the top and a footer strip at the bottom.
  *
- * The layout is driven by the `footerHeader5Columns` entry in the secondary
- * GridCSS catalog. Pass any React node into each slot — typically navigation
- * link lists, contact details, or a brand logo.
+ * Uses the `header2colFooter` GridCSS catalog entry — a minimal layout suited
+ * for simple comparison or side-by-side content (e.g. brand info + contact).
  *
  * @example
  * ```tsx
- * <FiveColumnsFooter
+ * <TwoColumnsFooter
  *   header={<Logo />}
- *   column_1={<NavList title="Company" links={companyLinks} />}
- *   column_2={<NavList title="Services" links={serviceLinks} />}
- *   column_3={<NavList title="Support" links={supportLinks} />}
- *   column_4={<NavList title="Legal" links={legalLinks} />}
- *   column_5={<SocialLinks />}
+ *   column_1={<BrandInfo />}
+ *   column_2={<ContactDetails />}
  *   footer={<Copyright />}
  * />
  * ```
  */
-export function FiveColumnsFooter(props: FiveColumnsFooterProps) {
-  const layout = getLayoutFromCatalog('secondary', 'footerHeader5Columns');
+export function TwoColumnsFooter(props: TwoColumnsFooterProps) {
+  const layout = getLayoutFromCatalog('secondary', 'header2colFooter');
   const diagnostics: DiagnosticEntry[] = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });
 
@@ -75,15 +65,6 @@ export function FiveColumnsFooter(props: FiveColumnsFooterProps) {
       },
       block_2: {
         contentRenderer: () => <>{props.column_2}</>,
-      },
-      block_3: {
-        contentRenderer: () => <>{props.column_3}</>,
-      },
-      block_4: {
-        contentRenderer: () => <>{props.column_4}</>,
-      },
-      block_5: {
-        contentRenderer: () => <>{props.column_5}</>,
       },
     },
   });
