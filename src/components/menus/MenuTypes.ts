@@ -37,7 +37,7 @@ export type RootOverridesUI = {
  *
  * Build these props with {@link hierarchyToDrawerProps} rather than constructing them by hand.
  */
-export type MenuProps = {
+export type MenuPropsRendering = {
   root: RootTreeElement;
   treeFromRoot: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
   rootOverrides?: RootOverridesUI;

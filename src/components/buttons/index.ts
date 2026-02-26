@@ -1,3 +1,10 @@
+/**
+ * Buttons
+ *
+ * Barrel exports for the buttons package/folder.
+ * Import components from here to keep call sites stable as internal files move.
+ */
+
 export { default as ActionButton } from './ActionButton';
 export { default as GetInTouch } from './GetInTouch';
 export { default as CallToActionButton } from './CallToActionButton';

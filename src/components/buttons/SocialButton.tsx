@@ -1,71 +1,13 @@
 /**
- * @fileoverview SocialButton - Multi-platform social media button with brand styling
- * 
- * A versatile social media button component supporting major platforms with
- * authentic brand colors, icons, and styling. Provides consistent social
- * integration across the application with accessibility features and
- * proper external link handling for social media profiles and sharing.
- * 
- * Key Features:
- * - Support for major social platforms (LinkedIn, Twitter, Facebook, etc.)
- * - Authentic brand colors and styling for each platform
- * - Platform-specific icons with consistent sizing
- * - External link safety with proper security attributes
- * - Responsive design with mobile optimization
- * - Accessibility compliance with platform context
- * - Customizable appearance while maintaining brand recognition
- * 
- * Supported Platforms:
- * - LinkedIn (professional networking)
- * - Twitter/X (social updates and sharing)
- * - Facebook (community and business pages)
- * - Instagram (visual content and stories)
- * - YouTube (video content and channels)
- * - GitHub (code repositories and profiles)
- * - WhatsApp (direct messaging)
- * - Email (contact and sharing)
- * 
- * Use Cases:
- * - Social media profile links in headers/footers
- * - Share buttons for content distribution
- * - Follow/connect call-to-action buttons
- * - Contact page social media integration
- * - Team member social profile links
- * - Marketing campaign social drives
- * - Community building and engagement
- * 
+ * SocialButton
+ *
+ * Brand-aware social link button built on {@link ActionButton}. Maps a `platform`
+ * to icon + optional brand coloring, and supports compact “icon only” mode.
+ *
  * @example
- * // LinkedIn profile link
- * <SocialButton 
- *   platform="linkedin"
- *   href="https://linkedin.com/in/username"
- *   variant="contained"
- * >
- *   Connect on LinkedIn
- * </SocialButton>
- * 
- * @example
- * // Twitter sharing
- * <SocialButton 
- *   platform="twitter"
- *   href="https://twitter.com/intent/tweet?text=Check this out!"
- *   variant="outlined"
- * >
- *   Share on Twitter
- * </SocialButton>
- * 
- * @example
- * // GitHub repository
- * <SocialButton 
- *   platform="github"
- *   href="https://github.com/username/repo"
- *   variant="text"
- * >
- *   View on GitHub
- * </SocialButton>
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * ```tsx
+ * <SocialButton platform="linkedin" href="https://linkedin.com/company/acme" />
+ * ```
  */
 
 'use client';
@@ -234,6 +176,7 @@ const platformConfigs: Record<SocialPlatform, PlatformConfig> = {
  *   sx: { minWidth: 'auto', p: 1 }
  * };
  */
+/** Props for {@link SocialButton}. */
 export interface SocialButtonProps extends Omit<ActionButtonProps, 'icon'> {
   platform: SocialPlatform;
   useBrandColors?: boolean;

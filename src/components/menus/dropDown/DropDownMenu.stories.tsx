@@ -10,7 +10,7 @@ import type { MenuTreeElement, MenuTreeElementUI, RootOverridesUI } from '../Men
 import { DropDown } from './DropDown';
 
 import Box from '@mui/material/Box';
-import { hierarchyToDrawerProps } from '../drawer/hierarchyToDrawerProps';
+import { hierarchyToDrawerInput } from '../drawer/hierarchyToDrawerInput';
 import { IsSelectedMenuElement } from '../drawer/pathSelectors';
 
 /**
@@ -122,7 +122,7 @@ export default {
   title: 'Menu/DropDown',
 };
 
-const result = hierarchyToDrawerProps({ hierarchy, overrides });
+const result = hierarchyToDrawerInput({ hierarchy, overrides });
 
 let Component = <></>;
 if (!result.ok) {

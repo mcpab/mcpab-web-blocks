@@ -47,7 +47,7 @@ export type RowPolicyProps = {
  * Produced by {@link RowPolicy} and consumed by {@link ElementButton} / {@link ElementLabel}.
  */
 export type RowPlan = {
-  /** Label text (or a custom React node). */
+  /** Label text (or a custom React node). */  
   text: string | React.ReactNode;
   /** Typography props forwarded to the `<Typography>` wrapping the label. */
   typographyProps?: MenuLabelTypographyProps;

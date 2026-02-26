@@ -1,12 +1,14 @@
 /**
- * @fileoverview BookingButton - Appointment and consultation booking button
- * 
- * A specialized button component designed for appointment scheduling and consultation
- * booking flows. Integrates with calendar systems and booking platforms while providing
- * optimal user experience for service-based businesses and professional consultations.
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * BookingButton
+ *
+ * Opinionated booking CTA built on top of {@link ActionButton}. It defaults to a
+ * sensible booking URL and adds an accessible `aria-label` derived from the
+ * service type and duration.
+ *
+ * @example
+ * ```tsx
+ * <BookingButton bookingUrl="/book" serviceType="consultation" duration="30 min" />
+ * ```
  */
 
 'use client';
@@ -15,6 +17,7 @@ import ActionButton from './ActionButton';
 import type { ActionButtonProps } from './ActionButton';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
+/** Props for {@link BookingButton}. */
 export interface BookingButtonProps extends ActionButtonProps {
   bookingUrl?: string;
   serviceType?: string;

@@ -5,7 +5,6 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Drawer, List } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
 import React, { useEffect, useState } from 'react';
 import { LinkTypeComponent } from 'src/core/link';
 import { DefaultLinkLike } from 'src/core/link/link-types';
@@ -16,7 +15,7 @@ import { useMenuSelectorContext } from '../MenuSelectorContext';
 import { setOpen } from '../menuStore';
 import { defaultDrawerRowPolicy } from './defaultDrawerRowPolicy';
 import { DrawerElement } from './DrawerElement';
-import { DrawerMenuProps } from './DrawerMenuTypes';
+import { DrawerMenuPropsRendering } from './DrawerMenuTypes';
 
 ///
 
@@ -26,7 +25,7 @@ export function DrawerMenu_Client({
   rootOverrides,
   anchor = 'left',
   indent = 0,
-}: DrawerMenuProps) {
+}: DrawerMenuPropsRendering) {
   //
   //
   // console.log('DrawerMenu_Client root:', root);

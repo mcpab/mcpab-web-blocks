@@ -1,12 +1,16 @@
 /**
- * @fileoverview CopyButton - Copy to clipboard button with feedback
- * 
- * A utility button component for copying text or URLs to the clipboard with
- * visual feedback and fallback support. Features modern Clipboard API integration
- * with accessibility compliance and user experience optimization.
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * CopyButton
+ *
+ * Copy-to-clipboard button with success feedback.
+ *
+ * Uses the modern Clipboard API when available, with a small fallback for older
+ * environments. Optional tooltip + icon-only mode make it suitable for tight UIs
+ * (e.g. copying API keys).
+ *
+ * @example
+ * ```tsx
+ * <CopyButton text={apiKey} iconOnly showTooltip />
+ * ```
  */
 
 'use client';
@@ -15,6 +19,7 @@ import { Button, type ButtonProps, Snackbar, Alert, Tooltip } from '@mui/materia
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
 
+/** Props for {@link CopyButton}. */
 export interface CopyButtonProps extends Omit<ButtonProps, 'onClick' | 'onCopy'> {
   text: string;
   successMessage?: string;

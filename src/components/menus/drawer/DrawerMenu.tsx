@@ -8,10 +8,10 @@ import { createMenuStore, MenuState } from '../menuStore';
 import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { DrawerMenu_Client } from './DrawerMenu_Client';
 import { getSelectors, IsSelectedMenuElement } from './pathSelectors';
-import { DrawerMenuProps } from './DrawerMenuTypes';
+import { DrawerMenuPropsRendering } from './DrawerMenuTypes';
 
-/** @internal Extends {@link DrawerMenuProps} with the optional selection callback. */
-export type DrawerMenuPros = DrawerMenuProps & {
+/** @internal Extends {@link DrawerMenuPropsRendering} with the optional selection callback. */
+type DrawerMenuPros = DrawerMenuPropsRendering & {
   /**
    * Callback that identifies the currently active menu item (e.g. the current page).
    * If omitted, no item is selected and all ancestor highlighting is disabled.

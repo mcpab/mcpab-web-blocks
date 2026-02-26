@@ -8,7 +8,7 @@ import {
 import { DefaultLinkLike } from 'src/core/link';
 import type { MenuTreeElement, MenuTreeElementUI, RootOverridesUI } from '../MenuTypes';
 import { DrawerMenu } from './DrawerMenu';
-import { hierarchyToDrawerProps } from './hierarchyToDrawerProps';
+import { hierarchyToDrawerInput } from './hierarchyToDrawerInput';
 import { IsSelectedMenuElement } from './pathSelectors';
 
 /**
@@ -35,13 +35,13 @@ import { IsSelectedMenuElement } from './pathSelectors';
  * Blog
  */
 const menuPayloads = {
-  home: { label: 'Home', link: '/' },
+  home: { label: 'Home', link: '/' ,order:1},
   products: { label: 'Products' },
   company: { label: 'Company' },
   blog: { label: 'Blog', link: '/blog' },
 
   platform: { label: 'Platform' },
-  solutions: { label: 'Solutions' },
+  solutions: { label: 'Solutions' , order:1},
 
   analytics: { label: 'Analytics', link: '/products/analytics' },
   dashboard: { label: 'Dashboard', link: '/products/dashboard' },
@@ -110,7 +110,7 @@ export default {
   title: 'Menu/Drawer',
 };
 
-const result = hierarchyToDrawerProps({ hierarchy, overrides });
+const result = hierarchyToDrawerInput({ hierarchy, overrides });
 
 let Component = <></>;
 if (!result.ok) {

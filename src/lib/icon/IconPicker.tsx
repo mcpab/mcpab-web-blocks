@@ -35,8 +35,8 @@ function normalizeKey(input: string): string {
 type IconComp = typeof HomeIcon;
 
 /** Central mapping: add synonyms by pointing multiple keys to the same icon. */
-const ICONS_BY_KEY: Record<string, IconComp> = {
-    //
+const ICONS_BY_KEY:Record<string, IconComp> = {
+  //
   home: HomeIcon,
 
   settings: SettingsIcon,
@@ -74,10 +74,13 @@ const ICONS_BY_KEY: Record<string, IconComp> = {
 
   privacy: PrivacyTipIcon,
   'privacy-policy': PrivacyTipIcon,
-};
+} ;
+
+export type ICONS_NAMES = keyof typeof ICONS_BY_KEY;
 
 const IconPicker: React.FC<IconPickerProps> = ({ name, fontSize = 'medium' }) => {
   const key = normalizeKey(name);
+ 
   const Icon = ICONS_BY_KEY[key];
   if (!Icon) return null;
   return <Icon fontSize={fontSize} />;

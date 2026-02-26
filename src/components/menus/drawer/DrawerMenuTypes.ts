@@ -1,10 +1,10 @@
-import { MenuProps } from '../MenuTypes';
+import { MenuPropsRendering } from '../MenuTypes';
 
 /**
  * Props for the {@link DrawerMenu} component.
- * Extends the shared {@link MenuProps} with drawer-specific layout options.
+ * Extends the shared {@link MenuPropsRendering} with drawer-specific layout options.
  */
-export type DrawerMenuProps = MenuProps & {
+export type DrawerMenuPropsRendering = MenuPropsRendering & {
   /** Which edge of the screen the drawer slides in from. @defaultValue `'left'` */
   anchor?: 'left' | 'right' | 'top' | 'bottom';
   /**

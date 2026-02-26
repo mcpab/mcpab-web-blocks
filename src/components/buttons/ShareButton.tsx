@@ -1,69 +1,15 @@
 /**
- * @fileoverview ShareButton - Web Share API button with progressive enhancement
- * 
- * A modern sharing button component that leverages the native Web Share API
- * when available, with graceful fallbacks for broader browser support.
- * Provides seamless content sharing across social platforms, messaging apps,
- * and system integrations with accessibility and user experience optimization.
- * 
- * Key Features:
- * - Native Web Share API integration for mobile/supported browsers
- * - Progressive enhancement with fallback sharing options
- * - Multiple content types support (URL, text, files)
- * - Social platform fallbacks (Twitter, LinkedIn, Email)
- * - Copy-to-clipboard functionality as ultimate fallback
- * - Success feedback and error handling
- * - Accessibility compliance with proper ARIA attributes
- * 
- * Use Cases:
- * - Article and blog post sharing
- * - Product page social sharing
- * - Event and announcement distribution
- * - File and media sharing
- * - User-generated content sharing
- * - Marketing campaign amplification
- * - Documentation and resource sharing
- * 
- * Browser Support:
- * - Native sharing: Modern mobile browsers, PWAs
- * - Fallback sharing: All browsers with social platform URLs
- * - Copy functionality: Modern browsers with Clipboard API
- * - Graceful degradation for older browsers
- * 
+ * ShareButton
+ *
+ * “Share this” button that prefers the Web Share API when available and falls
+ * back to configurable platform options (and copy-to-clipboard).
+ *
  * @example
- * // Basic content sharing
- * <ShareButton 
- *   url={window.location.href}
- *   title="Check out this article"
- *   text="Great insights on web development"
- * >
- *   Share Article
+ * ```tsx
+ * <ShareButton url={location.href} title="My page">
+ *   Share
  * </ShareButton>
- * 
- * @example
- * // Product sharing with fallbacks
- * <ShareButton 
- *   url={`https://mystore.com/products/${productId}`}
- *   title={productName}
- *   text={`Check out this amazing ${productName}!`}
- *   showFallbackOptions
- *   variant="contained"
- * >
- *   Share Product
- * </ShareButton>
- * 
- * @example
- * // File sharing
- * <ShareButton 
- *   files={[pdfFile]}
- *   title="Important Document"
- *   text="Please review this document"
- * >
- *   Share Document
- * </ShareButton>
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * ```
  */
 
 'use client';
@@ -171,6 +117,7 @@ export type FallbackPlatform = 'twitter' | 'linkedin' | 'facebook' | 'email' | '
  *   color: "primary"
  * };
  */
+/** Props for {@link ShareButton}. */
 export interface ShareButtonProps extends Omit<ButtonProps, 'onClick'> {
   url?: string;
   title?: string;

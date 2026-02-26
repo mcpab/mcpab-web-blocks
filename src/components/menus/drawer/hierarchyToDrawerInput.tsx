@@ -2,15 +2,15 @@ import {
   HierarchyTree,
   HierarchyTreeOverrides,
   PayloadMap,
-} from 'src/core/hierarchy/hierarchyTypes';
+} from '../../../core/hierarchy/hierarchyTypes';
 
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
-import { HierarchyIssue } from 'src/core/hierarchy/hierarchyErrorShape';
+import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
+import { HierarchyIssue } from '../../../core/hierarchy/hierarchyErrorShape';
 import { MenuTreeElement, MenuTreeElementUI, RootOverridesUI, RootTreeElement } from '../MenuTypes';
-import createMenuTree from '../prepareMenuTree';
+import prepareMenuTree from '../prepareMenuTree';
 
-/** Input shape for {@link hierarchyToDrawerProps}. */
-export type MenuProps<P extends PayloadMap<MenuTreeElement>> = {
+/** Input shape for {@link hierarchyToDrawerInput}. */
+export type HierachyToDrawerinputProps<P extends PayloadMap<MenuTreeElement>> = {
   /** Typed hierarchy tree defining the menu structure. */
   hierarchy: HierarchyTree<P, RootTreeElement>;
   /** Per-node and root UI overrides (link component, dividers, display flags, etc.). */
@@ -23,7 +23,7 @@ export type MenuProps<P extends PayloadMap<MenuTreeElement>> = {
 };
 
 /**
- * Return type of {@link hierarchyToDrawerProps}.
+ * Return type of {@link hierarchyToDrawerInput}.
  * Either a validated prop set ready to pass to {@link DrawerMenu}, or a list of validation issues.
  */
 type HierachyToDrawerPropsReturn =
@@ -51,14 +51,14 @@ type HierachyToDrawerPropsReturn =
  * return <DrawerMenu {...result} selector={(id) => id === currentPageId} />;
  * ```
  */
-export function hierarchyToDrawerProps<P extends PayloadMap<MenuTreeElement>>({
+export function hierarchyToDrawerInput<P extends PayloadMap<MenuTreeElement>>({
   hierarchy,
   overrides,
-}: MenuProps<P>): HierachyToDrawerPropsReturn {
+}: HierachyToDrawerinputProps<P>): HierachyToDrawerPropsReturn {
   //
   //
 
-  const treeRoot = createMenuTree<P>({ hierarchy, overrides, issues: [] });
+  const treeRoot = prepareMenuTree<P>({ hierarchy, overrides, issues: [] });
 
   if (!treeRoot.ok) {
     console.error('Failed to prepare menu tree:', treeRoot.issues);

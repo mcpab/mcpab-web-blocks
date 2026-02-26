@@ -6,13 +6,12 @@ import { PayloadMap } from 'src/core/hierarchy/hierarchyTypes';
 import { resolver } from 'src/core/hierarchy/resolver';
 import { sortD3Stratify } from 'src/core/hierarchy/sortD3Stratify';
 import { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
-import { type MenuProps } from './drawer/hierarchyToDrawerProps';
+import { type HierachyToDrawerinputProps } from './drawer/hierarchyToDrawerInput';
 
-/** @internal Input shape for {@link createMenuTree} — `MenuProps` minus display-only fields. */
-export type PrepareMenuTreeProps<P extends PayloadMap<MenuTreeElement>> = Omit<
-  MenuProps<P>,
-  'indent' | 'payloadMap'
-> & { issues: HierarchyIssue[] };
+/** @internal Input shape for {@link prepareMenuTree} — `MenuProps` minus display-only fields. */
+export type PrepareMenuTreeProps<P extends PayloadMap<MenuTreeElement>> = HierachyToDrawerinputProps<P> & {
+  issues: HierarchyIssue[];
+};
 
 /**
  * Validates, converts, sorts, and builds a typed menu tree from a raw hierarchy definition.
@@ -30,12 +29,14 @@ export type PrepareMenuTreeProps<P extends PayloadMap<MenuTreeElement>> = Omit<
  *
  * @internal Called by {@link hierarchyToDrawerProps}.
  */
-export default function createMenuTree<P extends PayloadMap<MenuTreeElement>>({
+export default function prepareMenuTree<P extends PayloadMap<MenuTreeElement>>({
   hierarchy,
   overrides,
 }: PrepareMenuTreeProps<P>):
   | { ok: false; issues: HierarchyIssue[] }
   | { ok: true; root: StratifyPayload<MenuTreeElement, MenuTreeElementUI> } {
+  //
+
   const resolverReturn = resolver<typeof hierarchy>(hierarchy);
 
   if (!resolverReturn.ok) {

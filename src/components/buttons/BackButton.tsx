@@ -1,69 +1,22 @@
 /**
- * @fileoverview BackButton - Framework-agnostic navigation back button
- * 
- * A standardized back navigation button component that works across different
- * frameworks and routing systems. Provides consistent user experience with
- * flexible router integration, fallback navigation options, and accessibility
- * compliance for seamless navigation in any React application.
- * 
- * Key Features:
- * - Framework-agnostic design (works with Next.js, React Router, etc.)
- * - Automatic router detection and integration
- * - Browser history navigation fallback
- * - Custom navigation handlers for complex flows
- * - Consistent styling and icon placement
- * - Accessibility compliance with navigation context
- * - Mobile-optimized touch targets
- * 
- * Framework Support:
- * - Next.js (App Router and Pages Router)
- * - React Router (v5 and v6)
- * - Reach Router
- * - Custom routing solutions
- * - Static sites with browser history only
- * 
- * Use Cases:
- * - Multi-step form navigation (checkout, onboarding)
- * - Detail page back to listing navigation
- * - Modal and drawer close actions
- * - Breadcrumb navigation components
- * - Settings and configuration flows
- * - Product catalog and filtering interfaces
- * - Article and content browsing
- * 
- * Navigation Strategies:
- * - Custom onBack handler (highest priority)
- * - Framework router navigation (auto-detected)
- * - Browser history navigation (universal fallback)
- * - Fallback URL for direct access scenarios
- * - Default home navigation as last resort
- * 
+ * BackButton
+ *
+ * Framework-agnostic “go back” button with graceful fallbacks.
+ *
+ * Routing options (in priority order):
+ * 1) `router` prop (per-instance)
+ * 2) {@link RouterProvider} context (app-wide)
+ * 3) browser history (`window.history.back()`), optionally followed by `fallbackHref`
+ *
+ * Use this to keep UI code independent of Next.js / React Router while still
+ * supporting both.
+ *
  * @example
- * // Basic back navigation
- * <BackButton>
- *   Back to Products
- * </BackButton>
- * 
- * @example
- * // Multi-step form navigation
- * <BackButton 
- *   onBack={() => setStep(step - 1)}
- *   disabled={step === 1}
- * >
- *   Previous Step
- * </BackButton>
- * 
- * @example
- * // Fallback navigation
- * <BackButton 
- *   fallbackHref="/products"
- *   variant="outlined"
- * >
- *   Back to Catalog
- * </BackButton>
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * ```tsx
+ * <RouterProvider router={{ back: () => router.back(), push: router.push }}>
+ *   <BackButton fallbackHref="/products">Back</BackButton>
+ * </RouterProvider>
+ * ```
  */
 
 'use client';
@@ -226,6 +179,7 @@ const useRouter = (): Router => {
  *   disabled: isFormDirty
  * };
  */
+/** Props for {@link BackButton}. */
 export interface BackButtonProps extends Omit<ButtonProps, 'startIcon' | 'onClick'> {
   onBack?: () => void;
   fallbackHref?: string;

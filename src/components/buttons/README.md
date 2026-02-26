@@ -62,6 +62,12 @@ function QuickExample() {
 
 ## 🎯 Component Guide
 
+## 🧩 Ladle Stories
+
+Each component has a colocated Ladle story in this folder (e.g. `ActionButton.stories.tsx`).
+Run Ladle at the workspace level and browse the “buttons” stories to review styling and
+interactive states.
+
 ### ActionButton
 
 Foundation button for semantic actions with automatic external link handling.

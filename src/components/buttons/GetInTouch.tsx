@@ -1,70 +1,11 @@
 /**
- * @fileoverview GetInTouch - Standardized contact call-to-action button
- * 
- * A pre-configured ActionButton component specifically designed for contact actions.
- * Provides a consistent user experience across the application for initiating
- * contact or communication flows. Features standardized styling, icon placement,
- * and semantic HTML structure optimized for accessibility and conversion.
- * 
- * Key Features:
- * - Consistent contact call-to-action design across the application
- * - Pre-configured phone icon for immediate visual recognition
- * - Optimized button size for secondary action contexts
- * - Semantic link structure for proper navigation and SEO
- * - Accessibility compliance with clear action intent
- * - Zero configuration required for standard contact flows
- * 
- * Use Cases:
- * - Header navigation contact links
- * - Footer contact sections
- * - Product page inquiry buttons
- * - Service page consultation requests
- * - About page team contact
- * - Secondary call-to-action placement
- * - Mobile-optimized contact triggers
- * 
- * Design Considerations:
- * - Small size for non-intrusive placement
- * - Phone icon suggests direct communication
- * - Consistent with standard web conventions
- * - Complements primary call-to-action buttons
- * - Works well in both light and dark themes
- * 
- * Integration Patterns:
- * - Pairs well with primary action buttons
- * - Suitable for toolbar and navigation contexts
- * - Works in both horizontal and vertical layouts
- * - Responsive design friendly
- * 
- * @example
- * // Standard header placement
- * <Header>
- *   <Logo />
- *   <Navigation />
- *   <Stack direction="row" spacing={1}>
- *     <GetInTouch />
- *     <PrimaryActionButton />
- *   </Stack>
- * </Header>
- * 
- * @example
- * // Footer contact section
- * <FooterSection title="Contact Us">
- *   <Stack spacing={2}>
- *     <Typography>Ready to start your project?</Typography>
- *     <GetInTouch />
- *   </Stack>
- * </FooterSection>
- * 
- * @example
- * // Product page secondary action
- * <ProductActions>
- *   <Button variant="contained">Buy Now</Button>
- *   <GetInTouch />
- * </ProductActions>
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * GetInTouch
+ *
+ * Standard contact CTA that bundles common “contact us” actions (e.g. phone/email)
+ * into a single component.
+ *
+ * Exact behavior depends on your project conventions (routes, email/phone targets),
+ * but the intent is to centralize the UX so every page uses the same contact affordance.
  */
 
 // GetInTouch.tsx

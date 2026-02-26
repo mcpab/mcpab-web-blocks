@@ -1,12 +1,13 @@
 /**
- * @fileoverview WhatsAppButton - Direct WhatsApp messaging button
- * 
- * A specialized button component for WhatsApp direct messaging with pre-filled
- * messages and contact information. Optimized for customer support and business
- * communication with mobile-first design and international phone number support.
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * WhatsAppButton
+ *
+ * Convenience wrapper around {@link ActionButton} that constructs a WhatsApp
+ * “click to chat” URL from a phone number and optional pre-filled message.
+ *
+ * @example
+ * ```tsx
+ * <WhatsAppButton phone="+15551234567" message="Hi! I have a question." />
+ * ```
  */
 
 'use client';
@@ -15,6 +16,7 @@ import ActionButton from './ActionButton';
 import type { ActionButtonProps } from './ActionButton';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
+/** Props for {@link WhatsAppButton}. */
 export interface WhatsAppButtonProps extends Omit<ActionButtonProps, 'href'> {
   phone: string;
   message?: string;

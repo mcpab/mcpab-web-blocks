@@ -1,73 +1,16 @@
 /**
- * @fileoverview CallToActionButton - Primary conversion button for high-impact actions
- * 
- * A specialized button component designed for primary conversion actions and key
- * user journeys. Features enhanced visual prominence, loading states, success
- * feedback, and conversion tracking capabilities. Built for maximum conversion
- * optimization with accessibility and performance considerations.
- * 
- * Key Features:
- * - Enhanced visual prominence with larger sizing and emphasis styling
- * - Built-in loading states for async actions (form submissions, API calls)
- * - Success feedback animations and visual confirmations
- * - Conversion tracking integration ready
- * - Full width option for mobile-first design
- * - Accessibility compliance with proper ARIA states
- * - Customizable success/error states with icons
- * 
- * Use Cases:
- * - "Start Free Trial" primary conversion buttons
- * - "Buy Now" purchase completion actions
- * - "Sign Up" registration and onboarding flows
- * - "Book Consultation" lead generation buttons
- * - "Get Started" product adoption triggers
- * - Newsletter subscription primary actions
- * - Contact form submission buttons
- * 
- * Conversion Optimization:
- * - Large touch targets for mobile accessibility
- * - High contrast colors for visibility
- * - Loading states prevent double submissions
- * - Success feedback confirms completion
- * - Customizable call-to-action text for A/B testing
- * 
+ * CallToActionButton
+ *
+ * Primary conversion button with built-in loading and success states.
+ * This component is intentionally “UI-first”: it does not perform the async work
+ * for you, but it makes it easy to reflect progress in the button itself.
+ *
  * @example
- * // Basic conversion button
- * <CallToActionButton 
- *   onClick={handleStartTrial}
- *   variant="contained"
- *   size="large"
- * >
- *   Start Free Trial
+ * ```tsx
+ * <CallToActionButton loading loadingText="Submitting…">
+ *   Submit
  * </CallToActionButton>
- * 
- * @example
- * // Full-width mobile-optimized
- * <CallToActionButton 
- *   onClick={handleSignUp}
- *   fullWidth
- *   loading={isSubmitting}
- *   success={signUpSuccess}
- * >
- *   Create Your Account
- * </CallToActionButton>
- * 
- * @example
- * // E-commerce purchase
- * <CallToActionButton 
- *   onClick={handlePurchase}
- *   variant="contained"
- *   color="success"
- *   size="large"
- *   loading={processingPayment}
- *   disabled={!isFormValid}
- *   startIcon={<ShoppingCartIcon />}
- * >
- *   Complete Purchase
- * </CallToActionButton>
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * ```
  */
 
 'use client';
@@ -129,6 +72,7 @@ import { green } from '@mui/material/colors';
  *   onClick: handleSubmission
  * };
  */
+/** Props for {@link CallToActionButton}. */
 export interface CallToActionButtonProps extends Omit<ButtonProps, 'startIcon' | 'endIcon'> {
   loading?: boolean;
   success?: boolean;

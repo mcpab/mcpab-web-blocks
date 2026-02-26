@@ -1,72 +1,17 @@
 /**
- * @fileoverview DownloadButton - File download button with progress tracking and metadata
- * 
- * A specialized button component designed for file download actions with enhanced
- * user experience features. Provides file size display, download progress tracking,
- * success feedback, and proper download attribution. Built for documents, media,
- * applications, and any downloadable content with accessibility considerations.
- * 
- * Key Features:
- * - File size display for user download planning
- * - Download progress tracking with visual feedback
- * - Multiple file format support with appropriate icons
- * - Success confirmation with download completion feedback
- * - External download safety for cross-origin files
- * - Accessibility compliance with download context
- * - File type detection and appropriate styling
- * 
- * Use Cases:
- * - PDF brochures and documentation downloads
- * - Software application downloads
- * - Media file downloads (images, videos, audio)
- * - Report and data export downloads
- * - Resource library file access
- * - E-book and digital content downloads
- * - Template and asset downloads
- * 
- * File Type Support:
- * - Documents: PDF, DOC, XLS, PPT
- * - Media: JPG, PNG, MP4, MP3
- * - Archives: ZIP, RAR, TAR
- * - Applications: APK, DMG, EXE
- * - Data: CSV, JSON, XML
- * 
+ * DownloadButton
+ *
+ * File download button with optional “file meta” UI and lightweight progress
+ * feedback.
+ *
+ * This component triggers a browser download for `href` and can display file type
+ * and size hints. It also provides callbacks for “start” and “complete” to hook
+ * into analytics.
+ *
  * @example
- * // Basic PDF download
- * <DownloadButton 
- *   href="/files/product-brochure.pdf"
- *   fileSize="2.3 MB"
- *   fileName="Product Brochure"
- * >
- *   Download Brochure
- * </DownloadButton>
- * 
- * @example
- * // Software download with progress
- * <DownloadButton 
- *   href="https://releases.app.com/installer.dmg"
- *   fileSize="45.2 MB"
- *   fileName="App Installer"
- *   showProgress
- *   variant="contained"
- *   color="primary"
- * >
- *   Download App
- * </DownloadButton>
- * 
- * @example
- * // Report export
- * <DownloadButton 
- *   href="/api/reports/export.csv"
- *   fileSize="125 KB"
- *   fileName="Sales Report"
- *   fileType="csv"
- * >
- *   Export Data
- * </DownloadButton>
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * ```tsx
+ * <DownloadButton href="/docs/report.pdf" fileName="report.pdf" fileType="pdf" />
+ * ```
  */
 
 'use client';
@@ -171,6 +116,7 @@ export type FileType =
  *   onDownloadComplete: () => showSuccessNotification()
  * };
  */
+/** Props for {@link DownloadButton}. */
 export interface DownloadButtonProps extends Omit<ButtonProps, 'href' | 'startIcon'> {
   href: string;
   fileName?: string;

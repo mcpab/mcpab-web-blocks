@@ -1,39 +1,16 @@
 /**
- * @fileoverview SubscribeButton - Email subscription button with validation and feedback
- * 
- * A specialized button component designed for email subscription and newsletter signup
- * flows. Features input validation, loading states, success feedback, and error handling
- * for optimal conversion rates and user experience in email marketing campaigns.
- * 
- * Key Features:
- * - Email validation with real-time feedback
- * - Loading states during subscription processing
- * - Success confirmation with celebratory feedback
- * - Error handling with helpful messaging
- * - Integration-ready for email service providers
- * - Accessibility compliance with form context
- * - Mobile-optimized input and interaction design
- * 
- * Use Cases:
- * - Newsletter subscription forms
- * - Marketing campaign email capture
- * - Product update notifications
- * - Beta program signups
- * - Event and webinar registrations
- * - Blog and content subscription
- * - Lead generation and nurturing
- * 
+ * SubscribeButton
+ *
+ * Email subscription button with optional inline input + validation.
+ * You provide `onSubscribe(email)`; the component manages the small UI state
+ * machine (idle → loading → success/error).
+ *
  * @example
- * <SubscribeButton 
- *   onSubscribe={handleEmailSubscription}
- *   placeholder="Enter your email"
- *   successMessage="Welcome! Check your inbox."
- * >
- *   Subscribe to Updates
+ * ```tsx
+ * <SubscribeButton onSubscribe={(email) => api.subscribe(email)}>
+ *   Subscribe
  * </SubscribeButton>
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * ```
  */
 
 'use client';
@@ -51,6 +28,7 @@ import {
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
+/** Props for {@link SubscribeButton}. */
 export interface SubscribeButtonProps extends Omit<ButtonProps, 'onClick'> {
   onSubscribe: (email: string) => Promise<boolean>;
   placeholder?: string;

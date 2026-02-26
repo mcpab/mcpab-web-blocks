@@ -1,12 +1,18 @@
 /**
- * @fileoverview FavoriteButton - Toggle favorite/bookmark button with state management
- * 
- * A stateful toggle button component for favoriting, bookmarking, or liking content.
- * Features smooth animations, state persistence, and accessibility compliance for
- * optimal user engagement in content discovery and personalization features.
- * 
- * @author MCPAB Development Team
- * @since 1.0.0
+ * FavoriteButton
+ *
+ * Toggle-style icon button for “favorite / bookmark / like” interactions.
+ * The parent owns the state; this component simply renders the UI and reports
+ * toggles via `onToggle`.
+ *
+ * @example
+ * ```tsx
+ * <FavoriteButton
+ *   isFavorited={isSaved}
+ *   onToggle={(next) => setIsSaved(next)}
+ *   favoriteType="bookmark"
+ * />
+ * ```
  */
 
 'use client';
@@ -21,6 +27,7 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 
 export type FavoriteType = 'heart' | 'bookmark' | 'like';
 
+/** Props for {@link FavoriteButton}. */
 export interface FavoriteButtonProps extends Omit<IconButtonProps, 'onClick'> {
   isFavorited?: boolean;
   onToggle: (isFavorited: boolean, itemId?: string) => void;

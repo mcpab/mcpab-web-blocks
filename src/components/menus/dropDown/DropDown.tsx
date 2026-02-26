@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { getSelectors, IsSelectedMenuElement } from '../drawer/pathSelectors';
 import { MenuSelectorContext } from '../MenuSelectorContext';
-import { MenuProps } from '../MenuTypes';
+import { MenuPropsRendering } from '../MenuTypes';
 import { DropDown_Client } from './DropDown_Client';
 import { MegaMenuPolicy } from '../RowPolicyTypes';
 
-/** Props for the {@link DropDown} component. Extends the shared {@link MenuProps}. */
-export type DropDownMenuProps = MenuProps & {
+/** Props for the {@link DropDown} component. Extends the shared {@link MenuPropsRendering}. */
+export type DropDownMenuProps = MenuPropsRendering & {
   /**
    * Callback that identifies the currently active menu item (e.g. the current page).
    * Drives selected and ancestor-selected visual states via {@link MenuSelectorContext}.

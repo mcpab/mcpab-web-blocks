@@ -1,24 +1,30 @@
-
 'use client';
 
 import * as React from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
- 
+
+/** Props for {@link DynamicTransition}. */
 export type DynamicTransitionProps = {
-   
+  /** Ordered list of React nodes to cycle through as slides. */
   frames: React.ReactNode[];
-  
+  /** Time each slide is fully visible, in milliseconds. @defaultValue 2000 */
   interval?: number;
-  
+  /** Crossfade duration in milliseconds. @defaultValue 1000 */
   transitionDuration?: number;
-  
+  /** Index of the slide shown first. Clamped to valid range. @defaultValue 0 */
   startIndex?: number;
-  
-  
+  /** Props forwarded to the root `Box` wrapper. */
   boxProps?: BoxProps;
 };
 
+/**
+ * Tracks the current and outgoing frame indices for the crossfade cycle.
+ * Maintains `fadeInKey` (next slide) and `fadeOutKey` (current slide) separately
+ * so both `<Fade>` elements can be keyed independently.
+ *
+ * @internal
+ */
 class FrameArray {
   fadeInKey = 0;
   fadeOutKey = 0;
@@ -30,19 +36,45 @@ class FrameArray {
     this.fadeInKey = normalized;
     this.fadeOutKey = normalized;
   }
+
   iterateFrame() {
     this.fadeOutKey = this.fadeInKey;
     const len = this.frames.length || 1;
     this.fadeInKey = (this.fadeInKey + 1) % len;
   }
+
   getFadeInFrame() {
     return { key: this.fadeInKey, frame: this.frames[this.fadeInKey]?.frame };
   }
+
   getFadeOutFrame() {
     return { key: this.fadeOutKey, frame: this.frames[this.fadeOutKey]?.frame };
   }
 }
 
+/**
+ * Client-side carousel engine that crossfades between an array of React nodes.
+ *
+ * Renders three cases:
+ * - **0 frames** — returns `null`.
+ * - **1 frame** — renders the single frame statically (no timer, no transitions).
+ * - **2+ frames** — starts an interval timer (`interval + transitionDuration` ms period)
+ *   and crossfades between the outgoing and incoming frames using MUI `<Fade>`.
+ *
+ * Frame content is kept in a `ref` (`FrameArray`) so the timer closure never goes stale.
+ * The `tick` state counter is the only re-render trigger.
+ *
+ * @example
+ * ```tsx
+ * <DynamicTransition
+ *   frames={slides}
+ *   interval={5000}
+ *   transitionDuration={900}
+ * />
+ * ```
+ *
+ * @see {@link BlockCarousel} which builds the frame array from `BackgroundBox` slides.
+ */
 const DynamicTransition: React.FC<DynamicTransitionProps> = ({
   frames,
   interval = 2000,
@@ -68,7 +100,7 @@ const DynamicTransition: React.FC<DynamicTransitionProps> = ({
     const period = Math.max(0, interval) + Math.max(0, transitionDuration);
     const id = window.setInterval(() => {
       faRef.current.iterateFrame();
-      setTick(t => t + 1);
+      setTick((t) => t + 1);
     }, period);
 
     return () => window.clearInterval(id);
