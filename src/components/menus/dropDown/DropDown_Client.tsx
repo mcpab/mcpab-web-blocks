@@ -27,6 +27,8 @@ export function DropDown_Client({
   treeFromRoot,
   rootOverrides,
   megaMenuPolicy,
+  appBarSx,
+  toolbarSx,
 }: DropDownMenuProps) {
   const linkLikeComp: LinkTypeComponent = rootOverrides?.linkComponent ?? DefaultLinkLike;
   //
@@ -61,7 +63,7 @@ export function DropDown_Client({
         position="sticky"
         color="default"
         elevation={0}
-        sx={{ borderBottom: 1, borderColor: 'divider' }}
+        sx={{ borderBottom: 1, borderColor: 'divider', ...appBarSx }}
       >
         <Toolbar
           component="nav"
@@ -69,6 +71,7 @@ export function DropDown_Client({
           sx={{
             justifyContent: 'space-between',
             gap: 1,
+            ...toolbarSx,
           }}
         >
           <MenuDepthContext.Provider value={{ depth: 0 }}>

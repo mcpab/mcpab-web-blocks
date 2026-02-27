@@ -1,4 +1,6 @@
 import { MenuPropsRendering } from '../MenuTypes';
+import { Theme } from '@emotion/react';
+import { SxProps } from '@mui/system';
 
 /**
  * Props for the {@link DrawerMenu} component.
@@ -14,4 +16,10 @@ export type DrawerMenuPropsRendering = MenuPropsRendering & {
    * @defaultValue `0`
    */
   indent?: number;
+  /** Optional `sx` overrides for the MUI Drawer paper slot. */
+  drawerPaperSx?: SxProps<Theme>;
+  /** Optional `sx` overrides for the root navigation list inside the drawer. */
+  listSx?: SxProps<Theme>;
+  /** Optional `sx` overrides for the menu trigger IconButton. */
+  triggerButtonSx?: SxProps<Theme>;
 };

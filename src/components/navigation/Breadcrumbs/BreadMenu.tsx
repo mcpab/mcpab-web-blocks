@@ -28,7 +28,7 @@ export type BreadMenuProps = {
   titleCase?: boolean;
 };
 
-const BreadMenu: React.FC<BreadMenuProps> = ({
+const BreadMenu = function ({
   pathname,
   linkComponent,
   hideRoot = false,
@@ -38,7 +38,7 @@ const BreadMenu: React.FC<BreadMenuProps> = ({
   fontSize = '0.875rem',
   sx,
   titleCase = true,
-}) => {
+}: BreadMenuProps) {
   //
   const segments = React.useMemo(() => {
     const raw = pathname.split('/').filter(Boolean);

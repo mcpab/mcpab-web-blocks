@@ -4,6 +4,8 @@ import { MenuSelectorContext } from '../MenuSelectorContext';
 import { MenuPropsRendering } from '../MenuTypes';
 import { DropDown_Client } from './DropDown_Client';
 import { MegaMenuPolicy } from '../RowPolicyTypes';
+import { Theme } from '@emotion/react';
+import { SxProps } from '@mui/system';
 
 /** Props for the {@link DropDown} component. Extends the shared {@link MenuPropsRendering}. */
 export type DropDownMenuProps = MenuPropsRendering & {
@@ -19,6 +21,10 @@ export type DropDownMenuProps = MenuPropsRendering & {
    * @defaultValue {@link standardMegaMenuPolicy}
    */
   megaMenuPolicy?: MegaMenuPolicy;
+  /** Optional `sx` overrides for the dropdown `AppBar`. */
+  appBarSx?: SxProps<Theme>;
+  /** Optional `sx` overrides for the dropdown `Toolbar`. */
+  toolbarSx?: SxProps<Theme>;
 };
 
 /**
@@ -48,7 +54,15 @@ export type DropDownMenuProps = MenuPropsRendering & {
  * @see {@link defaultDropDownPolicy} for the default row styling policy.
  * @see {@link standardMegaMenuPolicy} / {@link compactMegaMenuPolicy} for built-in mega menu policies.
  */
-export function DropDown({ root, treeFromRoot, rootOverrides, selector, megaMenuPolicy }: DropDownMenuProps) {
+export function DropDown({
+  root,
+  treeFromRoot,
+  rootOverrides,
+  selector,
+  megaMenuPolicy,
+  appBarSx,
+  toolbarSx,
+}: DropDownMenuProps) {
   //
   //
 
@@ -63,7 +77,14 @@ export function DropDown({ root, treeFromRoot, rootOverrides, selector, megaMenu
 
   return (
     <MenuSelectorContext.Provider value={selectors}>
-      <DropDown_Client root={root} treeFromRoot={treeFromRoot} rootOverrides={rootOverrides} megaMenuPolicy={megaMenuPolicy}/>
+      <DropDown_Client
+        root={root}
+        treeFromRoot={treeFromRoot}
+        rootOverrides={rootOverrides}
+        megaMenuPolicy={megaMenuPolicy}
+        appBarSx={appBarSx}
+        toolbarSx={toolbarSx}
+      />
     </MenuSelectorContext.Provider>
   );
 

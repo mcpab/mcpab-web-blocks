@@ -10,8 +10,8 @@ import { DrawerMenu_Client } from './DrawerMenu_Client';
 import { getSelectors, IsSelectedMenuElement } from './pathSelectors';
 import { DrawerMenuPropsRendering } from './DrawerMenuTypes';
 
-/** @internal Extends {@link DrawerMenuPropsRendering} with the optional selection callback. */
-type DrawerMenuPros = DrawerMenuPropsRendering & {
+/** Props for the public {@link DrawerMenu} component. */
+export type DrawerMenuProps = DrawerMenuPropsRendering & {
   /**
    * Callback that identifies the currently active menu item (e.g. the current page).
    * If omitted, no item is selected and all ancestor highlighting is disabled.
@@ -54,8 +54,11 @@ export function DrawerMenu({
   rootOverrides,
   anchor = 'left',
   indent = 0,
+  drawerPaperSx,
+  listSx,
+  triggerButtonSx,
   selector,
-}: DrawerMenuPros) {
+}: DrawerMenuProps) {
   //
 
   const selectors = useMemo(
@@ -83,6 +86,9 @@ export function DrawerMenu({
           rootOverrides={rootOverrides}
           anchor={anchor}
           indent={indent}
+          drawerPaperSx={drawerPaperSx}
+          listSx={listSx}
+          triggerButtonSx={triggerButtonSx}
         />
       </MenuControllerContext.Provider>
     </MenuSelectorContext.Provider>

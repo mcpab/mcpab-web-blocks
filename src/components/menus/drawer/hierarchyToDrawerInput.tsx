@@ -48,7 +48,7 @@ type HierachyToDrawerPropsReturn =
  *   console.error(result.issues);
  *   return null;
  * }
- * return <DrawerMenu {...result} selector={(id) => id === currentPageId} />;
+ * return <DrawerMenu {...result} selector={(id) => id === currentPageId} />; 
  * ```
  */
 export function hierarchyToDrawerInput<P extends PayloadMap<MenuTreeElement>>({

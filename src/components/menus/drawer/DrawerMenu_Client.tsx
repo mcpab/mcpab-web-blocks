@@ -25,6 +25,9 @@ export function DrawerMenu_Client({
   rootOverrides,
   anchor = 'left',
   indent = 0,
+  drawerPaperSx,
+  listSx,
+  triggerButtonSx,
 }: DrawerMenuPropsRendering) {
   //
   //
@@ -85,7 +88,7 @@ export function DrawerMenu_Client({
         anchor={anchor}
         slotProps={{
           paper: {
-            sx: { minWidth: 240, pl: 1, pt: 2, overflowY: 'auto' },
+            sx: { minWidth: 240, pl: 1, pt: 2, overflowY: 'auto', ...drawerPaperSx },
             elevation: 2,
           },
         }}
@@ -94,7 +97,7 @@ export function DrawerMenu_Client({
           dense
           disablePadding
           component="nav"
-          sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+          sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', ...listSx }}
         >
           <MenuDepthContext.Provider value={{ depth: 0 }}>
             {childrenComponents}
@@ -102,7 +105,7 @@ export function DrawerMenu_Client({
         </List>
       </Drawer>
 
-      <IconButton onClick={toggleDrawer(true)} aria-label="Open menu">
+      <IconButton onClick={toggleDrawer(true)} aria-label="Open menu" sx={triggerButtonSx}>
         <MenuIcon />
       </IconButton>
     </MenuRenderContext.Provider>
