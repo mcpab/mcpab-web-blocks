@@ -35,7 +35,7 @@ export type RootOverridesUI = {
 /**
  * Base props shared by all menu variants (DrawerMenu, DropDown).
  *
- * Build these props with {@link hierarchyToDrawerProps} rather than constructing them by hand.
+ * Build these props with {@link hierarchyToDrawerInput} rather than constructing them by hand.
  */
 export type MenuPropsRendering = {
   root: RootTreeElement;

@@ -1,0 +1,13 @@
+[**@mcpab/web-blocks**](../README.md)
+
+***
+
+[@mcpab/web-blocks](../globals.md) / ClickTextImage
+
+# Variable: ClickTextImage
+
+> **ClickTextImage**: `NamedExoticComponent`\<[`ClickTextImageProps`](../type-aliases/ClickTextImageProps.md)\>
+
+Defined in: [src/components/cards/ClickTextImage.tsx:203](https://github.com/mcpab/mcpab-web-blocks/blob/8bc7381f3498b756aaaf0f873689bbe1606a3c4e/src/components/cards/ClickTextImage.tsx#L203)
+
+Cards exports.

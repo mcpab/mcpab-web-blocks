@@ -53,7 +53,10 @@ export { default as TextDrawer } from './TextDrawer';
 // ─── Public entry point ──────────────────────────────────────────────────────
 
 export { hierarchyToTextDrawerProps } from './hierarchyToTextDrawerProps';
-export type { HierachyToTextDrawerProps } from './hierarchyToTextDrawerProps';
+export type {
+  HierachyToTextDrawerProps,
+  HierachyToTextDrawerPropsReturn,
+} from './hierarchyToTextDrawerProps';
 
 // ─── Data types ───────────────────────────────────────────────────────────────
 

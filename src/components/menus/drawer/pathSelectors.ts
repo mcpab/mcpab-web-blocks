@@ -61,9 +61,6 @@ const DefaultNullSelector: IsSelectedMenuElement = () => false;
  * Returns {@link GetSelectorsReturnType} with stable function references for
  * `isSelected` and `isAncestorSelected`, suitable for passing into React context.
  * If no node matches the selector, all functions return `false`/`null`.
- *
- * @param treeFromRoot - The stratified menu tree produced by {@link hierarchyToDrawerProps}.
- * @param selector - Callback that identifies the selected node.
  */
 export function getSelectors({
   treeFromRoot,
@@ -162,4 +159,3 @@ export function getSelectedAndPath({ nodeId, menuNode, selector, path }: GetSele
   path.pop();
   return null;
 }
-

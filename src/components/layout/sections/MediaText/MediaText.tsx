@@ -12,26 +12,17 @@ type PresetName = '40-60' | '45-55' | '50-50' | '55-45' | '60-40';
 
 export type TextProps = {
   /**
-   * Named preset for common layouts or custom ratio string
+   * Named preset for common text/media split layouts.
    *
-   * @type {PresetName | string}
+   * @type {PresetName}
    *
-   * **Named Presets:**
+   * Presets:
    * Use predefined ratios for common layout patterns:
    * - '40-60': Text-focused layout
    * - '45-55': Slightly text-focused
    * - '50-50': Equal split (default)
    * - '55-45': Slightly media-focused
    * - '60-40': Media-focused layout
-   *
-   * **Custom Ratio Strings:**
-   * Define custom ratios using "text-media" format:
-   * - '70-30': 70% text, 30% media
-   * - '25-75': 25% text, 75% media
-   *
-   * @example
-   * preset: '60-40'    // Named preset
-   * preset: '58-42'    // Custom ratio string
    */
   preset?: PresetName;
 };
@@ -78,6 +69,46 @@ const defineOverride = <L extends Layout<any, any>>(
 ) => {
   return override;
 };
+
+function toYouTubeEmbedSrc(input: string): string | null {
+  const value = input.trim();
+  if (!value) return null;
+
+  // Already an ID.
+  if (/^[A-Za-z0-9_-]{11}$/.test(value)) {
+    return `https://www.youtube.com/embed/${value}`;
+  }
+
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+
+    if (host === 'youtu.be') {
+      const id = url.pathname.replace('/', '');
+      if (/^[A-Za-z0-9_-]{11}$/.test(id)) {
+        return `https://www.youtube.com/embed/${id}`;
+      }
+    }
+
+    if (host.includes('youtube.com')) {
+      const watchId = url.searchParams.get('v');
+      if (watchId && /^[A-Za-z0-9_-]{11}$/.test(watchId)) {
+        return `https://www.youtube.com/embed/${watchId}`;
+      }
+
+      const parts = url.pathname.split('/').filter(Boolean);
+      const embedIndex = parts.findIndex((p) => p === 'embed' || p === 'shorts');
+      const id = embedIndex >= 0 ? parts[embedIndex + 1] : null;
+      if (id && /^[A-Za-z0-9_-]{11}$/.test(id)) {
+        return `https://www.youtube.com/embed/${id}`;
+      }
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
 
 export type MediaAndTextProps = BaseProps & (ImageMedia | VideoMedia);
 
@@ -174,24 +205,27 @@ const MediaText: React.FC<MediaAndTextProps> = (props) => {
 
   // Handle video media type (YouTube embed)
   if ('video' in props && props.video) {
+    const embedSrc = toYouTubeEmbedSrc(props.video);
     media = (
       <Box sx={{ position: 'absolute', inset: 0 }}>
-        <Box
-          component="iframe"
-          src={`https://www.youtube.com/embed/${props.video}`}
-          title="YouTube video player"
-          // Comprehensive permissions for modern YouTube features
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            border: 0, // Remove default iframe border
-          }}
-        />
+        {embedSrc && (
+          <Box
+            component="iframe"
+            src={embedSrc}
+            title="YouTube video player"
+            // Comprehensive permissions for modern YouTube features
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              border: 0, // Remove default iframe border
+            }}
+          />
+        )}
       </Box>
     );
   }
@@ -219,7 +253,6 @@ const MediaText: React.FC<MediaAndTextProps> = (props) => {
 
   return (
     <Box
-      id="mediaText"
       sx={{
         position: 'relative',
         width: '100%',
@@ -227,6 +260,8 @@ const MediaText: React.FC<MediaAndTextProps> = (props) => {
         flexDirection: 'column',
         minHeight: 'inherit', // Inherit from parent Section when available
         flex: 1, // Grow to fill available space
+        backgroundColor: props.backgroundColor,
+        p: props.pad ? { xs: 2, md: 3 } : undefined,
         ...props.sx, // Allow style overrides
       }}
     >

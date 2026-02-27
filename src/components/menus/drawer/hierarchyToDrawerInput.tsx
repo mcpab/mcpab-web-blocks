@@ -26,7 +26,7 @@ export type HierachyToDrawerinputProps<P extends PayloadMap<MenuTreeElement>> = 
  * Return type of {@link hierarchyToDrawerInput}.
  * Either a validated prop set ready to pass to {@link DrawerMenu}, or a list of validation issues.
  */
-type HierachyToDrawerPropsReturn =
+export type HierachyToDrawerPropsReturn =
   | { ok: false; issues: HierarchyIssue[] }
   | {
       ok: true;
@@ -43,7 +43,7 @@ type HierachyToDrawerPropsReturn =
  *
  * @example
  * ```tsx
- * const result = hierarchyToDrawerProps({ hierarchy, overrides });
+ * const result = hierarchyToDrawerInput({ hierarchy, overrides });
  * if (!result.ok) {
  *   console.error(result.issues);
  *   return null;

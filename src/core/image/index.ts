@@ -1,36 +1,6 @@
-// ============================================================================
-// UNIVERSAL IMAGE SYSTEM EXPORTS
-// ============================================================================
-
 /**
- * @fileoverview Core Image Type Definitions and Utilities
- * 
- * **Framework-Agnostic Image Component System**
- * 
- * Universal image component interfaces and type definitions that work across
- * React frameworks including Next.js, Gatsby, and standard React applications.
- * Provides consistent image handling with optimization support.
- * 
- * **Key Features:**
- * - Framework-agnostic image component abstraction
- * - Static image data type definitions with blur support
- * - Type guards for safe image data validation
- * - Universal props interface for consistent usage
- * 
- * **Integration Support:**
- * - Next.js Image component with StaticImageData
- * - Gatsby Image with blur placeholders
- * - Standard HTML img elements
- * - Custom image optimization libraries
- * 
- * @author MCPAB Web Blocks
- * @since 1.0.0
- * @version 1.2.0 - Enhanced type safety and documentation
+ * Image abstraction exports used across framework adapters.
  */
-
-// ============================================================================
-// TYPE DEFINITIONS
-// ============================================================================
 
 /** Universal image component interface for framework abstraction */
 export type { ImageComponentLike } from './image-types';

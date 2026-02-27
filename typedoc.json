@@ -5,6 +5,14 @@
   "readme": "README.md",
   "tsconfig": "tsconfig.build.json",
   "plugin": ["typedoc-plugin-markdown"],
+  "validation": {
+    "notExported": false
+  },
+  "externalSymbolLinkMappings": {
+    "@mui/material": {
+      "TextFieldProps": "https://mui.com/material-ui/api/text-field/"
+    }
+  },
   "excludePrivate": true,
   "excludeInternal": true
 }

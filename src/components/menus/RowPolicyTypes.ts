@@ -44,7 +44,7 @@ export type RowPolicyProps = {
 
 /**
  * Computed visual plan for a single menu row.
- * Produced by {@link RowPolicy} and consumed by {@link ElementButton} / {@link ElementLabel}.
+ * Produced by {@link RowPolicy} and consumed by menu row render components.
  */
 export type RowPlan = {
   /** Label text (or a custom React node). */  

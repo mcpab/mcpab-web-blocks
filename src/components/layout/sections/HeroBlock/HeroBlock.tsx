@@ -7,29 +7,54 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { ImageComponentLike, StaticImageDataLike } from '../../../../core/image/image-types';
+import { StaticImageDataLike } from '../../../../core/image/image-types';
 import Container from '@mui/material/Container';
 import { BackgroundBoxProps } from '../../BackgroundBox';
 import { SubsubsectionTitle } from '../../../typography';
 
-export type HeroBlockProps = BackgroundBoxProps & {
+/**
+ * Props for {@link HeroBlock}.
+ */
+export type HeroBlockProps = Omit<BackgroundBoxProps, 'children' | 'imageConf'> & {
+  /**
+   * Primary heading content shown in the text column.
+   */
   header?: React.ReactNode;
 
+  /**
+   * Main supporting copy beneath the heading.
+   */
   message?: React.ReactNode;
 
+  /**
+   * Secondary strapline beneath `message`.
+   */
   subTitle?: React.ReactNode;
 
+  /**
+   * Optional image caption rendered below the media.
+   */
   caption?: string;
 
+  /**
+   * Hero image source.
+   */
   image: string | StaticImageDataLike;
 
+  /**
+   * Accessible alternative text for `image`.
+   */
   alt?: string;
 
+  /**
+   * Marks the image as high-priority for above-the-fold loading.
+   */
   priority?: boolean;
-
-  ImageComponent: ImageComponentLike;
 };
 
+/**
+ * Normalizes title-like fields so string values map to house typography variants.
+ */
 function formatTitle(node: React.ReactNode, kind: 'title' | 'subtitle' = 'title') {
   if (typeof node === 'string') {
     return kind === 'title' ? (
@@ -41,6 +66,9 @@ function formatTitle(node: React.ReactNode, kind: 'title' | 'subtitle' = 'title'
   return React.isValidElement(node) ? node : null;
 }
 
+/**
+ * Two-column hero section with heading/copy on the left and responsive media on the right.
+ */
 const HeroBlock: React.FC<HeroBlockProps> = ({
   image,
   alt,
@@ -50,23 +78,27 @@ const HeroBlock: React.FC<HeroBlockProps> = ({
   subTitle,
   priority = false,
   ImageComponent,
-  ...boxProps
+  sx,
+  ...containerProps
 }) => {
   return (
     <Container
+      {...containerProps}
       maxWidth="lg"
       disableGutters
-      sx={{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: 'inherit',
-        width: '100%',
-        height: '100%',
-      }}
-      id="ctr-hero-block"
+      sx={[
+        {
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: 'inherit',
+          width: '100%',
+          height: '100%',
+        },
+        ...(sx ? (Array.isArray(sx) ? sx : [sx]) : []),
+      ]}
     >
       <Grid
         container
@@ -87,9 +119,9 @@ const HeroBlock: React.FC<HeroBlockProps> = ({
           >
             {formatTitle(header, 'title')}
             {message && (
-              <SubsubsectionTitle sx={{ textAlign: 'left', lineHeight: 1.7, maxWidth: 720 }}>
+              <Typography variant="lead" color="text.primary" sx={{ textAlign: 'left', maxWidth: 720 }}>
                 {message}
-              </SubsubsectionTitle>
+              </Typography>
             )}
             {formatTitle(subTitle, 'subtitle')}
           </Stack>
@@ -124,11 +156,10 @@ const HeroBlock: React.FC<HeroBlockProps> = ({
 
             {caption && (
               <Typography
-                variant="strapline"
-                color="text"
+                variant="finePrint"
+                color="text.secondary"
                 textAlign={'center'}
                 mt={2}
-                // sx={{ textAlign: 'center', color: 'primary', mt: 2 }}
               >
                 {caption}
               </Typography>

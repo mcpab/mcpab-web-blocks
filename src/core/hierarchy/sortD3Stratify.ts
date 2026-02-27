@@ -4,7 +4,7 @@ import { HIERARCHY_ERROR_CODE, type HierarchyIssue } from './hierarchyErrorShape
  * Sort a `d3-hierarchy` stratified tree by `payload.node.order`.
  *
  * @remarks
- * - Uses {@link Stratify.sort} to order siblings.
+ * - Uses the `HierarchyNode.sort` method to order siblings.
  * - Primary key: `payload.node.order` (ascending).
  * - Fallback: `id` lexicographic compare when `order` is missing.
  *

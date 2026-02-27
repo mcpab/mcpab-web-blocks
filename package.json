@@ -8,6 +8,7 @@
   "files": [
     "dist"
   ],
+  "workspaces": ["packages/*"],
   "sideEffects": false,
   "exports": {
     ".": {

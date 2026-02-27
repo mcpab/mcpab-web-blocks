@@ -1,10 +1,20 @@
 import * as React from 'react';
 
-export type LinkTypeComponent = React.ForwardRefExoticComponent<
-  React.ComponentPropsWithoutRef<'a'> & React.RefAttributes<HTMLAnchorElement>
->;
+/**
+ * Framework-agnostic link component contract.
+ *
+ * Uses the anchor element prop surface so adapters can map to
+ * framework-specific link primitives (e.g. Next.js Link wrappers).
+ */
+export type LinkTypeComponent =
+  | React.ComponentType<React.ComponentPropsWithoutRef<'a'>>
+  | React.ForwardRefExoticComponent<
+      React.ComponentPropsWithoutRef<'a'> & React.RefAttributes<HTMLAnchorElement>
+    >;
 
-// Default that always works (plain <a>) AND matches ForwardRefExoticComponent
+/**
+ * Default link implementation backed by a plain `<a>` element.
+ */
 export const DefaultLinkLike: LinkTypeComponent = React.forwardRef<
   HTMLAnchorElement,
   React.ComponentPropsWithoutRef<'a'>

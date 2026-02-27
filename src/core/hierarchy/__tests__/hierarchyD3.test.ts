@@ -1,23 +1,19 @@
 /**
  * @file hierarchyD3.test.ts
  *
- * Stress tests for:
- *  - convertToD3Stratify
- *  - sortD3Stratify
- *  - buildTreeFromStratify
- *
- * Adjust the import paths to match your repo.
+ * Integration-style tests for:
+ * - `convertToD3Stratify`
+ * - `sortD3Stratify`
+ * - `buildTreeFromStratify`
  */
 
 import type { HierarchyIssue } from '../hierarchyErrorShape';
 import { HIERARCHY_ERROR_CODE } from '../hierarchyErrorShape';
 
-// ✅ adjust these paths
 import { convertToD3Stratify } from '../convertToD3Stratify';
 import { sortD3Stratify } from '../sortD3Stratify';
 import { buildTreeFromStratify } from '../buildTreeFromStratify';
 
-// ✅ adjust if your types live elsewhere
 import type {
   PayloadMap,
   HierarchyTree,
@@ -270,11 +266,7 @@ describe('buildTreeFromStratify', () => {
     const sortedRoot = returnValue2.ok ? returnValue2.root : null;
     expect(issues2).toHaveLength(0);
 
-    console.log('sortedRoot', sortedRoot);
     const tree = buildTreeFromStratify(sortedRoot as any);
-
-    console.log('tree', tree);
-    console.log('tree a', tree.root?.children?.a);
     // Dummy root node is null
     expect(tree.root).not.toBeNull();
 
@@ -338,7 +330,6 @@ describe('buildTreeFromStratify', () => {
     expect(issues).toHaveLength(0);
 
     const tree = buildTreeFromStratify(root!);
-    console.log('tree:', tree);
     expect(tree.root!.children).toBeDefined();
 
     // Validate that every node appears exactly once in the nested tree

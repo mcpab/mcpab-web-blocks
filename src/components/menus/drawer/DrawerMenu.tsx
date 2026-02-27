@@ -32,7 +32,7 @@ export type DrawerMenuProps = DrawerMenuPropsRendering & {
  *
  * @example
  * ```tsx
- * const result = hierarchyToDrawerProps({ hierarchy, overrides });
+ * const result = hierarchyToDrawerInput({ hierarchy, overrides });
  * if (result.ok) {
  *   return (
  *     <DrawerMenu
@@ -45,7 +45,7 @@ export type DrawerMenuProps = DrawerMenuPropsRendering & {
  * }
  * ```
  *
- * @see {@link hierarchyToDrawerProps} to build the required props from a hierarchy definition.
+ * @see {@link hierarchyToDrawerInput} to build the required props from a hierarchy definition.
  * @see {@link defaultDrawerRowPolicy} for the default row styling policy.
  */
 export function DrawerMenu({

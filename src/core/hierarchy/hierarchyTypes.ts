@@ -3,7 +3,8 @@
  *
  * @remarks
  * - Keys are node IDs.
- * - The key `"root"` is allowed and is treated as a special anchor ID.
+ * - `"root"` may exist on the payload map as an anchor payload key.
+ * - `"root"` is excluded from node ids in {@link HierarchyRelations}.
  *
  * @typeParam NodePayload - Default payload type when using a uniform payload map.
  */
@@ -48,7 +49,7 @@ type AllowedParents<N extends string, P extends PayloadMap> = Exclude<Extract<ke
  */
 export type HierarchyRelations<P extends PayloadMap> = {
   [K in NodeId<P>]: {
-    /** Payload associated with node {@link K}. */
+    /** Payload associated with this node key. */
     payload: P[K];
     /**
      * Parent ID.
@@ -56,7 +57,7 @@ export type HierarchyRelations<P extends PayloadMap> = {
      * @remarks
      * - Can be `"root"` (anchor)
      * - Can be any other node id in {@link P}
-     * - Cannot be {@link K} itself (self-parenting forbidden)
+     * - Cannot be the same node key (self-parenting forbidden)
      */
     parent: AllowedParents<K & string, P> | 'root';
   };
@@ -143,11 +144,9 @@ export type HierarchyTreeOverrides<
  */
 export type NodeInferred<P> = P extends PayloadMap<infer NodeType> ? NodeType : never;
 
-const ex = {
-  a: { name: 'a' },
-  b: { name: 'b', other: 'aa' },
-  c: { name: 'c', jk: 'b' },
-  root: { name: 'root', pp: 'c' }, // allowed as an anchor payload
-} as const satisfies PayloadMap;
-
- 
+// const ex = {
+//   a: { name: 'a' },
+//   b: { name: 'b', other: 'aa' },
+//   c: { name: 'c', jk: 'b' },
+//   root: { name: 'root', pp: 'c' }, // allowed as an anchor payload
+// } as const satisfies PayloadMap;

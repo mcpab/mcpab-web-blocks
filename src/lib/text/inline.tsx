@@ -1,281 +1,16 @@
-/*
- * Inline Text Processing Utilities
+/**
+ * Lightweight inline text formatters for React rendering.
  *
- * A collection of functions for parsing and converting text with inline formatting to React components.
- * These utilities handle common text formatting scenarios like bold text, italics, links, and line breaks,
- * making it easy to render user-generated content or CMS text with basic formatting.
- *
- * Philosophy:
- * These utilities bridge the gap between plain text and rich text by supporting a minimal subset of
- * Markdown syntax. They're designed for scenarios where you need basic formatting without the overhead
- * of a full Markdown parser, such as CMS content, user comments, or configuration text.
- *
- * Features:
- * - Lightweight Markdown parsing for inline elements
- * - Safe HTML generation through React components
- * - Automatic link handling with internal/external detection
- * - Line break processing for multiline text
- * - Type-safe React node generation
- * - Customizable key scoping for React reconciliation
- * - Integration with Next.js Link components
- * - MUI Link component integration
- *
- * Supported Syntax:
- * - **bold text** → <strong>bold text</strong>
- * - *italic text* → <em>italic text</em>
- * - [link text](url) → <Link> or <a> based on URL type
- * - Line breaks (\\n, \\r\\n, \\r, literal "\\n") → <br />
- *
- * Link Handling Strategy:
- * - Internal links (/path) → Next.js <Link> component
- * - External links (http/https) → <a> with target="_blank" and security attributes
- * - Special schemes (mailto:, tel:, #hash) → <a> with appropriate handling
- *
- * Use Cases:
- * - CMS content with basic formatting
- * - User-generated content (comments, descriptions)
- * - Configuration text that needs formatting
- * - Rich text alternatives for simple content
- * - Dynamic content from APIs or databases
- * - Form field content with inline formatting
- * - Email template text processing
- * - Documentation and help text
- *
- * Examples:
- *
- * Basic Bold Text Processing:
- * const nodes = boldToNodes("Welcome to **our platform**!");
- * // Result: ["Welcome to ", <strong key="b-0">our platform</strong>, "!"]
- *
- * Simple Bold in JSX:
- * function WelcomeMessage({ text }: { text: string }) {
- *   return <Typography variant="h5">{boldToNodes(text)}</Typography>;
- * }
- * // Usage: <WelcomeMessage text="Hello **world**!" />
- *
- * Complete Inline Markdown Processing:
- * import Link from 'next/link';
- * 
- * const content = "Visit **our website** at [example.com](https://example.com) or \\n" +
- *                "contact us at [support@example.com](mailto:support@example.com).";
- * const nodes = parseInlineMarkdown(content, Link);
- *
- * Blog Post Excerpt:
- * function BlogExcerpt({ excerpt }: { excerpt: string }) {
- *   return (
- *     <Typography variant="body1" paragraph>
- *       {parseInlineMarkdown(excerpt, Link, 'excerpt')}
- *     </Typography>
- *   );
- * }
- * // Usage: <BlogExcerpt excerpt="Read about **React performance** tips in [this article](/blog/react-perf)." />
- *
- * Product Description:
- * function ProductDescription({ description }: { description: string }) {
- *   return (
- *     <Box sx={{ mt: 2 }}>
- *       <Typography variant="body2" color="text.secondary">
- *         {parseInlineMarkdown(description, Link, 'product')}
- *       </Typography>
- *     </Box>
- *   );
- * }
- * // Usage: <ProductDescription description="Premium **wireless headphones** with *noise cancellation*.\\nFree shipping on orders over $50." />
- *
- * User Comment System:
- * function CommentText({ comment, commentId }: { comment: string; commentId: string }) {
- *   return (
- *     <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
- *       {parseInlineMarkdown(comment, Link, `comment-${commentId}`)}
- *     </Typography>
- *   );
- * }
- * // Usage: <CommentText comment="Great article! Check out *this related post* [here](/related)." commentId="123" />
- *
- * CMS Content Block:
- * function ContentBlock({ content }: { content: string }) {
- *   return (
- *     <Paper sx={{ p: 3, mb: 2 }}>
- *       <Typography variant="body1" component="div">
- *         {parseInlineMarkdown(content, Link, 'content')}
- *       </Typography>
- *     </Paper>
- *   );
- * }
- * // Usage: <ContentBlock content="**Important:** Please review our [privacy policy](/privacy) before proceeding." />
- *
- * Feature List with Formatting:
- * function FeatureList({ features }: { features: string[] }) {
- *   return (
- *     <List>
- *       {features.map((feature, index) => (
- *         <ListItem key={index}>
- *           <ListItemText 
- *             primary={parseInlineMarkdown(feature, Link, `feature-${index}`)}
- *           />
- *         </ListItem>
- *       ))}
- *     </List>
- *   );
- * }
- * // Usage: <FeatureList features={["**Fast** performance", "*Easy* setup", "24/7 [support](mailto:help@example.com)"]} />
- *
- * Alert Messages:
- * function FormattedAlert({ message, severity }: { message: string; severity: 'info' | 'warning' | 'error' }) {
- *   return (
- *     <Alert severity={severity}>
- *       {parseInlineMarkdown(message, Link, 'alert')}
- *     </Alert>
- *   );
- * }
- * // Usage: <FormattedAlert message="**Warning:** Your session will expire in *5 minutes*. [Extend session](/extend)?" severity="warning" />
- *
- * FAQ Content:
- * function FAQAnswer({ answer }: { answer: string }) {
- *   return (
- *     <AccordionDetails>
- *       <Typography variant="body2">
- *         {parseInlineMarkdown(answer, Link, 'faq')}
- *       </Typography>
- *     </AccordionDetails>
- *   );
- * }
- * // Usage: <FAQAnswer answer="You can find more information in our **documentation** [here](/docs) or contact [support](mailto:support@example.com)." />
- *
- * Email Template Content:
- * function EmailContent({ template }: { template: string }) {
- *   return (
- *     <Box sx={{ fontFamily: 'Arial, sans-serif', lineHeight: 1.6 }}>
- *       {parseInlineMarkdown(template, ({ href, children }) => (
- *         <a href={href} style={{ color: '#1976d2', textDecoration: 'none' }}>
- *           {children}
- *         </a>
- *       ), 'email')}
- *     </Box>
- *   );
- * }
- *
- * Custom Link Component:
- * function CustomMarkdown({ text }: { text: string }) {
- *   const CustomLink = ({ href, children }: LinkRef) => (
- *     <MuiLink 
- *       href={href} 
- *       sx={{ 
- *         color: 'secondary.main',
- *         textDecoration: 'underline',
- *         '&:hover': { textDecoration: 'none' }
- *       }}
- *     >
- *       {children}
- *     </MuiLink>
- *   );
- *   
- *   return (
- *     <Typography variant="body1">
- *       {parseInlineMarkdown(text, CustomLink, 'custom')}
- *     </Typography>
- *   );
- * }
- *
- * Error Message Formatting:
- * function ErrorMessage({ error }: { error: string }) {
- *   return (
- *     <Typography variant="body2" color="error" sx={{ mt: 1 }}>
- *       {parseInlineMarkdown(error, Link, 'error')}
- *     </Typography>
- *   );
- * }
- * // Usage: <ErrorMessage error="**Error:** Invalid format. See [help guide](/help#formats) for examples." />
- *
- * Syntax Examples:
- *
- * Bold Text:
- * Input: "This is **important** information"
- * Output: "This is <strong>important</strong> information"
- *
- * Italic Text:
- * Input: "This is *emphasized* text"
- * Output: "This is <em>emphasized</em> text"
- *
- * Mixed Formatting:
- * Input: "**Bold** and *italic* text together"
- * Output: "<strong>Bold</strong> and <em>italic</em> text together"
- *
- * Internal Links:
- * Input: "Check out [our blog](/blog)"
- * Output: <Link href="/blog">our blog</Link>
- *
- * External Links:
- * Input: "Visit [Google](https://google.com)"
- * Output: <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>
- *
- * Email Links:
- * Input: "Contact [support](mailto:help@example.com)"
- * Output: <a href="mailto:help@example.com">support</a>
- *
- * Phone Links:
- * Input: "Call [us](tel:+1234567890)"
- * Output: <a href="tel:+1234567890">us</a>
- *
- * Hash Links:
- * Input: "Jump to [section](#overview)"
- * Output: <a href="#overview">section</a>
- *
- * Line Breaks:
- * Input: "Line one\\nLine two"
- * Output: "Line one<br />Line two"
- *
- * Complex Example:
- * Input: "**Welcome!** Visit *our site* at [example.com](https://example.com)\\nOr email [us](mailto:hi@example.com)"
- * Output: <strong>Welcome!</strong> Visit <em>our site</em> at <a href="https://example.com" target="_blank" rel="noopener noreferrer">example.com</a><br />Or email <a href="mailto:hi@example.com">us</a>
- *
- * Key Scoping:
- * The keyScope parameter helps avoid React key conflicts when using multiple instances:
- * - boldToNodes(text, 'header') → keys: "header-0", "header-1", etc.
- * - parseInlineMarkdown(text, Link, 'content') → keys: "content-link-0", "content-b-0", "content-i-0", etc.
- *
- * Best Practices:
- * 1. Use unique keyScope values when rendering multiple instances
- * 2. Sanitize user input before processing if security is a concern
- * 3. Consider line-height and spacing when rendering multiline content
- * 4. Test link handling with various URL schemes and formats
- * 5. Use appropriate typography variants for semantic meaning
- * 6. Combine with MUI components for consistent styling
- * 7. Handle empty strings and edge cases gracefully
- * 8. Consider accessibility when styling links and emphasized text
- *
- * Security Considerations:
- * - External links automatically include rel="noopener noreferrer"
- * - Only supports predefined URL schemes (http, https, mailto, tel, /, #)
- * - Does not execute JavaScript or include dangerous HTML
- * - Uses React's built-in XSS protection through component rendering
- * - Consider additional input validation for user-generated content
- *
- * Performance:
- * - Lightweight regex-based parsing for fast processing
- * - Generates minimal React components without complex parsing trees
- * - Efficient string splitting and node creation
- * - No external dependencies beyond React and MUI
- * - Suitable for real-time content processing
- *
- * Limitations:
- * - Only supports inline elements (no block-level Markdown)
- * - No support for nested formatting (e.g., ***bold italic***)
- * - Links cannot contain other formatting
- * - No support for code spans, images, or complex Markdown features
- * - Line breaks are converted to <br> tags (no paragraph support)
+ * Supported syntax:
+ * - `**bold**`
+ * - `*italic*`
+ * - `[label](url)` for `http(s)`, `mailto:`, `tel:`, `/path`, and `#hash`
+ * - line breaks (`\r\n`, `\r`, `\n`, and literal `\\n`) to `<br />`
  */
 
 import * as React from 'react';
-import MuiLink from '@mui/material/Link'; 
-
-import {LinkRef} from '../../core/link';
-/**
- * LinkRef type for Link component props
- * 
- * Defines the interface for Link components used in markdown processing.
- * Compatible with Next.js Link and custom link implementations.
- */
+import MuiLink from '@mui/material/Link';
+import type { LinkTypeComponent } from '../../core/link';
 
 /**
  * Convert a string containing **bold** markers into React nodes.
@@ -303,45 +38,18 @@ export function boldToNodes(input: string, keyScope = 'b'): React.ReactNode[] {
 }
 
 /**
- * Parse inline Markdown and convert to React nodes.
- * 
- * Processes a subset of Markdown syntax including bold text, italic text, links,
- * and line breaks. Automatically handles different link types (internal, external,
- * mailto, tel, hash) and renders them with appropriate components.
- * 
- * Supported syntax:
- * - **bold text** → <strong>bold text</strong>
- * - *italic text* → <em>italic text</em>
- * - [text](url) → <Link> or <a> based on URL type
- * - Line breaks (\\n, \\r\\n, \\r, "\\n") → <br />
- * 
- * Link handling:
- * - Internal links (/path) → Uses provided Link component (typically Next.js Link)
- * - External links (http/https) → <a> with target="_blank" and security attributes
- * - Special schemes (mailto:, tel:, #hash) → <a> with appropriate handling
+ * Parse inline markdown-like content into React nodes.
  * 
  * @param input - The string containing Markdown syntax
- * @param Link - React component for internal links (e.g., Next.js Link)
+ * @param Link - Link component used for internal `/path` links
  * @param keyScope - Prefix for React keys to avoid conflicts (default: 'md')
  * @returns Array of React nodes with processed formatting
- * 
- * @example
- * import Link from 'next/link';
- * 
- * const content = "Visit **our site** at [example.com](https://example.com)\\nOr [contact us](mailto:hi@example.com)";
- * const nodes = parseInlineMarkdown(content, Link, 'content');
- * 
- * @example
- * // In a component
- * function RichText({ content }: { content: string }) {
- *   return (
- *     <Typography variant="body1">
- *       {parseInlineMarkdown(content, Link, 'rich-text')}
- *     </Typography>
- *   );
- * }
  */
-export function parseInlineMarkdown(input: string, Link: React.ComponentType<LinkRef>, keyScope = 'md'): React.ReactNode[] | React.ReactNode {
+export function parseInlineMarkdown(
+  input: string,
+  Link: LinkTypeComponent,
+  keyScope = 'md',
+): React.ReactNode[] | React.ReactNode {
 
   const linkRe = /\[([^\]]+)\]\(((?:https?:\/\/|mailto:|tel:|\/|#)[^\s)]+)\)/g;
   const boldRe = /\*\*([^*]+)\*\*/g;

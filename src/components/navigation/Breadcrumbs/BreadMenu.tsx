@@ -3,15 +3,21 @@
 import * as React from 'react';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import MuiLink from '@mui/material/Link';
-import { SxProps, Theme } from '@mui/material/styles';
+import type { SxProps, Theme } from '@mui/material/styles';
 import { toTitleCase } from 'src/lib';
-import { LinkTypeComponent } from 'src/core/link';
+import { DefaultLinkLike, type LinkTypeComponent } from 'src/core/link';
 
+/**
+ * Props for {@link BreadMenu}.
+ */
 export type BreadMenuProps = {
-  /** Optional explicit pathname (useful for Storybook/SSR). Defaults to usePathname(). */
-  pathname: string;
+  /**
+   * Optional explicit pathname (useful for stories and SSR).
+   * Falls back to `window.location.pathname` when omitted.
+   */
+  pathname?: string;
   /** Optional custom link component (e.g., Next.js Link). */
-  linkComponent: LinkTypeComponent;
+  linkComponent?: LinkTypeComponent;
   /** Hide the “Home” root link. @defaultValue false */
   hideRoot?: boolean;
   /** Map segment -> label (e.g., { 'about-us': 'About Us' }). */
@@ -28,9 +34,20 @@ export type BreadMenuProps = {
   titleCase?: boolean;
 };
 
+function normalizePathname(pathname?: string): string {
+  const fallback = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const raw = (pathname ?? fallback).trim() || '/';
+  const noHash = raw.split('#')[0] ?? raw;
+  const noQuery = noHash.split('?')[0] ?? noHash;
+  return noQuery.startsWith('/') ? noQuery : `/${noQuery}`;
+}
+
+/**
+ * Breadcrumb navigation derived from a pathname.
+ */
 const BreadMenu = function ({
   pathname,
-  linkComponent,
+  linkComponent = DefaultLinkLike,
   hideRoot = false,
   segmentLabels,
   exclude,
@@ -39,11 +56,14 @@ const BreadMenu = function ({
   sx,
   titleCase = true,
 }: BreadMenuProps) {
-  //
+  const normalizedPath = React.useMemo(() => normalizePathname(pathname), [pathname]);
+
+  const excludeSet = React.useMemo(() => new Set(exclude ?? []), [exclude]);
+
   const segments = React.useMemo(() => {
-    const raw = pathname.split('/').filter(Boolean);
-    return exclude && exclude.length ? raw.filter((s) => !exclude.includes(s)) : raw;
-  }, [pathname, exclude]);
+    const raw = normalizedPath.split('/').filter(Boolean);
+    return excludeSet.size ? raw.filter((s) => !excludeSet.has(s)) : raw;
+  }, [normalizedPath, excludeSet]);
 
   const items = React.useMemo(() => {
     const crumbs: React.ReactNode[] = [];
@@ -92,7 +112,10 @@ const BreadMenu = function ({
         maxItems={maxItems}
         itemsAfterCollapse={2}
         itemsBeforeCollapse={1}
-        sx={{ fontSize, color: 'inherit', mx: 2, p: 0.5, ...sx }}
+        sx={[
+          { fontSize, color: 'inherit', mx: 2, p: 0.5 },
+          ...(sx ? (Array.isArray(sx) ? sx : [sx]) : []),
+        ]}
       >
         {!hideRoot && (
           <MuiLink component={linkComponent} href="/" underline="hover" color="inherit">
@@ -104,5 +127,7 @@ const BreadMenu = function ({
     </nav>
   );
 };
+
+BreadMenu.displayName = 'BreadMenu';
 
 export default BreadMenu;

@@ -14,6 +14,11 @@ import InfoIcon from '@mui/icons-material/Info';
 import PeopleIcon from '@mui/icons-material/People';
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
 
+/**
+ * Renders a Material icon resolved from a normalized semantic key.
+ *
+ * Returns `null` when no key match exists.
+ */
 export type IconPickerProps = {
   /** Prefer a semantic key (e.g. "home", "settings", "privacy-policy") over display label. */
   name: string;
@@ -27,62 +32,63 @@ export type IconPickerProps = {
  * - lowercase
  * - collapse whitespace
  * - convert spaces/underscores to hyphens
+ * - trim leading/trailing slashes
  */
 function normalizeKey(input: string): string {
-  return input.trim().toLowerCase().replace(/\s+/g, ' ').replace(/[ _]+/g, '-');
+  return input
+    .trim()
+    .toLowerCase()
+    .replace(/^\/+|\/+$/g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/[ _]+/g, '-');
 }
 
 type IconComp = typeof HomeIcon;
 
 /** Central mapping: add synonyms by pointing multiple keys to the same icon. */
-const ICONS_BY_KEY:Record<string, IconComp> = {
-  //
+const ICONS_BY_KEY = {
   home: HomeIcon,
-
   settings: SettingsIcon,
-
   profile: AccountCircleIcon,
   account: AccountCircleIcon,
-
   contact: ContactMailIcon,
-
   help: HelpIcon,
   support: HelpIcon,
-
   dashboard: DashboardIcon,
-
   notifications: NotificationsIcon,
   alerts: NotificationsIcon,
-
   logout: ExitToAppIcon,
   'log-out': ExitToAppIcon,
   signout: ExitToAppIcon,
   'sign-out': ExitToAppIcon,
-
   login: LoginIcon,
   'log-in': LoginIcon,
   signin: LoginIcon,
   'sign-in': LoginIcon,
-
   info: InfoIcon,
   information: InfoIcon,
-
   about: PeopleIcon,
   'about-us': PeopleIcon,
-  'about-us/': PeopleIcon, // just in case
   team: PeopleIcon,
-
   privacy: PrivacyTipIcon,
   'privacy-policy': PrivacyTipIcon,
-} ;
+} as const satisfies Record<string, IconComp>;
 
-export type ICONS_NAMES = keyof typeof ICONS_BY_KEY;
+/** Union of normalized keys accepted by {@link IconPicker}. */
+export type IconName = keyof typeof ICONS_BY_KEY;
+/** Backward-compatible alias for existing imports. */
+export type ICONS_NAMES = IconName;
 
+function isIconName(value: string): value is IconName {
+  return value in ICONS_BY_KEY;
+}
+
+/** Icon renderer from semantic names. */
 const IconPicker: React.FC<IconPickerProps> = ({ name, fontSize = 'medium' }) => {
   const key = normalizeKey(name);
- 
+
+  if (!isIconName(key)) return null;
   const Icon = ICONS_BY_KEY[key];
-  if (!Icon) return null;
   return <Icon fontSize={fontSize} />;
 };
 

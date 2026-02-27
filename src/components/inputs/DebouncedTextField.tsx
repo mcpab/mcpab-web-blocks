@@ -1,58 +1,55 @@
 'use client';
-/**
- * @packageDocumentation
- *
- * # DebouncedTextField
- *
- * Material UI `<TextField />` that debounces change notifications.
- *
- * - Works **controlled** (`value`) or **uncontrolled** (`defaultValue`).
- * - Calls `onChange` immediately (like a normal TextField).
- * - Calls `onDebouncedChange(value)` **after a quiet period** of `debounceMs`.
- * - Honors IME composition (won’t emit mid-composition).
- * - When `flushOnBlur` is true (default), it **emits immediately on blur**
- *   if the value changed since the last debounced emit.
- *
- * ## Examples
- * ```tsx
- * // Uncontrolled with debounced search:
- * <DebouncedTextField
- *   label="Search"
- *   placeholder="Type to search…"
- *   debounceMs={400}
- *   onDebouncedChange={(v) => runSearch(v)}
- * />
- *
- * // Controlled with live + debounced handlers:
- * const [q, setQ] = useState('');
- * <DebouncedTextField
- *   label="Query"
- *   value={q}
- *   onChange={(e) => setQ(e.target.value)}
- *   onDebouncedChange={(v) => saveDraft(v)}
- * />
- * ```
- */
 
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import type { TextFieldProps } from '@mui/material/TextField';
 
+/**
+ * Props for {@link DebouncedTextField}.
+ *
+ * Extends MUI `TextFieldProps` and adds delayed value notifications.
+ */
 export type DebouncedTextFieldProps = Omit<TextFieldProps, 'onChange' | 'value'> & {
-  /** Controlled value (if provided). */
+  /**
+   * Controlled input value.
+   *
+   * When provided, the component behaves as a controlled input.
+   */
   value?: string;
-  /** Uncontrolled initial value. */
+  /**
+   * Initial input value for uncontrolled mode.
+   */
   defaultValue?: string;
-  /** Milliseconds to wait after the last keystroke before emitting. @defaultValue 500 */
+  /**
+   * Delay in milliseconds before invoking {@link DebouncedTextFieldProps.onDebouncedChange}.
+   *
+   * @defaultValue 500
+   */
   debounceMs?: number;
-  /** Normal immediate change callback (same signature as MUI). */
+  /**
+   * Immediate change handler forwarded from the native input event.
+   */
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  /** Debounced value callback. */
+  /**
+   * Called after the user stops typing for {@link DebouncedTextFieldProps.debounceMs}.
+   */
   onDebouncedChange?: (value: string) => void;
-  /** Emit immediately on blur if changed since last emit. @defaultValue true */
+  /**
+   * Emits latest value on blur when it differs from the last debounced emission.
+   *
+   * @defaultValue true
+   */
   flushOnBlur?: boolean;
 };
 
+/**
+ * MUI `TextField` wrapper that supports debounced value callbacks.
+ *
+ * @remarks
+ * - Supports controlled (`value`) and uncontrolled (`defaultValue`) modes.
+ * - Respects IME composition and defers debounced emits until composition ends.
+ * - Optionally flushes pending value on blur.
+ */
 const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
   value: controlledValue,
   defaultValue = '',
@@ -77,13 +74,13 @@ const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
     }
   }, []);
 
-  // Schedule a debounced emit
+  // Schedules a value emission after the configured debounce window.
   const schedule = React.useCallback(
     (next: string) => {
       if (!onDebouncedChange) return;
       clearTimer();
 
-      // Handle 0ms as "emit on next tick" but still respecting composition
+      // `0` still runs asynchronously on the next tick and keeps composition guards.
       const delay = Math.max(0, debounceMs);
       timerRef.current = setTimeout(() => {
         if (composingRef.current) return;
@@ -96,19 +93,19 @@ const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
     [debounceMs, onDebouncedChange, clearTimer]
   );
 
-  // If debounceMs changes, re-schedule for the current value
+  // Re-schedule with the latest delay when debounceMs changes.
   React.useEffect(() => {
     schedule(inputValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceMs]);
 
-  // If controlled value changes from parent, re-schedule
+  // Re-schedule when parent updates controlled value.
   React.useEffect(() => {
     if (isControlled) schedule(String(controlledValue ?? ''));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isControlled, controlledValue]);
 
-  // Cleanup timer on unmount
+  // Prevent orphaned timers.
   React.useEffect(() => clearTimer, [clearTimer]);
 
   const handleChange = React.useCallback(
@@ -136,7 +133,7 @@ const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
     [flushOnBlur, onDebouncedChange, clearTimer, props]
   );
 
-  // Composition (IME) guards
+  // IME guard: avoid mid-composition emissions.
   const handleCompositionStart = () => {
     composingRef.current = true;
     clearTimer();

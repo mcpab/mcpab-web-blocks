@@ -17,7 +17,7 @@ export type TreeTextState = Record<string, boolean>;
  * @remarks
  * Deliberately framework-agnostic — no React imports, no context coupling.
  * The store is created once per `TextDrawer` mount (via `useMemo`) and shared
- * downward through {@link TextControllerContext}.
+ * downward through the `TextDrawer` context provider.
  *
  * @typeParam TreeTextState - Shape of the state slice managed by this store.
  */
@@ -80,7 +80,7 @@ export function createTreeTextStore(initialState: TreeTextState): TreeTextStore<
  * Each node only re-renders when its own boolean flips; sibling toggles are
  * invisible to it.  The server-side snapshot always returns `false` (collapsed).
  *
- * @param store - The shared store from {@link TextControllerContext}.
+ * @param store - The shared store from `TextDrawer`.
  * @param nodeId - The node whose open state to observe.
  * @returns `true` when the node is open, `false` when closed or not found.
  */
@@ -99,7 +99,7 @@ export function useTreeTextOpen(store: TreeTextStore<TreeTextState>, nodeId: str
  * Curried so callers (typically `TextElement`) can create the setter once and
  * pass it down as a stable callback without re-creating it on every render.
  *
- * @param store - The shared store from {@link TextControllerContext}.
+ * @param store - The shared store from `TextDrawer`.
  * @param nodeId - The node to mutate.
  * @returns A setter `(open: boolean) => void` that merges the new value into
  *   the existing state via a functional update.

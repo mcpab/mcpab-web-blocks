@@ -46,7 +46,7 @@ export type HierachyToTextDrawerProps<P extends PayloadMap<TextDrawerElement>> =
  *
  * Check `ok` before accessing `treeFromRoot`.
  */
-type HierachyToDrawerPropsReturn =
+export type HierachyToTextDrawerPropsReturn =
   | { ok: false; issues: HierarchyIssue[] }
   | {
       ok: true;
@@ -84,7 +84,7 @@ type HierachyToDrawerPropsReturn =
 export function hierarchyToTextDrawerProps<P extends PayloadMap<TextDrawerElement>>({
   hierarchy,
   overrides,
-}: HierachyToTextDrawerProps<P>): HierachyToDrawerPropsReturn {
+}: HierachyToTextDrawerProps<P>): HierachyToTextDrawerPropsReturn {
   const treeRoot = prepareTextTree<P>({ hierarchy, overrides, issues: [] });
 
   if (!treeRoot.ok) {

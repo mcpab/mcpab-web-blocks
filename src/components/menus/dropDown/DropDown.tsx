@@ -31,14 +31,14 @@ export type DropDownMenuProps = MenuPropsRendering & {
  * Top-level entry point for the horizontal dropdown (mega menu) navigation bar.
  *
  * Sets up {@link MenuSelectorContext} from the `selector` callback, then delegates
- * rendering to {@link DropDown_Client} which mounts a sticky MUI `AppBar`.
+ * rendering to the client dropdown renderer that mounts a sticky MUI `AppBar`.
  *
  * Top-level items are rendered at depth 0. Items with children open a MUI `Popover`
- * containing a {@link DropDownMegaMenu} panel laid out as columns.
+ * containing a mega menu panel laid out as columns.
  *
  * @example
  * ```tsx
- * const result = hierarchyToDrawerProps({ hierarchy, overrides });
+ * const result = hierarchyToDrawerInput({ hierarchy, overrides });
  * if (result.ok) {
  *   return (
  *     <DropDown
@@ -50,7 +50,7 @@ export type DropDownMenuProps = MenuPropsRendering & {
  * }
  * ```
  *
- * @see {@link hierarchyToDrawerProps} to build the required props from a hierarchy definition.
+ * @see {@link hierarchyToDrawerInput} to build the required props from a hierarchy definition.
  * @see {@link defaultDropDownPolicy} for the default row styling policy.
  * @see {@link standardMegaMenuPolicy} / {@link compactMegaMenuPolicy} for built-in mega menu policies.
  */

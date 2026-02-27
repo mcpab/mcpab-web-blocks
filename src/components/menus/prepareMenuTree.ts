@@ -27,7 +27,7 @@ export type PrepareMenuTreeProps<P extends PayloadMap<MenuTreeElement>> = Hierac
  *
  * @returns `{ ok: true, root }` on success, or `{ ok: false, issues }` on failure.
  *
- * @internal Called by {@link hierarchyToDrawerProps}.
+ * @internal Called by {@link hierarchyToDrawerInput}.
  */
 export default function prepareMenuTree<P extends PayloadMap<MenuTreeElement>>({
   hierarchy,

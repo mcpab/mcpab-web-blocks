@@ -1,12 +1,16 @@
-
-
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import type { SxProps, Theme } from '@mui/material/styles';
 
+/**
+ * Horizontal/vertical padding wrapper with responsive spacing.
+ */
 export type PadProps = {
+  /** When true, shifts larger-screen horizontal emphasis to the right side. */
   reverse?: boolean;
+  /** Content rendered inside the padded container. */
   children?: React.ReactNode;
+  /** Optional style overrides for the root box. */
   sx?: SxProps<Theme>;
 };
 

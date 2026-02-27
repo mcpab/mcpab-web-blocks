@@ -15,7 +15,7 @@ import { TitledText } from './TitledText';
  * @remarks
  * Each key is a `renderer` value that can appear in a `TextDrawerElement`
  * payload.  The registry is passed to `TextDrawer_Client` via
- * {@link TextTreeRendererContextType.rendersRegistry}.
+ * the render context's `rendersRegistry` field.
  *
  * ## Available renderers
  *

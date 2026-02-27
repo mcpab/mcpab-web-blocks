@@ -34,7 +34,7 @@ export type TextDrawerProps = {
  * `TextDrawer` is the **only** component consumers should mount directly.
  * It is responsible for:
  * - Building the {@link TreeTextStore} from the tree's `defaultOpen` overrides.
- * - Providing the store via {@link TextControllerContext}.
+ * - Providing the store via an internal context provider.
  * - Delegating rendering to `TextDrawer_Client` (a `'use client'` boundary).
  *
  * The store is memoised on `treeFromRoot` — it is only rebuilt when the tree

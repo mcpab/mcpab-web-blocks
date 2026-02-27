@@ -1,11 +1,11 @@
-import * as React from "react";
+import * as React from 'react';
 
 /** Subset/superset of Next.js Script strategies */
 export type ScriptStrategy =
-  | "beforeInteractive"
-  | "afterInteractive"
-  | "lazyOnload"
-  | "worker";
+  | 'beforeInteractive'
+  | 'afterInteractive'
+  | 'lazyOnload'
+  | 'worker';
 
 /** Reasonable value types for data-* attributes */
 export type DataAttrValue = string | number | boolean | null | undefined;
@@ -20,12 +20,12 @@ export type UniversalScriptBaseProps = {
   async?: boolean;
   defer?: boolean;
   type?: string;
-  crossOrigin?: "anonymous" | "use-credentials" | "";
+  crossOrigin?: 'anonymous' | 'use-credentials' | '';
   integrity?: string;
   nonce?: string;
   noModule?: boolean;
   referrerPolicy?: React.HTMLAttributeReferrerPolicy;
-  fetchPriority?: "high" | "low" | "auto";
+  fetchPriority?: 'high' | 'low' | 'auto';
   onLoad?: React.ReactEventHandler<HTMLScriptElement>;
   onError?: React.ReactEventHandler<HTMLScriptElement>;
 } & DataAttributes;

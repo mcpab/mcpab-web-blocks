@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import StandardStack from '../styled/StandardStack';
-import { SxProps } from '@mui/material';
+import type { SxProps } from '@mui/material';
 import type { Theme } from '@mui/material/styles';
 
 
@@ -29,18 +29,18 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   transparent = false,
   sx,
 }) => {
-  const list = React.Children.toArray(children);
-
   return (
     <StandardStack
       size="large"
-      sx={{
-        background: transparent ? 'none' : undefined,
-        backgroundColor: transparent ? 'transparent' : 'background.default',
-        ...sx,
-      }}
+      sx={[
+        {
+          background: transparent ? 'none' : undefined,
+          backgroundColor: transparent ? 'transparent' : 'background.default',
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
-      {list}
+      {children}
     </StandardStack>
   );
 };
