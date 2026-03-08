@@ -1,10 +1,13 @@
 {
   "name": "@mcpab/mui-theme",
   "version": "0.1.0",
-  "private": true,
-"sideEffects": [
-  "./dist/mui-augment.*"
-],
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "sideEffects": [
+    "./dist/mui-augment.*"
+  ],
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -20,8 +23,17 @@
   },
   "scripts": {
     "build": "tsup && tsc -p tsconfig.build.json",
+    "prepack": "pnpm build",
+    "prepare": "pnpm build",
     "dev": "tsup --watch",
     "clean": "rimraf dist"
+  },
+  "peerDependencies": {
+    "@emotion/react": ">=11",
+    "@emotion/styled": ">=11",
+    "@mui/material": ">=6",
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "files": [
     "dist"
