@@ -8,6 +8,41 @@ export const baseThemeOptions: ThemeOptions = {
   typography: {
     // Safe fallback; presets can override freely.
     fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+    lead: {
+      fontSize: "1.125rem",
+      lineHeight: 1.8,
+      fontWeight: 400,
+    },
+    narrative: {
+      fontSize: "1rem",
+      lineHeight: 1.75,
+      fontWeight: 400,
+    },
+    strapline: {
+      fontSize: "0.9375rem",
+      lineHeight: 1.6,
+      fontWeight: 400,
+      letterSpacing: "0.02em",
+    },
+    eyebrow: {
+      fontSize: "0.75rem",
+      lineHeight: 1.35,
+      fontWeight: 600,
+      letterSpacing: "0.14em",
+      textTransform: "uppercase",
+    },
+    finePrint: {
+      fontSize: "0.8125rem",
+      lineHeight: 1.6,
+      fontWeight: 400,
+      letterSpacing: "0.015em",
+    },
+    quote: {
+      fontSize: "1.0625rem",
+      lineHeight: 1.9,
+      fontWeight: 400,
+      fontStyle: "italic",
+    },
   },
 
   components: {

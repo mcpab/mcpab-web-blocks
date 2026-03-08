@@ -13,6 +13,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./mui-augment": {
+      "types": "./dist/mui-augment.d.ts",
+      "import": "./dist/mui-augment.js",
+      "require": "./dist/mui-augment.cjs"
     }
   },
   "scripts": {

@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsup';
 export default defineConfig({
-  entry: ['src/index.ts'],   // <-- root barrel is the entry
+  entry: ['src/index.ts', 'src/mui-augment.ts'],
   dts: true,
   format: ['esm', 'cjs'],
   sourcemap: true,
