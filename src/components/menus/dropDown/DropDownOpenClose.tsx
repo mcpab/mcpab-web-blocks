@@ -1,6 +1,6 @@
 import Popover from '@mui/material/Popover';
 import React from 'react';
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 import { MenuDepthContext, useMenuDepthContext } from '../MenuDepthContext';
 import { useMenuRenderContext } from '../MenuRenderContext';
 import { useMenuSelectorContext } from '../MenuSelectorContext';

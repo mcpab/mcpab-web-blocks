@@ -1,5 +1,5 @@
 import { SxProps, Theme } from '@mui/material';
-import { SubsubsectionTitleLabel } from 'src/components/typography';
+import { SubsubsectionTitleLabel } from '../../typography';
 
 /**
  * Props for the `LabelOnly` renderer.

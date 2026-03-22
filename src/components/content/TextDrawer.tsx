@@ -1,6 +1,6 @@
 'use client';
 
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
 import { TextDrawerElement, TextDrawerElementUI } from './TextDrawerTypes';
 import { useMemo } from 'react';
 import { TreeTextState } from './textTreeStore';

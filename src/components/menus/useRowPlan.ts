@@ -1,4 +1,4 @@
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
 import { useMenuDepthContext } from './MenuDepthContext';
 import { useMenuRenderContext } from './MenuRenderContext';
 import { useMenuSelectorContext } from './MenuSelectorContext';

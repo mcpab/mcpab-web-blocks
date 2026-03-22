@@ -3,7 +3,7 @@
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 
 import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { DrawerElement } from './DrawerElement';

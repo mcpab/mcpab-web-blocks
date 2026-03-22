@@ -2,7 +2,7 @@ import type { Story } from '@ladle/react';
 import {
   HierarchyTree,
   HierarchyTreeOverrides
-} from 'src/core/hierarchy/hierarchyTypes';
+} from '../../core/hierarchy/hierarchyTypes';
 import { hierarchyToTextDrawerProps } from './hierarchyToTextDrawerProps';
 import TextDrawer from './TextDrawer';
 import {

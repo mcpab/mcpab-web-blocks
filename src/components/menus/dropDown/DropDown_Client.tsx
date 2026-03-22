@@ -3,7 +3,7 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
-import { DefaultLinkLike, LinkTypeComponent } from 'src/core/link';
+import { DefaultLinkLike, LinkTypeComponent } from '../../../core/link';
 import { MenuRenderContext, MenuRenderContextType } from '../MenuRenderContext';
 import { defaultDropDownPolicy } from './defaultDropDownRowPolicy';
 import { standardMegaMenuPolicy } from './defaultMegaMenuPolicy';

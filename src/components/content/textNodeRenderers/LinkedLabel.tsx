@@ -1,6 +1,6 @@
 import { SxProps, Theme } from '@mui/material';
 import MuiLink from '@mui/material/Link';
-import { SubsubsectionTitleLabel } from 'src/components/typography';
+import { SubsubsectionTitleLabel } from '../../typography';
 
 /**
  * Props for the `LinkedLabel` renderer.

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { StandardStack } from 'src/components/styled';
-import { SubsectionTitleLabel, SubsubsectionTitleLabel } from 'src/components/typography';
+import { StandardStack } from '../../styled';
+import { SubsectionTitleLabel, SubsubsectionTitleLabel } from '../../typography';
 
 /**
  * Props for the `TitleAndSubDepth` renderer.

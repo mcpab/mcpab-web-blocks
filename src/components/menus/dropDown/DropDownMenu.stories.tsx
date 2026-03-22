@@ -4,8 +4,8 @@ import {
   HierarchyTree,
   HierarchyTreeOverrides,
   PayloadMap,
-} from 'src/core/hierarchy/hierarchyTypes';
-import { DefaultLinkLike } from 'src/core/link';
+} from '../../../core/hierarchy/hierarchyTypes';
+import { DefaultLinkLike } from '../../../core/link';
 import type { MenuTreeElement, MenuTreeElementUI, RootOverridesUI } from '../MenuTypes';
 import { DropDown } from './DropDown';
 

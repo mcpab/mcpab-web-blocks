@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { StandardStack } from 'src/components/styled';
-import { SubsectionTitle, SubsubsectionTitle } from 'src/components/typography';
+import { StandardStack } from '../../styled';
+import { SubsectionTitle, SubsubsectionTitle } from '../../typography';
 
 /**
  * Props for the `TitleAndSubStd` renderer.

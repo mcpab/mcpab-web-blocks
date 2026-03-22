@@ -12,7 +12,7 @@ import {
   HierarchyTree,
   HierarchyTreeOverrides,
   PayloadMap,
-} from 'src/core/hierarchy/hierarchyTypes';
+} from '../../core/hierarchy/hierarchyTypes';
 import {
   MenuTreeElement,
   MenuTreeElementUI,

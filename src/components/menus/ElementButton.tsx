@@ -3,7 +3,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import type { SxProps, Theme } from '@mui/material/styles';
 import React from 'react';
-import { LinkTypeComponent } from 'src/core/link';
+import { LinkTypeComponent } from '../../core/link';
 import { ElementLabel } from './ElementLabel';
 import { MenuTreeElementUI } from './MenuTypes';
 import { RowPlan } from './RowPolicyTypes';

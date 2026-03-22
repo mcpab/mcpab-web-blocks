@@ -5,7 +5,7 @@ import type { ImageConf } from '../layout/BackgroundBox';
 import Section from '../Section';
 import Container from '@mui/material/Container';
 import { SectionSize } from '../../design/sectionTokens';
-import { ImageComponentLike } from 'src/core/image/image-types';
+import { ImageComponentLike } from '../../core/image/image-types';
 
 /** Props for {@link BannerStatic}. */
 export type BannerStaticProps = {

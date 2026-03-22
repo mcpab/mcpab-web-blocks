@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 import { MenuControllerContext } from '../MenuControllerContext';
 import { MenuSelectorContext } from '../MenuSelectorContext';
 import { createMenuStore, MenuState } from '../menuStore';

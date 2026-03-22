@@ -2,7 +2,7 @@ import {
   HierarchyTree,
   HierarchyTreeOverrides,
   PayloadMap,
-} from 'src/core/hierarchy/hierarchyTypes';
+} from '../../core/hierarchy/hierarchyTypes';
 
 import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
 import { HierarchyIssue } from '../../core/hierarchy/hierarchyErrorShape';

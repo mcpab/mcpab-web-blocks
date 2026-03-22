@@ -1,7 +1,7 @@
 'use client';
 
 import Divider from '@mui/material/Divider';
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 import { ElementButton } from '../ElementButton';
 import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { useMenuRenderContext } from '../MenuRenderContext';

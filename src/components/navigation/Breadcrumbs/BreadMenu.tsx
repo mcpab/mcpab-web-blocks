@@ -4,8 +4,8 @@ import * as React from 'react';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import MuiLink from '@mui/material/Link';
 import type { SxProps, Theme } from '@mui/material/styles';
-import { toTitleCase } from 'src/lib';
-import { DefaultLinkLike, type LinkTypeComponent } from 'src/core/link';
+import { toTitleCase } from '../../../lib';
+import { DefaultLinkLike, type LinkTypeComponent } from '../../../core/link';
 
 /**
  * Props for {@link BreadMenu}.

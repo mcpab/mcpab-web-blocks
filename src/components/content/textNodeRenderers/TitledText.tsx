@@ -1,7 +1,7 @@
 import { SxProps, Theme } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { StandardStack } from 'src/components/styled';
-import { SubsubsectionTitleLabel } from 'src/components/typography';
+import { StandardStack } from '../../styled';
+import { SubsubsectionTitleLabel } from '../../typography';
 
 /**
  * Props for the `TitledText` renderer.

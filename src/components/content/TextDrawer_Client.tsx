@@ -2,7 +2,7 @@
 
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import React from 'react';
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
 import { TextDrawerElement, TextDrawerElementUI } from './TextDrawerTypes';
  
 import { TextTreeRendererContext, TextTreeRendererContextType } from './TextTreeRenderContext';

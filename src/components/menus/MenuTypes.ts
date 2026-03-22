@@ -1,4 +1,4 @@
-import { StratifyPayload } from 'src/core/hierarchy/D3StratifyTypes';
+import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
 import { LinkTypeComponent } from '../../core/link';
 
 /** Data payload for a single menu node. Stored in the hierarchy tree. */

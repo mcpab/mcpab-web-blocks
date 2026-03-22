@@ -2,7 +2,7 @@ import * as React from 'react';
 import Section from '../../components/Section';
 import BlockCarousel, { CarouselProps } from './BlockCarousel';
 import type { SectionSize } from '../../design/sectionTokens';
-import { ImageComponentLike } from 'src/core/image/image-types';
+import { ImageComponentLike } from '../../core/image/image-types';
 
 /** Props for {@link BannerCarousel}. */
 export type BannerCarouselProps = {

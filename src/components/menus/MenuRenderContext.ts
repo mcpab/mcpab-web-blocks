@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { LinkTypeComponent } from 'src/core/link';
+import { LinkTypeComponent } from '../../core/link';
 import type { MegaMenuPolicy, RowPolicy } from './RowPolicyTypes';
 
 /**

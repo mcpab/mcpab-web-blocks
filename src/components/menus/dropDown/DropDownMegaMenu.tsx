@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { ElementButton } from '../ElementButton';
 import { useMenuRenderContext } from '../MenuRenderContext';
-import { LinkTypeComponent } from 'src/core/link';
+import { LinkTypeComponent } from '../../../core/link';
 import { standardMegaMenuPolicy } from './defaultMegaMenuPolicy';
 
 /** @internal Props for {@link DropDownMegaMenu}. */
