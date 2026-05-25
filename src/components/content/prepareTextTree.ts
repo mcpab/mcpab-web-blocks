@@ -3,11 +3,11 @@ import { sortD3Stratify } from '../../core/hierarchy/sortD3Stratify';
 
 import { buildTreeFromStratify } from '../../core/hierarchy/buildTreeFromStratify';
 import { convertToD3Stratify } from '../../core/hierarchy/convertToD3Stratify';
-import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
-import { HierarchyIssue } from '../../core/hierarchy/hierarchyErrorShape';
-import { PayloadMap } from '../../core/hierarchy/hierarchyTypes';
-import { HierachyToTextDrawerProps } from './hierarchyToTextDrawerProps';
-import {
+import type { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
+import type { HierarchyIssue } from '../../core/hierarchy/hierarchyErrorShape';
+import type { PayloadMap } from '../../core/hierarchy/hierarchyTypes';
+import type { HierachyToTextDrawerProps } from './hierarchyToTextDrawerProps';
+import type {
   TextDrawerElement,
   TextDrawerElementUI
 } from './TextDrawerTypes';

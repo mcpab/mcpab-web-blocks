@@ -7,9 +7,9 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { StaticImageDataLike } from '../../../../core/image/image-types';
+import type { StaticImageDataLike } from '../../../../core/image/image-types';
 import Container from '@mui/material/Container';
-import { BackgroundBoxProps } from '../../BackgroundBox';
+import type { BackgroundBoxProps } from '../../BackgroundBox';
 import { SubsubsectionTitle } from '../../../typography';
 
 /**

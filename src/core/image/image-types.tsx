@@ -92,6 +92,12 @@ export function toImgAttrs(p: UniversalImageProps): React.ImgHTMLAttributes<HTML
 
     ...rest
   } = p;
+  void fill;
+  void sizes;
+  void placeholder;
+  void priority;
+  void quality;
+  void unoptimized;
 
   const { src, width, height } = resolveImageSource({ src: _src, width: _w, height: _h });
 

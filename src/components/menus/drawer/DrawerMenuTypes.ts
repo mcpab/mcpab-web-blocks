@@ -1,6 +1,6 @@
-import { MenuPropsRendering } from '../MenuTypes';
-import { Theme } from '@emotion/react';
-import { SxProps } from '@mui/system';
+import type { MenuPropsRendering } from '../MenuTypes';
+import type { Theme } from '@emotion/react';
+import type { SxProps } from '@mui/system';
 
 /**
  * Props for the {@link DrawerMenu} component.

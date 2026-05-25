@@ -1,18 +1,18 @@
 import type { Story } from '@ladle/react';
-import {
+import type {
   HierarchyTree,
   HierarchyTreeOverrides
 } from '../../core/hierarchy/hierarchyTypes';
 import { hierarchyToTextDrawerProps } from './hierarchyToTextDrawerProps';
 import TextDrawer from './TextDrawer';
-import {
+import type {
   RootTextElement,
   RootTextElementUI,
   TextDrawerElementUI
 } from './TextDrawerTypes';
 
-import { DefaultRendersRegistry } from './textNodeRenderers/defaultTextPolicyRegister';
-import { Payload_Rg } from './textNodeRenderers/rendersRegistryTypes';
+import type { DefaultRendersRegistry } from './textNodeRenderers/defaultTextPolicyRegister';
+import type { Payload_Rg } from './textNodeRenderers/rendersRegistryTypes';
 /**
  * FAQ accordion — 3 levels of depth to show indent policy.
  *

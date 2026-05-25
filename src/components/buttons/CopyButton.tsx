@@ -15,7 +15,11 @@
 
 'use client';
 import * as React from 'react';
-import { Button, type ButtonProps, Snackbar, Alert, Tooltip } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import type { ButtonProps } from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Tooltip from '@mui/material/Tooltip';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -30,11 +34,11 @@ export interface CopyButtonProps extends Omit<ButtonProps, 'onClick' | 'onCopy'>
 
 const CopyButton: React.FC<CopyButtonProps> = ({
   text,
-  successMessage = "Copied to clipboard!",
+  successMessage = 'Copied to clipboard!',
   showTooltip = true,
   iconOnly = false,
   onCopy,
-  children = "Copy",
+  children = 'Copy',
   sx,
   ...rest
 }) => {
@@ -47,13 +51,13 @@ const CopyButton: React.FC<CopyButtonProps> = ({
       setShowSuccess(true);
       setJustCopied(true);
       onCopy?.(true);
-      
+
       // Reset icon after 2 seconds
       setTimeout(() => setJustCopied(false), 2000);
     } catch (error) {
       console.error('Copy failed:', error);
       onCopy?.(false);
-      
+
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
       textArea.value = text;
@@ -74,11 +78,11 @@ const CopyButton: React.FC<CopyButtonProps> = ({
 
   const getButtonContent = () => {
     const icon = justCopied ? <CheckIcon /> : <ContentCopyIcon />;
-    
+
     if (iconOnly) {
       return icon;
     }
-    
+
     return (
       <>
         {icon}
@@ -90,24 +94,27 @@ const CopyButton: React.FC<CopyButtonProps> = ({
   const button = (
     <Button
       onClick={handleCopy}
-      startIcon={iconOnly ? undefined : (justCopied ? <CheckIcon /> : <ContentCopyIcon />)}
+      startIcon={iconOnly ? undefined : justCopied ? <CheckIcon /> : <ContentCopyIcon />}
       sx={{
         minWidth: iconOnly ? 'auto' : undefined,
         color: justCopied ? 'success.main' : undefined,
-        ...sx
+        ...sx,
       }}
       aria-label={iconOnly ? `Copy ${text}` : undefined}
       {...rest}
     >
-      {iconOnly ? getButtonContent() : (justCopied ? 'Copied!' : children)}
+      {iconOnly ? getButtonContent() : justCopied ? 'Copied!' : children}
     </Button>
   );
 
-  const wrappedButton = showTooltip && iconOnly ? (
-    <Tooltip title={`Copy: ${text.length > 50 ? text.substring(0, 50) + '...' : text}`}>
-      {button}
-    </Tooltip>
-  ) : button;
+  const wrappedButton =
+    showTooltip && iconOnly ? (
+      <Tooltip title={`Copy: ${text.length > 50 ? text.substring(0, 50) + '...' : text}`}>
+        {button}
+      </Tooltip>
+    ) : (
+      button
+    );
 
   return (
     <>

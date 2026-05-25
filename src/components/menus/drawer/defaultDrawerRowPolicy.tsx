@@ -1,5 +1,5 @@
 import IconPicker from '../../../lib/icon/IconPicker';
-import { MenuLabelTypographyProps, RowPlan, RowPolicy, RowPolicyProps } from '../RowPolicyTypes';
+import type { MenuLabelTypographyProps, RowPlan, RowPolicy, RowPolicyProps } from '../RowPolicyTypes';
 
 import { safeTitleCase } from '../../../lib/utils';
 
@@ -38,7 +38,6 @@ export const defaultDrawerRowPolicy = ({
   return ({
     depth,
     menuTreeElement,
-    menuTreeElementUI,
     isOpen,
     isSelected,
     isAncestorSelected,

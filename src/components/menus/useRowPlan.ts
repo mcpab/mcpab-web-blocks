@@ -1,14 +1,14 @@
-import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
+import type { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
 import { useMenuDepthContext } from './MenuDepthContext';
 import { useMenuRenderContext } from './MenuRenderContext';
 import { useMenuSelectorContext } from './MenuSelectorContext';
-import { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
-import { RowPlan } from './RowPolicyTypes';
+import type { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
+import type { RowPlan } from './RowPolicyTypes';
 
 /** @internal Props for {@link useRowPlan}. */
 export type UseRowPlanProps = {
   id: string;
-  node: MenuTreeElement;
+  node: MenuTreeElement|null;
   children: Record<string, StratifyPayload<MenuTreeElement, MenuTreeElementUI>> | undefined;
   overrides: MenuTreeElementUI | undefined;
 };
@@ -28,7 +28,8 @@ export function useRowPlan({ id, node, children, overrides }: UseRowPlanProps): 
   rowPlan: RowPlan;
   depth: number;
   hasChildren: boolean;
-} {
+} |null  {
+
   const { isSelected, isAncestorSelected } = useMenuSelectorContext();
   const hasChildren = children !== undefined && Object.keys(children).length > 0;
   const { depth } = useMenuDepthContext();
@@ -36,6 +37,8 @@ export function useRowPlan({ id, node, children, overrides }: UseRowPlanProps): 
   const isAncestorSelectedNode = isAncestorSelected(id);
   const { rowPolicy } = useMenuRenderContext();
 
+  if(node===null) return null;
+  
   const rowPlan = rowPolicy({
     depth,
     menuTreeElement: node,

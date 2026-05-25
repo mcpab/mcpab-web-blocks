@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { StandardStack } from '../../styled';
 import { SubsectionTitle, SubsubsectionTitle } from '../../typography';
 
@@ -40,7 +40,7 @@ export type TitleAndSubStdProps = {
  */
 export function TitleAndSubStd({ title, subtitle, indicator, onClick }: TitleAndSubStdProps) {
   return (
-   <Box onClick={onClick} display="flex" justifyContent="space-between"  >
+    <Box onClick={onClick} display="flex" justifyContent="space-between">
       <StandardStack size="compact">
         <SubsectionTitle>{title}</SubsectionTitle>
         {subtitle && <SubsubsectionTitle>{subtitle}</SubsubsectionTitle>}

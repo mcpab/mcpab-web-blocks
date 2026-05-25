@@ -9,8 +9,9 @@
  * - cycle detection
  * - ensuring at least one node attaches to `"root"`
  */
-import { HIERARCHY_ERROR_CODE, HierarchyIssue } from './hierarchyErrorShape';
-import { HierarchyRelations, HierarchyTree } from './hierarchyTypes';
+import type { HierarchyIssue } from './hierarchyErrorShape';
+import { HIERARCHY_ERROR_CODE } from './hierarchyErrorShape';
+import type { HierarchyRelations, HierarchyTree } from './hierarchyTypes';
 
 /**
  * Result of {@link resolver}.
@@ -48,7 +49,7 @@ export type ResolverReturn<H extends HierarchyTree<any, any>> =
  */
 export function resolver<H extends HierarchyTree<any, any>>(hierarchyTree: H): ResolverReturn<H> {
   //
-  let issues: HierarchyIssue[] = [];
+  const issues: HierarchyIssue[] = [];
 
   let hasUndefinedElements = false;
   let hasMissingParents = false;

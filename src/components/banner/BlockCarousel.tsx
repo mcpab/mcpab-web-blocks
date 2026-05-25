@@ -1,7 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { BoxProps } from '@mui/material/Box';
-import Container, { ContainerProps } from '@mui/material/Container';
+import type { BoxProps } from '@mui/material/Box';
+import type { ContainerProps } from '@mui/material/Container';
+import Container from '@mui/material/Container';
 import DynamicTransition from './DynamicTransition';
 import type { StaticImageDataLike, ImageComponentLike } from '../../core/image/image-types';
 import BackgroundBox from '../layout/BackgroundBox';
@@ -107,7 +108,7 @@ const BlockCarousel: React.FC<CarouselConfig> = ({
         />
       );
     });
-  }, [images, overlayColor, preloadFirst]);
+  }, [images, overlayColor, preloadFirst,ImageComponent]);
 
   return (
     <Box

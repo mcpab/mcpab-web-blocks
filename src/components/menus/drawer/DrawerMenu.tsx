@@ -1,14 +1,16 @@
 'use client';
 
 import { useMemo } from 'react';
-import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
+import type { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 import { MenuControllerContext } from '../MenuControllerContext';
 import { MenuSelectorContext } from '../MenuSelectorContext';
-import { createMenuStore, MenuState } from '../menuStore';
-import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
+import type { MenuState } from '../menuStore';
+import { createMenuStore } from '../menuStore';
+import type { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { DrawerMenu_Client } from './DrawerMenu_Client';
-import { getSelectors, IsSelectedMenuElement } from './pathSelectors';
-import { DrawerMenuPropsRendering } from './DrawerMenuTypes';
+import type { IsSelectedMenuElement } from './pathSelectors';
+import { getSelectors } from './pathSelectors';
+import type { DrawerMenuPropsRendering } from './DrawerMenuTypes';
 
 /** Props for the public {@link DrawerMenu} component. */
 export type DrawerMenuProps = DrawerMenuPropsRendering & {
@@ -75,7 +77,7 @@ export function DrawerMenu({
     populateInitialStoreState(treeFromRoot, initialStoreState, selectors.selectedPathIds);
     initialStoreState['root'] = false;
     return createMenuStore(initialStoreState);
-  }, [treeFromRoot]);
+  }, [treeFromRoot,selectors.selectedPathIds]);
 
   return (
     <MenuSelectorContext.Provider value={selectors}>

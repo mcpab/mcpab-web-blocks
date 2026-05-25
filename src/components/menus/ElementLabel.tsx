@@ -2,7 +2,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 
-import { MenuLabelTypographyProps } from './RowPolicyTypes';
+import type { MenuLabelTypographyProps } from './RowPolicyTypes';
 
 /** @internal Props for {@link ElementLabel}. */
 export type ElementLabelProps = {

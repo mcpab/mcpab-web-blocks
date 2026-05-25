@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import SubscribeButton from "./SubscribeButton";
 
 const mockSubscribe = async (email: string) => {
-  // eslint-disable-next-line no-console
+   
   console.log("[mockSubscribe]", email);
   await new Promise((r) => setTimeout(r, 600));
   return email.includes("@");

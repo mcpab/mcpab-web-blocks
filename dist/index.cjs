@@ -3,16 +3,18 @@
 var Box3 = require('@mui/material/Box');
 var styles = require('@mui/material/styles');
 var jsxRuntime = require('react/jsx-runtime');
-var React24 = require('react');
+var React22 = require('react');
 var Container = require('@mui/material/Container');
 var Fade = require('@mui/material/Fade');
 var Stack = require('@mui/material/Stack');
 var Typography9 = require('@mui/material/Typography');
-var Button8 = require('@mui/material/Button');
+var Button6 = require('@mui/material/Button');
 var PhoneIcon = require('@mui/icons-material/Phone');
-var material = require('@mui/material');
+var CircularProgress2 = require('@mui/material/CircularProgress');
 var CheckCircleIcon = require('@mui/icons-material/CheckCircle');
 var colors = require('@mui/material/colors');
+var Chip = require('@mui/material/Chip');
+var LinearProgress = require('@mui/material/LinearProgress');
 var DownloadIcon = require('@mui/icons-material/Download');
 var PictureAsPdfIcon = require('@mui/icons-material/PictureAsPdf');
 var DescriptionIcon = require('@mui/icons-material/Description');
@@ -31,10 +33,19 @@ var WhatsAppIcon = require('@mui/icons-material/WhatsApp');
 var EmailIcon = require('@mui/icons-material/Email');
 var ShareIcon = require('@mui/icons-material/Share');
 var ArrowBackIcon = require('@mui/icons-material/ArrowBack');
+var Alert2 = require('@mui/material/Alert');
+var ListItemIcon = require('@mui/material/ListItemIcon');
+var ListItemText = require('@mui/material/ListItemText');
+var Menu = require('@mui/material/Menu');
+var MenuItem = require('@mui/material/MenuItem');
+var Snackbar2 = require('@mui/material/Snackbar');
 var ContentCopyIcon2 = require('@mui/icons-material/ContentCopy');
 var CheckIcon2 = require('@mui/icons-material/Check');
+var TextField = require('@mui/material/TextField');
 var MailOutlineIcon = require('@mui/icons-material/MailOutline');
 var CalendarTodayIcon = require('@mui/icons-material/CalendarToday');
+var IconButton = require('@mui/material/IconButton');
+var Tooltip = require('@mui/material/Tooltip');
 var FavoriteIcon = require('@mui/icons-material/Favorite');
 var FavoriteBorderIcon = require('@mui/icons-material/FavoriteBorder');
 var BookmarkIcon = require('@mui/icons-material/Bookmark');
@@ -42,12 +53,16 @@ var BookmarkBorderIcon = require('@mui/icons-material/BookmarkBorder');
 var ThumbUpIcon = require('@mui/icons-material/ThumbUp');
 var ThumbUpOutlinedIcon = require('@mui/icons-material/ThumbUpOutlined');
 var Paper = require('@mui/material/Paper');
-var iconsMaterial = require('@mui/icons-material');
-var MuiLink3 = require('@mui/material/Link');
+var ExpandLess = require('@mui/icons-material/ExpandLess');
+var ExpandMore = require('@mui/icons-material/ExpandMore');
+var Collapse = require('@mui/material/Collapse');
+var MuiLink2 = require('@mui/material/Link');
 var d3Hierarchy = require('d3-hierarchy');
 var gridcss = require('@mcpab/gridcss');
 var system = require('@mui/system');
-var MuiBreadcrumbs = require('@mui/material/Breadcrumbs');
+var MenuIcon = require('@mui/icons-material/Menu');
+var Drawer = require('@mui/material/Drawer');
+var List = require('@mui/material/List');
 var HomeIcon = require('@mui/icons-material/Home');
 var SettingsIcon = require('@mui/icons-material/Settings');
 var AccountCircleIcon = require('@mui/icons-material/AccountCircle');
@@ -60,22 +75,14 @@ var LoginIcon = require('@mui/icons-material/Login');
 var InfoIcon = require('@mui/icons-material/Info');
 var PeopleIcon = require('@mui/icons-material/People');
 var PrivacyTipIcon = require('@mui/icons-material/PrivacyTip');
-var ExpandLess2 = require('@mui/icons-material/ExpandLess');
-var ExpandMore2 = require('@mui/icons-material/ExpandMore');
-var MenuIcon = require('@mui/icons-material/Menu');
-var IconButton2 = require('@mui/material/IconButton');
 var Divider = require('@mui/material/Divider');
-var Collapse2 = require('@mui/material/Collapse');
-var List = require('@mui/material/List');
 var ListItem = require('@mui/material/ListItem');
 var ListItemButton = require('@mui/material/ListItemButton');
-var ListItemIcon2 = require('@mui/material/ListItemIcon');
-var ListItemText2 = require('@mui/material/ListItemText');
-var ChevronRightIcon = require('@mui/icons-material/ChevronRight');
-var Popover = require('@mui/material/Popover');
+var MuiBreadcrumbs = require('@mui/material/Breadcrumbs');
 var AppBar = require('@mui/material/AppBar');
 var Toolbar = require('@mui/material/Toolbar');
-var TextField2 = require('@mui/material/TextField');
+var ChevronRightIcon = require('@mui/icons-material/ChevronRight');
+var Popover = require('@mui/material/Popover');
 var Grid = require('@mui/material/Grid');
 var Modal = require('@mui/material/Modal');
 var Avatar = require('@mui/material/Avatar');
@@ -101,14 +108,17 @@ function _interopNamespace(e) {
 }
 
 var Box3__default = /*#__PURE__*/_interopDefault(Box3);
-var React24__namespace = /*#__PURE__*/_interopNamespace(React24);
+var React22__namespace = /*#__PURE__*/_interopNamespace(React22);
 var Container__default = /*#__PURE__*/_interopDefault(Container);
 var Fade__default = /*#__PURE__*/_interopDefault(Fade);
 var Stack__default = /*#__PURE__*/_interopDefault(Stack);
 var Typography9__default = /*#__PURE__*/_interopDefault(Typography9);
-var Button8__default = /*#__PURE__*/_interopDefault(Button8);
+var Button6__default = /*#__PURE__*/_interopDefault(Button6);
 var PhoneIcon__default = /*#__PURE__*/_interopDefault(PhoneIcon);
+var CircularProgress2__default = /*#__PURE__*/_interopDefault(CircularProgress2);
 var CheckCircleIcon__default = /*#__PURE__*/_interopDefault(CheckCircleIcon);
+var Chip__default = /*#__PURE__*/_interopDefault(Chip);
+var LinearProgress__default = /*#__PURE__*/_interopDefault(LinearProgress);
 var DownloadIcon__default = /*#__PURE__*/_interopDefault(DownloadIcon);
 var PictureAsPdfIcon__default = /*#__PURE__*/_interopDefault(PictureAsPdfIcon);
 var DescriptionIcon__default = /*#__PURE__*/_interopDefault(DescriptionIcon);
@@ -127,10 +137,19 @@ var WhatsAppIcon__default = /*#__PURE__*/_interopDefault(WhatsAppIcon);
 var EmailIcon__default = /*#__PURE__*/_interopDefault(EmailIcon);
 var ShareIcon__default = /*#__PURE__*/_interopDefault(ShareIcon);
 var ArrowBackIcon__default = /*#__PURE__*/_interopDefault(ArrowBackIcon);
+var Alert2__default = /*#__PURE__*/_interopDefault(Alert2);
+var ListItemIcon__default = /*#__PURE__*/_interopDefault(ListItemIcon);
+var ListItemText__default = /*#__PURE__*/_interopDefault(ListItemText);
+var Menu__default = /*#__PURE__*/_interopDefault(Menu);
+var MenuItem__default = /*#__PURE__*/_interopDefault(MenuItem);
+var Snackbar2__default = /*#__PURE__*/_interopDefault(Snackbar2);
 var ContentCopyIcon2__default = /*#__PURE__*/_interopDefault(ContentCopyIcon2);
 var CheckIcon2__default = /*#__PURE__*/_interopDefault(CheckIcon2);
+var TextField__default = /*#__PURE__*/_interopDefault(TextField);
 var MailOutlineIcon__default = /*#__PURE__*/_interopDefault(MailOutlineIcon);
 var CalendarTodayIcon__default = /*#__PURE__*/_interopDefault(CalendarTodayIcon);
+var IconButton__default = /*#__PURE__*/_interopDefault(IconButton);
+var Tooltip__default = /*#__PURE__*/_interopDefault(Tooltip);
 var FavoriteIcon__default = /*#__PURE__*/_interopDefault(FavoriteIcon);
 var FavoriteBorderIcon__default = /*#__PURE__*/_interopDefault(FavoriteBorderIcon);
 var BookmarkIcon__default = /*#__PURE__*/_interopDefault(BookmarkIcon);
@@ -138,8 +157,13 @@ var BookmarkBorderIcon__default = /*#__PURE__*/_interopDefault(BookmarkBorderIco
 var ThumbUpIcon__default = /*#__PURE__*/_interopDefault(ThumbUpIcon);
 var ThumbUpOutlinedIcon__default = /*#__PURE__*/_interopDefault(ThumbUpOutlinedIcon);
 var Paper__default = /*#__PURE__*/_interopDefault(Paper);
-var MuiLink3__default = /*#__PURE__*/_interopDefault(MuiLink3);
-var MuiBreadcrumbs__default = /*#__PURE__*/_interopDefault(MuiBreadcrumbs);
+var ExpandLess__default = /*#__PURE__*/_interopDefault(ExpandLess);
+var ExpandMore__default = /*#__PURE__*/_interopDefault(ExpandMore);
+var Collapse__default = /*#__PURE__*/_interopDefault(Collapse);
+var MuiLink2__default = /*#__PURE__*/_interopDefault(MuiLink2);
+var MenuIcon__default = /*#__PURE__*/_interopDefault(MenuIcon);
+var Drawer__default = /*#__PURE__*/_interopDefault(Drawer);
+var List__default = /*#__PURE__*/_interopDefault(List);
 var HomeIcon__default = /*#__PURE__*/_interopDefault(HomeIcon);
 var SettingsIcon__default = /*#__PURE__*/_interopDefault(SettingsIcon);
 var AccountCircleIcon__default = /*#__PURE__*/_interopDefault(AccountCircleIcon);
@@ -152,22 +176,14 @@ var LoginIcon__default = /*#__PURE__*/_interopDefault(LoginIcon);
 var InfoIcon__default = /*#__PURE__*/_interopDefault(InfoIcon);
 var PeopleIcon__default = /*#__PURE__*/_interopDefault(PeopleIcon);
 var PrivacyTipIcon__default = /*#__PURE__*/_interopDefault(PrivacyTipIcon);
-var ExpandLess2__default = /*#__PURE__*/_interopDefault(ExpandLess2);
-var ExpandMore2__default = /*#__PURE__*/_interopDefault(ExpandMore2);
-var MenuIcon__default = /*#__PURE__*/_interopDefault(MenuIcon);
-var IconButton2__default = /*#__PURE__*/_interopDefault(IconButton2);
 var Divider__default = /*#__PURE__*/_interopDefault(Divider);
-var Collapse2__default = /*#__PURE__*/_interopDefault(Collapse2);
-var List__default = /*#__PURE__*/_interopDefault(List);
 var ListItem__default = /*#__PURE__*/_interopDefault(ListItem);
 var ListItemButton__default = /*#__PURE__*/_interopDefault(ListItemButton);
-var ListItemIcon2__default = /*#__PURE__*/_interopDefault(ListItemIcon2);
-var ListItemText2__default = /*#__PURE__*/_interopDefault(ListItemText2);
-var ChevronRightIcon__default = /*#__PURE__*/_interopDefault(ChevronRightIcon);
-var Popover__default = /*#__PURE__*/_interopDefault(Popover);
+var MuiBreadcrumbs__default = /*#__PURE__*/_interopDefault(MuiBreadcrumbs);
 var AppBar__default = /*#__PURE__*/_interopDefault(AppBar);
 var Toolbar__default = /*#__PURE__*/_interopDefault(Toolbar);
-var TextField2__default = /*#__PURE__*/_interopDefault(TextField2);
+var ChevronRightIcon__default = /*#__PURE__*/_interopDefault(ChevronRightIcon);
+var Popover__default = /*#__PURE__*/_interopDefault(Popover);
 var Grid__default = /*#__PURE__*/_interopDefault(Grid);
 var Modal__default = /*#__PURE__*/_interopDefault(Modal);
 var Avatar__default = /*#__PURE__*/_interopDefault(Avatar);
@@ -376,30 +392,10 @@ var BannerStatic = ({
     }
   );
 };
-var BannerStatic_default = React24__namespace.memo(BannerStatic);
-var FrameArray = class {
-  constructor(frames, startIndex = 0) {
-    this.fadeInKey = 0;
-    this.fadeOutKey = 0;
-    const normalized = Math.max(0, Math.min(startIndex, Math.max(frames.length - 1, 0)));
-    this.frames = frames.map((frame, index) => ({ frame, key: index }));
-    this.fadeInKey = normalized;
-    this.fadeOutKey = normalized;
-  }
-  iterateFrame() {
-    this.fadeOutKey = this.fadeInKey;
-    const len = this.frames.length || 1;
-    this.fadeInKey = (this.fadeInKey + 1) % len;
-  }
-  getFadeInFrame() {
-    var _a;
-    return { key: this.fadeInKey, frame: (_a = this.frames[this.fadeInKey]) == null ? void 0 : _a.frame };
-  }
-  getFadeOutFrame() {
-    var _a;
-    return { key: this.fadeOutKey, frame: (_a = this.frames[this.fadeOutKey]) == null ? void 0 : _a.frame };
-  }
-};
+var BannerStatic_default = React22__namespace.memo(BannerStatic);
+function clampFrameIndex(index, length) {
+  return Math.max(0, Math.min(index, Math.max(length - 1, 0)));
+}
 var DynamicTransition = ({
   frames,
   interval = 2e3,
@@ -407,25 +403,53 @@ var DynamicTransition = ({
   startIndex = 0,
   boxProps
 }) => {
-  var _a, _b;
-  const faRef = React24__namespace.useRef(new FrameArray(frames != null ? frames : [], startIndex));
-  const [tick, setTick] = React24__namespace.useState(0);
-  React24__namespace.useEffect(() => {
-    faRef.current = new FrameArray(frames != null ? frames : [], startIndex);
-    setTick(0);
-  }, [frames, startIndex]);
-  React24__namespace.useEffect(() => {
-    var _a2;
-    const hasCycle = ((_a2 = frames == null ? void 0 : frames.length) != null ? _a2 : 0) >= 2;
+  const frameItems = React22__namespace.useMemo(
+    () => (frames != null ? frames : []).map((frame, index) => ({ frame, key: index })),
+    [frames]
+  );
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    DynamicTransitionInner,
+    {
+      frameItems,
+      interval,
+      transitionDuration,
+      startIndex,
+      boxProps
+    },
+    `${frameItems.length}:${startIndex}`
+  );
+};
+function DynamicTransitionInner({
+  frameItems,
+  interval = 2e3,
+  transitionDuration = 1e3,
+  startIndex = 0,
+  boxProps
+}) {
+  var _a;
+  const initialIndex = clampFrameIndex(startIndex, frameItems.length);
+  const [transitionState, setTransitionState] = React22__namespace.useState({
+    activeIndex: initialIndex,
+    previousIndex: initialIndex,
+    hasTransitioned: false
+  });
+  React22__namespace.useEffect(() => {
+    const hasCycle = frameItems.length >= 2;
     if (!hasCycle) return;
     const period = Math.max(0, interval) + Math.max(0, transitionDuration);
     const id = window.setInterval(() => {
-      faRef.current.iterateFrame();
-      setTick((t) => t + 1);
+      setTransitionState((current) => {
+        const nextIndex = (current.activeIndex + 1) % frameItems.length;
+        return {
+          activeIndex: nextIndex,
+          previousIndex: current.activeIndex,
+          hasTransitioned: true
+        };
+      });
     }, period);
     return () => window.clearInterval(id);
-  }, [frames, interval, transitionDuration]);
-  const len = (_a = frames == null ? void 0 : frames.length) != null ? _a : 0;
+  }, [frameItems.length, interval, transitionDuration]);
+  const len = frameItems.length;
   if (len === 0) return null;
   if (len === 1) {
     return /* @__PURE__ */ jsxRuntime.jsx(
@@ -433,25 +457,25 @@ var DynamicTransition = ({
       {
         ...boxProps,
         sx: { position: "relative", inset: 0, width: "100%", height: "100%", ...(boxProps == null ? void 0 : boxProps.sx) || {} },
-        children: /* @__PURE__ */ jsxRuntime.jsx("div", { style: { position: "absolute", inset: 0 }, children: frames[0] })
+        children: /* @__PURE__ */ jsxRuntime.jsx("div", { style: { position: "absolute", inset: 0 }, children: (_a = frameItems[0]) == null ? void 0 : _a.frame })
       }
     );
   }
-  const inFrame = faRef.current.getFadeInFrame();
-  const outFrame = faRef.current.getFadeOutFrame();
+  const inFrame = frameItems[transitionState.activeIndex];
+  const outFrame = frameItems[transitionState.previousIndex];
   return /* @__PURE__ */ jsxRuntime.jsx(
     Box3__default.default,
     {
       ...boxProps,
       sx: { position: "relative", inset: 0, width: "100%", height: "100%", ...(boxProps == null ? void 0 : boxProps.sx) || {} },
-      children: tick === 0 ? /* @__PURE__ */ jsxRuntime.jsx("div", { style: { position: "absolute", inset: 0 }, children: (_b = faRef.current.frames[Math.max(0, Math.min(startIndex, len - 1))]) == null ? void 0 : _b.frame }) : /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
-        /* @__PURE__ */ jsxRuntime.jsx(Fade__default.default, { in: false, timeout: transitionDuration, children: /* @__PURE__ */ jsxRuntime.jsx("div", { style: { position: "absolute", inset: 0, willChange: "opacity" }, children: outFrame.frame }) }, `out-${outFrame.key}`),
-        /* @__PURE__ */ jsxRuntime.jsx(Fade__default.default, { in: true, timeout: transitionDuration, children: /* @__PURE__ */ jsxRuntime.jsx("div", { style: { position: "absolute", inset: 0, willChange: "opacity" }, children: inFrame.frame }) }, `in-${inFrame.key}`)
+      children: !transitionState.hasTransitioned ? /* @__PURE__ */ jsxRuntime.jsx("div", { style: { position: "absolute", inset: 0 }, children: inFrame == null ? void 0 : inFrame.frame }) : /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntime.jsx(Fade__default.default, { in: false, timeout: transitionDuration, children: /* @__PURE__ */ jsxRuntime.jsx("div", { style: { position: "absolute", inset: 0, willChange: "opacity" }, children: outFrame == null ? void 0 : outFrame.frame }) }, `out-${outFrame == null ? void 0 : outFrame.key}`),
+        /* @__PURE__ */ jsxRuntime.jsx(Fade__default.default, { in: true, timeout: transitionDuration, children: /* @__PURE__ */ jsxRuntime.jsx("div", { style: { position: "absolute", inset: 0, willChange: "opacity" }, children: inFrame == null ? void 0 : inFrame.frame }) }, `in-${inFrame == null ? void 0 : inFrame.key}`)
       ] })
     }
   );
-};
-var DynamicTransition_default = React24__namespace.memo(DynamicTransition);
+}
+var DynamicTransition_default = React22__namespace.memo(DynamicTransition);
 var BlockCarousel = ({
   config,
   children,
@@ -468,7 +492,7 @@ var BlockCarousel = ({
   } = config || {};
   const interval = intervalProp != null ? intervalProp : 5e3;
   const { sx: rootSx, ...restRoot } = rootProps != null ? rootProps : {};
-  const frames = React24__namespace.useMemo(() => {
+  const frames = React22__namespace.useMemo(() => {
     return images.map((img, i) => {
       const { transform, image, objectPosition } = img;
       return /* @__PURE__ */ jsxRuntime.jsx(
@@ -491,7 +515,7 @@ var BlockCarousel = ({
         i
       );
     });
-  }, [images, overlayColor, preloadFirst]);
+  }, [images, overlayColor, preloadFirst, ImageComponent]);
   return /* @__PURE__ */ jsxRuntime.jsxs(
     Box3__default.default,
     {
@@ -549,7 +573,7 @@ var BlockCarousel = ({
     }
   );
 };
-var BlockCarousel_default = React24__namespace.memo(BlockCarousel);
+var BlockCarousel_default = React22__namespace.memo(BlockCarousel);
 var BannerCarousel = ({
   images,
   id,
@@ -576,7 +600,7 @@ var BannerCarousel = ({
     }
   );
 };
-var BannerCarousel_default = React24__namespace.memo(BannerCarousel);
+var BannerCarousel_default = React22__namespace.memo(BannerCarousel);
 var variantLevels = {
   page: "h1",
   section: "h2",
@@ -621,8 +645,8 @@ var MainTitle = ({
     return /* @__PURE__ */ jsxRuntime.jsx(Component, { ...componentProps, children: content }, `main-title-${index}`);
   }) });
 };
-var MainTitle_default = React24__namespace.memo(MainTitle);
-var TouchButton = styles.styled(Button8__default.default)(({ theme }) => ({
+var MainTitle_default = React22__namespace.memo(MainTitle);
+var TouchButton = styles.styled(Button6__default.default)(({ theme }) => ({
   textTransform: "none",
   borderRadius: theme.shape.borderRadius,
   paddingInline: theme.spacing(2),
@@ -652,6 +676,27 @@ var ActionButton = ({ icon, href, ...rest }) => {
 var ActionButton_default = ActionButton;
 var GetInTouch = () => /* @__PURE__ */ jsxRuntime.jsx(ActionButton_default, { icon: /* @__PURE__ */ jsxRuntime.jsx(PhoneIcon__default.default, {}), href: "/contact", size: "small", children: "Get In Touch" });
 var GetInTouch_default = GetInTouch;
+function SuccessButtonContent({
+  successDuration,
+  successText,
+  children,
+  fallback
+}) {
+  const [visible, setVisible] = React22__namespace.useState(true);
+  React22__namespace.useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setVisible(false);
+    }, successDuration);
+    return () => window.clearTimeout(timer);
+  }, [successDuration]);
+  if (!visible) {
+    return fallback;
+  }
+  return /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
+    /* @__PURE__ */ jsxRuntime.jsx(CheckCircleIcon__default.default, { sx: { color: colors.green[500] } }),
+    successText || children
+  ] });
+}
 var CallToActionButton = ({
   loading = false,
   success = false,
@@ -665,48 +710,44 @@ var CallToActionButton = ({
   onClick,
   ...rest
 }) => {
-  const [showSuccess, setShowSuccess] = React24__namespace.useState(false);
-  React24__namespace.useEffect(() => {
-    if (success) {
-      setShowSuccess(true);
-      const timer = setTimeout(() => {
-        setShowSuccess(false);
-      }, successDuration);
-      return () => clearTimeout(timer);
-    }
-  }, [success, successDuration]);
   const isDisabled = disabled || loading;
   const handleClick = (event) => {
     if (!isDisabled && onClick) {
       onClick(event);
     }
   };
+  const defaultContent = /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
+    startIcon,
+    children,
+    endIcon
+  ] });
   const getButtonContent = () => {
-    if (showSuccess) {
-      return /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
-        /* @__PURE__ */ jsxRuntime.jsx(CheckCircleIcon__default.default, { sx: { color: colors.green[500] } }),
-        successText || children
-      ] });
+    if (success) {
+      return /* @__PURE__ */ jsxRuntime.jsx(
+        SuccessButtonContent,
+        {
+          successDuration,
+          successText,
+          fallback: defaultContent,
+          children
+        }
+      );
     }
     if (loading) {
-      return /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
-        /* @__PURE__ */ jsxRuntime.jsx(material.CircularProgress, { size: 20, color: "inherit" }),
+      return /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
+        /* @__PURE__ */ jsxRuntime.jsx(CircularProgress2__default.default, { size: 20, color: "inherit" }),
         loadingText || children
       ] });
     }
-    return /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
-      startIcon,
-      children,
-      endIcon
-    ] });
+    return defaultContent;
   };
   return /* @__PURE__ */ jsxRuntime.jsx(
-    material.Button,
+    Button6__default.default,
     {
       disabled: isDisabled,
       onClick: handleClick,
       "aria-busy": loading,
-      "aria-live": showSuccess ? "polite" : void 0,
+      "aria-live": success ? "polite" : void 0,
       ...rest,
       children: getButtonContent()
     }
@@ -795,9 +836,9 @@ var DownloadButton = ({
   children,
   ...rest
 }) => {
-  const [isDownloading, setIsDownloading] = React24__namespace.useState(false);
-  const [downloadProgress, setDownloadProgress] = React24__namespace.useState(0);
-  const [isComplete, setIsComplete] = React24__namespace.useState(false);
+  const [isDownloading, setIsDownloading] = React22__namespace.useState(false);
+  const [downloadProgress, setDownloadProgress] = React22__namespace.useState(0);
+  const [isComplete, setIsComplete] = React22__namespace.useState(false);
   const detectedFileType = fileType || detectFileType(href);
   const fileIcon = getFileIcon(detectedFileType);
   const isExternal = href.startsWith("http");
@@ -827,16 +868,19 @@ var DownloadButton = ({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      setTimeout(() => {
-        setDownloadProgress(100);
-        setIsDownloading(false);
-        setIsComplete(true);
-        onDownloadComplete == null ? void 0 : onDownloadComplete();
-        setTimeout(() => {
-          setIsComplete(false);
-          setDownloadProgress(0);
-        }, 2e3);
-      }, showProgress ? 1e3 : 500);
+      setTimeout(
+        () => {
+          setDownloadProgress(100);
+          setIsDownloading(false);
+          setIsComplete(true);
+          onDownloadComplete == null ? void 0 : onDownloadComplete();
+          setTimeout(() => {
+            setIsComplete(false);
+            setDownloadProgress(0);
+          }, 2e3);
+        },
+        showProgress ? 1e3 : 500
+      );
     } catch (error) {
       console.error("Download failed:", error);
       setIsDownloading(false);
@@ -845,18 +889,18 @@ var DownloadButton = ({
   };
   const getButtonContent = () => {
     if (isComplete) {
-      return /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
+      return /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
         /* @__PURE__ */ jsxRuntime.jsx(CheckCircleIcon__default.default, { sx: { color: colors.green[500] } }),
-        /* @__PURE__ */ jsxRuntime.jsx(material.Typography, { variant: "inherit", children: "Downloaded!" })
+        /* @__PURE__ */ jsxRuntime.jsx(Typography9__default.default, { variant: "inherit", children: "Downloaded!" })
       ] });
     }
-    return /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { sx: { display: "flex", alignItems: "center", gap: 1, width: "100%" }, children: [
+    return /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { display: "flex", alignItems: "center", gap: 1, width: "100%" }, children: [
       fileIcon,
-      /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { sx: { flex: 1 }, children: [
-        /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
-          /* @__PURE__ */ jsxRuntime.jsx(material.Typography, { variant: "inherit", children }),
+      /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { flex: 1 }, children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
+          /* @__PURE__ */ jsxRuntime.jsx(Typography9__default.default, { variant: "inherit", children }),
           showFileSize && fileSize && /* @__PURE__ */ jsxRuntime.jsx(
-            material.Chip,
+            Chip__default.default,
             {
               label: fileSize,
               size: "small",
@@ -871,7 +915,7 @@ var DownloadButton = ({
           )
         ] }),
         isDownloading && showProgress && /* @__PURE__ */ jsxRuntime.jsx(
-          material.LinearProgress,
+          LinearProgress__default.default,
           {
             variant: "determinate",
             value: downloadProgress,
@@ -890,7 +934,7 @@ var DownloadButton = ({
     ] });
   };
   return /* @__PURE__ */ jsxRuntime.jsx(
-    material.Button,
+    Button6__default.default,
     {
       onClick: handleDownload,
       disabled: isDownloading,
@@ -1014,13 +1058,13 @@ var SocialButton = ({
   );
 };
 var SocialButton_default = SocialButton;
-var RouterContext = React24__namespace.createContext(null);
+var RouterContext = React22__namespace.createContext(null);
 var RouterProvider = ({ router, children }) => {
   return /* @__PURE__ */ jsxRuntime.jsx(RouterContext.Provider, { value: router, children });
 };
 var useRouter = () => {
-  const contextRouter = React24__namespace.useContext(RouterContext);
-  return React24__namespace.useMemo(() => {
+  const contextRouter = React22__namespace.useContext(RouterContext);
+  return React22__namespace.useMemo(() => {
     if (contextRouter) {
       return contextRouter;
     }
@@ -1092,7 +1136,7 @@ var BackButton = ({
     }
   };
   return /* @__PURE__ */ jsxRuntime.jsx(
-    material.Button,
+    Button6__default.default,
     {
       onClick: handleBack,
       startIcon: showIcon ? /* @__PURE__ */ jsxRuntime.jsx(ArrowBackIcon__default.default, {}) : void 0,
@@ -1151,16 +1195,19 @@ var ShareButton = ({
   children = "Share",
   ...rest
 }) => {
-  const [anchorEl, setAnchorEl] = React24__namespace.useState(null);
-  const [showSuccess, setShowSuccess] = React24__namespace.useState(false);
-  const [successMessage, setSuccessMessage] = React24__namespace.useState("");
-  const shareData = React24__namespace.useMemo(() => ({
-    url: url || (typeof window !== "undefined" ? window.location.href : ""),
-    title: title || (typeof document !== "undefined" ? document.title : ""),
-    text,
-    files
-  }), [url, title, text, files]);
-  const canUseNativeShare = React24__namespace.useMemo(() => {
+  const [anchorEl, setAnchorEl] = React22__namespace.useState(null);
+  const [showSuccess, setShowSuccess] = React22__namespace.useState(false);
+  const [successMessage, setSuccessMessage] = React22__namespace.useState("");
+  const shareData = React22__namespace.useMemo(
+    () => ({
+      url: url || (typeof window !== "undefined" ? window.location.href : ""),
+      title: title || (typeof document !== "undefined" ? document.title : ""),
+      text,
+      files
+    }),
+    [url, title, text, files]
+  );
+  const canUseNativeShare = React22__namespace.useMemo(() => {
     if (typeof navigator === "undefined" || !navigator.share) return false;
     if (files && files.length > 0) {
       return navigator.canShare && navigator.canShare({ files });
@@ -1202,7 +1249,9 @@ var ShareButton = ({
       const shareUrl = config.getUrl(shareData);
       window.open(shareUrl, "_blank", "noopener,noreferrer");
       onShare == null ? void 0 : onShare(true, platform);
-      setSuccessMessage(`Opened ${config.label.replace("Share on ", "").replace("Share via ", "")}`);
+      setSuccessMessage(
+        `Opened ${config.label.replace("Share on ", "").replace("Share via ", "")}`
+      );
       setShowSuccess(true);
     }
   };
@@ -1222,7 +1271,7 @@ var ShareButton = ({
   };
   return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(
-      material.Button,
+      Button6__default.default,
       {
         onClick: handleClick,
         startIcon: /* @__PURE__ */ jsxRuntime.jsx(ShareIcon__default.default, {}),
@@ -1232,7 +1281,7 @@ var ShareButton = ({
       }
     ),
     /* @__PURE__ */ jsxRuntime.jsx(
-      material.Menu,
+      Menu__default.default,
       {
         anchorEl,
         open: Boolean(anchorEl),
@@ -1247,29 +1296,22 @@ var ShareButton = ({
         },
         children: fallbackPlatforms.map((platform) => {
           const config = PLATFORM_CONFIG[platform];
-          return /* @__PURE__ */ jsxRuntime.jsxs(
-            material.MenuItem,
-            {
-              onClick: () => handleFallbackShare(platform),
-              children: [
-                /* @__PURE__ */ jsxRuntime.jsx(material.ListItemIcon, { children: config.icon }),
-                /* @__PURE__ */ jsxRuntime.jsx(material.ListItemText, { primary: config.label })
-              ]
-            },
-            platform
-          );
+          return /* @__PURE__ */ jsxRuntime.jsxs(MenuItem__default.default, { onClick: () => handleFallbackShare(platform), children: [
+            /* @__PURE__ */ jsxRuntime.jsx(ListItemIcon__default.default, { children: config.icon }),
+            /* @__PURE__ */ jsxRuntime.jsx(ListItemText__default.default, { primary: config.label })
+          ] }, platform);
         })
       }
     ),
     /* @__PURE__ */ jsxRuntime.jsx(
-      material.Snackbar,
+      Snackbar2__default.default,
       {
         open: showSuccess,
         autoHideDuration: 3e3,
         onClose: () => setShowSuccess(false),
         anchorOrigin: { vertical: "bottom", horizontal: "center" },
         children: /* @__PURE__ */ jsxRuntime.jsx(
-          material.Alert,
+          Alert2__default.default,
           {
             onClose: () => setShowSuccess(false),
             severity: "success",
@@ -1293,11 +1335,11 @@ var SubscribeButton = ({
   children = "Subscribe",
   ...rest
 }) => {
-  const [email, setEmail] = React24__namespace.useState("");
-  const [isLoading, setIsLoading] = React24__namespace.useState(false);
-  const [showSuccess, setShowSuccess] = React24__namespace.useState(false);
-  const [showError, setShowError] = React24__namespace.useState(false);
-  const [emailError, setEmailError] = React24__namespace.useState("");
+  const [email, setEmail] = React22__namespace.useState("");
+  const [isLoading, setIsLoading] = React22__namespace.useState(false);
+  const [showSuccess, setShowSuccess] = React22__namespace.useState(false);
+  const [showError, setShowError] = React22__namespace.useState(false);
+  const [emailError, setEmailError] = React22__namespace.useState("");
   const validateEmail = (email2) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email2);
@@ -1329,9 +1371,9 @@ var SubscribeButton = ({
   };
   if (showInlineForm) {
     return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntime.jsxs(material.Stack, { direction: { xs: "column", sm: "row" }, spacing: 1, sx: { width: "100%" }, children: [
+      /* @__PURE__ */ jsxRuntime.jsxs(Stack__default.default, { direction: { xs: "column", sm: "row" }, spacing: 1, sx: { width: "100%" }, children: [
         /* @__PURE__ */ jsxRuntime.jsx(
-          material.TextField,
+          TextField__default.default,
           {
             value: email,
             onChange: (e) => {
@@ -1347,27 +1389,27 @@ var SubscribeButton = ({
           }
         ),
         /* @__PURE__ */ jsxRuntime.jsx(
-          material.Button,
+          Button6__default.default,
           {
             onClick: handleSubscribe,
             disabled: isLoading,
-            startIcon: isLoading ? /* @__PURE__ */ jsxRuntime.jsx(material.CircularProgress, { size: 20 }) : /* @__PURE__ */ jsxRuntime.jsx(MailOutlineIcon__default.default, {}),
+            startIcon: isLoading ? /* @__PURE__ */ jsxRuntime.jsx(CircularProgress2__default.default, { size: 20 }) : /* @__PURE__ */ jsxRuntime.jsx(MailOutlineIcon__default.default, {}),
             sx: { minWidth: 140 },
             ...rest,
             children: isLoading ? "Subscribing..." : children
           }
         )
       ] }),
-      /* @__PURE__ */ jsxRuntime.jsx(material.Snackbar, { open: showSuccess, autoHideDuration: 4e3, onClose: () => setShowSuccess(false), children: /* @__PURE__ */ jsxRuntime.jsx(material.Alert, { severity: "success", icon: /* @__PURE__ */ jsxRuntime.jsx(CheckCircleIcon__default.default, {}), children: successMessage }) }),
-      /* @__PURE__ */ jsxRuntime.jsx(material.Snackbar, { open: showError, autoHideDuration: 4e3, onClose: () => setShowError(false), children: /* @__PURE__ */ jsxRuntime.jsx(material.Alert, { severity: "error", children: errorMessage }) })
+      /* @__PURE__ */ jsxRuntime.jsx(Snackbar2__default.default, { open: showSuccess, autoHideDuration: 4e3, onClose: () => setShowSuccess(false), children: /* @__PURE__ */ jsxRuntime.jsx(Alert2__default.default, { severity: "success", icon: /* @__PURE__ */ jsxRuntime.jsx(CheckCircleIcon__default.default, {}), children: successMessage }) }),
+      /* @__PURE__ */ jsxRuntime.jsx(Snackbar2__default.default, { open: showError, autoHideDuration: 4e3, onClose: () => setShowError(false), children: /* @__PURE__ */ jsxRuntime.jsx(Alert2__default.default, { severity: "error", children: errorMessage }) })
     ] });
   }
   return /* @__PURE__ */ jsxRuntime.jsx(
-    material.Button,
+    Button6__default.default,
     {
       onClick: handleSubscribe,
       disabled: isLoading,
-      startIcon: isLoading ? /* @__PURE__ */ jsxRuntime.jsx(material.CircularProgress, { size: 20 }) : /* @__PURE__ */ jsxRuntime.jsx(MailOutlineIcon__default.default, {}),
+      startIcon: isLoading ? /* @__PURE__ */ jsxRuntime.jsx(CircularProgress2__default.default, { size: 20 }) : /* @__PURE__ */ jsxRuntime.jsx(MailOutlineIcon__default.default, {}),
       ...rest,
       children: isLoading ? "Subscribing..." : children
     }
@@ -1409,7 +1451,7 @@ var WhatsAppButton = ({
     }
     return formattedPhone;
   };
-  const whatsappUrl = React24__namespace.useMemo(() => {
+  const whatsappUrl = React22__namespace.useMemo(() => {
     const formattedPhone = formatPhoneNumber(phone, countryCode);
     const encodedMessage = encodeURIComponent(message);
     return `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
@@ -1443,10 +1485,10 @@ var FavoriteButton = ({
   sx,
   ...rest
 }) => {
-  const [favorited, setFavorited] = React24__namespace.useState(isFavorited);
-  React24__namespace.useEffect(() => {
-    setFavorited(isFavorited);
-  }, [isFavorited]);
+  const favorited = isFavorited;
+  const handleToggle = () => {
+    onToggle(!favorited, itemId);
+  };
   const getIcons = () => {
     switch (favoriteType) {
       case "bookmark":
@@ -1482,15 +1524,10 @@ var FavoriteButton = ({
         return favorited ? "Remove from favorites" : "Add to favorites";
     }
   };
-  const handleToggle = () => {
-    const newFavorited = !favorited;
-    setFavorited(newFavorited);
-    onToggle(newFavorited, itemId);
-  };
   const icons = getIcons();
   const currentIcon = favorited ? icons.filled : icons.outlined;
   const button = /* @__PURE__ */ jsxRuntime.jsx(
-    material.IconButton,
+    IconButton__default.default,
     {
       onClick: handleToggle,
       "aria-label": getTooltipText(),
@@ -1508,7 +1545,7 @@ var FavoriteButton = ({
     }
   );
   if (showTooltip) {
-    return /* @__PURE__ */ jsxRuntime.jsx(material.Tooltip, { title: getTooltipText(), children: button });
+    return /* @__PURE__ */ jsxRuntime.jsx(Tooltip__default.default, { title: getTooltipText(), children: button });
   }
   return button;
 };
@@ -1523,8 +1560,8 @@ var CopyButton = ({
   sx,
   ...rest
 }) => {
-  const [showSuccess, setShowSuccess] = React24__namespace.useState(false);
-  const [justCopied, setJustCopied] = React24__namespace.useState(false);
+  const [showSuccess, setShowSuccess] = React22__namespace.useState(false);
+  const [justCopied, setJustCopied] = React22__namespace.useState(false);
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
@@ -1562,7 +1599,7 @@ var CopyButton = ({
     ] });
   };
   const button = /* @__PURE__ */ jsxRuntime.jsx(
-    material.Button,
+    Button6__default.default,
     {
       onClick: handleCopy,
       startIcon: iconOnly ? void 0 : justCopied ? /* @__PURE__ */ jsxRuntime.jsx(CheckIcon2__default.default, {}) : /* @__PURE__ */ jsxRuntime.jsx(ContentCopyIcon2__default.default, {}),
@@ -1576,27 +1613,27 @@ var CopyButton = ({
       children: iconOnly ? getButtonContent() : justCopied ? "Copied!" : children
     }
   );
-  const wrappedButton = showTooltip && iconOnly ? /* @__PURE__ */ jsxRuntime.jsx(material.Tooltip, { title: `Copy: ${text.length > 50 ? text.substring(0, 50) + "..." : text}`, children: button }) : button;
+  const wrappedButton = showTooltip && iconOnly ? /* @__PURE__ */ jsxRuntime.jsx(Tooltip__default.default, { title: `Copy: ${text.length > 50 ? text.substring(0, 50) + "..." : text}`, children: button }) : button;
   return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
     wrappedButton,
     /* @__PURE__ */ jsxRuntime.jsx(
-      material.Snackbar,
+      Snackbar2__default.default,
       {
         open: showSuccess,
         autoHideDuration: 2e3,
         onClose: () => setShowSuccess(false),
         anchorOrigin: { vertical: "bottom", horizontal: "center" },
-        children: /* @__PURE__ */ jsxRuntime.jsx(material.Alert, { severity: "success", icon: /* @__PURE__ */ jsxRuntime.jsx(CheckIcon2__default.default, {}), children: successMessage })
+        children: /* @__PURE__ */ jsxRuntime.jsx(Alert2__default.default, { severity: "success", icon: /* @__PURE__ */ jsxRuntime.jsx(CheckIcon2__default.default, {}), children: successMessage })
       }
     )
   ] });
 };
 var CopyButton_default = CopyButton;
 var ClickTextImage = ({ title, image, text, ImageComponent }) => {
-  const [open, setOpen2] = React24__namespace.useState(false);
-  const contentId = React24.useId();
+  const [open, setOpen2] = React22__namespace.useState(false);
+  const contentId = React22.useId();
   const TILE_MIN_H = { xs: 240, sm: 280, md: 300 };
-  const imageConf = React24__namespace.useMemo(
+  const imageConf = React22__namespace.useMemo(
     () => ({
       src: image,
       overlayColor: open ? "rgba(255,255,255,1)" : "rgba(0,0,0,0.45)"
@@ -1676,7 +1713,7 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
                 }
               ),
               /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { sx: { pt: 1 }, children: /* @__PURE__ */ jsxRuntime.jsx(
-                Button8__default.default,
+                Button6__default.default,
                 {
                   variant: "text",
                   size: "small",
@@ -1716,7 +1753,7 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
             children: [
               /* @__PURE__ */ jsxRuntime.jsx(Typography9__default.default, { variant: "narrative", sx: { mb: 2 }, children: text }),
               /* @__PURE__ */ jsxRuntime.jsx(
-                Button8__default.default,
+                Button6__default.default,
                 {
                   variant: "text",
                   size: "small",
@@ -1735,10 +1772,10 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
     }
   );
 };
-var ClickTextImage_default = React24__namespace.memo(ClickTextImage);
+var ClickTextImage_default = React22__namespace.memo(ClickTextImage);
 function createTreeTextStore(initialState) {
   let treeTextState = { ...initialState };
-  let listeners = /* @__PURE__ */ new Set();
+  const listeners = /* @__PURE__ */ new Set();
   return {
     getState: () => treeTextState,
     setState: (next) => {
@@ -1753,7 +1790,7 @@ function createTreeTextStore(initialState) {
   };
 }
 function useTreeTextOpen(store, nodeId) {
-  return React24.useSyncExternalStore(
+  return React22.useSyncExternalStore(
     store.subscribe,
     () => {
       var _a;
@@ -1767,22 +1804,22 @@ function setTreeTextOpen(store, nodeId) {
     store.setState((prev) => ({ ...prev, [nodeId]: open }));
   };
 }
-var TextControllerContext = React24.createContext(null);
+var TextControllerContext = React22.createContext(null);
 function useTextControllerContext() {
-  const ctx = React24.useContext(TextControllerContext);
+  const ctx = React22.useContext(TextControllerContext);
   if (!ctx) throw new Error("TextControllerContext missing. Wrap with <TextControllerContext>.");
   return ctx;
 }
-var TextTreeRendererContext = React24.createContext(null);
+var TextTreeRendererContext = React22.createContext(null);
 function useTextTreeRendererContext() {
-  const ctx = React24.useContext(TextTreeRendererContext);
+  const ctx = React22.useContext(TextTreeRendererContext);
   if (!ctx)
     throw new Error("TextTreeRendererContext missing. Wrap with <TextTreeRendererContext>.");
   return ctx;
 }
-var TreeTextDepthContext = React24.createContext(null);
+var TreeTextDepthContext = React22.createContext(null);
 function useTextTreeDepthContext() {
-  const ctx = React24.useContext(TreeTextDepthContext);
+  const ctx = React22.useContext(TreeTextDepthContext);
   if (!ctx) throw new Error("TreeTextDepthContext missing. Wrap with <TreeTextDepthContext>.");
   return ctx;
 }
@@ -1800,7 +1837,7 @@ function TextOpenClose({
   const handleClick = () => {
     onToggle(!isOpen);
   };
-  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React24__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
+  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React22__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
     TextElement,
     {
       id: childId,
@@ -1823,7 +1860,7 @@ function TextOpenClose({
   const Component = rendersRegistry[renderer].renderer;
   return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(Component, { ...props }),
-    /* @__PURE__ */ jsxRuntime.jsx(material.Collapse, { in: isOpen, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsxRuntime.jsx(TreeTextDepthContext.Provider, { value: { depth: depth + 1 }, children: childrenComponents }) })
+    /* @__PURE__ */ jsxRuntime.jsx(Collapse__default.default, { in: isOpen, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsxRuntime.jsx(TreeTextDepthContext.Provider, { value: { depth: depth + 1 }, children: childrenComponents }) })
   ] });
 }
 function TextElement({
@@ -1888,7 +1925,7 @@ function LabelOnly({ title, sx }) {
   return /* @__PURE__ */ jsxRuntime.jsx(SubsubsectionTitleLabel, { component: "div", sx, children: title });
 }
 function LinkedLabel({ title, href, sx }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(MuiLink3__default.default, { href, underline: "hover", sx, children: /* @__PURE__ */ jsxRuntime.jsx(SubsubsectionTitleLabel, { component: "span", children: title }) });
+  return /* @__PURE__ */ jsxRuntime.jsx(MuiLink2__default.default, { href, underline: "hover", sx, children: /* @__PURE__ */ jsxRuntime.jsx(SubsubsectionTitleLabel, { component: "span", children: title }) });
 }
 
 // src/components/content/textNodeRenderers/rendersRegistryTypes.ts
@@ -1942,9 +1979,15 @@ var StandardStack = ({ sx, ...props }) => {
   );
 };
 var StandardStack_default = StandardStack;
-function TitleAndSubDepth({ title, subtitle, indicator, onClick, depth }) {
+function TitleAndSubDepth({
+  title,
+  subtitle,
+  indicator,
+  onClick,
+  depth
+}) {
   const TitleLabel2 = depth === 0 ? SubsectionTitleLabel : SubsubsectionTitleLabel;
-  return /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { onClick, display: "flex", justifyContent: "space-between", children: [
+  return /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { onClick, display: "flex", justifyContent: "space-between", children: [
     /* @__PURE__ */ jsxRuntime.jsxs(StandardStack_default, { size: "compact", children: [
       /* @__PURE__ */ jsxRuntime.jsx(TitleLabel2, { component: "div", children: title }),
       subtitle && /* @__PURE__ */ jsxRuntime.jsx(SubsubsectionTitleLabel, { component: "div", children: subtitle })
@@ -1953,7 +1996,7 @@ function TitleAndSubDepth({ title, subtitle, indicator, onClick, depth }) {
   ] });
 }
 function TitleAndSubStd({ title, subtitle, indicator, onClick }) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(material.Box, { onClick, display: "flex", justifyContent: "space-between", children: [
+  return /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { onClick, display: "flex", justifyContent: "space-between", children: [
     /* @__PURE__ */ jsxRuntime.jsxs(StandardStack_default, { size: "compact", children: [
       /* @__PURE__ */ jsxRuntime.jsx(SubsectionTitle, { children: title }),
       subtitle && /* @__PURE__ */ jsxRuntime.jsx(SubsubsectionTitle, { children: subtitle })
@@ -2051,14 +2094,14 @@ var defaultRendersRegistry = {
 function TextDrawer_Client({ treeFromRoot, indent = 0 }) {
   const renderContext = {
     baseIndent: indent,
-    openIndicator: /* @__PURE__ */ jsxRuntime.jsx(iconsMaterial.ExpandLess, {}),
-    closeIndicator: /* @__PURE__ */ jsxRuntime.jsx(iconsMaterial.ExpandMore, {}),
+    openIndicator: /* @__PURE__ */ jsxRuntime.jsx(ExpandLess__default.default, {}),
+    closeIndicator: /* @__PURE__ */ jsxRuntime.jsx(ExpandMore__default.default, {}),
     rendersRegistry: defaultRendersRegistry,
     indentPolicy({ baseIndent, depth }) {
       return baseIndent * depth;
     }
   };
-  const childrenComponents = treeFromRoot.children ? Object.entries(treeFromRoot.children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React24__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
+  const childrenComponents = treeFromRoot.children ? Object.entries(treeFromRoot.children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React22__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
     TextElement,
     {
       id: childId,
@@ -2070,7 +2113,7 @@ function TextDrawer_Client({ treeFromRoot, indent = 0 }) {
   return /* @__PURE__ */ jsxRuntime.jsx(TextTreeRendererContext.Provider, { value: renderContext, children: /* @__PURE__ */ jsxRuntime.jsx(TreeTextDepthContext.Provider, { value: { depth: 0 }, children: childrenComponents }) });
 }
 function TextDrawer({ treeFromRoot, indent = 0 }) {
-  const treeTextStore = React24.useMemo(() => {
+  const treeTextStore = React22.useMemo(() => {
     const initialStoreState = {};
     populateInitialStoreState(treeFromRoot, initialStoreState);
     initialStoreState["root"] = false;
@@ -2102,7 +2145,7 @@ var HIERARCHY_ERROR_CODE = {
 
 // src/core/hierarchy/resolver.ts
 function resolver(hierarchyTree) {
-  let issues = [];
+  const issues = [];
   let hasUndefinedElements = false;
   let hasMissingParents = false;
   let hasRoot = false;
@@ -2299,7 +2342,7 @@ function convertToD3Stratify(hierarchy, overridesNodes) {
     // creating the children array only for root
   });
   for (const key in hierarchy) {
-    let node = hierarchy[key].payload;
+    const node = hierarchy[key].payload;
     let overrides = void 0;
     if (overridesNodes) {
       if (key in overridesNodes) {
@@ -2517,78 +2560,64 @@ function FiveColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsxRuntime.jsx(system.Box, { width: "100%", height: "100%", children: rendered });
 }
-
-// src/lib/text/index.ts
-var text_exports = {};
-__export(text_exports, {
-  boldToNodes: () => boldToNodes,
-  parseInlineMarkdown: () => parseInlineMarkdown,
-  toTitleCase: () => toTitleCase
-});
-function boldToNodes(input, keyScope = "b") {
-  const boldRe = /\*\*([^*]+)\*\*/g;
-  return splitAndWrap(input, boldRe, (m, k) => /* @__PURE__ */ jsxRuntime.jsx("strong", { children: m[1] }, k), `${keyScope}-`);
+var MenuControllerContext = React22.createContext(null);
+function useMenuControllerContext() {
+  const ctx = React22.useContext(MenuControllerContext);
+  if (!ctx) throw new Error("MenuControllerContext missing. Wrap with <MenuProvider>.");
+  return ctx;
 }
-function parseInlineMarkdown(input, Link, keyScope = "md") {
-  const linkRe = /\[([^\]]+)\]\(((?:https?:\/\/|mailto:|tel:|\/|#)[^\s)]+)\)/g;
-  const boldRe = /\*\*([^*]+)\*\*/g;
-  const italicRe = /\*([^*]+)\*/g;
-  const withLinks = splitAndWrap(
-    input,
-    linkRe,
-    (m, k) => {
-      const text = m[1];
-      const href = m[2];
-      if (href.startsWith("/")) {
-        return /* @__PURE__ */ jsxRuntime.jsx(Link, { href, children: text }, k);
-      }
-      if (href.startsWith("http")) {
-        return /* @__PURE__ */ jsxRuntime.jsx(MuiLink3__default.default, { href, target: "_blank", rel: "noopener noreferrer", children: text }, k);
-      }
-      return /* @__PURE__ */ jsxRuntime.jsx(MuiLink3__default.default, { href, children: text }, k);
+var MenuSelectorContext = React22.createContext(null);
+function useMenuSelectorContext() {
+  const ctx = React22.useContext(MenuSelectorContext);
+  if (!ctx) throw new Error("MenuSelectorContext missing. Wrap with <MenuProvider>.");
+  return ctx;
+}
+function createMenuStore(initialState) {
+  let menusState = { ...initialState };
+  const listeners = /* @__PURE__ */ new Set();
+  return {
+    getState: () => menusState,
+    setState: (next) => {
+      if (next === menusState) return;
+      menusState = typeof next === "function" ? next(menusState) : next;
+      listeners.forEach((listener) => listener());
     },
-    `${keyScope}-link-`
-  );
-  const withBold = flatMapNodes(
-    withLinks,
-    (n) => typeof n === "string" ? splitAndWrap(n, boldRe, (m, k) => /* @__PURE__ */ jsxRuntime.jsx("strong", { children: m[1] }, k), `${keyScope}-b-`) : [n]
-  );
-  const withItalics = flatMapNodes(
-    withBold,
-    (n) => typeof n === "string" ? splitAndWrap(n, italicRe, (m, k) => /* @__PURE__ */ jsxRuntime.jsx("em", { children: m[1] }, k), `${keyScope}-i-`) : [n]
-  );
-  const newlineRe = /\r\n|\r|\n|\\n/g;
-  const withBreaks = flatMapNodes(
-    withItalics,
-    (n) => typeof n === "string" ? splitAndWrap(n, newlineRe, (_m, k) => /* @__PURE__ */ jsxRuntime.jsx("br", {}, k), `${keyScope}-br-`) : [n]
-  );
-  return withBreaks;
+    subscribe: (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    }
+  };
 }
-function splitAndWrap(input, re, wrap, keyPrefix = "") {
-  const out = [];
-  let lastIndex = 0;
-  let local = 0;
-  for (; ; ) {
-    const match = re.exec(input);
-    if (!match) break;
-    if (match.index > lastIndex) out.push(input.slice(lastIndex, match.index));
-    out.push(wrap(match, `${keyPrefix}${local++}`));
-    lastIndex = match.index + match[0].length;
-  }
-  if (lastIndex < input.length) out.push(input.slice(lastIndex));
-  return out;
+function useNodeOpen(store, nodeId) {
+  return React22.useSyncExternalStore(
+    store.subscribe,
+    () => {
+      var _a;
+      return (_a = store.getState()[nodeId]) != null ? _a : false;
+    },
+    () => false
+  );
 }
-function flatMapNodes(nodes, fn) {
-  const out = [];
-  for (const n of nodes) out.push(...fn(n));
-  return out;
+function setOpen(store, nodeId) {
+  return (open) => {
+    store.setState((prev) => ({ ...prev, [nodeId]: open }));
+  };
 }
-
-// src/lib/icon/index.ts
-var icon_exports = {};
-__export(icon_exports, {
-  IconPicker: () => IconPicker_default
+var DefaultLinkLike = React22__namespace.forwardRef(function DefaultLinkLike2(props, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsx("a", { ref, ...props });
 });
+var MenuDepthContext = React22.createContext(null);
+function useMenuDepthContext() {
+  const ctx = React22.useContext(MenuDepthContext);
+  if (!ctx) throw new Error("MenuDepthContext missing. Wrap with <MenuProvider>.");
+  return ctx;
+}
+var MenuRenderContext = React22.createContext(null);
+function useMenuRenderContext() {
+  const ctx = React22.useContext(MenuRenderContext);
+  if (!ctx) throw new Error("MenuRenderContext missing. Wrap with <MenuProvider>.");
+  return ctx;
+}
 function normalizeKey(input) {
   return input.trim().toLowerCase().replace(/^\/+|\/+$/g, "").replace(/\s+/g, " ").replace(/[ _]+/g, "-");
 }
@@ -2652,201 +2681,6 @@ function shouldSkipCasing(str) {
   if (/[^\x00-\x7F]/.test(str)) return true;
   return false;
 }
-var DefaultLinkLike = React24__namespace.forwardRef(function DefaultLinkLike2(props, ref) {
-  return /* @__PURE__ */ jsxRuntime.jsx("a", { ref, ...props });
-});
-function normalizePathname(pathname) {
-  var _a, _b;
-  const fallback = typeof window !== "undefined" ? window.location.pathname : "/";
-  const raw = (pathname != null ? pathname : fallback).trim() || "/";
-  const noHash = (_a = raw.split("#")[0]) != null ? _a : raw;
-  const noQuery = (_b = noHash.split("?")[0]) != null ? _b : noHash;
-  return noQuery.startsWith("/") ? noQuery : `/${noQuery}`;
-}
-var BreadMenu = function({
-  pathname,
-  linkComponent = DefaultLinkLike,
-  hideRoot = false,
-  segmentLabels,
-  exclude,
-  maxItems = 8,
-  fontSize = "0.875rem",
-  sx,
-  titleCase = true
-}) {
-  const normalizedPath = React24__namespace.useMemo(() => normalizePathname(pathname), [pathname]);
-  const excludeSet = React24__namespace.useMemo(() => new Set(exclude != null ? exclude : []), [exclude]);
-  const segments = React24__namespace.useMemo(() => {
-    const raw = normalizedPath.split("/").filter(Boolean);
-    return excludeSet.size ? raw.filter((s) => !excludeSet.has(s)) : raw;
-  }, [normalizedPath, excludeSet]);
-  const items = React24__namespace.useMemo(() => {
-    const crumbs = [];
-    let acc = [];
-    segments.forEach((seg, idx) => {
-      acc.push(seg);
-      const href = "/" + acc.join("/");
-      const isLast = idx === segments.length - 1;
-      const label = segmentLabels && segmentLabels[seg] || (titleCase ? toTitleCase(seg) : seg);
-      if (isLast) {
-        crumbs.push(
-          /* @__PURE__ */ jsxRuntime.jsx(
-            MuiLink3__default.default,
-            {
-              component: "span",
-              "aria-current": "page",
-              underline: "none",
-              color: "text.primary",
-              sx: { cursor: "default" },
-              children: label
-            },
-            href
-          )
-        );
-      } else {
-        crumbs.push(
-          /* @__PURE__ */ jsxRuntime.jsx(
-            MuiLink3__default.default,
-            {
-              component: linkComponent,
-              href,
-              underline: "hover",
-              color: "inherit",
-              children: label
-            },
-            href
-          )
-        );
-      }
-    });
-    return crumbs;
-  }, [segments, segmentLabels, titleCase]);
-  return /* @__PURE__ */ jsxRuntime.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntime.jsxs(
-    MuiBreadcrumbs__default.default,
-    {
-      maxItems,
-      itemsAfterCollapse: 2,
-      itemsBeforeCollapse: 1,
-      sx: [
-        { fontSize, color: "inherit", mx: 2, p: 0.5 },
-        ...sx ? Array.isArray(sx) ? sx : [sx] : []
-      ],
-      children: [
-        !hideRoot && /* @__PURE__ */ jsxRuntime.jsx(MuiLink3__default.default, { component: linkComponent, href: "/", underline: "hover", color: "inherit", children: "Home" }),
-        items
-      ]
-    }
-  ) });
-};
-BreadMenu.displayName = "BreadMenu";
-var BreadMenu_default = BreadMenu;
-
-// src/components/menus/prepareMenuTree.ts
-function prepareMenuTree({
-  hierarchy,
-  overrides
-}) {
-  const resolverReturn = resolver(hierarchy);
-  if (!resolverReturn.ok) {
-    console.error("Hierarchy issues detected:", resolverReturn.issues);
-    return { ok: false, issues: resolverReturn.issues };
-  }
-  const resultHtoD3 = convertToD3Stratify(
-    hierarchy.nodes,
-    overrides.nodes
-  );
-  if (!resultHtoD3.ok) {
-    console.error("Failed to convert hierarchy to D3 Stratify:", resultHtoD3.issues);
-    return { ok: false, issues: resultHtoD3.issues };
-  }
-  const sorted = sortD3Stratify(resultHtoD3.root);
-  if (!sorted.ok) {
-    console.error("Failed to sort D3 Stratify:", sorted.issues);
-    return { ok: false, issues: sorted.issues };
-  }
-  const treeBuildResult = buildTreeFromStratify(sorted.root);
-  if (treeBuildResult.issues.length > 0) {
-    console.error("Failed to build tree from D3 Stratify:", treeBuildResult.issues);
-    return { ok: false, issues: treeBuildResult.issues };
-  }
-  return { ok: true, root: treeBuildResult.root };
-}
-
-// src/components/menus/drawer/hierarchyToDrawerInput.tsx
-function hierarchyToDrawerInput({
-  hierarchy,
-  overrides
-}) {
-  var _a;
-  const treeRoot = prepareMenuTree({ hierarchy, overrides});
-  if (!treeRoot.ok) {
-    console.error("Failed to prepare menu tree:", treeRoot.issues);
-    return { ok: false, issues: treeRoot.issues };
-  }
-  const root = hierarchy.root;
-  const rootOverrides = (_a = overrides.root) == null ? void 0 : _a.payload;
-  return {
-    ok: true,
-    root,
-    treeFromRoot: treeRoot.root,
-    rootOverrides
-  };
-}
-var MenuControllerContext = React24.createContext(null);
-function useMenuControllerContext() {
-  const ctx = React24.useContext(MenuControllerContext);
-  if (!ctx) throw new Error("MenuControllerContext missing. Wrap with <MenuProvider>.");
-  return ctx;
-}
-var MenuSelectorContext = React24.createContext(null);
-function useMenuSelectorContext() {
-  const ctx = React24.useContext(MenuSelectorContext);
-  if (!ctx) throw new Error("MenuSelectorContext missing. Wrap with <MenuProvider>.");
-  return ctx;
-}
-function createMenuStore(initialState) {
-  let menusState = { ...initialState };
-  let listeners = /* @__PURE__ */ new Set();
-  return {
-    getState: () => menusState,
-    setState: (next) => {
-      if (next === menusState) return;
-      menusState = typeof next === "function" ? next(menusState) : next;
-      listeners.forEach((listener) => listener());
-    },
-    subscribe: (listener) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener);
-    }
-  };
-}
-function useNodeOpen(store, nodeId) {
-  return React24.useSyncExternalStore(
-    store.subscribe,
-    () => {
-      var _a;
-      return (_a = store.getState()[nodeId]) != null ? _a : false;
-    },
-    () => false
-  );
-}
-function setOpen(store, nodeId) {
-  return (open) => {
-    store.setState((prev) => ({ ...prev, [nodeId]: open }));
-  };
-}
-var MenuDepthContext = React24.createContext(null);
-function useMenuDepthContext() {
-  const ctx = React24.useContext(MenuDepthContext);
-  if (!ctx) throw new Error("MenuDepthContext missing. Wrap with <MenuProvider>.");
-  return ctx;
-}
-var MenuRenderContext = React24.createContext(null);
-function useMenuRenderContext() {
-  const ctx = React24.useContext(MenuRenderContext);
-  if (!ctx) throw new Error("MenuRenderContext missing. Wrap with <MenuProvider>.");
-  return ctx;
-}
 var defaultDrawerRowPolicy = ({
   baseIndent,
   openIndicator,
@@ -2904,8 +2738,8 @@ var defaultDrawerRowPolicy = ({
 };
 function ElementLabel({ typographyProps, icon, text }) {
   return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
-    icon && /* @__PURE__ */ jsxRuntime.jsx(ListItemIcon2__default.default, { sx: { minWidth: 36 }, children: icon }),
-    /* @__PURE__ */ jsxRuntime.jsx(ListItemText2__default.default, { primary: /* @__PURE__ */ jsxRuntime.jsx(Typography9__default.default, { ...typographyProps, children: text }) })
+    icon && /* @__PURE__ */ jsxRuntime.jsx(ListItemIcon__default.default, { sx: { minWidth: 36 }, children: icon }),
+    /* @__PURE__ */ jsxRuntime.jsx(ListItemText__default.default, { primary: /* @__PURE__ */ jsxRuntime.jsx(Typography9__default.default, { ...typographyProps, children: text }) })
   ] });
 }
 function ElementButton({
@@ -2948,7 +2782,7 @@ function DrawerOpenClose({
   const localOverrides = {
     onClick: handleClick
   };
-  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React24__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
+  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React22__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
     DrawerElement,
     {
       id: childId,
@@ -2959,7 +2793,7 @@ function DrawerOpenClose({
   ) }, childId)) : [];
   return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(ElementButton, { overrides: localOverrides, rowPlan, indicator }),
-    children && /* @__PURE__ */ jsxRuntime.jsx(Collapse2__default.default, { in: isOpen, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsxRuntime.jsx(
+    children && /* @__PURE__ */ jsxRuntime.jsx(Collapse__default.default, { in: isOpen, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsxRuntime.jsx(
       List__default.default,
       {
         dense: true,
@@ -2971,13 +2805,13 @@ function DrawerOpenClose({
   ] });
 }
 function DrawerElement({ id, menuTreeElement, overrides, children }) {
-  if (!menuTreeElement) return null;
   const { menuStore } = useMenuControllerContext();
   const { isSelected, isAncestorSelected } = useMenuSelectorContext();
   const isOpen = useNodeOpen(menuStore, id);
   const onToggle = (open) => setOpen(menuStore, id)(open);
   const { rowPolicy, linkLikeComp } = useMenuRenderContext();
   const { depth } = useMenuDepthContext();
+  if (!menuTreeElement) return null;
   const hasChildren = children !== void 0 && Object.keys(children).length > 0;
   const isSelectedNode = isSelected(id);
   const isAncestorSelectedNode = isAncestorSelected(id);
@@ -3031,32 +2865,39 @@ function DrawerMenu_Client({
   triggerButtonSx
 }) {
   var _a;
-  const linkLikeComp = (_a = rootOverrides == null ? void 0 : rootOverrides.linkComponent) != null ? _a : DefaultLinkLike;
-  const [openDrawer, setOpenDrawer] = React24.useState(false);
+  const selectors = useMenuSelectorContext();
+  const menuController = useMenuControllerContext();
+  const [openDrawer, setOpenDrawer] = React22.useState(false);
   const toggleDrawer = (drawerState) => () => setOpenDrawer(drawerState);
   const rootLabel = root.label || "Menu";
-  treeFromRoot.node = {
-    label: rootLabel
-  };
+  const renderedTreeFromRoot = React22__namespace.default.useMemo(
+    () => ({
+      ...treeFromRoot,
+      node: {
+        ...treeFromRoot.node,
+        label: rootLabel
+      }
+    }),
+    [treeFromRoot, rootLabel]
+  );
+  const linkLikeComp = (_a = rootOverrides == null ? void 0 : rootOverrides.linkComponent) != null ? _a : DefaultLinkLike;
   const renderContext = {
     linkLikeComp,
     rowPolicy: defaultDrawerRowPolicy({
       baseIndent: indent,
-      openIndicator: /* @__PURE__ */ jsxRuntime.jsx(ExpandLess2__default.default, {}),
-      closeIndicator: /* @__PURE__ */ jsxRuntime.jsx(ExpandMore2__default.default, {})
+      openIndicator: /* @__PURE__ */ jsxRuntime.jsx(ExpandLess__default.default, {}),
+      closeIndicator: /* @__PURE__ */ jsxRuntime.jsx(ExpandMore__default.default, {})
     })
   };
-  const selectors = useMenuSelectorContext();
-  const menuController = useMenuControllerContext();
   const selectedPathIds = selectors.selectedPathIds;
   const selectId = selectors.selectedId;
   const menuStore = menuController.menuStore;
-  React24.useEffect(() => {
+  React22.useEffect(() => {
     for (const selectedId of selectedPathIds) {
       if (selectedId !== selectId) setOpen(menuStore, selectedId)(true);
     }
-  }, [selectId, menuStore]);
-  const childrenComponents = treeFromRoot.children ? Object.entries(treeFromRoot.children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React24__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
+  }, [selectId, menuStore, selectedPathIds]);
+  const childrenComponents = renderedTreeFromRoot.children ? Object.entries(renderedTreeFromRoot.children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React22__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
     DrawerElement,
     {
       id: childId,
@@ -3067,7 +2908,7 @@ function DrawerMenu_Client({
   ) }, childId)) : [];
   return /* @__PURE__ */ jsxRuntime.jsxs(MenuRenderContext.Provider, { value: renderContext, children: [
     /* @__PURE__ */ jsxRuntime.jsx(
-      material.Drawer,
+      Drawer__default.default,
       {
         open: openDrawer,
         onClose: toggleDrawer(false),
@@ -3079,7 +2920,7 @@ function DrawerMenu_Client({
           }
         },
         children: /* @__PURE__ */ jsxRuntime.jsx(
-          material.List,
+          List__default.default,
           {
             dense: true,
             disablePadding: true,
@@ -3090,7 +2931,7 @@ function DrawerMenu_Client({
         )
       }
     ),
-    /* @__PURE__ */ jsxRuntime.jsx(IconButton2__default.default, { onClick: toggleDrawer(true), "aria-label": "Open menu", sx: triggerButtonSx, children: /* @__PURE__ */ jsxRuntime.jsx(MenuIcon__default.default, {}) })
+    /* @__PURE__ */ jsxRuntime.jsx(IconButton__default.default, { onClick: toggleDrawer(true), "aria-label": "Open menu", sx: triggerButtonSx, children: /* @__PURE__ */ jsxRuntime.jsx(MenuIcon__default.default, {}) })
   ] });
 }
 
@@ -3179,19 +3020,19 @@ function DrawerMenu({
   triggerButtonSx,
   selector
 }) {
-  const selectors = React24.useMemo(
+  const selectors = React22.useMemo(
     () => getSelectors({
       treeFromRoot,
       selector
     }),
     [treeFromRoot, selector]
   );
-  const menuStore = React24.useMemo(() => {
+  const menuStore = React22.useMemo(() => {
     const initialStoreState = {};
     populateInitialStoreState2(treeFromRoot, initialStoreState, selectors.selectedPathIds);
     initialStoreState["root"] = false;
     return createMenuStore(initialStoreState);
-  }, [treeFromRoot]);
+  }, [treeFromRoot, selectors.selectedPathIds]);
   return /* @__PURE__ */ jsxRuntime.jsx(MenuSelectorContext.Provider, { value: selectors, children: /* @__PURE__ */ jsxRuntime.jsx(MenuControllerContext.Provider, { value: { menuStore }, children: /* @__PURE__ */ jsxRuntime.jsx(
     DrawerMenu_Client,
     {
@@ -3217,6 +3058,152 @@ function populateInitialStoreState2(node, store, selectedIs) {
     }
   }
 }
+function normalizePathname(pathname) {
+  var _a, _b;
+  const fallback = typeof window !== "undefined" ? window.location.pathname : "/";
+  const raw = (pathname != null ? pathname : fallback).trim() || "/";
+  const noHash = (_a = raw.split("#")[0]) != null ? _a : raw;
+  const noQuery = (_b = noHash.split("?")[0]) != null ? _b : noHash;
+  return noQuery.startsWith("/") ? noQuery : `/${noQuery}`;
+}
+var BreadMenu = function({
+  pathname,
+  linkComponent = DefaultLinkLike,
+  hideRoot = false,
+  segmentLabels,
+  exclude,
+  maxItems = 8,
+  fontSize = "0.875rem",
+  sx,
+  titleCase = true
+}) {
+  const normalizedPath = React22__namespace.useMemo(() => normalizePathname(pathname), [pathname]);
+  const excludeSet = React22__namespace.useMemo(() => new Set(exclude != null ? exclude : []), [exclude]);
+  const segments = React22__namespace.useMemo(() => {
+    const raw = normalizedPath.split("/").filter(Boolean);
+    return excludeSet.size ? raw.filter((s) => !excludeSet.has(s)) : raw;
+  }, [normalizedPath, excludeSet]);
+  const items = React22__namespace.useMemo(() => {
+    const crumbs = [];
+    const acc = [];
+    segments.forEach((seg, idx) => {
+      acc.push(seg);
+      const href = "/" + acc.join("/");
+      const isLast = idx === segments.length - 1;
+      const label = segmentLabels && segmentLabels[seg] || (titleCase ? toTitleCase(seg) : seg);
+      if (isLast) {
+        crumbs.push(
+          /* @__PURE__ */ jsxRuntime.jsx(
+            MuiLink2__default.default,
+            {
+              component: "span",
+              "aria-current": "page",
+              underline: "none",
+              color: "text.primary",
+              sx: { cursor: "default" },
+              children: label
+            },
+            href
+          )
+        );
+      } else {
+        crumbs.push(
+          /* @__PURE__ */ jsxRuntime.jsx(
+            MuiLink2__default.default,
+            {
+              component: linkComponent,
+              href,
+              underline: "hover",
+              color: "inherit",
+              children: label
+            },
+            href
+          )
+        );
+      }
+    });
+    return crumbs;
+  }, [segments, segmentLabels, titleCase, linkComponent]);
+  return /* @__PURE__ */ jsxRuntime.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntime.jsxs(
+    MuiBreadcrumbs__default.default,
+    {
+      maxItems,
+      itemsAfterCollapse: 2,
+      itemsBeforeCollapse: 1,
+      sx: [
+        { fontSize, color: "inherit", mx: 2, p: 0.5 },
+        ...sx ? Array.isArray(sx) ? sx : [sx] : []
+      ],
+      children: [
+        !hideRoot && /* @__PURE__ */ jsxRuntime.jsx(MuiLink2__default.default, { component: linkComponent, href: "/", underline: "hover", color: "inherit", children: "Home" }),
+        items
+      ]
+    }
+  ) });
+};
+BreadMenu.displayName = "BreadMenu";
+var BreadMenu_default = BreadMenu;
+function HeaderLogo({
+  ImageComponent,
+  src,
+  subtitle,
+  alt = "Site logo",
+  sx,
+  height,
+  width
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    Box3__default.default,
+    {
+      sx: {
+        display: "flex",
+        flexDirection: "column",
+        ...sx
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx(ImageComponent, { src, width, height, alt }),
+        subtitle ? /* @__PURE__ */ jsxRuntime.jsx(Typography9__default.default, { variant: "eyebrow", sx: { mt: 1 }, children: subtitle }) : null
+      ]
+    }
+  );
+}
+function HeaderMinimal({ centerDown, centerUp, left, right }) {
+  return (
+    //
+    /* @__PURE__ */ jsxRuntime.jsx(AppBar__default.default, { position: "sticky", children: /* @__PURE__ */ jsxRuntime.jsx(Toolbar__default.default, { sx: { display: "flex" }, children: /* @__PURE__ */ jsxRuntime.jsxs(
+      Box3__default.default,
+      {
+        display: "flex",
+        width: "100%",
+        gap: 2,
+        sx: {
+          flexDirection: {
+            xs: "column",
+            sm: "row"
+          }
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { children: left }),
+          /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { flex: "1 1 auto", minWidth: 0, children: /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { display: "flex", width: "100%", flexDirection: "column", alignItems: "center", children: [
+            centerUp,
+            centerDown
+          ] }) }),
+          /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { children: right })
+        ]
+      }
+    ) }) })
+  );
+}
+function HeaderDrawer({ drawerProps, logoProps, breadMenuProps }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    HeaderMinimal,
+    {
+      left: /* @__PURE__ */ jsxRuntime.jsx(HeaderLogo, { ...logoProps }),
+      centerUp: /* @__PURE__ */ jsxRuntime.jsx(BreadMenu_default, { ...breadMenuProps }),
+      right: /* @__PURE__ */ jsxRuntime.jsx(DrawerMenu, { ...drawerProps })
+    }
+  );
+}
 var defaultDropDownPolicy = ({
   baseIndent,
   downIndicator,
@@ -3236,7 +3223,7 @@ var defaultDropDownPolicy = ({
     const indicatorIcon = depth === 0 ? downIndicator : rightIndicator;
     const indicator = hasChildren ? indicatorIcon : void 0;
     const paddingInlineStart = depth > 1 ? (depth - 1) * 8 : 0;
-    let rowPolicy = {
+    const rowPolicy = {
       text: label,
       icon,
       indicator,
@@ -3295,6 +3282,7 @@ function useRowPlan({ id, node, children, overrides }) {
   const isSelectedNode = isSelected(id);
   const isAncestorSelectedNode = isAncestorSelected(id);
   const { rowPolicy } = useMenuRenderContext();
+  if (node === null) return null;
   const rowPlan = rowPolicy({
     depth,
     menuTreeElement: node,
@@ -3315,7 +3303,7 @@ function DropDownMegaMenu({ children }) {
     return null;
   }
   const entries = Object.entries(children);
-  const childrenComponents = entries.map(([childId, childBranch], index) => /* @__PURE__ */ jsxRuntime.jsxs(React24__namespace.default.Fragment, { children: [
+  const childrenComponents = entries.map(([childId, childBranch], index) => /* @__PURE__ */ jsxRuntime.jsxs(React22__namespace.default.Fragment, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(
       ColumnElement,
       {
@@ -3331,10 +3319,12 @@ function DropDownMegaMenu({ children }) {
   return /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { padding: outerPadding, children: /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { sx: { display: "flex", flexDirection: "row", alignItems: "flex-start" }, children: childrenComponents }) });
 }
 function ColumnElement({ id, node, children, overrides, linkLikeComp }) {
-  if (!node) return null;
-  const { rowPlan, depth } = useRowPlan({ id, node, children, overrides });
+  const rowPlanReturn = useRowPlan({ id, node, children, overrides });
   const { megaMenuPolicy = standardMegaMenuPolicy } = useMenuRenderContext();
   const { showItemDivider, columnMinWidth } = megaMenuPolicy;
+  if (!node) return null;
+  if (!rowPlanReturn) return null;
+  const { rowPlan, depth } = rowPlanReturn;
   const elementLabel = /* @__PURE__ */ jsxRuntime.jsx(
     ElementButton,
     {
@@ -3344,7 +3334,7 @@ function ColumnElement({ id, node, children, overrides, linkLikeComp }) {
       linkComponent: linkLikeComp
     }
   );
-  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React24__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
+  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsxRuntime.jsx(React22__namespace.default.Fragment, { children: /* @__PURE__ */ jsxRuntime.jsx(
     ColumnElement,
     {
       id: childId,
@@ -3373,17 +3363,18 @@ function DropDownOpenClose({
   overrides,
   children
 }) {
-  if (!menuTreeElement) return null;
   const { depth } = useMenuDepthContext();
+  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
+  const [anchorEl, setAnchorEl] = React22__namespace.default.useState(null);
+  const { rowPolicy } = useMenuRenderContext();
+  if (!menuTreeElement) return null;
   if (depth !== 0) {
     console.warn("DropDownOpenClose should only be used at depth 0. Current depth:", depth);
     return null;
   }
-  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
   const hasChildren = children !== void 0 && Object.keys(children).length > 0;
   const isSelectedNode = isSelected(id);
   const isAncestorSelectedNode = isAncestorSelected(id);
-  const [anchorEl, setAnchorEl] = React24__namespace.default.useState(null);
   const isOpen = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -3391,7 +3382,6 @@ function DropDownOpenClose({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { rowPolicy } = useMenuRenderContext();
   const rowPlan = rowPolicy({
     depth,
     menuTreeElement,
@@ -3433,8 +3423,9 @@ function DropDownElement({
   overrides,
   children
 }) {
-  if (!menuTreeElement) return null;
   const { depth } = useMenuDepthContext();
+  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
+  const { rowPolicy, linkLikeComp } = useMenuRenderContext();
   if (depth !== 0) {
     console.warn(
       "DropDownElement should only be used at the top level (depth 0). Current depth:",
@@ -3444,8 +3435,7 @@ function DropDownElement({
   }
   const ui = overrides;
   if ((ui == null ? void 0 : ui.display) === false) return null;
-  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
-  const { rowPolicy, linkLikeComp } = useMenuRenderContext();
+  if (!menuTreeElement) return null;
   const hasChildren = children !== void 0 && Object.keys(children).length > 0;
   const isSelectedNode = isSelected(id);
   const isAncestorSelectedNode = isAncestorSelected(id);
@@ -3494,7 +3484,7 @@ function DropDown_Client({
     linkLikeComp,
     rowPolicy: defaultDropDownPolicy({
       baseIndent: 0,
-      downIndicator: /* @__PURE__ */ jsxRuntime.jsx(ExpandMore2__default.default, { fontSize: "small" }),
+      downIndicator: /* @__PURE__ */ jsxRuntime.jsx(ExpandMore__default.default, { fontSize: "small" }),
       rightIndicator: /* @__PURE__ */ jsxRuntime.jsx(ChevronRightIcon__default.default, { fontSize: "small" })
     }),
     megaMenuPolicy: megaMenuPolicy !== void 0 ? megaMenuPolicy : standardMegaMenuPolicy
@@ -3540,7 +3530,7 @@ function DropDown({
   appBarSx,
   toolbarSx
 }) {
-  const selectors = React24.useMemo(
+  const selectors = React22.useMemo(
     () => getSelectors({
       treeFromRoot,
       selector
@@ -3559,195 +3549,28 @@ function DropDown({
     }
   ) });
 }
-function normalizeHeaderProps(props) {
-  var _a, _b, _c, _d, _e, _f, _g, _h;
-  if ("brand" in props) {
-    return {
-      brand: props.brand,
-      routing: props.routing,
-      navigation: {
-        menuType: props.navigation.menuType,
-        responsiveMenu: props.navigation.responsiveMenu,
-        styles: props.navigation.styles,
-        menuPosition: (_a = props.navigation.menuPosition) != null ? _a : "right",
-        drawerAnchor: props.navigation.drawerAnchor,
-        hierarchy: props.navigation.hierarchy,
-        overrides: props.navigation.overrides,
-        selector: props.navigation.selector,
-        indent: props.navigation.indent
-      },
-      layout: {
-        showBreadcrumbs: (_c = (_b = props.layout) == null ? void 0 : _b.showBreadcrumbs) != null ? _c : true,
-        responsiveBreadcrumbs: (_d = props.layout) == null ? void 0 : _d.responsiveBreadcrumbs,
-        appBarSx: (_e = props.layout) == null ? void 0 : _e.appBarSx,
-        toolbarSx: (_f = props.layout) == null ? void 0 : _f.toolbarSx
-      }
-    };
-  }
-  return {
-    brand: {
-      logo: props.logo,
-      altLogo: props.altLogo,
-      logoSubtitle: props.logoSubtitle,
-      ImageComponent: props.ImageComponent
-    },
-    routing: {
-      linkComponent: props.linkComponent,
-      pathname: props.pathname
-    },
-    navigation: {
-      menuType: props.menuType,
-      responsiveMenu: props.responsiveMenu,
-      styles: props.styles,
-      menuPosition: (_g = props.menuPosition) != null ? _g : "right",
-      drawerAnchor: props.drawerAnchor,
-      hierarchy: props.hierarchy,
-      overrides: props.overrides,
-      selector: props.selector,
-      indent: props.indent
-    },
-    layout: {
-      showBreadcrumbs: (_h = props.showBreadcrumbs) != null ? _h : true,
-      responsiveBreadcrumbs: props.responsiveBreadcrumbs,
-      appBarSx: props.appBarSx,
-      toolbarSx: props.toolbarSx
-    }
-  };
-}
-var Header = function(props) {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
-  const { brand, routing, navigation, layout } = normalizeHeaderProps(props);
-  const { logo, altLogo = "Site logo", logoSubtitle, ImageComponent } = brand;
-  const { linkComponent, pathname } = routing;
-  const { menuType, responsiveMenu, styles: styles$1, menuPosition, drawerAnchor, hierarchy, overrides, selector, indent = 2 } = navigation;
-  const { showBreadcrumbs, responsiveBreadcrumbs, appBarSx, toolbarSx } = layout;
-  const theme = styles.useTheme();
-  const result = hierarchyToDrawerInput({ hierarchy, overrides });
-  if (!result.ok) {
-    console.error("Failed to prepare menu tree for story:", result.issues);
-    return /* @__PURE__ */ jsxRuntime.jsxs("div", { style: { color: "red" }, children: [
-      "Menu preparation error: ",
-      (_b = (_a = result.issues[0]) == null ? void 0 : _a.message) != null ? _b : "Unknown error"
-    ] });
-  }
-  const { root, treeFromRoot, rootOverrides } = result;
-  const resolvedDrawerAnchor = drawerAnchor != null ? drawerAnchor : menuPosition === "right" ? "right" : "left";
-  const responsiveMode = {
-    breakpoint: (_c = responsiveMenu == null ? void 0 : responsiveMenu.breakpoint) != null ? _c : "md",
-    mobileType: (_d = responsiveMenu == null ? void 0 : responsiveMenu.mobileType) != null ? _d : "drawer",
-    desktopType: (_e = responsiveMenu == null ? void 0 : responsiveMenu.desktopType) != null ? _e : "dropDown"
-  };
-  const isMobileViewport = material.useMediaQuery(theme.breakpoints.down(responsiveMode.breakpoint));
-  const resolvedMenuType = menuType != null ? menuType : isMobileViewport ? responsiveMode.mobileType : responsiveMode.desktopType;
-  const breadcrumbsMode = {
-    breakpoint: (_f = responsiveBreadcrumbs == null ? void 0 : responsiveBreadcrumbs.breakpoint) != null ? _f : "md",
-    mobile: (_g = responsiveBreadcrumbs == null ? void 0 : responsiveBreadcrumbs.mobile) != null ? _g : false,
-    desktop: (_h = responsiveBreadcrumbs == null ? void 0 : responsiveBreadcrumbs.desktop) != null ? _h : true
-  };
-  const isMobileBreadcrumbViewport = material.useMediaQuery(theme.breakpoints.down(breadcrumbsMode.breakpoint));
-  const shouldShowBreadcrumbs = showBreadcrumbs && (isMobileBreadcrumbViewport ? breadcrumbsMode.mobile : breadcrumbsMode.desktop);
-  const BreadcrumbSlot = shouldShowBreadcrumbs ? /* @__PURE__ */ jsxRuntime.jsx(BreadMenu_default, { linkComponent, pathname }) : /* @__PURE__ */ jsxRuntime.jsx(system.Box, { "aria-hidden": true, sx: { minWidth: 24 } });
-  const menuNode = resolvedMenuType === "drawer" ? /* @__PURE__ */ jsxRuntime.jsx(
-    DrawerMenu,
-    {
-      root,
-      treeFromRoot,
-      rootOverrides,
-      anchor: resolvedDrawerAnchor,
-      indent,
-      drawerPaperSx: (_i = styles$1 == null ? void 0 : styles$1.drawer) == null ? void 0 : _i.drawerPaperSx,
-      listSx: (_j = styles$1 == null ? void 0 : styles$1.drawer) == null ? void 0 : _j.listSx,
-      triggerButtonSx: (_k = styles$1 == null ? void 0 : styles$1.drawer) == null ? void 0 : _k.triggerButtonSx,
-      selector
-    }
-  ) : /* @__PURE__ */ jsxRuntime.jsx(
-    DropDown,
-    {
-      root,
-      treeFromRoot,
-      rootOverrides,
-      selector,
-      appBarSx: (_l = styles$1 == null ? void 0 : styles$1.dropDown) == null ? void 0 : _l.appBarSx,
-      toolbarSx: (_m = styles$1 == null ? void 0 : styles$1.dropDown) == null ? void 0 : _m.toolbarSx
-    }
-  );
+function HeaderMenu({ menuProps, logoProps, breadMenuProps }) {
   return /* @__PURE__ */ jsxRuntime.jsx(
-    material.AppBar,
+    HeaderMinimal,
     {
-      position: "sticky",
-      elevation: 0,
-      sx: {
-        bgcolor: "#FFFFFF",
-        color: "text.primary",
-        borderBottom: "1px solid",
-        borderColor: "divider",
-        ...appBarSx
-      },
-      children: /* @__PURE__ */ jsxRuntime.jsxs(
-        material.Toolbar,
-        {
-          sx: {
-            display: "grid",
-            gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)",
-            alignItems: "center",
-            py: 2,
-            gap: 2,
-            ...toolbarSx
-          },
-          children: [
-            /* @__PURE__ */ jsxRuntime.jsxs(
-              system.Box,
-              {
-                sx: {
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  justifySelf: "start",
-                  minWidth: 0
-                },
-                children: [
-                  /* @__PURE__ */ jsxRuntime.jsxs(
-                    system.Box,
-                    {
-                      sx: {
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: { xs: "flex-start", md: "center" }
-                      },
-                      children: [
-                        /* @__PURE__ */ jsxRuntime.jsx(ImageComponent, { src: logo, width: 170, height: 50, priority: true, alt: altLogo }),
-                        logoSubtitle ? /* @__PURE__ */ jsxRuntime.jsx(material.Typography, { variant: "eyebrow", sx: { mt: 1 }, children: logoSubtitle }) : null
-                      ]
-                    }
-                  ),
-                  menuPosition === "left" ? menuNode : null
-                ]
-              }
-            ),
-            /* @__PURE__ */ jsxRuntime.jsxs(
-              system.Box,
-              {
-                sx: {
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 2,
-                  minWidth: 0
-                },
-                children: [
-                  BreadcrumbSlot,
-                  menuPosition === "center" ? menuNode : null
-                ]
-              }
-            ),
-            /* @__PURE__ */ jsxRuntime.jsx(system.Box, { sx: { display: "flex", justifyContent: "flex-end", minWidth: 0 }, children: menuPosition === "right" ? menuNode : null })
-          ]
-        }
-      )
+      left: /* @__PURE__ */ jsxRuntime.jsx(HeaderLogo, { ...logoProps }),
+      centerUp: /* @__PURE__ */ jsxRuntime.jsx(BreadMenu_default, { ...breadMenuProps }),
+      centerDown: /* @__PURE__ */ jsxRuntime.jsx(DropDown, { ...menuProps })
     }
   );
-};
-var Header_default = React24__namespace.default.memo(Header);
+}
+function Header({ breadMenuProps, drawerProps, logoProps, menuProps }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { sx: { display: {
+      xs: "block",
+      sm: "none"
+    } }, children: /* @__PURE__ */ jsxRuntime.jsx(HeaderDrawer, { breadMenuProps, drawerProps, logoProps }) }),
+    /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { sx: { display: {
+      xs: "none",
+      sm: "block"
+    } }, children: /* @__PURE__ */ jsxRuntime.jsx(HeaderMenu, { breadMenuProps, logoProps, menuProps }) })
+  ] });
+}
 var DebouncedTextField = ({
   value: controlledValue,
   defaultValue = "",
@@ -3758,18 +3581,18 @@ var DebouncedTextField = ({
   ...props
 }) => {
   const isControlled = controlledValue !== void 0;
-  const [uncontrolledValue, setUncontrolledValue] = React24__namespace.useState(String(defaultValue != null ? defaultValue : ""));
+  const [uncontrolledValue, setUncontrolledValue] = React22__namespace.useState(String(defaultValue != null ? defaultValue : ""));
   const inputValue = isControlled ? String(controlledValue != null ? controlledValue : "") : uncontrolledValue;
-  const timerRef = React24__namespace.useRef(null);
-  const composingRef = React24__namespace.useRef(false);
-  const lastEmittedRef = React24__namespace.useRef(inputValue);
-  const clearTimer = React24__namespace.useCallback(() => {
+  const timerRef = React22__namespace.useRef(null);
+  const composingRef = React22__namespace.useRef(false);
+  const lastEmittedRef = React22__namespace.useRef(inputValue);
+  const clearTimer = React22__namespace.useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const schedule = React24__namespace.useCallback(
+  const schedule = React22__namespace.useCallback(
     (next) => {
       if (!onDebouncedChange) return;
       clearTimer();
@@ -3784,14 +3607,14 @@ var DebouncedTextField = ({
     },
     [debounceMs, onDebouncedChange, clearTimer]
   );
-  React24__namespace.useEffect(() => {
+  React22__namespace.useEffect(() => {
     schedule(inputValue);
   }, [debounceMs]);
-  React24__namespace.useEffect(() => {
+  React22__namespace.useEffect(() => {
     if (isControlled) schedule(String(controlledValue != null ? controlledValue : ""));
   }, [isControlled, controlledValue]);
-  React24__namespace.useEffect(() => clearTimer, [clearTimer]);
-  const handleChange = React24__namespace.useCallback(
+  React22__namespace.useEffect(() => clearTimer, [clearTimer]);
+  const handleChange = React22__namespace.useCallback(
     (e) => {
       var _a;
       const next = (_a = e.target.value) != null ? _a : "";
@@ -3801,7 +3624,7 @@ var DebouncedTextField = ({
     },
     [isControlled, onChange, schedule]
   );
-  const handleBlur = React24__namespace.useCallback(
+  const handleBlur = React22__namespace.useCallback(
     (e) => {
       var _a, _b;
       if (flushOnBlur && onDebouncedChange) {
@@ -3827,7 +3650,7 @@ var DebouncedTextField = ({
     schedule(next);
   };
   return /* @__PURE__ */ jsxRuntime.jsx(
-    TextField2__default.default,
+    TextField__default.default,
     {
       ...props,
       value: inputValue,
@@ -3839,11 +3662,7 @@ var DebouncedTextField = ({
   );
 };
 var DebouncedTextField_default = DebouncedTextField;
-var PageLayout = ({
-  children,
-  transparent = false,
-  sx
-}) => {
+var PageLayout = ({ children, transparent = false, sx }) => {
   return /* @__PURE__ */ jsxRuntime.jsx(
     StandardStack_default,
     {
@@ -3864,7 +3683,7 @@ function formatTitle(node, kind = "title") {
   if (typeof node === "string") {
     return kind === "title" ? /* @__PURE__ */ jsxRuntime.jsx(SubsubsectionTitle, { children: node }) : /* @__PURE__ */ jsxRuntime.jsx(Typography9__default.default, { variant: "strapline", children: node });
   }
-  return React24__namespace.isValidElement(node) ? node : null;
+  return React22__namespace.isValidElement(node) ? node : null;
 }
 var HeroBlock = ({
   image,
@@ -4185,9 +4004,9 @@ function VideoModal({
   widthPercent = 80,
   modalSx
 }) {
-  const [open, setOpen2] = React24.useState(false);
-  const titleId = React24.useId();
-  const descId = React24.useId();
+  const [open, setOpen2] = React22.useState(false);
+  const titleId = React22.useId();
+  const descId = React22.useId();
   const iframeSrc = resolveIframeSrc(videoId, src);
   const avatarUrl = typeof avatarSrc === "string" ? avatarSrc : avatarSrc == null ? void 0 : avatarSrc.src;
   const defaultTrigger = /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { display: "flex", alignItems: "center", justifyContent: align, gap: 1 }, children: [
@@ -4199,7 +4018,7 @@ function VideoModal({
         slotProps: { img: { loading: "lazy", decoding: "async" } }
       }
     ),
-    /* @__PURE__ */ jsxRuntime.jsx(Button8__default.default, { variant: "text", color: "secondary", onClick: () => setOpen2(true), children: buttonLabel })
+    /* @__PURE__ */ jsxRuntime.jsx(Button6__default.default, { variant: "text", color: "secondary", onClick: () => setOpen2(true), children: buttonLabel })
   ] });
   const wrappedTrigger = trigger ? /* @__PURE__ */ jsxRuntime.jsx(
     "span",
@@ -4277,13 +4096,65 @@ function VideoModal({
                   children: /* @__PURE__ */ jsxRuntime.jsx(Typography9__default.default, { variant: "narrative", color: "text.secondary", children: "Video source is missing or invalid." })
                 }
               ) }),
-              /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { sx: { mt: 2, textAlign: "right" }, children: /* @__PURE__ */ jsxRuntime.jsx(Button8__default.default, { onClick: () => setOpen2(false), "aria-label": "Close video modal", children: "Close" }) })
+              /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { sx: { mt: 2, textAlign: "right" }, children: /* @__PURE__ */ jsxRuntime.jsx(Button6__default.default, { onClick: () => setOpen2(false), "aria-label": "Close video modal", children: "Close" }) })
             ]
           }
         )
       }
     )
   ] });
+}
+
+// src/components/menus/prepareMenuTree.ts
+function prepareMenuTree({
+  hierarchy,
+  overrides
+}) {
+  const resolverReturn = resolver(hierarchy);
+  if (!resolverReturn.ok) {
+    console.error("Hierarchy issues detected:", resolverReturn.issues);
+    return { ok: false, issues: resolverReturn.issues };
+  }
+  const resultHtoD3 = convertToD3Stratify(
+    hierarchy.nodes,
+    overrides.nodes
+  );
+  if (!resultHtoD3.ok) {
+    console.error("Failed to convert hierarchy to D3 Stratify:", resultHtoD3.issues);
+    return { ok: false, issues: resultHtoD3.issues };
+  }
+  const sorted = sortD3Stratify(resultHtoD3.root);
+  if (!sorted.ok) {
+    console.error("Failed to sort D3 Stratify:", sorted.issues);
+    return { ok: false, issues: sorted.issues };
+  }
+  const treeBuildResult = buildTreeFromStratify(sorted.root);
+  if (treeBuildResult.issues.length > 0) {
+    console.error("Failed to build tree from D3 Stratify:", treeBuildResult.issues);
+    return { ok: false, issues: treeBuildResult.issues };
+  }
+  return { ok: true, root: treeBuildResult.root };
+}
+
+// src/components/menus/drawer/hierarchyToDrawerInput.tsx
+function hierarchyToDrawerInput({
+  hierarchy,
+  overrides
+}) {
+  var _a;
+  const treeRoot = prepareMenuTree({ hierarchy, overrides});
+  if (!treeRoot.ok) {
+    console.error("Failed to prepare menu tree:", treeRoot.issues);
+    return { ok: false, issues: treeRoot.issues };
+  }
+  const root = hierarchy.root;
+  const rootOverrides = (_a = overrides.root) == null ? void 0 : _a.payload;
+  return {
+    ok: true,
+    root,
+    treeFromRoot: treeRoot.root,
+    rootOverrides
+  };
 }
 
 // src/core/hierarchy/defineHierarchyModel.ts
@@ -4326,10 +4197,82 @@ function toImgAttrs(p) {
     style
   };
 }
-var HtmlImage = React24__namespace.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
+var HtmlImage = React22__namespace.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
   const mergedStyle = fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", ...style } : style != null ? style : {};
   const imgProps = toImgAttrs({ ...props, style: mergedStyle });
   return /* @__PURE__ */ jsxRuntime.jsx("img", { ref, ...imgProps });
+});
+
+// src/lib/text/index.ts
+var text_exports = {};
+__export(text_exports, {
+  boldToNodes: () => boldToNodes,
+  parseInlineMarkdown: () => parseInlineMarkdown,
+  toTitleCase: () => toTitleCase
+});
+function boldToNodes(input, keyScope = "b") {
+  const boldRe = /\*\*([^*]+)\*\*/g;
+  return splitAndWrap(input, boldRe, (m, k) => /* @__PURE__ */ jsxRuntime.jsx("strong", { children: m[1] }, k), `${keyScope}-`);
+}
+function parseInlineMarkdown(input, Link, keyScope = "md") {
+  const linkRe = /\[([^\]]+)\]\(((?:https?:\/\/|mailto:|tel:|\/|#)[^\s)]+)\)/g;
+  const boldRe = /\*\*([^*]+)\*\*/g;
+  const italicRe = /\*([^*]+)\*/g;
+  const withLinks = splitAndWrap(
+    input,
+    linkRe,
+    (m, k) => {
+      const text = m[1];
+      const href = m[2];
+      if (href.startsWith("/")) {
+        return /* @__PURE__ */ jsxRuntime.jsx(Link, { href, children: text }, k);
+      }
+      if (href.startsWith("http")) {
+        return /* @__PURE__ */ jsxRuntime.jsx(MuiLink2__default.default, { href, target: "_blank", rel: "noopener noreferrer", children: text }, k);
+      }
+      return /* @__PURE__ */ jsxRuntime.jsx(MuiLink2__default.default, { href, children: text }, k);
+    },
+    `${keyScope}-link-`
+  );
+  const withBold = flatMapNodes(
+    withLinks,
+    (n) => typeof n === "string" ? splitAndWrap(n, boldRe, (m, k) => /* @__PURE__ */ jsxRuntime.jsx("strong", { children: m[1] }, k), `${keyScope}-b-`) : [n]
+  );
+  const withItalics = flatMapNodes(
+    withBold,
+    (n) => typeof n === "string" ? splitAndWrap(n, italicRe, (m, k) => /* @__PURE__ */ jsxRuntime.jsx("em", { children: m[1] }, k), `${keyScope}-i-`) : [n]
+  );
+  const newlineRe = /\r\n|\r|\n|\\n/g;
+  const withBreaks = flatMapNodes(
+    withItalics,
+    (n) => typeof n === "string" ? splitAndWrap(n, newlineRe, (_m, k) => /* @__PURE__ */ jsxRuntime.jsx("br", {}, k), `${keyScope}-br-`) : [n]
+  );
+  return withBreaks;
+}
+function splitAndWrap(input, re, wrap, keyPrefix = "") {
+  const out = [];
+  let lastIndex = 0;
+  let local = 0;
+  for (; ; ) {
+    const match = re.exec(input);
+    if (!match) break;
+    if (match.index > lastIndex) out.push(input.slice(lastIndex, match.index));
+    out.push(wrap(match, `${keyPrefix}${local++}`));
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < input.length) out.push(input.slice(lastIndex));
+  return out;
+}
+function flatMapNodes(nodes, fn) {
+  const out = [];
+  for (const n of nodes) out.push(...fn(n));
+  return out;
+}
+
+// src/lib/icon/index.ts
+var icon_exports = {};
+__export(icon_exports, {
+  IconPicker: () => IconPicker_default
 });
 
 exports.ActionButton = ActionButton_default;
@@ -4356,7 +4299,11 @@ exports.FeaturedColumnsFooter = FeaturedColumnsFooter;
 exports.FiveColumnsFooter = FiveColumnsFooter;
 exports.GetInTouch = GetInTouch_default;
 exports.HIERARCHY_ERROR_CODE = HIERARCHY_ERROR_CODE;
-exports.Header = Header_default;
+exports.Header = Header;
+exports.HeaderDrawer = HeaderDrawer;
+exports.HeaderLogo = HeaderLogo;
+exports.HeaderMenu = HeaderMenu;
+exports.HeaderMinimal = HeaderMinimal;
 exports.HeroBlock = HeroBlock_default;
 exports.HtmlImage = HtmlImage;
 exports.IconPicker = IconPicker_default;

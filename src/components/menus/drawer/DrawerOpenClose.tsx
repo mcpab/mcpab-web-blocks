@@ -3,13 +3,13 @@
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 
-import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
+import type { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 
-import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
+import type { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { DrawerElement } from './DrawerElement';
 
 import { MenuDepthContext } from '../MenuDepthContext';
-import { RowPlan } from '../RowPolicyTypes';
+import type { RowPlan } from '../RowPolicyTypes';
 
 import React from 'react';
 import { ElementButton } from '../ElementButton';

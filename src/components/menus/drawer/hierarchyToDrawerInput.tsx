@@ -1,12 +1,12 @@
-import {
+import type {
   HierarchyTree,
   HierarchyTreeOverrides,
   PayloadMap,
 } from '../../../core/hierarchy/hierarchyTypes';
 
-import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
-import { HierarchyIssue } from '../../../core/hierarchy/hierarchyErrorShape';
-import { MenuTreeElement, MenuTreeElementUI, RootOverridesUI, RootTreeElement } from '../MenuTypes';
+import type { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
+import type { HierarchyIssue } from '../../../core/hierarchy/hierarchyErrorShape';
+import type { MenuTreeElement, MenuTreeElementUI, RootOverridesUI, RootTreeElement } from '../MenuTypes';
 import prepareMenuTree from '../prepareMenuTree';
 
 /** Input shape for {@link hierarchyToDrawerInput}. */

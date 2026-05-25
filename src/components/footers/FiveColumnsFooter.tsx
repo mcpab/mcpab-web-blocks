@@ -1,10 +1,11 @@
+import type {
+  DiagnosticEntry,
+  Layout,
+  LayoutRenderOverrideFor} from '@mcpab/gridcss';
 import {
   CSSLayout,
-  DiagnosticEntry,
   getLayoutFromCatalog,
-  GridCssMuiRenderer,
-  Layout,
-  LayoutRenderOverrideFor,
+  GridCssMuiRenderer
 } from '@mcpab/gridcss';
 import { Box } from '@mui/system';
 
@@ -54,6 +55,9 @@ const defineOverride = <L extends Layout<any, any>>(
  * ```
  */
 export function FiveColumnsFooter(props: FiveColumnsFooterProps) {
+  //
+
+  
   const layout = getLayoutFromCatalog('secondary', 'footerHeader5Columns');
   const diagnostics: DiagnosticEntry[] = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });

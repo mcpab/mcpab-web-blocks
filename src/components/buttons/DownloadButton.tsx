@@ -16,7 +16,12 @@
 
 'use client';
 import * as React from 'react';
-import { Button, type ButtonProps, Typography, Box, LinearProgress, Chip } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import type { ButtonProps } from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 import DownloadIcon from '@mui/icons-material/Download';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -30,77 +35,77 @@ import { green } from '@mui/material/colors';
 
 /**
  * File type enumeration for icon and styling selection
- * 
+ *
  * @enum {string}
  */
-export type FileType = 
-  | 'pdf' 
-  | 'doc' 
-  | 'image' 
-  | 'video' 
-  | 'audio' 
-  | 'zip' 
-  | 'app' 
+export type FileType =
+  | 'pdf'
+  | 'doc'
+  | 'image'
+  | 'video'
+  | 'audio'
+  | 'zip'
+  | 'app'
   | 'data'
   | 'unknown';
 
 /**
  * Props interface for DownloadButton component
- * 
+ *
  * Extends Material-UI ButtonProps with download-specific functionality
  * including file metadata, progress tracking, and user experience enhancements.
- * 
+ *
  * @interface DownloadButtonProps
  * @extends {ButtonProps} All Material-UI Button properties
- * 
+ *
  * @property {string} href - Download URL or file path
  *   - Direct file URLs for immediate downloads
  *   - API endpoints for generated/dynamic files
  *   - External URLs with proper CORS handling
  *   - Relative paths for internal file assets
- * 
+ *
  * @property {string} [fileName] - Display name for the file
  *   - User-friendly file description
  *   - Shown in download UI and metadata
  *   - Used for accessibility context
  *   - Falls back to URL filename if not provided
- * 
+ *
  * @property {string} [fileSize] - Human-readable file size
  *   - Formatted size string (e.g., "2.3 MB", "1.5 GB")
  *   - Helps users plan download bandwidth
  *   - Displayed as chip or secondary text
  *   - Optional but recommended for user experience
- * 
+ *
  * @property {FileType} [fileType] - File type for icon selection
  *   - Auto-detects from file extension if not provided
  *   - Determines appropriate icon and styling
  *   - Supports common file categories
  *   - Falls back to generic download icon
- * 
+ *
  * @property {boolean} [showProgress=false] - Enable download progress tracking
  *   - Shows linear progress bar during download
  *   - Requires browser support for download progress
  *   - Enhances UX for large file downloads
  *   - Automatically handles progress states
- * 
+ *
  * @property {boolean} [showFileSize=true] - Display file size chip
  *   - Shows file size as visual indicator
  *   - Helps users understand download commitment
  *   - Can be hidden for cleaner presentation
  *   - Responsive display based on button size
- * 
+ *
  * @property {() => void} [onDownloadStart] - Callback when download begins
  *   - Analytics tracking for download events
  *   - Custom handling before download starts
  *   - User notification or confirmation
  *   - Download preparation logic
- * 
+ *
  * @property {() => void} [onDownloadComplete] - Callback when download finishes
  *   - Success analytics and user feedback
  *   - Post-download actions or instructions
  *   - Download completion notifications
  *   - Follow-up action triggers
- * 
+ *
  * @example
  * // Comprehensive download button configuration
  * const downloadProps: DownloadButtonProps = {
@@ -130,7 +135,7 @@ export interface DownloadButtonProps extends Omit<ButtonProps, 'href' | 'startIc
 
 /**
  * Get appropriate icon for file type
- * 
+ *
  * @param {FileType} fileType - The file type
  * @returns {React.ReactElement} Appropriate Material-UI icon
  */
@@ -159,13 +164,13 @@ const getFileIcon = (fileType: FileType): React.ReactElement => {
 
 /**
  * Auto-detect file type from URL or filename
- * 
+ *
  * @param {string} href - File URL or path
  * @returns {FileType} Detected file type
  */
 const detectFileType = (href: string): FileType => {
   const extension = href.split('.').pop()?.toLowerCase();
-  
+
   switch (extension) {
     case 'pdf':
       return 'pdf';
@@ -214,33 +219,33 @@ const detectFileType = (href: string): FileType => {
 
 /**
  * DownloadButton - Enhanced file download button with progress and metadata
- * 
+ *
  * A comprehensive download button component that provides file information,
  * download progress tracking, and success feedback. Optimized for various
  * file types with appropriate icons and user experience enhancements.
- * 
+ *
  * Download Process:
  * 1. User clicks button triggering onDownloadStart callback
  * 2. Progress bar shows (if enabled) during download
  * 3. Browser handles file download with proper attribution
  * 4. Success state shows with completion callback
  * 5. Button returns to normal state after feedback period
- * 
+ *
  * Accessibility Features:
  * - Semantic download context with proper ARIA labels
  * - File size and type information for screen readers
  * - Keyboard navigation and focus management
  * - High contrast support for progress indicators
- * 
+ *
  * Performance Considerations:
  * - Efficient file type detection using extension parsing
  * - Minimal re-renders with proper state management
  * - Optimized icon selection with selective imports
  * - Progressive enhancement for download progress
- * 
+ *
  * @param {DownloadButtonProps} props - Component props
  * @returns {React.ReactElement} Enhanced download button
- * 
+ *
  * @example
  * // Document library download
  * <DownloadButton
@@ -256,7 +261,7 @@ const detectFileType = (href: string): FileType => {
  * >
  *   Download User Guide
  * </DownloadButton>
- * 
+ *
  * @example
  * // Mobile app download
  * <DownloadButton
@@ -277,7 +282,7 @@ const detectFileType = (href: string): FileType => {
  * >
  *   Download for Android
  * </DownloadButton>
- * 
+ *
  * @example
  * // Data export with custom handling
  * <DownloadButton
@@ -327,7 +332,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       const link = document.createElement('a');
       link.href = href;
       link.download = fileName || href.split('/').pop() || 'download';
-      
+
       if (isExternal) {
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
@@ -336,7 +341,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       // Simulate progress for user feedback
       if (showProgress) {
         const progressInterval = setInterval(() => {
-          setDownloadProgress(prev => {
+          setDownloadProgress((prev) => {
             if (prev >= 90) {
               clearInterval(progressInterval);
               return 90;
@@ -352,19 +357,21 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       document.body.removeChild(link);
 
       // Complete download feedback
-      setTimeout(() => {
-        setDownloadProgress(100);
-        setIsDownloading(false);
-        setIsComplete(true);
-        onDownloadComplete?.();
-        
-        // Reset state after feedback
-        setTimeout(() => {
-          setIsComplete(false);
-          setDownloadProgress(0);
-        }, 2000);
-      }, showProgress ? 1000 : 500);
+      setTimeout(
+        () => {
+          setDownloadProgress(100);
+          setIsDownloading(false);
+          setIsComplete(true);
+          onDownloadComplete?.();
 
+          // Reset state after feedback
+          setTimeout(() => {
+            setIsComplete(false);
+            setDownloadProgress(0);
+          }, 2000);
+        },
+        showProgress ? 1000 : 500,
+      );
     } catch (error) {
       console.error('Download failed:', error);
       setIsDownloading(false);
@@ -389,31 +396,31 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="inherit">{children}</Typography>
             {showFileSize && fileSize && (
-              <Chip 
-                label={fileSize} 
-                size="small" 
+              <Chip
+                label={fileSize}
+                size="small"
                 variant="outlined"
-                sx={{ 
+                sx={{
                   height: 20,
                   fontSize: '0.75rem',
                   borderColor: 'currentColor',
-                  color: 'inherit'
+                  color: 'inherit',
                 }}
               />
             )}
           </Box>
           {isDownloading && showProgress && (
-            <LinearProgress 
-              variant="determinate" 
+            <LinearProgress
+              variant="determinate"
               value={downloadProgress}
-              sx={{ 
+              sx={{
                 mt: 0.5,
                 height: 4,
                 borderRadius: 2,
                 backgroundColor: 'rgba(255,255,255,0.3)',
                 '& .MuiLinearProgress-bar': {
-                  backgroundColor: 'currentColor'
-                }
+                  backgroundColor: 'currentColor',
+                },
               }}
             />
           )}
@@ -430,7 +437,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       sx={{
         textAlign: 'left',
         justifyContent: 'flex-start',
-        ...rest.sx
+        ...rest.sx,
       }}
       {...rest}
     >

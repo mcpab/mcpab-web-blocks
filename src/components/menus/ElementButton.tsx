@@ -3,10 +3,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import type { SxProps, Theme } from '@mui/material/styles';
 import React from 'react';
-import { LinkTypeComponent } from '../../core/link';
+import type { LinkTypeComponent } from '../../core/link';
 import { ElementLabel } from './ElementLabel';
-import { MenuTreeElementUI } from './MenuTypes';
-import { RowPlan } from './RowPolicyTypes';
+import type { MenuTreeElementUI } from './MenuTypes';
+import type { RowPlan } from './RowPolicyTypes';
 
 /**
  * Props for {@link ElementButton}.

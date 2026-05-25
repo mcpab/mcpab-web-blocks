@@ -1,6 +1,7 @@
-import { Stratify } from './convertToD3Stratify';
-import { StratifyPayload } from './D3StratifyTypes';
-import { HIERARCHY_ERROR_CODE, HierarchyIssue } from './hierarchyErrorShape';
+import type { Stratify } from './convertToD3Stratify';
+import type { StratifyPayload } from './D3StratifyTypes';
+import type { HierarchyIssue } from './hierarchyErrorShape';
+import { HIERARCHY_ERROR_CODE } from './hierarchyErrorShape';
 /**
  * Build a nested `{ children: Record<id, payload> }` tree from a `d3-hierarchy` stratified root.
  *

@@ -6,13 +6,35 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./banner": {
+      "types": "./dist/banner.d.ts",
+      "import": "./dist/banner.js",
+      "require": "./dist/banner.cjs"
+    },
+    "./typography": {
+      "types": "./dist/typography.d.ts",
+      "import": "./dist/typography.js",
+      "require": "./dist/typography.cjs"
+    },
+    "./image": {
+      "types": "./dist/image.d.ts",
+      "import": "./dist/image.js",
+      "require": "./dist/image.cjs"
+    },
+    "./header": {
+      "types": "./dist/header.d.ts",
+      "import": "./dist/header.js",
+      "require": "./dist/header.cjs"
     },
     "./mui-augment": {
       "types": "./dist/mui-augment.d.ts",
@@ -27,11 +49,13 @@
     "prepare": "pnpm build",
     "dev": "tsup --config tsup.config.ts --watch",
     "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "check:internal-imports": "bash scripts/check-internal-imports.sh",
+    "check:mui-imports": "bash scripts/check-mui-imports.sh",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "format:write": "prettier -w \"src/**/*.{ts,tsx,md,json}\"",
     "ladle": "ladle serve",
     "ladle:build": "ladle build",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "docs": "typedoc",
     "docs:watch": "typedoc --watch"
   },
@@ -42,6 +66,7 @@
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
     "@fontsource/crimson-pro": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
     "@ladle/react": "^5.1.1",
@@ -54,6 +79,9 @@
     "@types/react-dom": "^18.3.0",
     "eslint": "^9",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.6.0",
     "jest": "^30.2.0",
     "prettier": "^3.6.2",
     "react": "19.2.0",
@@ -62,7 +90,8 @@
     "tsup": "^8.0.0",
     "typedoc": "^0.28.16",
     "typedoc-plugin-markdown": "^4.9.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.59.4"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

@@ -15,7 +15,7 @@ export const Basic: Story = () => (
       text="A short excerpt to share."
       variant="contained"
       onShare={(success, platform) => {
-        // eslint-disable-next-line no-console
+         
         console.log("[onShare]", { success, platform });
       }}
     >

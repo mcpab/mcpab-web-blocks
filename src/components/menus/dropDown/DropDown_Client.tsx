@@ -3,11 +3,13 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
-import { DefaultLinkLike, LinkTypeComponent } from '../../../core/link';
-import { MenuRenderContext, MenuRenderContextType } from '../MenuRenderContext';
+import type { LinkTypeComponent } from '../../../core/link';
+import { DefaultLinkLike } from '../../../core/link';
+import type { MenuRenderContextType } from '../MenuRenderContext';
+import { MenuRenderContext } from '../MenuRenderContext';
 import { defaultDropDownPolicy } from './defaultDropDownRowPolicy';
 import { standardMegaMenuPolicy } from './defaultMegaMenuPolicy';
-import { DropDownMenuProps } from './DropDown';
+import type { DropDownMenuProps } from './DropDown';
 import { DropDownElement } from './DropDownElement';
 
 import AppBar from '@mui/material/AppBar';

@@ -7,11 +7,11 @@ import BackButton, { RouterProvider } from "./BackButton";
 
 const mockRouter = {
   back: () => {
-    // eslint-disable-next-line no-console
+     
     console.log("[mockRouter.back] called");
   },
   push: (path: string) => {
-    // eslint-disable-next-line no-console
+     
     console.log("[mockRouter.push] called:", path);
   },
 };

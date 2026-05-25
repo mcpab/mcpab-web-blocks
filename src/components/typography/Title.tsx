@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import {BodyTextProps} from './types';
+import type {BodyTextProps} from './types';
 
 export const variantLevels = {
   page: 'h1',

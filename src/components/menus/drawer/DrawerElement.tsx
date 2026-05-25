@@ -1,8 +1,8 @@
 'use client';
 
 import Divider from '@mui/material/Divider';
-import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
-import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
+import type { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
+import type { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { DrawerOpenClose } from './DrawerOpenClose';
 import { ElementButton } from '../ElementButton';
 import { useMenuControllerContext } from '../MenuControllerContext';
@@ -34,16 +34,17 @@ type DrawerElementProps = {
 export function DrawerElement({ id, menuTreeElement, overrides, children }: DrawerElementProps) {
   ///
 
-  if (!menuTreeElement) return null;
 
   const { menuStore } = useMenuControllerContext();
   const { isSelected, isAncestorSelected } = useMenuSelectorContext();
-
   const isOpen = useNodeOpen(menuStore, id);
+
   const onToggle = (open: boolean) => setOpen(menuStore, id)(open);
 
   const { rowPolicy, linkLikeComp } = useMenuRenderContext();
   const { depth } = useMenuDepthContext();
+  
+  if (!menuTreeElement) return null;
 
   const hasChildren = children !== undefined && Object.keys(children).length > 0;
 

@@ -1,6 +1,6 @@
 import type { Story } from '@ladle/react';
 
-import {
+import type {
   HierarchyTree,
   HierarchyTreeOverrides,
   PayloadMap,
@@ -11,7 +11,7 @@ import { DropDown } from './DropDown';
 
 import Box from '@mui/material/Box';
 import { hierarchyToDrawerInput } from '../drawer/hierarchyToDrawerInput';
-import { IsSelectedMenuElement } from '../drawer/pathSelectors';
+import type { IsSelectedMenuElement } from '../drawer/pathSelectors';
 
 /**
  * Realistic tech-company nav:

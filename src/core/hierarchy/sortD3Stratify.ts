@@ -1,4 +1,4 @@
-import { Stratify } from './convertToD3Stratify';
+import type { Stratify } from './convertToD3Stratify';
 import { HIERARCHY_ERROR_CODE, type HierarchyIssue } from './hierarchyErrorShape';
 /**
  * Sort a `d3-hierarchy` stratified tree by `payload.node.order`.

@@ -1,10 +1,11 @@
+import type {
+  DiagnosticEntry,
+  Layout,
+  LayoutRenderOverrideFor} from '@mcpab/gridcss';
 import {
   CSSLayout,
-  DiagnosticEntry,
   getLayoutFromCatalog,
-  GridCssMuiRenderer,
-  Layout,
-  LayoutRenderOverrideFor,
+  GridCssMuiRenderer
 } from '@mcpab/gridcss';
 import { Box } from '@mui/system';
 

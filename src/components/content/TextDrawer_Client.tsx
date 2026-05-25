@@ -1,11 +1,13 @@
 'use client';
 
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import React from 'react';
-import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
-import { TextDrawerElement, TextDrawerElementUI } from './TextDrawerTypes';
- 
-import { TextTreeRendererContext, TextTreeRendererContextType } from './TextTreeRenderContext';
+import type { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
+import type { TextDrawerElement, TextDrawerElementUI } from './TextDrawerTypes';
+
+import type { TextTreeRendererContextType } from './TextTreeRenderContext';
+import { TextTreeRendererContext } from './TextTreeRenderContext';
 import { TreeTextDepthContext } from './TreeDepthContext';
 import { TextElement } from './TextElement';
 import { defaultRendersRegistry } from './textNodeRenderers/defaultTextPolicyRegister';

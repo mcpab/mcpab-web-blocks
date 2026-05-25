@@ -1,7 +1,7 @@
 import type { SxProps, Theme } from '@mui/material/styles';
-import { TypographyProps } from '@mui/material/Typography';
-import React from 'react';
-import { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
+import type { TypographyProps } from '@mui/material/Typography';
+import type React from 'react';
+import type { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
 
 /**
  * Subset of MUI `TypographyProps` used to style the label text inside a menu row.

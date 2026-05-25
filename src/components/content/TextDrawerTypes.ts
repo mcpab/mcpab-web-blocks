@@ -1,6 +1,5 @@
-import { SxProps } from '@mui/material';
-import { Theme } from '@mui/material/styles';
-import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
+import type { SxProps, Theme } from '@mui/material/styles';
+import type { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
 
 /**
  * Serializable data for a single node in the text drawer tree.

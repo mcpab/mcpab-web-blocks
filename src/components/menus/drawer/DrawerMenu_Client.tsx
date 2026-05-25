@@ -3,19 +3,21 @@
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Drawer, List } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
 import React, { useEffect, useState } from 'react';
-import { LinkTypeComponent } from '../../../core/link';
+import type { LinkTypeComponent } from '../../../core/link';
 import { DefaultLinkLike } from '../../../core/link/link-types';
 import { useMenuControllerContext } from '../MenuControllerContext';
 import { MenuDepthContext } from '../MenuDepthContext';
-import { MenuRenderContext, MenuRenderContextType } from '../MenuRenderContext';
+import type { MenuRenderContextType } from '../MenuRenderContext';
+import { MenuRenderContext } from '../MenuRenderContext';
 import { useMenuSelectorContext } from '../MenuSelectorContext';
 import { setOpen } from '../menuStore';
 import { defaultDrawerRowPolicy } from './defaultDrawerRowPolicy';
 import { DrawerElement } from './DrawerElement';
-import { DrawerMenuPropsRendering } from './DrawerMenuTypes';
+import type { DrawerMenuPropsRendering } from './DrawerMenuTypes';
 
 ///
 
@@ -30,21 +32,27 @@ export function DrawerMenu_Client({
   triggerButtonSx,
 }: DrawerMenuPropsRendering) {
   //
-  //
-  // console.log('DrawerMenu_Client root:', root);
-  // console.log('DrawerMenu_Client treeFromRoot:', treeFromRoot);
-  //
-  const linkLikeComp: LinkTypeComponent = rootOverrides?.linkComponent ?? DefaultLinkLike;
 
+  const selectors = useMenuSelectorContext();
+  const menuController = useMenuControllerContext();
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const toggleDrawer = (drawerState: boolean) => () => setOpenDrawer(drawerState);
 
   const rootLabel = root.label || 'Menu';
 
-  treeFromRoot.node = {
-    label: rootLabel,
-  };
+  const renderedTreeFromRoot = React.useMemo(
+    () => ({
+      ...treeFromRoot,
+      node: {
+        ...treeFromRoot.node,
+        label: rootLabel,
+      },
+    }),
+    [treeFromRoot, rootLabel],
+  );
+
+  const linkLikeComp: LinkTypeComponent = rootOverrides?.linkComponent ?? DefaultLinkLike;
 
   const renderContext: MenuRenderContextType = {
     linkLikeComp: linkLikeComp,
@@ -55,8 +63,6 @@ export function DrawerMenu_Client({
     }),
   };
 
-  const selectors = useMenuSelectorContext();
-  const menuController = useMenuControllerContext();
   const selectedPathIds = selectors.selectedPathIds;
   const selectId = selectors.selectedId;
   const menuStore = menuController.menuStore;
@@ -65,10 +71,10 @@ export function DrawerMenu_Client({
     for (const selectedId of selectedPathIds) {
       if (selectedId !== selectId) setOpen(menuStore, selectedId)(true);
     }
-  }, [selectId, menuStore]);
+  }, [selectId, menuStore,selectedPathIds]);
 
-  const childrenComponents = treeFromRoot.children
-    ? Object.entries(treeFromRoot.children).map(([childId, childBranch]) => (
+  const childrenComponents = renderedTreeFromRoot.children
+    ? Object.entries(renderedTreeFromRoot.children).map(([childId, childBranch]) => (
         <React.Fragment key={childId}>
           <DrawerElement
             id={childId}

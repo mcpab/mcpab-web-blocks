@@ -1,5 +1,5 @@
 import IconPicker from '../../../lib/icon/IconPicker';
-import { MenuLabelTypographyProps, RowPlan, RowPolicy, RowPolicyProps } from '../RowPolicyTypes';
+import type { MenuLabelTypographyProps, RowPlan, RowPolicy, RowPolicyProps } from '../RowPolicyTypes';
 
 import { safeTitleCase } from '../../../lib/utils';
 
@@ -32,7 +32,6 @@ type DefaultDropDownProps = {
  * Pass a custom `RowPolicy` via {@link MenuRenderContext} to restyle without modifying components.
  */
 export const defaultDropDownPolicy = ({
-  baseIndent,
   downIndicator,
   rightIndicator,
 }: DefaultDropDownProps): RowPolicy => {
@@ -40,8 +39,6 @@ export const defaultDropDownPolicy = ({
   return ({
     depth,
     menuTreeElement,
-    menuTreeElementUI,
-    isOpen,
     isSelected,
     isAncestorSelected,
     hasChildren,
@@ -56,7 +53,7 @@ export const defaultDropDownPolicy = ({
 
     const paddingInlineStart = depth > 1 ? (depth - 1) * 8 : 0;
 
-    let rowPolicy: RowPlan = {
+    const rowPolicy: RowPlan = {
       text: label,
       icon: icon,
       indicator: indicator,

@@ -1,6 +1,6 @@
 import type { Story } from '@ladle/react';
 
-import {
+import type {
   HierarchyTree,
   HierarchyTreeOverrides,
   PayloadMap,
@@ -9,7 +9,7 @@ import { DefaultLinkLike } from '../../../core/link';
 import type { MenuTreeElement, MenuTreeElementUI, RootOverridesUI } from '../MenuTypes';
 import { DrawerMenu } from './DrawerMenu';
 import { hierarchyToDrawerInput } from './hierarchyToDrawerInput';
-import { IsSelectedMenuElement } from './pathSelectors';
+import type { IsSelectedMenuElement } from './pathSelectors';
 
 /**
  * Same Acme Corp nav as the dropdown story — but rendered as a collapsible sidebar.

@@ -1,6 +1,7 @@
 'use client';
 
-import { CSSLayout, GridCssMuiRenderer, Layout, LayoutRenderOverrideFor } from '@mcpab/gridcss';
+import type { Layout, LayoutRenderOverrideFor } from '@mcpab/gridcss';
+import { CSSLayout, GridCssMuiRenderer } from '@mcpab/gridcss';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 import * as React from 'react';

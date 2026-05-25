@@ -1,4 +1,4 @@
-import { TypographyProps } from "@mui/material/Typography";
+import type { TypographyProps } from "@mui/material/Typography";
 
 type SansVariantProps = Omit<TypographyProps, 'variant' | 'component'>;
 

@@ -1,9 +1,10 @@
 'use client';
 
-import { LabelOnly } from './LabelOnly';
+import { LabelOnly } from './Label';
 import { LinkedLabel } from './LinkedLabel';
-import { Registry, defineEntry } from './rendersRegistryTypes';
-import { SimpleText } from './SimpleText';
+import type { Registry} from './rendersRegistryTypes';
+import { defineEntry } from './rendersRegistryTypes';
+import { Text } from '../Text';
 import { TitleAndSubDepth } from './TitleAndSubDepth';
 import { TitleAndSubStd } from './TitleAndSubStd';
 import { TitledText } from './TitledText';
@@ -50,7 +51,7 @@ export const defaultRendersRegistry = {
       text: textDrawerElement.content ?? textDrawerElement.title,
       sx: textDrawerElementUI?.sx,
     }),
-    renderer: SimpleText,
+    renderer: Text,
   },
   /** Label + optional subtitle + body paragraph. Uses `content`; falls back to `title`. Supports `sx`. */
   titledText: defineEntry({

@@ -44,7 +44,7 @@ export default function Section({
       sx={[
         {
           // Put the token into a CSS var so descendants can reference it if needed.
-          '--section-h': SECTION_MIN_H[size] as any,
+          '--section-h': SECTION_MIN_H[size] ,
           minHeight: 'var(--section-h)',
           ...(lockHeight ? { height: 'var(--section-h)' } : null), // makes height definite
           position: 'relative', // establish containing block for abs children

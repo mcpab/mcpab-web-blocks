@@ -46,14 +46,14 @@ export { defaultRendersRegistry } from './defaultTextPolicyRegister';
 export type { DefaultRendersRegistry } from './defaultTextPolicyRegister';
 
 // Leaf renderers
-export { SimpleText } from './SimpleText';
-export type { SimpleTextProps } from './SimpleText';
+export { Text as SimpleText } from '../Text';
+export type { TextProps as SimpleTextProps } from '../Text';
 
 export { TitledText } from './TitledText';
 export type { TitledTextProps } from './TitledText';
 
-export { LabelOnly } from './LabelOnly';
-export type { LabelOnlyProps } from './LabelOnly';
+export { LabelOnly } from './Label';
+export type { LabelProps as LabelOnlyProps } from './Label';
 
 export { LinkedLabel } from './LinkedLabel';
 export type { LinkedLabelProps } from './LinkedLabel';

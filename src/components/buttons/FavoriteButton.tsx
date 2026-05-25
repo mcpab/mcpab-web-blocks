@@ -17,7 +17,9 @@
 
 'use client';
 import * as React from 'react';
-import { IconButton, type IconButtonProps, Tooltip } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import type { IconButtonProps } from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -47,11 +49,14 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   sx,
   ...rest
 }) => {
-  const [favorited, setFavorited] = React.useState(isFavorited);
 
-  React.useEffect(() => {
-    setFavorited(isFavorited);
-  }, [isFavorited]);
+  //
+
+ const favorited = isFavorited;
+
+const handleToggle = () => {
+  onToggle(!favorited, itemId);
+};
 
   const getIcons = () => {
     switch (favoriteType) {
@@ -59,19 +64,19 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         return {
           filled: <BookmarkIcon />,
           outlined: <BookmarkBorderIcon />,
-          color: '#1976d2'
+          color: '#1976d2',
         };
       case 'like':
         return {
           filled: <ThumbUpIcon />,
           outlined: <ThumbUpOutlinedIcon />,
-          color: '#1976d2'
+          color: '#1976d2',
         };
       default:
         return {
           filled: <FavoriteIcon />,
           outlined: <FavoriteBorderIcon />,
-          color: '#f44336'
+          color: '#f44336',
         };
     }
   };
@@ -91,12 +96,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     }
   };
 
-  const handleToggle = () => {
-    const newFavorited = !favorited;
-    setFavorited(newFavorited);
-    onToggle(newFavorited, itemId);
-  };
-
+ 
   const icons = getIcons();
   const currentIcon = favorited ? icons.filled : icons.outlined;
 
@@ -111,7 +111,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
           transform: 'scale(1.1)',
           color: icons.color,
         },
-        ...sx
+        ...sx,
       }}
       {...rest}
     >
@@ -120,11 +120,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   );
 
   if (showTooltip) {
-    return (
-      <Tooltip title={getTooltipText()}>
-        {button}
-      </Tooltip>
-    );
+    return <Tooltip title={getTooltipText()}>{button}</Tooltip>;
   }
 
   return button;

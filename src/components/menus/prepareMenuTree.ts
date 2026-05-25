@@ -1,11 +1,11 @@
 import { buildTreeFromStratify } from '../../core/hierarchy/buildTreeFromStratify';
 import { convertToD3Stratify } from '../../core/hierarchy/convertToD3Stratify';
-import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
-import { HierarchyIssue } from '../../core/hierarchy/hierarchyErrorShape';
-import { PayloadMap } from '../../core/hierarchy/hierarchyTypes';
+import type { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
+import type { HierarchyIssue } from '../../core/hierarchy/hierarchyErrorShape';
+import type { PayloadMap } from '../../core/hierarchy/hierarchyTypes';
 import { resolver } from '../../core/hierarchy/resolver';
 import { sortD3Stratify } from '../../core/hierarchy/sortD3Stratify';
-import { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
+import type { MenuTreeElement, MenuTreeElementUI } from './MenuTypes';
 import { type HierachyToDrawerinputProps } from './drawer/hierarchyToDrawerInput';
 
 /** @internal Input shape for {@link prepareMenuTree} — `MenuProps` minus display-only fields. */

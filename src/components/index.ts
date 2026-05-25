@@ -23,3 +23,6 @@ export * from './menus';
 export * from './navigation';
 export * from './styled';
 export * from './typography';
+
+export { default as MainTitle } from './banner/MainTitle';
+export type { MainTitleProps, MainTitleBlock } from './banner/MainTitle';

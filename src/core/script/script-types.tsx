@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 /** Subset/superset of Next.js Script strategies */
 export type ScriptStrategy =

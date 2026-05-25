@@ -56,7 +56,7 @@ export type TreeTextStore<TreeTextState> = {
  */
 export function createTreeTextStore(initialState: TreeTextState): TreeTextStore<TreeTextState> {
   let treeTextState = { ...initialState };
-  let listeners = new Set<() => void>();
+  const listeners = new Set<() => void>();
 
   return {
     getState: () => treeTextState,

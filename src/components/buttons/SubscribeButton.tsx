@@ -15,16 +15,13 @@
 
 'use client';
 import * as React from 'react';
-import { 
-  Button, 
-  TextField, 
-  Box, 
-  CircularProgress, 
-  Alert,
-  Snackbar,
-  Stack,
-  type ButtonProps 
-} from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import type { ButtonProps } from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
@@ -40,12 +37,12 @@ export interface SubscribeButtonProps extends Omit<ButtonProps, 'onClick'> {
 
 const SubscribeButton: React.FC<SubscribeButtonProps> = ({
   onSubscribe,
-  placeholder = "Enter your email address",
-  successMessage = "Successfully subscribed!",
-  errorMessage = "Subscription failed. Please try again.",
+  placeholder = 'Enter your email address',
+  successMessage = 'Successfully subscribed!',
+  errorMessage = 'Subscription failed. Please try again.',
   requireEmail = true,
   showInlineForm = true,
-  children = "Subscribe",
+  children = 'Subscribe',
   ...rest
 }) => {
   const [email, setEmail] = React.useState('');
@@ -81,7 +78,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
       } else {
         setShowError(true);
       }
-    } catch (error) {
+    } catch {
       setShowError(true);
     } finally {
       setIsLoading(false);
@@ -123,9 +120,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
         </Snackbar>
 
         <Snackbar open={showError} autoHideDuration={4000} onClose={() => setShowError(false)}>
-          <Alert severity="error">
-            {errorMessage}
-          </Alert>
+          <Alert severity="error">{errorMessage}</Alert>
         </Snackbar>
       </>
     );

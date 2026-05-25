@@ -35,7 +35,7 @@ export type MenuStore<MenuState> = {
  */
 export function createMenuStore(initialState: MenuState): MenuStore<MenuState> {
   let menusState = { ...initialState };
-  let listeners = new Set<() => void>();
+  const listeners = new Set<() => void>();
 
   return {
     getState: () => menusState,

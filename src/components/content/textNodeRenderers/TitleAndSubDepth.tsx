@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { StandardStack } from '../../styled';
 import { SubsectionTitleLabel, SubsubsectionTitleLabel } from '../../typography';
 
@@ -45,7 +45,13 @@ export type TitleAndSubDepthProps = {
  *
  * Registry key: `"titleAndSubDepth"` | Type: `"section"`
  */
-export function TitleAndSubDepth({ title, subtitle, indicator, onClick, depth }: TitleAndSubDepthProps) {
+export function TitleAndSubDepth({
+  title,
+  subtitle,
+  indicator,
+  onClick,
+  depth,
+}: TitleAndSubDepthProps) {
   const TitleLabel = depth === 0 ? SubsectionTitleLabel : SubsubsectionTitleLabel;
 
   return (

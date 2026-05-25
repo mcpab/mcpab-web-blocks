@@ -91,3 +91,22 @@ export { defineEntry } from './textNodeRenderers/rendersRegistryTypes';
 
 export { defaultRendersRegistry } from './textNodeRenderers/defaultTextPolicyRegister';
 export type { DefaultRendersRegistry } from './textNodeRenderers/defaultTextPolicyRegister';
+
+// ─── Atomic inline rich text components ─────────────────────────────────────
+
+export {
+  InlineCode,
+  InlineEmphasis,
+  InlineLink,
+  InlineStrong,
+  InlineStrongEmphasis,
+  InlineText,
+} from './inline';
+export type {
+  InlineCodeProps,
+  InlineEmphasisProps,
+  InlineLinkProps,
+  InlineStrongEmphasisProps,
+  InlineStrongProps,
+  InlineTextProps,
+} from './inline';

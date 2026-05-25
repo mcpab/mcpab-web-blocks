@@ -1,9 +1,9 @@
 'use client';
 
-import { Collapse } from '@mui/material';
+import Collapse from '@mui/material/Collapse';
 import React from 'react';
-import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
-import { TextDrawerElement, TextDrawerElementUI } from './TextDrawerTypes';
+import type { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
+import type { TextDrawerElement, TextDrawerElementUI } from './TextDrawerTypes';
 import { TextElement } from './TextElement';
 import { useTextTreeRendererContext } from './TextTreeRenderContext';
 import { TreeTextDepthContext } from './TreeDepthContext';
@@ -49,7 +49,6 @@ type TextOpenCloseProps = {
  * @internal - Rendered by `TextElement` for nodes with children.
  */
 export function TextOpenClose({
-  id,
   textDrawerElement,
   textDrawerElementUI,
   children,
@@ -57,8 +56,7 @@ export function TextOpenClose({
   onToggle,
   depth,
 }: TextOpenCloseProps) {
-  const { openIndicator, closeIndicator, rendersRegistry } =
-    useTextTreeRendererContext();
+  const { openIndicator, closeIndicator, rendersRegistry } = useTextTreeRendererContext();
 
   if (!textDrawerElement) return null;
 
@@ -89,7 +87,7 @@ export function TextOpenClose({
     isOpen,
     closeIndicator,
     openIndicator,
-    onClick:handleClick
+    onClick: handleClick,
   });
 
   const Component = rendersRegistry[renderer].renderer;

@@ -9,7 +9,7 @@
 import type { HierarchyNode } from 'd3-hierarchy';
 import { stratify } from 'd3-hierarchy';
 import { type HierarchyIssue, HIERARCHY_ERROR_CODE } from './hierarchyErrorShape';
-import { PayloadMap } from './hierarchyTypes';
+import type { PayloadMap } from './hierarchyTypes';
 
 /**
  * The `d3-hierarchy` node type returned by {@link convertToD3Stratify}.
@@ -43,9 +43,9 @@ export type Stratify<Node, NodeOverrides> = HierarchyNode<D3StratifyData<Node, N
  * ```
  */
 
-import { HierarchyRelations } from './hierarchyTypes';
-import { HierarchyRelationsOverrides } from './hierarchyTypes';
-import { D3StratifyData } from './D3StratifyTypes';
+import type { HierarchyRelations } from './hierarchyTypes';
+import type { HierarchyRelationsOverrides } from './hierarchyTypes';
+import type { D3StratifyData } from './D3StratifyTypes';
 
 export function convertToD3Stratify<Node, NodeOverrides, P extends PayloadMap<Node>>(
   hierarchy: HierarchyRelations<P>,
@@ -68,7 +68,7 @@ export function convertToD3Stratify<Node, NodeOverrides, P extends PayloadMap<No
 
   for (const key in hierarchy) {
     //
-    let node: Node = hierarchy[key].payload;
+    const node: Node = hierarchy[key].payload;
     let overrides: NodeOverrides | undefined = undefined;
 
     if (overridesNodes) {

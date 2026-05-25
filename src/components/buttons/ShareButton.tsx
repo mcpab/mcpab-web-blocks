@@ -14,16 +14,14 @@
 
 'use client';
 import * as React from 'react';
-import { 
-  Button, 
-  type ButtonProps, 
-  Menu, 
-  MenuItem, 
-  ListItemIcon, 
-  ListItemText,
-  Snackbar,
-  Alert
-} from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import type { ButtonProps } from '@mui/material/Button';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Snackbar from '@mui/material/Snackbar';
 import ShareIcon from '@mui/icons-material/Share';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -34,7 +32,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 /**
  * Share data interface matching Web Share API
- * 
+ *
  * @interface ShareData
  */
 export interface ShareData {
@@ -46,62 +44,62 @@ export interface ShareData {
 
 /**
  * Fallback platform options for sharing
- * 
+ *
  * @enum {string}
  */
 export type FallbackPlatform = 'twitter' | 'linkedin' | 'facebook' | 'email' | 'copy';
 
 /**
  * Props interface for ShareButton component
- * 
+ *
  * Extends Material-UI ButtonProps with Web Share API functionality
  * and progressive enhancement features for cross-platform sharing.
- * 
+ *
  * @interface ShareButtonProps
  * @extends {Omit<ButtonProps, 'onClick'>} ButtonProps without onClick conflict
- * 
+ *
  * @property {string} [url] - URL to share
  *   - Current page URL if not provided
  *   - Should be absolute URL for social platform compatibility
  *   - Used in all sharing methods (native and fallback)
  *   - Required for most sharing scenarios
- * 
+ *
  * @property {string} [title] - Content title for sharing
  *   - Page title or content headline
  *   - Used in social media post templates
  *   - Enhances sharing context and engagement
  *   - Falls back to document title if not provided
- * 
+ *
  * @property {string} [text] - Descriptive text content
  *   - Additional context or description
  *   - Used in social media post body
  *   - Helps with content discovery and engagement
  *   - Optional but recommended for better sharing
- * 
+ *
  * @property {File[]} [files] - Files to share (native API only)
  *   - Images, documents, or media files
  *   - Only works with native Web Share API
  *   - Falls back to URL sharing if files not supported
  *   - Subject to browser and platform limitations
- * 
+ *
  * @property {boolean} [showFallbackOptions=true] - Show fallback menu when native unavailable
  *   - Displays social platform options in menu
  *   - Provides broader sharing options
  *   - Can be disabled for native-only sharing
  *   - Recommended for better user experience
- * 
+ *
  * @property {FallbackPlatform[]} [fallbackPlatforms] - Custom fallback platform list
  *   - Override default platforms: ['twitter', 'linkedin', 'facebook', 'email', 'copy']
  *   - Customize based on target audience
  *   - Control available sharing options
  *   - Maintain brand consistency
- * 
+ *
  * @property {(success: boolean, platform?: string) => void} [onShare] - Share event callback
  *   - Analytics tracking for sharing events
  *   - Custom handling after share completion
  *   - Success/failure feedback
  *   - Platform-specific tracking
- * 
+ *
  * @example
  * // Comprehensive sharing configuration
  * const shareProps: ShareButtonProps = {
@@ -133,10 +131,10 @@ export interface ShareButtonProps extends Omit<ButtonProps, 'onClick'> {
  */
 const DEFAULT_FALLBACK_PLATFORMS: FallbackPlatform[] = [
   'twitter',
-  'linkedin', 
+  'linkedin',
   'facebook',
   'email',
-  'copy'
+  'copy',
 ];
 
 /**
@@ -146,63 +144,63 @@ const PLATFORM_CONFIG = {
   twitter: {
     icon: <TwitterIcon />,
     label: 'Share on Twitter',
-    getUrl: (data: ShareData) => 
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(data.text || '')}&url=${encodeURIComponent(data.url || '')}`
+    getUrl: (data: ShareData) =>
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(data.text || '')}&url=${encodeURIComponent(data.url || '')}`,
   },
   linkedin: {
     icon: <LinkedInIcon />,
-    label: 'Share on LinkedIn', 
+    label: 'Share on LinkedIn',
     getUrl: (data: ShareData) =>
-      `https://linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(data.url || '')}`
+      `https://linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(data.url || '')}`,
   },
   facebook: {
     icon: <FacebookIcon />,
     label: 'Share on Facebook',
     getUrl: (data: ShareData) =>
-      `https://facebook.com/sharer/sharer.php?u=${encodeURIComponent(data.url || '')}`
+      `https://facebook.com/sharer/sharer.php?u=${encodeURIComponent(data.url || '')}`,
   },
   email: {
     icon: <EmailIcon />,
     label: 'Share via Email',
     getUrl: (data: ShareData) =>
-      `mailto:?subject=${encodeURIComponent(data.title || '')}&body=${encodeURIComponent(`${data.text || ''}\n\n${data.url || ''}`)}`
+      `mailto:?subject=${encodeURIComponent(data.title || '')}&body=${encodeURIComponent(`${data.text || ''}\n\n${data.url || ''}`)}`,
   },
   copy: {
     icon: <ContentCopyIcon />,
     label: 'Copy Link',
-    getUrl: () => '' // Handled separately with Clipboard API
-  }
+    getUrl: () => '', // Handled separately with Clipboard API
+  },
 };
 
 /**
  * ShareButton - Progressive Web Share API button with fallbacks
- * 
+ *
  * A sophisticated sharing component that provides the best possible sharing
  * experience across all devices and browsers. Uses native Web Share API
  * when available and provides comprehensive fallback options.
- * 
+ *
  * Progressive Enhancement Strategy:
  * 1. Detect native Web Share API support
  * 2. Use native sharing for supported content types
  * 3. Fall back to social platform URLs for broader support
  * 4. Provide copy-to-clipboard as ultimate fallback
  * 5. Show appropriate success/error feedback
- * 
+ *
  * Accessibility Features:
  * - Semantic sharing context with proper ARIA labels
  * - Keyboard navigation for fallback menu
  * - Screen reader support with meaningful descriptions
  * - High contrast support for visual clarity
- * 
+ *
  * Performance Considerations:
  * - Efficient native API detection
  * - Lazy loading of fallback menu
  * - Minimal bundle impact with selective platform imports
  * - Optimized for both mobile and desktop interactions
- * 
+ *
  * @param {ShareButtonProps} props - Component props
  * @returns {React.ReactElement} Enhanced sharing button
- * 
+ *
  * @example
  * // Blog post sharing
  * <ShareButton
@@ -220,7 +218,7 @@ const PLATFORM_CONFIG = {
  * >
  *   Share Post
  * </ShareButton>
- * 
+ *
  * @example
  * // E-commerce product sharing
  * <ShareButton
@@ -234,7 +232,7 @@ const PLATFORM_CONFIG = {
  * >
  *   Share Product
  * </ShareButton>
- * 
+ *
  * @example
  * // Event sharing with custom styling
  * <ShareButton
@@ -260,7 +258,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({
   showFallbackOptions = true,
   fallbackPlatforms = DEFAULT_FALLBACK_PLATFORMS,
   onShare,
-  children = "Share",
+  children = 'Share',
   ...rest
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -268,22 +266,25 @@ const ShareButton: React.FC<ShareButtonProps> = ({
   const [successMessage, setSuccessMessage] = React.useState('');
 
   // Prepare share data
-  const shareData: ShareData = React.useMemo(() => ({
-    url: url || (typeof window !== 'undefined' ? window.location.href : ''),
-    title: title || (typeof document !== 'undefined' ? document.title : ''),
-    text,
-    files
-  }), [url, title, text, files]);
+  const shareData: ShareData = React.useMemo(
+    () => ({
+      url: url || (typeof window !== 'undefined' ? window.location.href : ''),
+      title: title || (typeof document !== 'undefined' ? document.title : ''),
+      text,
+      files,
+    }),
+    [url, title, text, files],
+  );
 
   // Check if native sharing is available
   const canUseNativeShare = React.useMemo(() => {
     if (typeof navigator === 'undefined' || !navigator.share) return false;
-    
+
     // Check if files are supported if files provided
     if (files && files.length > 0) {
       return navigator.canShare && navigator.canShare({ files });
     }
-    
+
     return true;
   }, [files]);
 
@@ -327,7 +328,9 @@ const ShareButton: React.FC<ShareButtonProps> = ({
       const shareUrl = config.getUrl(shareData);
       window.open(shareUrl, '_blank', 'noopener,noreferrer');
       onShare?.(true, platform);
-      setSuccessMessage(`Opened ${config.label.replace('Share on ', '').replace('Share via ', '')}`);
+      setSuccessMessage(
+        `Opened ${config.label.replace('Share on ', '').replace('Share via ', '')}`,
+      );
       setShowSuccess(true);
     }
   };
@@ -379,13 +382,8 @@ const ShareButton: React.FC<ShareButtonProps> = ({
         {fallbackPlatforms.map((platform) => {
           const config = PLATFORM_CONFIG[platform];
           return (
-            <MenuItem
-              key={platform}
-              onClick={() => handleFallbackShare(platform)}
-            >
-              <ListItemIcon>
-                {config.icon}
-              </ListItemIcon>
+            <MenuItem key={platform} onClick={() => handleFallbackShare(platform)}>
+              <ListItemIcon>{config.icon}</ListItemIcon>
               <ListItemText primary={config.label} />
             </MenuItem>
           );
@@ -398,8 +396,8 @@ const ShareButton: React.FC<ShareButtonProps> = ({
         onClose={() => setShowSuccess(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert 
-          onClose={() => setShowSuccess(false)} 
+        <Alert
+          onClose={() => setShowSuccess(false)}
           severity="success"
           icon={<CheckIcon />}
           sx={{ width: '100%' }}

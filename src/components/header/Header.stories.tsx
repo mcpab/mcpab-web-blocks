@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Header from './Header';
 import { HtmlImage } from '../../core/image/image-types';
 import { DefaultLinkLike } from '../../core/link';
-import {
+import type {
   HierarchyTree,
   HierarchyTreeOverrides,
   PayloadMap,
@@ -17,6 +17,11 @@ import type {
   RootTreeElement,
 } from '../menus/MenuTypes';
 import type { IsSelectedMenuElement } from '../menus/drawer/pathSelectors';
+import type { HeaderLogoProps } from './HeaderLogo';
+import type { DrawerMenuProps } from '../menus/drawer/DrawerMenu';
+import { hierarchyToDrawerInput } from '../menus/drawer/hierarchyToDrawerInput';
+import type { DropDownMenuProps } from '../menus/dropDown/DropDown';
+import type { BreadMenuProps } from '../navigation/Breadcrumbs/BreadMenu';
 
 const menuPayloads = {
   home: { label: 'Home', link: '/' },
@@ -97,64 +102,79 @@ export default {
 const pathname = '/products/integrations/api';
 const selector: IsSelectedMenuElement = (id) => id === 'restapi';
 
-export const ResponsiveHeader: Story = () => (
-  <Box>
-    <Header
-      brand={{
-        logo: 'https://dummyimage.com/340x100/111827/ffffff&text=Acme+Corp',
-        altLogo: 'Acme Corp logo',
-        logoSubtitle: 'Platform Engineering',
-        ImageComponent: HtmlImage,
-      }}
-      routing={{
-        linkComponent: DefaultLinkLike,
-        pathname,
-      }}
-      navigation={{
-        hierarchy,
-        overrides,
-        selector,
-        menuPosition: 'right',
-        styles: {
-          dropDown: {
-            appBarSx: {
-              bgcolor: 'common.white',
-            },
-          },
-          drawer: {
-            drawerPaperSx: {
-              bgcolor: 'common.white',
-            },
-            listSx: {
-              bgcolor: 'common.white',
-            },
-          },
-        },
-        responsiveMenu: {
-          breakpoint: 'md',
-          mobileType: 'drawer',
-          desktopType: 'dropDown',
-        },
-      }}
-      layout={{
-        showBreadcrumbs: true,
-        responsiveBreadcrumbs: {
-          breakpoint: 'md',
-          mobile: false,
-          desktop: true,
-        },
-      }}
-    />
+const logoProps: HeaderLogoProps = {
+  src: 'https://dummyimage.com/340x100/111827/ffffff&text=Acme+Corp',
+  alt: 'Acme Corp logo',
+  subtitle: 'Platform Engineering',
+  ImageComponent: HtmlImage,
+};
 
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        Header Story
-      </Typography>
-      <Typography variant="body1">
-        Resize the preview: at and below the md breakpoint, the header switches to drawer menu mode.
-      </Typography>
+const breadProps: BreadMenuProps = {
+  pathname,
+};
+
+type PreparedHeaderStoryProps =
+  | { ok: false; message: string }
+  | {
+      ok: true;
+      drawerProps: DrawerMenuProps;
+      dropDownProps: DropDownMenuProps;
+    };
+
+function prepareHeaderStoryProps(): PreparedHeaderStoryProps {
+  const result = hierarchyToDrawerInput({ hierarchy, overrides });
+
+  if (!result.ok) {
+    console.error('Failed to prepare menu tree for story:', result.issues);
+    return { ok: false, message: result.issues[0]?.message ?? 'Unknown error' };
+  }
+
+  const drawerProps: DrawerMenuProps = {
+    root: result.root,
+    treeFromRoot: result.treeFromRoot,
+    selector,
+  };
+
+  const dropDownProps: DropDownMenuProps = {
+    root: result.root,
+    treeFromRoot: result.treeFromRoot,
+    selector,
+  };
+
+  return { ok: true, drawerProps, dropDownProps };
+}
+
+const preparedHeaderStoryProps = prepareHeaderStoryProps();
+
+export const ResponsiveHeader: Story = () => {
+  if (!preparedHeaderStoryProps.ok) {
+    return (
+      <div style={{ color: 'red' }}>
+        Menu preparation error: {preparedHeaderStoryProps.message}
+      </div>
+    );
+  }
+
+  return (
+    <Box>
+      <Header
+        breadMenuProps={breadProps}
+        drawerProps={preparedHeaderStoryProps.drawerProps}
+        logoProps={logoProps}
+        menuProps={preparedHeaderStoryProps.dropDownProps}
+      />
+
+      <Box sx={{ p: 3 }}>
+        <Typography variant="h5" sx={{ mb: 2 }}>
+          Header Story
+        </Typography>
+        <Typography variant="body1">
+          Resize the preview: at and below the md breakpoint, the header switches to drawer menu
+          mode.
+        </Typography>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 ResponsiveHeader.storyName = 'Header / Responsive Menu';

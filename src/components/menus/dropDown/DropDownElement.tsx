@@ -1,13 +1,12 @@
 'use client';
 
-import Divider from '@mui/material/Divider';
-import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
+import type { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 import { ElementButton } from '../ElementButton';
-import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
+import type { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { useMenuRenderContext } from '../MenuRenderContext';
 import { useMenuSelectorContext } from '../MenuSelectorContext';
 import { DropDownOpenClose } from './DropDownOpenClose';
-import { MenuDepthContext, useMenuDepthContext } from '../MenuDepthContext';
+import { useMenuDepthContext } from '../MenuDepthContext';
 
 /** @internal */
 type DropDownElementProps = {
@@ -37,9 +36,9 @@ export function DropDownElement({
 }: DropDownElementProps) {
   //
 
-  if (!menuTreeElement) return null;
-
   const { depth } = useMenuDepthContext();
+  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
+  const { rowPolicy, linkLikeComp } = useMenuRenderContext();
 
   if (depth !== 0) {
     console.warn(
@@ -52,8 +51,9 @@ export function DropDownElement({
   const ui = overrides;
   if (ui?.display === false) return null;
 
-  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
-  const { rowPolicy, linkLikeComp } = useMenuRenderContext();
+
+  if (!menuTreeElement) return null;
+
   const hasChildren = children !== undefined && Object.keys(children).length > 0;
 
   const isSelectedNode = isSelected(id);

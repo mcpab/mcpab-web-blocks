@@ -1,5 +1,23 @@
-import React from 'react';
-import { TextDrawerElement, TextDrawerElementUI } from '../TextDrawerTypes';
+import type React from 'react';
+import type { TextDrawerElement, TextDrawerElementUI } from '../TextDrawerTypes';
+
+
+export type TextRenderers = 'simpleText' | 'titledText' | 'labelOnly' | 'titleAndSubStd' | 'titleAndSubDepth' | 'linkedLabel';
+
+
+type RenderedRegistryEntry<K extends TextRenderers, P> = {
+  type: K;
+  rendering: ({
+    node,
+    overrides,
+    Component,
+  }: {
+    node: RenderingNodes[K];
+    overrides?: Partial<P>;
+    Component?: React.ComponentType<P>;
+  }) => ReactNode;
+};
+
 
 /**
  * Semantic category of a text drawer node.

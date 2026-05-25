@@ -1,10 +1,10 @@
 import Popover from '@mui/material/Popover';
 import React from 'react';
-import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
+import type { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 import { MenuDepthContext, useMenuDepthContext } from '../MenuDepthContext';
 import { useMenuRenderContext } from '../MenuRenderContext';
 import { useMenuSelectorContext } from '../MenuSelectorContext';
-import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
+import type { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { DropDownMegaMenu } from './DropDownMegaMenu';
 import { ElementButton } from '../ElementButton';
 
@@ -37,21 +37,22 @@ export function DropDownOpenClose({
 }: DropDownOpenCloseProps) {
   //
 
-  if (!menuTreeElement) return null;
-
   const { depth } = useMenuDepthContext();
+  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { rowPolicy } = useMenuRenderContext();
+
+  if (!menuTreeElement) return null;
   if (depth !== 0) {
     console.warn('DropDownOpenClose should only be used at depth 0. Current depth:', depth);
     return null;
   }
 
-  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
   const hasChildren = children !== undefined && Object.keys(children).length > 0;
 
   const isSelectedNode = isSelected(id);
   const isAncestorSelectedNode = isAncestorSelected(id);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent) => {
@@ -62,7 +63,6 @@ export function DropDownOpenClose({
     setAnchorEl(null);
   };
 
-  const { rowPolicy } = useMenuRenderContext();
 
   const rowPlan = rowPolicy({
     depth,

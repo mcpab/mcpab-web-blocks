@@ -3,7 +3,6 @@ import * as React from "react";
 import type { Story } from "@ladle/react";
 
 import MainTitle from "./MainTitle";
-import type { MainTitleProps } from "./MainTitle";
 
 const Frame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div style={{ padding: 24, maxWidth: 980 }}>

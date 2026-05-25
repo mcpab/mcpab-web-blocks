@@ -10,8 +10,8 @@
  *
  * Kept for reference; not used by any current renderer or component.
  */
-import React from 'react';
-import { TextDrawerElement, TextDrawerElementUI } from '../TextDrawerTypes';
+import type React from 'react';
+import type { TextDrawerElement, TextDrawerElementUI } from '../TextDrawerTypes';
 
 /** @deprecated See module-level deprecation notice. */
 export type TextNodeRendererProps = {

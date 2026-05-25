@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { TreeTextState, TreeTextStore } from './textTreeStore';
+import type { TreeTextState, TreeTextStore } from './textTreeStore';
 
 /**
  * Shape of the value provided by {@link TextControllerContext}.

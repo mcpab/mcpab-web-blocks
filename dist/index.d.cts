@@ -1,19 +1,27 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as _mui_material_styles from '@mui/material/styles';
 import { SxProps, Theme } from '@mui/material/styles';
 import * as React$1 from 'react';
 import React__default from 'react';
 import { BoxProps } from '@mui/material/Box';
+import { S as SectionSize, B as BackgroundBoxProps } from './banner-HxLY3UzV.cjs';
+export { b as BackgroundBox, _ as BannerStatic, a as BannerStaticProps, I as ImageConf, c as SECTION_MIN_H, s as sectionMinHeightSx } from './banner-HxLY3UzV.cjs';
 import { ContainerProps } from '@mui/material/Container';
-import { StackProps } from '@mui/material/Stack';
-import Typography, { TypographyProps } from '@mui/material/Typography';
+import { StaticImageDataLike, ImageComponentLike } from './image.cjs';
+export { HtmlImage, UniversalImageProps, isStaticImageDataLike, toImgAttrs } from './image.cjs';
+export { BodyTextProps, MainTitle, MainTitleBlock, MainTitleProps, PageTitle, PageTitleLabel, SectionTitle, SectionTitleLabel, SubsectionTitle, SubsectionTitleLabel, SubsubsectionTitle, SubsubsectionTitleLabel, Title, TitleLabel, TitleLabelProps, TitleProps, TitleTypes } from './typography.cjs';
 import Button, { ButtonProps } from '@mui/material/Button';
-import * as _mui_material from '@mui/material';
-import { ButtonProps as ButtonProps$1, IconButtonProps, SxProps as SxProps$1, Theme as Theme$1 } from '@mui/material';
-import { Theme as Theme$2 } from '@emotion/react';
-import { SxProps as SxProps$2 } from '@mui/system';
+import { IconButtonProps } from '@mui/material/IconButton';
+import { S as StratifyPayload, M as MenuTreeElement, R as RootTreeElement, a as RootOverridesUI, b as MenuTreeElementUI, c as RowPlan, L as LinkTypeComponent, d as MenuLabelTypographyProps, G as GetSelectorsReturnType, e as RowPolicy, f as MegaMenuPolicy, D as D3StratifyData } from './index-CTQiHYXT.cjs';
+export { B as BreadMenu, y as BreadMenuProps, z as DefaultLinkLike, r as DrawerMenu, s as DrawerMenuProps, t as DrawerMenuPropsRendering, w as DropDown, x as DropDownMenuProps, H as Header, h as HeaderDrawer, i as HeaderDrawerProps, l as HeaderLogo, m as HeaderLogoProps, j as HeaderMenu, k as HeaderMenuProps, n as HeaderMinimal, o as HeaderMinimalProps, g as HeaderProps, I as IsSelectedMenuElement, p as MenuPropsRendering, q as RowPolicyProps, v as getSelectedAndPath, u as getSelectors } from './index-CTQiHYXT.cjs';
 import { TextFieldProps } from '@mui/material/TextField';
+import { StackProps } from '@mui/material/Stack';
 import { HierarchyNode } from 'd3-hierarchy';
 import * as _mui_material_OverridableComponent from '@mui/material/OverridableComponent';
+import * as _mui_material_SvgIcon from '@mui/material/SvgIcon';
+import '@mui/material/Typography';
+import '@emotion/react';
+import '@mui/system';
 
 /**
  * Horizontal/vertical padding wrapper with responsive spacing.
@@ -27,52 +35,6 @@ type PadProps = {
     sx?: SxProps<Theme>;
 };
 declare function Pad({ reverse, children, sx }: PadProps): react_jsx_runtime.JSX.Element;
-
-/**
- * Responsive minimum-height design tokens for section-sized layout blocks.
- *
- * Values are keyed by semantic size and map to MUI breakpoint values (`xs`, `md`, `lg`).
- */
-
-/**
- * Section min-height tokens by semantic size.
- */
-declare const SECTION_MIN_H: {
-    readonly micro: {
-        readonly xs: "160px";
-        readonly md: "200px";
-        readonly lg: "240px";
-    };
-    readonly compact: {
-        readonly xs: "300px";
-        readonly md: "360px";
-        readonly lg: "400px";
-    };
-    readonly sm: {
-        readonly xs: "420px";
-        readonly md: "520px";
-        readonly lg: "560px";
-    };
-    readonly md: {
-        readonly xs: "520px";
-        readonly md: "640px";
-        readonly lg: "720px";
-    };
-    readonly lg: {
-        readonly xs: "600px";
-        readonly md: "760px";
-        readonly lg: "880px";
-    };
-    readonly xl: {
-        readonly xs: "720px";
-        readonly md: "880px";
-        readonly lg: "1040px";
-    };
-};
-/** Semantic size keys for {@link SECTION_MIN_H}. */
-type SectionSize = keyof typeof SECTION_MIN_H;
-/** Convenience helper for MUI `sx` usage. */
-declare const sectionMinHeightSx: (size: SectionSize) => SxProps<Theme>;
 
 type SectionProps = BoxProps & {
     /** Preset minimum heights (responsive). Defaults to 'md'. */
@@ -92,189 +54,6 @@ type SectionProps = BoxProps & {
  * Structural section wrapper for page composition.
  */
 declare function Section({ size, center, lockHeight, sx, children, id, ...rest }: SectionProps): react_jsx_runtime.JSX.Element;
-
-/**
- * Matches the common shape of `StaticImageData` (e.g., Next.js) without importing Next types.
- * You can broaden this later if your build pipeline produces different fields.
- */
-interface StaticImageDataLike {
-    src: string;
-    width?: number;
-    height?: number;
-    blurDataURL?: string;
-}
-declare function isStaticImageDataLike(x: unknown): x is StaticImageDataLike;
-/**
- * "Next-ish" extras your app might use. These are NOT valid <img> attributes.
- * They exist so callers can write one prop object and you can adapt to different renderers.
- */
-type NextishExtras = {
-    fill?: boolean;
-    sizes?: string;
-    placeholder?: 'blur' | 'empty';
-    priority?: boolean;
-    quality?: number;
-    unoptimized?: boolean;
-};
-/**
- * A universal image prop type:
- * - accepts either a URL string or StaticImageDataLike
- * - keeps `alt` required
- * - excludes conflicting DOM props so we can redefine them
- */
-type UniversalImageProps = Omit<React$1.ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt' | 'width' | 'height' | 'sizes'> & {
-    src: string | StaticImageDataLike;
-    alt: string;
-    width?: number | string;
-    height?: number | string;
-} & NextishExtras;
-/**
- * A component type that can render using UniversalImageProps.
- * (e.g., HtmlImage, NextImageAdapter, etc.)
- */
-type ImageComponentLike = React$1.ComponentType<UniversalImageProps>;
-/**
- * Convert UniversalImageProps into <img> attributes safely:
- * - strips Next-ish props (fill/priority/quality/placeholder/unoptimized)
- * - resolves src/url and default width/height when src is StaticImageDataLike
- */
-declare function toImgAttrs(p: UniversalImageProps): React$1.ImgHTMLAttributes<HTMLImageElement>;
-/**
- * Default renderer: plain <img>.
- * Supports `fill` by applying absolute positioning, similar to Next Image.
- *
- * Important: for `fill` to behave, the parent should be position: relative
- * and have an explicit size.
- */
-declare const HtmlImage: React$1.ForwardRefExoticComponent<Omit<React$1.ImgHTMLAttributes<HTMLImageElement>, "height" | "width" | "alt" | "src" | "sizes"> & {
-    src: string | StaticImageDataLike;
-    alt: string;
-    width?: number | string;
-    height?: number | string;
-} & NextishExtras & React$1.RefAttributes<HTMLImageElement>>;
-
-/**
- * Background image configuration for {@link BackgroundBox}.
- */
-type ImageConf = {
-    /** Image source. Supports URL strings and static imports. */
-    src: string | StaticImageDataLike;
-    /**
-     * `object-fit` mode used in full-bleed rendering.
-     *
-     * @default 'cover'
-     */
-    mode?: 'cover' | 'contain' | 'scale-down';
-    /**
-     * Optional overlay color rendered between image and content.
-     */
-    overlayColor?: string;
-    /**
-     * Image opacity for full-bleed rendering.
-     *
-     * @default 1
-     */
-    opacity?: number;
-    /**
-     * CSS `object-position` used to place the image focal point.
-     *
-     * @default '50% 50%'
-     */
-    objectPosition?: string;
-    /**
-     * CSS transform applied to the image element.
-     */
-    transform?: string;
-    /**
-     * Optional width constraint that enables width-capped mode.
-     */
-    width?: string;
-    /**
-     * `sizes` hint forwarded to the image component.
-     *
-     * @defaultValue '100vw' in full-bleed mode
-     */
-    sizes?: string;
-    /**
-     * Enables priority loading for critical, above-the-fold images.
-     *
-     * @default false
-     */
-    priority?: boolean;
-    /**
-     * Image quality passed to the image component.
-     *
-     * @default 70
-     */
-    quality?: number;
-    /**
-     * Placeholder behavior while image loads.
-     *
-     * @defaultValue 'blur' for static imports, otherwise 'empty'
-     */
-    placeholder?: 'blur' | 'empty';
-    /**
-     * Disables built-in image optimization when true.
-     *
-     * @default false
-     */
-    unoptimized?: boolean;
-    /**
-     * Aspect ratio used by width-capped mode (`number` or CSS ratio string).
-     *
-     * @defaultValue inferred from static image dimensions, otherwise '16 / 9'
-     */
-    aspectRatio?: string | number;
-};
-/**
- * Props for {@link BackgroundBox}.
- */
-type BackgroundBoxProps = React$1.HTMLAttributes<HTMLDivElement> & {
-    /**
-     * Optional background image configuration.
-     */
-    imageConf?: ImageConf;
-    /**
-     * Foreground content rendered above image and overlay layers.
-     */
-    children?: React$1.ReactNode;
-    /**
-     * Additional styles applied to the root MUI `Box`.
-     */
-    sx?: SxProps<Theme>;
-    /**
-     * Class name applied to the root element.
-     */
-    className?: string;
-    /** Image renderer compatible with Next.js Image-like props. */
-    ImageComponent: ImageComponentLike;
-};
-/**
- * Container that renders an optional background image, optional overlay, and foreground content.
- *
- * @remarks
- * - If `imageConf.width` is set, image is rendered in width-capped mode.
- * - Without `imageConf.width`, image is rendered full-bleed.
- */
-declare const BackgroundBox: React$1.FC<BackgroundBoxProps>;
-
-/** Props for {@link BannerStatic}. */
-type BannerStaticProps = {
-    /** Background image configuration (src, overlay, transform, etc.). */
-    image: ImageConf;
-    /**
-     * MUI `BoxProps` forwarded to the `Section` root.
-     * `id` and `sx` are extracted and handled explicitly to avoid spreading conflicts.
-     */
-    boxProps?: BoxProps;
-    /** Band height token. @defaultValue `'micro'` */
-    size?: SectionSize;
-    /** Foreground content rendered over the background image. */
-    children: React$1.ReactNode;
-    /** Image rendering component (e.g. Next.js `Image`). */
-    ImageComponent: ImageComponentLike;
-};
-declare const _default$6: React$1.NamedExoticComponent<BannerStaticProps>;
 
 /** A single slide in the background carousel. */
 type ImageCarousel = {
@@ -311,7 +90,7 @@ type CarouselConfig = {
     /** Image rendering component (e.g. Next.js `Image`). */
     ImageComponent: ImageComponentLike;
 };
-declare const _default$5: React$1.NamedExoticComponent<CarouselConfig>;
+declare const _default$3: React$1.NamedExoticComponent<CarouselConfig>;
 
 /** Props for {@link BannerCarousel}. */
 type BannerCarouselProps = {
@@ -329,7 +108,7 @@ type BannerCarouselProps = {
     /** Image rendering component (e.g. Next.js `Image`). */
     ImageComponent: ImageComponentLike;
 };
-declare const _default$4: React$1.NamedExoticComponent<BannerCarouselProps>;
+declare const _default$2: React$1.NamedExoticComponent<BannerCarouselProps>;
 
 /** Props for {@link DynamicTransition}. */
 type DynamicTransitionProps = {
@@ -344,69 +123,7 @@ type DynamicTransitionProps = {
     /** Props forwarded to the root `Box` wrapper. */
     boxProps?: BoxProps;
 };
-declare const _default$3: React$1.NamedExoticComponent<DynamicTransitionProps>;
-
-type SansVariantProps = Omit<TypographyProps, 'variant' | 'component'>;
-type BodyTextProps = SansVariantProps;
-
-declare const variantLevels: {
-    readonly page: "h1";
-    readonly section: "h2";
-    readonly subsection: "h3";
-    readonly subsubsection: "h4";
-};
-type TitleTypes = keyof typeof variantLevels;
-interface TitleProps extends BodyTextProps {
-    /** Semantic level (maps to h1…h4). */
-    sectionType: TitleTypes;
-}
-/** Base component that locks the variant based on `sectionType`. */
-declare const Title: React$1.FC<TitleProps>;
-/** h1 wrapper */
-declare const PageTitle: React$1.FC<Omit<TitleProps, 'sectionType'>>;
-/** h2 wrapper */
-declare const SectionTitle: React$1.FC<Omit<TitleProps, 'sectionType'>>;
-/** h3 wrapper */
-declare const SubsectionTitle: React$1.FC<Omit<TitleProps, 'sectionType'>>;
-/** h4 wrapper */
-declare const SubsubsectionTitle: React$1.FC<Omit<TitleProps, 'sectionType'>>;
-
-type TitleLocalProps = Omit<TitleProps, 'sectionType'>;
-/** A single title or subtitle block rendered by {@link MainTitle}. */
-type MainTitleBlock = {
-    /** Text content. Strings are auto-capitalised when `autoCapitalize` is `true`. Accepts React nodes for rich content. */
-    title: string | React$1.ReactNode;
-    /**
-     * Visual hierarchy level.
-     * - `'primary'` — renders as `PageTitle` (h1-equivalent, large).
-     * - `'secondary'` — renders as `SectionTitle` (h2-equivalent, smaller).
-     * @defaultValue `'primary'`
-     */
-    type?: 'primary' | 'secondary';
-    /** Per-block typography overrides, merged on top of `slotProps.title` / `slotProps.subtitle`. */
-    titleProps?: TitleLocalProps;
-};
-/** Props for {@link MainTitle}. */
-type MainTitleProps = {
-    /** Ordered list of title/subtitle blocks to render. */
-    blocks: MainTitleBlock[];
-    /**
-     * When `true`, string titles are passed through `toTitleCase` before rendering.
-     * Has no effect on React node titles.
-     * @defaultValue `true`
-     */
-    autoCapitalize?: boolean;
-    /** Slot-level prop overrides applied as defaults to all blocks of each type. */
-    slotProps?: {
-        /** Props forwarded to the `Stack` wrapper. */
-        stack?: StackProps;
-        /** Default typography props for all `'primary'` blocks. */
-        title?: TitleLocalProps;
-        /** Default typography props for all `'secondary'` blocks. */
-        subtitle?: TitleLocalProps;
-    };
-};
-declare const _default$2: React$1.NamedExoticComponent<MainTitleProps>;
+declare const _default$1: React$1.NamedExoticComponent<DynamicTransitionProps>;
 
 /**
  * ActionButton
@@ -735,191 +452,41 @@ declare const GetInTouch: () => react_jsx_runtime.JSX.Element;
 /**
  * CallToActionButton
  *
- * Primary conversion button with built-in loading and success states.
- * This component is intentionally “UI-first”: it does not perform the async work
- * for you, but it makes it easy to reflect progress in the button itself.
+ * Small wrapper around MUI Button for async actions.
+ *
+ * It renders one of three visual states:
+ * - normal: children plus optional start/end icons
+ * - loading: spinner plus loading text
+ * - success: check icon plus success text, then returns to normal content
+ *
+ * The caller still owns the actual async work and passes `loading` / `success`.
  *
  * @example
  * ```tsx
- * <CallToActionButton loading loadingText="Submitting…">
+ * <CallToActionButton loading loadingText="Submitting...">
  *   Submit
  * </CallToActionButton>
  * ```
  */
 
-/**
- * Props interface for CallToActionButton component
- *
- * Extends Material-UI ButtonProps with additional conversion-focused features
- * including loading states, success feedback, and enhanced accessibility.
- *
- * @interface CallToActionButtonProps
- * @extends {ButtonProps} All Material-UI Button properties
- *
- * @property {boolean} [loading=false] - Shows loading spinner and disables interaction
- *   - Prevents double submissions during async operations
- *   - Automatically disables button and shows progress indicator
- *   - Maintains button dimensions to prevent layout shift
- *   - Accessible to screen readers with proper ARIA states
- *
- * @property {boolean} [success=false] - Shows success state with checkmark icon
- *   - Displays green checkmark icon when action completes successfully
- *   - Temporarily overrides button content for visual confirmation
- *   - Automatically resets after specified duration
- *   - Provides positive feedback for completed conversions
- *
- * @property {number} [successDuration=2000] - Duration to show success state (ms)
- *   - Controls how long success feedback is displayed
- *   - Allows users to see completion confirmation
- *   - Returns to normal state automatically
- *   - Customizable based on action importance
- *
- * @property {React.ReactNode} [loadingText] - Optional text to show during loading
- *   - Custom message during async operations
- *   - Provides context about what's happening
- *   - Improves user experience during wait times
- *   - Falls back to original children if not provided
- *
- * @property {React.ReactNode} [successText] - Optional text to show on success
- *   - Custom success confirmation message
- *   - Replaces button content temporarily
- *   - Provides specific feedback about completion
- *   - Falls back to success icon if not provided
- *
- * @example
- * // Type-safe prop usage
- * const ctaProps: CallToActionButtonProps = {
- *   loading: isSubmitting,
- *   success: submissionSuccess,
- *   successDuration: 3000,
- *   loadingText: "Creating account...",
- *   successText: "Account created!",
- *   variant: "contained",
- *   size: "large",
- *   fullWidth: true,
- *   onClick: handleSubmission
- * };
- */
 /** Props for {@link CallToActionButton}. */
-interface CallToActionButtonProps extends Omit<ButtonProps$1, 'startIcon' | 'endIcon'> {
+interface CallToActionButtonProps extends Omit<ButtonProps, 'startIcon' | 'endIcon'> {
+    /** Shows spinner content and disables clicks. */
     loading?: boolean;
+    /** Shows temporary success content. The caller controls when this becomes true. */
     success?: boolean;
+    /** Milliseconds to keep success content visible before falling back to normal content. */
     successDuration?: number;
+    /** Content shown next to the spinner while loading. Falls back to children. */
     loadingText?: React$1.ReactNode;
+    /** Content shown next to the check icon while successful. Falls back to children. */
     successText?: React$1.ReactNode;
+    /** Icon rendered before children in the normal state. */
     startIcon?: React$1.ReactNode;
+    /** Icon rendered after children in the normal state. */
     endIcon?: React$1.ReactNode;
 }
-/**
- * CallToActionButton - High-conversion primary action button
- *
- * A sophisticated button component optimized for conversion actions with
- * built-in loading states, success feedback, and accessibility features.
- * Designed to maximize user engagement and provide clear action feedback.
- *
- * State Management:
- * - Loading state disables interaction and shows progress
- * - Success state provides positive feedback with checkmark
- * - Automatic state reset after success confirmation
- * - Preserves all other button states and interactions
- *
- * Accessibility Features:
- * - Proper ARIA states for loading and success conditions
- * - Screen reader announcements for state changes
- * - Keyboard navigation and focus management
- * - High contrast support for visual clarity
- *
- * Performance Considerations:
- * - Efficient re-renders with React.useEffect for success timeout
- * - Minimal bundle impact with selective Material-UI imports
- * - Optimized for both mobile and desktop interactions
- * - Supports server-side rendering
- *
- * @param {CallToActionButtonProps} props - Component props
- * @param {boolean} [props.loading=false] - Loading state indicator
- * @param {boolean} [props.success=false] - Success state indicator
- * @param {number} [props.successDuration=2000] - Success display duration
- * @param {React.ReactNode} [props.loadingText] - Loading state text
- * @param {React.ReactNode} [props.successText] - Success state text
- * @param {React.ReactNode} [props.startIcon] - Icon before text
- * @param {React.ReactNode} [props.endIcon] - Icon after text
- * @param {React.ReactNode} props.children - Button content
- * @param {ButtonProps} ...rest - All other Material-UI Button props
- *
- * @returns {React.ReactElement} Enhanced call-to-action button
- *
- * @example
- * // Newsletter signup with feedback
- * const [isSubscribing, setIsSubscribing] = useState(false);
- * const [subscribed, setSubscribed] = useState(false);
- *
- * const handleSubscribe = async () => {
- *   setIsSubscribing(true);
- *   try {
- *     await subscribeToNewsletter(email);
- *     setSubscribed(true);
- *     setTimeout(() => setSubscribed(false), 3000);
- *   } finally {
- *     setIsSubscribing(false);
- *   }
- * };
- *
- * <CallToActionButton
- *   onClick={handleSubscribe}
- *   loading={isSubscribing}
- *   success={subscribed}
- *   loadingText="Subscribing..."
- *   successText="Welcome aboard!"
- *   variant="contained"
- *   color="primary"
- *   size="large"
- *   fullWidth
- * >
- *   Subscribe to Updates
- * </CallToActionButton>
- *
- * @example
- * // E-commerce checkout flow
- * <CallToActionButton
- *   onClick={handleCheckout}
- *   loading={processingPayment}
- *   success={paymentComplete}
- *   loadingText="Processing payment..."
- *   successText="Order confirmed!"
- *   startIcon={<CreditCardIcon />}
- *   variant="contained"
- *   color="success"
- *   size="large"
- *   disabled={cartIsEmpty}
- *   sx={{
- *     minHeight: 56,
- *     fontSize: '1.1rem',
- *     fontWeight: 600,
- *   }}
- * >
- *   Complete Purchase
- * </CallToActionButton>
- *
- * @example
- * // Free trial conversion
- * <CallToActionButton
- *   onClick={handleStartTrial}
- *   loading={creatingAccount}
- *   success={accountCreated}
- *   variant="contained"
- *   size="large"
- *   sx={{
- *     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
- *     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
- *     color: 'white',
- *     '&:hover': {
- *       background: 'linear-gradient(45deg, #FE6B8B 60%, #FF8E53 100%)',
- *     }
- *   }}
- * >
- *   Start Free Trial
- * </CallToActionButton>
- */
+/** Button with built-in loading and temporary success presentation. */
 declare const CallToActionButton: React$1.FC<CallToActionButtonProps>;
 
 /**
@@ -1017,7 +584,7 @@ type FileType = 'pdf' | 'doc' | 'image' | 'video' | 'audio' | 'zip' | 'app' | 'd
  * };
  */
 /** Props for {@link DownloadButton}. */
-interface DownloadButtonProps extends Omit<ButtonProps$1, 'href' | 'startIcon'> {
+interface DownloadButtonProps extends Omit<ButtonProps, 'href' | 'startIcon'> {
     href: string;
     fileName?: string;
     fileSize?: string;
@@ -1484,7 +1051,7 @@ declare const RouterProvider: React$1.FC<{
  * };
  */
 /** Props for {@link BackButton}. */
-interface BackButtonProps extends Omit<ButtonProps$1, 'startIcon' | 'onClick'> {
+interface BackButtonProps extends Omit<ButtonProps, 'startIcon' | 'onClick'> {
     onBack?: () => void;
     fallbackHref?: string;
     useHistory?: boolean;
@@ -1696,7 +1263,7 @@ type FallbackPlatform = 'twitter' | 'linkedin' | 'facebook' | 'email' | 'copy';
  * };
  */
 /** Props for {@link ShareButton}. */
-interface ShareButtonProps extends Omit<ButtonProps$1, 'onClick'> {
+interface ShareButtonProps extends Omit<ButtonProps, 'onClick'> {
     url?: string;
     title?: string;
     text?: string;
@@ -1801,7 +1368,7 @@ declare const ShareButton: React$1.FC<ShareButtonProps>;
  */
 
 /** Props for {@link SubscribeButton}. */
-interface SubscribeButtonProps extends Omit<ButtonProps$1, 'onClick'> {
+interface SubscribeButtonProps extends Omit<ButtonProps, 'onClick'> {
     onSubscribe: (email: string) => Promise<boolean>;
     placeholder?: string;
     successMessage?: string;
@@ -1900,7 +1467,7 @@ declare const FavoriteButton: React$1.FC<FavoriteButtonProps>;
  */
 
 /** Props for {@link CopyButton}. */
-interface CopyButtonProps extends Omit<ButtonProps$1, 'onClick' | 'onCopy'> {
+interface CopyButtonProps extends Omit<ButtonProps, 'onClick' | 'onCopy'> {
     text: string;
     successMessage?: string;
     showTooltip?: boolean;
@@ -1931,34 +1498,7 @@ type ClickTextImageProps = {
      */
     ImageComponent: ImageComponentLike;
 };
-declare const _default$1: React$1.NamedExoticComponent<ClickTextImageProps>;
-
-/**
- * Payload stored on each `d3-hierarchy` node after stratification.
- *
- * @remarks
- * - `node` is the original node payload (or `null` for the synthetic `"root"` anchor).
- * - `overrides` optionally stores a per-node override payload.
- * - `children` is only populated for `"root"` during conversion (as a convenience).
- */
-type StratifyPayload<Node, NodeOverrides> = {
-    node: Node | null;
-    overrides?: NodeOverrides;
-    children?: Record<string, StratifyPayload<Node, NodeOverrides>>;
-};
-/**
- * Row format passed into `d3.stratify()`.
- *
- * @remarks
- * `d3.stratify()` expects an array of objects where each object has:
- * - `id`: unique identifier
- * - `parentId`: parent identifier (or `null` for the root)
- */
-type D3StratifyData<Node, NodeOverrides> = {
-    id: string;
-    parentId: string | null;
-    payload: StratifyPayload<Node, NodeOverrides>;
-};
+declare const _default: React$1.NamedExoticComponent<ClickTextImageProps>;
 
 /**
  * Serializable data for a single node in the text drawer tree.
@@ -2026,7 +1566,7 @@ type TextDrawerElementUI = {
      * The renderer must explicitly accept and forward `sx` — all built-in
      * renderers except `titleAndSubStd` / `titleAndSubDepth` do so.
      */
-    sx?: SxProps$1<Theme>;
+    sx?: SxProps<Theme>;
 };
 /**
  * Props for the public-facing `TextDrawer` component.
@@ -2580,7 +2120,7 @@ type SimpleTextProps = {
     /** The text content to display. */
     text: string;
     /** Optional MUI sx overrides forwarded from the node's UI overrides. */
-    sx?: SxProps$1<Theme$1>;
+    sx?: SxProps<Theme>;
 };
 /**
  * Leaf renderer — displays a single block of narrative text.
@@ -2634,7 +2174,7 @@ declare const defaultRendersRegistry: {
         readonly type: "plainText";
         readonly props: ({ textDrawerElement, textDrawerElementUI }: TextPolicyProps) => {
             text: string;
-            sx: _mui_material.SxProps<_mui_material.Theme> | undefined;
+            sx: _mui_material_styles.SxProps<_mui_material_styles.Theme> | undefined;
         };
         readonly renderer: typeof SimpleText;
     };
@@ -2643,12 +2183,12 @@ declare const defaultRendersRegistry: {
         title: string;
         subtitle: string | undefined;
         text: string;
-        sx: _mui_material.SxProps<_mui_material.Theme> | undefined;
+        sx: _mui_material_styles.SxProps<_mui_material_styles.Theme> | undefined;
     }>;
     /** Title-only label with no body content. Supports `sx`. */
     readonly labelOnly: RegistryEntry<{
         title: string;
-        sx: _mui_material.SxProps<_mui_material.Theme> | undefined;
+        sx: _mui_material_styles.SxProps<_mui_material_styles.Theme> | undefined;
     }>;
     /**
      * Collapsible section header — fixed heading size (h3 / `SubsectionTitle`).
@@ -2679,7 +2219,7 @@ declare const defaultRendersRegistry: {
     readonly linkedLabel: RegistryEntry<{
         title: string;
         href: string;
-        sx: _mui_material.SxProps<_mui_material.Theme> | undefined;
+        sx: _mui_material_styles.SxProps<_mui_material_styles.Theme> | undefined;
     }>;
 };
 /**
@@ -2828,250 +2368,6 @@ type FiveColumnsFooterProps = {
 declare function FiveColumnsFooter(props: FiveColumnsFooterProps): react_jsx_runtime.JSX.Element;
 
 /**
- * Framework-agnostic link component contract.
- *
- * Uses the anchor element prop surface so adapters can map to
- * framework-specific link primitives (e.g. Next.js Link wrappers).
- */
-type LinkTypeComponent = React$1.ComponentType<React$1.ComponentPropsWithoutRef<'a'>> | React$1.ForwardRefExoticComponent<React$1.ComponentPropsWithoutRef<'a'> & React$1.RefAttributes<HTMLAnchorElement>>;
-/**
- * Default link implementation backed by a plain `<a>` element.
- */
-declare const DefaultLinkLike: LinkTypeComponent;
-
-/** Data payload for a single menu node. Stored in the hierarchy tree. */
-type MenuTreeElement = {
-    /** Display label shown in the UI. */
-    label: string;
-    /** Navigation target. Omit for toggle-only (non-link) nodes. */
-    link?: string;
-    /** Sort order among siblings. Lower values appear first. */
-    order?: number;
-};
-/** Data payload for the invisible root node of the tree. */
-type RootTreeElement = {
-    label: string;
-};
-/** Per-node UI overrides applied on top of the default {@link RowPolicy} output. */
-type MenuTreeElementUI = {
-    /** Click handler — attached to the row wrapper instead of (or in addition to) navigation. */
-    onClick?: React.MouseEventHandler<HTMLElement>;
-    /** Set to `false` to hide the node entirely. Defaults to `true`. */
-    display?: boolean;
-    /** Render a divider below this node. */
-    divider?: boolean;
-};
-/** Root-level overrides that apply to the whole menu, not to individual nodes. */
-type RootOverridesUI = {
-    /** Custom link component (e.g. Next.js `Link`). Falls back to a plain `<a>` when omitted. */
-    linkComponent?: LinkTypeComponent;
-};
-/**
- * Base props shared by all menu variants (DrawerMenu, DropDown).
- *
- * Build these props with {@link hierarchyToDrawerInput} rather than constructing them by hand.
- */
-type MenuPropsRendering = {
-    root: RootTreeElement;
-    treeFromRoot: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
-    rootOverrides?: RootOverridesUI;
-};
-
-/**
- * Callback used to determine whether a menu node is the currently active (selected) item.
- *
- * @param id - The node's unique string key in the hierarchy.
- * @param menuTreeElement - The node's data payload, or `null` if the node has no data.
- * @returns `true` if this node should be treated as the selected item.
- *
- * @example
- * ```ts
- * const selector: IsSelectedMenuElement = (id) => id === currentPageId;
- * ```
- */
-type IsSelectedMenuElement = (id: string, menuTreeElement: MenuTreeElement | null) => boolean;
-type GetSelectedPathProps = {
-    nodeId: string;
-    menuNode: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
-    selector: IsSelectedMenuElement;
-    path: string[];
-};
-type GetselectorsProps = {
-    treeFromRoot: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
-    selector: IsSelectedMenuElement | undefined;
-};
-/**
- * Derived selection state computed from a single {@link IsSelectedMenuElement} callback.
- * Consumed by {@link MenuSelectorContext} throughout the menu tree.
- */
-type GetSelectorsReturnType = {
-    /** Returns `true` if the given node is the selected item. */
-    isSelected: (nodeId: string) => boolean;
-    /** Returns `true` if the given node is an ancestor of the selected item (but not selected itself). */
-    isAncestorSelected: (nodeId: string) => boolean;
-    /** The id of the selected node, or `null` if nothing is selected. */
-    selectedId: string | null;
-    /** Set of all node ids on the path from root to the selected node (inclusive). */
-    selectedPathIds: Set<string>;
-};
-/**
- * Walks the menu tree using a depth-first search to find the selected node and
- * records the full ancestor path along the way.
- *
- * Returns {@link GetSelectorsReturnType} with stable function references for
- * `isSelected` and `isAncestorSelected`, suitable for passing into React context.
- * If no node matches the selector, all functions return `false`/`null`.
- */
-declare function getSelectors({ treeFromRoot, selector, }: GetselectorsProps): GetSelectorsReturnType;
-declare function getSelectedAndPath({ nodeId, menuNode, selector, path }: GetSelectedPathProps): {
-    selectedId: string;
-} | null;
-
-/**
- * @packageDocumentation
- *
- * # Header
- * Sticky site header with brand (logo + subtitle), optional breadcrumbs, and either:
- * - a top **DropDown** menu, or
- * - a drawer-based **DirMenu**.
- *
- * Menus default to `src/data/menu.json` but can be injected via props.
- */
-/** Where to place the menu in the header row. */
-type HeaderMenuPosition = 'left' | 'center' | 'right';
-/** Drawer anchor used when `menuType="drawer"`. */
-type HeaderDrawerAnchor = 'left' | 'right' | 'top' | 'bottom';
-/** Responsive viewport settings used when `navigation.menuType` is omitted. */
-type HeaderResponsiveMenuProps = {
-    /** Breakpoint at and below which mobile behavior applies. @defaultValue 'md' */
-    breakpoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    /** Menu variant used for small viewports. @defaultValue 'drawer' */
-    mobileType?: 'drawer';
-    /** Menu variant used for large viewports. @defaultValue 'dropDown' */
-    desktopType?: 'dropDown';
-};
-/** Responsive breadcrumb visibility settings. */
-type HeaderResponsiveBreadcrumbsProps = {
-    /** Breakpoint at and below which mobile breadcrumb visibility applies. @defaultValue 'md' */
-    breakpoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    /** Show breadcrumbs on small viewports. @defaultValue false */
-    mobile?: boolean;
-    /** Show breadcrumbs on large viewports. @defaultValue true */
-    desktop?: boolean;
-};
-/** Header-level menu style passthrough to menu components. */
-type HeaderMenuStylesProps = {
-    dropDown?: {
-        appBarSx?: SxProps$2<Theme$2>;
-        toolbarSx?: SxProps$2<Theme$2>;
-    };
-    drawer?: {
-        drawerPaperSx?: SxProps$2<Theme$2>;
-        listSx?: SxProps$2<Theme$2>;
-        triggerButtonSx?: SxProps$2<Theme$2>;
-    };
-};
-/**
- * Brand/logo configuration for {@link Header}.
- *
- * This group controls only the left visual brand block.
- */
-type HeaderBrandProps = {
-    /** Brand logo (static import or URL string). */
-    logo: StaticImageDataLike | string;
-    /** Alt text for the logo image. */
-    altLogo?: string;
-    /** Subtitle under the logo (optional). */
-    logoSubtitle?: string;
-    /** Image renderer used for logo output (for example Next.js `Image`). */
-    ImageComponent: ImageComponentLike;
-};
-/**
- * Header layout options that do not affect menu data.
- */
-type HeaderLayoutProps = {
-    /** Show breadcrumbs in the middle slot. @defaultValue true */
-    showBreadcrumbs?: boolean;
-    /**
-     * Responsive breadcrumb behavior.
-     * Defaults to hidden on mobile and visible on desktop.
-     */
-    responsiveBreadcrumbs?: HeaderResponsiveBreadcrumbsProps;
-    /** Optional `sx` overrides for the outer AppBar. */
-    appBarSx?: SxProps$2<Theme$2>;
-    /** Optional `sx` overrides for the inner Toolbar. */
-    toolbarSx?: SxProps$2<Theme$2>;
-};
-/**
- * Breadcrumb/routing configuration used by {@link BreadMenu}.
- */
-type HeaderRoutingProps = {
-    /** Link component used by breadcrumbs/menu items. */
-    linkComponent: LinkTypeComponent;
-    /** Explicit pathname used to mark current route. */
-    pathname: string;
-};
-/**
- * Menu data and behavior for {@link Header}.
- */
-type HeaderNavigationProps<P extends PayloadMap<MenuTreeElement>> = {
-    /**
-     * Explicit menu flavor to render.
-     * When omitted, `responsiveMenu` decides between mobile and desktop menu types.
-     */
-    menuType?: 'dropDown' | 'drawer';
-    /**
-     * Responsive menu policy used only when `menuType` is omitted.
-     * @defaultValue { breakpoint: 'md', mobileType: 'drawer', desktopType: 'dropDown' }
-     */
-    responsiveMenu?: HeaderResponsiveMenuProps;
-    /** Visual `sx` passthrough for the rendered menu variant. */
-    styles?: HeaderMenuStylesProps;
-    /** Where to place the menu in the header row. @defaultValue 'right' */
-    menuPosition?: HeaderMenuPosition;
-    /**
-     * Drawer anchor used only when `menuType="drawer"`.
-     * Defaults to `'right'` when `menuPosition="right"`, otherwise `'left'`.
-     */
-    drawerAnchor?: HeaderDrawerAnchor;
-    /** Typed hierarchy tree defining the menu structure. */
-    hierarchy: HierarchyTree<P, RootTreeElement>;
-    /** Per-node and root UI overrides (link component, dividers, display flags, etc.). */
-    overrides: HierarchyTreeOverrides<P, HierarchyTree<P, RootTreeElement>, RootOverridesUI, MenuTreeElementUI>;
-    /** Active-item selector used to compute selected/ancestor-selected states. */
-    selector: IsSelectedMenuElement;
-    /** Drawer indentation step passed to `DrawerMenu`. @defaultValue 2 */
-    indent?: number;
-};
-/**
- * Grouped modern API for {@link Header}. Prefer this shape.
- */
-type HeaderPropsGrouped<P extends PayloadMap<MenuTreeElement>> = {
-    /** Brand/logo block options. */
-    brand: HeaderBrandProps;
-    /** Breadcrumb route and link behavior. */
-    routing: HeaderRoutingProps;
-    /** Menu data and behavior. */
-    navigation: HeaderNavigationProps<P>;
-    /** Optional visual layout overrides. */
-    layout?: HeaderLayoutProps;
-};
-/**
- * Legacy flat API for {@link Header}.
- *
- * @deprecated Use grouped props via `brand`, `routing`, `navigation`, and `layout`.
- */
-type HeaderPropsLegacy<P extends PayloadMap<MenuTreeElement>> = HeaderBrandProps & HeaderRoutingProps & HeaderNavigationProps<P> & HeaderLayoutProps;
-/**
- * Props accepted by {@link Header}.
- *
- * Supports the grouped API and legacy flat API for backwards compatibility.
- */
-type HeaderProps<P extends PayloadMap<MenuTreeElement>> = HeaderPropsGrouped<P> | HeaderPropsLegacy<P>;
-type HeaderComponent = <P extends PayloadMap<MenuTreeElement>>(props: HeaderProps<P>) => React__default.JSX.Element;
-declare const _default: HeaderComponent;
-
-/**
  * Props for {@link DebouncedTextField}.
  *
  * Extends MUI `TextFieldProps` and adds delayed value notifications.
@@ -3130,7 +2426,7 @@ declare const DebouncedTextField: React$1.FC<DebouncedTextFieldProps>;
 type PageLayoutProps = {
     children: React$1.ReactNode;
     transparent?: boolean;
-    sx?: SxProps$1<Theme>;
+    sx?: SxProps<Theme>;
 };
 declare const PageLayout: React$1.FC<PageLayoutProps>;
 
@@ -3257,82 +2553,6 @@ type VideoModalProps = {
 declare function VideoModal({ videoId, src, title, trigger, avatarSrc, buttonLabel, align, widthPercent, modalSx, }: VideoModalProps): react_jsx_runtime.JSX.Element;
 
 /**
- * Subset of MUI `TypographyProps` used to style the label text inside a menu row.
- * Passed from {@link RowPlan} into {@link ElementLabel}.
- */
-type MenuLabelTypographyProps = Pick<TypographyProps, 'variant' | 'color' | 'fontWeight' | 'sx' | 'noWrap' | 'align' | 'fontSize' | 'lineHeight' | 'letterSpacing' | 'textTransform'>;
-/**
- * Inputs passed to a {@link RowPolicy} function for a single menu node.
- * Conveys depth, data, open/selected states, and whether the node has children.
- */
-type RowPolicyProps = {
-    /** Zero-based nesting depth (0 = top-level bar or drawer root). */
-    depth: number;
-    /** Data payload of the node. */
-    menuTreeElement: MenuTreeElement;
-    /** UI overrides for the node, if any. */
-    menuTreeElementUI: MenuTreeElementUI | undefined;
-    /** Whether the node's children are currently visible (open). */
-    isOpen?: boolean;
-    /** Whether this node is the currently active/selected item. */
-    isSelected?: boolean;
-    /** Whether this node is an ancestor of the selected item. */
-    isAncestorSelected?: boolean;
-    /** Whether the node has at least one child. */
-    hasChildren: boolean;
-};
-/**
- * Computed visual plan for a single menu row.
- * Produced by {@link RowPolicy} and consumed by menu row render components.
- */
-type RowPlan = {
-    /** Label text (or a custom React node). */
-    text: string | React__default.ReactNode;
-    /** Typography props forwarded to the `<Typography>` wrapping the label. */
-    typographyProps?: MenuLabelTypographyProps;
-    /** Icon rendered to the left of the label (inside `ListItemIcon`). */
-    icon?: React__default.ReactNode;
-    /** Indicator icon (e.g. chevron) rendered beside the label. Position set by `indicatorPlacement`. */
-    indicator?: React__default.ReactNode;
-    /** Whether the indicator appears before or after the label. @defaultValue `"end"` */
-    indicatorPlacement?: 'start' | 'end';
-    /**
-     * Logical (RTL-safe) inline-start padding for the row.
-     *
-     * **Note**: `DrawerMenu` policies express this in MUI spacing units (×8 px).
-     * `DropDown` policies use raw pixel values. Both are passed directly into `sx.paddingInlineStart`.
-     */
-    paddingInlineStart: number;
-    /** Additional `sx` styles applied to the row wrapper (`ListItemButton` or `ListItem`). */
-    rowSx?: SxProps<Theme>;
-};
-/**
- * A function that maps a node's context ({@link RowPolicyProps}) to its visual plan ({@link RowPlan}).
- *
- * Pass a custom implementation via {@link MenuRenderContext} to restyle a menu
- * without modifying any component.
- *
- * @see {@link defaultDropDownPolicy} — default policy for the horizontal dropdown.
- * @see {@link defaultDrawerRowPolicy} — default policy for the slide-in drawer.
- */
-type RowPolicy = (props: RowPolicyProps) => RowPlan;
-/**
- * Layout and styling policy for the mega menu panel in the dropdown navigation bar.
- *
- * @see {@link standardMegaMenuPolicy} / {@link compactMegaMenuPolicy} for built-in presets.
- */
-type MegaMenuPolicy = {
-    /** Render vertical `<Divider>` elements between columns. */
-    showColumnDividers: boolean;
-    /** Render a horizontal `<Divider>` below each column header (depth-1 item). */
-    showItemDivider: boolean;
-    /** Minimum width (px) for each column. */
-    columnMinWidth: number;
-    /** Padding around the whole panel in MUI spacing units. */
-    outerPadding: number;
-};
-
-/**
  * State shape for a menu store: a map of node id → open/closed boolean.
  * Only nodes that have been explicitly toggled appear in the map;
  * absent nodes default to `false` (closed).
@@ -3452,7 +2672,7 @@ declare function prepareMenuTree<P extends PayloadMap<MenuTreeElement>>({ hierar
 /** @internal Props for {@link useRowPlan}. */
 type UseRowPlanProps = {
     id: string;
-    node: MenuTreeElement;
+    node: MenuTreeElement | null;
     children: Record<string, StratifyPayload<MenuTreeElement, MenuTreeElementUI>> | undefined;
     overrides: MenuTreeElementUI | undefined;
 };
@@ -3471,7 +2691,7 @@ declare function useRowPlan({ id, node, children, overrides }: UseRowPlanProps):
     rowPlan: RowPlan;
     depth: number;
     hasChildren: boolean;
-};
+} | null;
 
 /**
  * Props for {@link ElementButton}.
@@ -3560,67 +2780,6 @@ declare const MenuRenderContext: React$1.Context<MenuRenderContextType | null>;
 /** Returns {@link MenuRenderContextType} from {@link MenuRenderContext}. Throws if missing. */
 declare function useMenuRenderContext(): MenuRenderContextType;
 
-/**
- * Props for the {@link DrawerMenu} component.
- * Extends the shared {@link MenuPropsRendering} with drawer-specific layout options.
- */
-type DrawerMenuPropsRendering = MenuPropsRendering & {
-    /** Which edge of the screen the drawer slides in from. @defaultValue `'left'` */
-    anchor?: 'left' | 'right' | 'top' | 'bottom';
-    /**
-     * Base indentation multiplier (MUI spacing units) applied per depth level.
-     * Each depth-N item receives `indent * (N + 2)` spacing units of inline-start padding,
-     * which is designed to clear the icon width present at depth 0.
-     * @defaultValue `0`
-     */
-    indent?: number;
-    /** Optional `sx` overrides for the MUI Drawer paper slot. */
-    drawerPaperSx?: SxProps$2<Theme$2>;
-    /** Optional `sx` overrides for the root navigation list inside the drawer. */
-    listSx?: SxProps$2<Theme$2>;
-    /** Optional `sx` overrides for the menu trigger IconButton. */
-    triggerButtonSx?: SxProps$2<Theme$2>;
-};
-
-/** Props for the public {@link DrawerMenu} component. */
-type DrawerMenuProps = DrawerMenuPropsRendering & {
-    /**
-     * Callback that identifies the currently active menu item (e.g. the current page).
-     * If omitted, no item is selected and all ancestor highlighting is disabled.
-     */
-    selector?: IsSelectedMenuElement;
-};
-/**
- * Top-level entry point for the collapsible sidebar (drawer) navigation.
- *
- * Orchestrates three React contexts before rendering the interactive client component:
- * - **MenuSelectorContext** — derives `isSelected` / `isAncestorSelected` from the `selector` callback.
- * - **MenuControllerContext** — a Zustand store tracking which nodes are expanded,
- *   pre-opened along the path to the selected item.
- *
- * Renders a hamburger `IconButton` that opens a MUI `Drawer` containing the menu tree.
- * Each top-level item shows an icon resolved by name via `IconPicker`.
- *
- * @example
- * ```tsx
- * const result = hierarchyToDrawerInput({ hierarchy, overrides });
- * if (result.ok) {
- *   return (
- *     <DrawerMenu
- *       {...result}
- *       anchor="left"
- *       indent={2}
- *       selector={(id) => id === currentPageId}
- *     />
- *   );
- * }
- * ```
- *
- * @see {@link hierarchyToDrawerInput} to build the required props from a hierarchy definition.
- * @see {@link defaultDrawerRowPolicy} for the default row styling policy.
- */
-declare function DrawerMenu({ root: root, treeFromRoot: treeFromRoot, rootOverrides, anchor, indent, drawerPaperSx, listSx, triggerButtonSx, selector, }: DrawerMenuProps): react_jsx_runtime.JSX.Element;
-
 /** Configuration for {@link defaultDrawerRowPolicy}. */
 type DefaultRowPolicyProps = {
     /**
@@ -3647,54 +2806,6 @@ type DefaultRowPolicyProps = {
  * Pass a custom `RowPolicy` via {@link MenuRenderContext} to restyle without modifying components.
  */
 declare const defaultDrawerRowPolicy: ({ baseIndent, openIndicator, closeIndicator, }: DefaultRowPolicyProps) => RowPolicy;
-
-/** Props for the {@link DropDown} component. Extends the shared {@link MenuPropsRendering}. */
-type DropDownMenuProps = MenuPropsRendering & {
-    /**
-     * Callback that identifies the currently active menu item (e.g. the current page).
-     * Drives selected and ancestor-selected visual states via {@link MenuSelectorContext}.
-     * If omitted, no item is highlighted.
-     */
-    selector?: IsSelectedMenuElement;
-    /**
-     * Layout and styling policy for the mega menu panels.
-     * Controls column dividers, item dividers, column min-width, and outer padding.
-     * @defaultValue {@link standardMegaMenuPolicy}
-     */
-    megaMenuPolicy?: MegaMenuPolicy;
-    /** Optional `sx` overrides for the dropdown `AppBar`. */
-    appBarSx?: SxProps$2<Theme$2>;
-    /** Optional `sx` overrides for the dropdown `Toolbar`. */
-    toolbarSx?: SxProps$2<Theme$2>;
-};
-/**
- * Top-level entry point for the horizontal dropdown (mega menu) navigation bar.
- *
- * Sets up {@link MenuSelectorContext} from the `selector` callback, then delegates
- * rendering to the client dropdown renderer that mounts a sticky MUI `AppBar`.
- *
- * Top-level items are rendered at depth 0. Items with children open a MUI `Popover`
- * containing a mega menu panel laid out as columns.
- *
- * @example
- * ```tsx
- * const result = hierarchyToDrawerInput({ hierarchy, overrides });
- * if (result.ok) {
- *   return (
- *     <DropDown
- *       {...result}
- *       selector={(id) => id === currentPageId}
- *       megaMenuPolicy={compactMegaMenuPolicy}
- *     />
- *   );
- * }
- * ```
- *
- * @see {@link hierarchyToDrawerInput} to build the required props from a hierarchy definition.
- * @see {@link defaultDropDownPolicy} for the default row styling policy.
- * @see {@link standardMegaMenuPolicy} / {@link compactMegaMenuPolicy} for built-in mega menu policies.
- */
-declare function DropDown({ root, treeFromRoot, rootOverrides, selector, megaMenuPolicy, appBarSx, toolbarSx, }: DropDownMenuProps): react_jsx_runtime.JSX.Element;
 
 /** Configuration for {@link defaultDropDownPolicy}. */
 type DefaultDropDownProps = {
@@ -3741,40 +2852,6 @@ declare const standardMegaMenuPolicy: MegaMenuPolicy;
 declare const compactMegaMenuPolicy: MegaMenuPolicy;
 
 /**
- * Props for {@link BreadMenu}.
- */
-type BreadMenuProps = {
-    /**
-     * Optional explicit pathname (useful for stories and SSR).
-     * Falls back to `window.location.pathname` when omitted.
-     */
-    pathname?: string;
-    /** Optional custom link component (e.g., Next.js Link). */
-    linkComponent?: LinkTypeComponent;
-    /** Hide the “Home” root link. @defaultValue false */
-    hideRoot?: boolean;
-    /** Map segment -> label (e.g., { 'about-us': 'About Us' }). */
-    segmentLabels?: Record<string, string>;
-    /** Exclude these segments entirely (e.g., ['blog']). */
-    exclude?: string[];
-    /** Collapse long trails. See MUI Breadcrumbs `maxItems`. */
-    maxItems?: number;
-    /** Typography font size (applies via sx). */
-    fontSize?: string | number;
-    /** Extra styles for the Breadcrumbs root. */
-    sx?: SxProps<Theme>;
-    /** Capitalize segments (kebab-case → Title Case). @defaultValue true */
-    titleCase?: boolean;
-};
-/**
- * Breadcrumb navigation derived from a pathname.
- */
-declare const BreadMenu: {
-    ({ pathname, linkComponent, hideRoot, segmentLabels, exclude, maxItems, fontSize, sx, titleCase, }: BreadMenuProps): react_jsx_runtime.JSX.Element;
-    displayName: string;
-};
-
-/**
  * Vertical spacing primitive based on `theme.spacing`.
  *
  * Renders a block with configurable height so layouts can keep spacing
@@ -3804,31 +2881,6 @@ declare const StandardStack: React$1.FC<StandardStackProps>;
  */
 
 declare const TouchButton: typeof Button;
-
-/**
- * Heading-styled label component with non-heading semantics.
- *
- * Uses the same visual scale as `Title` (`h1`..`h4`) while restricting the
- * rendered element to `span`, `div`, or `p`.
- */
-interface TitleLabelProps extends Omit<React$1.ComponentProps<typeof Typography>, 'variant' | 'component'> {
-    /** Visual hierarchy level mapped to `h1`..`h4` typography variants. */
-    sectionType: TitleTypes;
-    /** Restrict to non-heading tags to keep semantics clean. @defaultValue 'span' */
-    component?: 'span' | 'div' | 'p';
-}
-/**
- * Non-semantic title text that mirrors `Title` visual hierarchy.
- */
-declare const TitleLabel: React$1.FC<TitleLabelProps>;
-/** Non-heading wrapper using page-level visual style. */
-declare const PageTitleLabel: React$1.FC<Omit<TitleLabelProps, 'sectionType'>>;
-/** Non-heading wrapper using section-level visual style. */
-declare const SectionTitleLabel: React$1.FC<Omit<TitleLabelProps, 'sectionType'>>;
-/** Non-heading wrapper using subsection-level visual style. */
-declare const SubsectionTitleLabel: React$1.FC<Omit<TitleLabelProps, 'sectionType'>>;
-/** Non-heading wrapper using subsubsection-level visual style. */
-declare const SubsubsectionTitleLabel: React$1.FC<Omit<TitleLabelProps, 'sectionType'>>;
 
 /**
  * @module HierarchyResolver
@@ -4091,79 +3143,79 @@ type IconPickerProps = {
 };
 /** Central mapping: add synonyms by pointing multiple keys to the same icon. */
 declare const ICONS_BY_KEY: {
-    readonly home: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly home: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly settings: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly settings: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly profile: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly profile: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly account: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly account: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly contact: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly contact: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly help: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly help: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly support: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly support: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly dashboard: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly dashboard: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly notifications: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly notifications: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly alerts: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly alerts: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly logout: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly logout: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly 'log-out': _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly 'log-out': _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly signout: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly signout: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly 'sign-out': _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly 'sign-out': _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly login: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly login: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly 'log-in': _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly 'log-in': _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly signin: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly signin: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly 'sign-in': _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly 'sign-in': _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly info: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly info: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly information: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly information: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly about: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly about: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly 'about-us': _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly 'about-us': _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly team: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly team: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly privacy: _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly privacy: _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
-    readonly 'privacy-policy': _mui_material_OverridableComponent.OverridableComponent<_mui_material.SvgIconTypeMap<{}, "svg">> & {
+    readonly 'privacy-policy': _mui_material_OverridableComponent.OverridableComponent<_mui_material_SvgIcon.SvgIconTypeMap<{}, "svg">> & {
         muiName: string;
     };
 };
@@ -4189,4 +3241,4 @@ declare namespace index {
 declare function camelCase(input: string): string;
 declare function safeTitleCase(label: string): string;
 
-export { ActionButton, type ActionButtonProps, BackButton, type BackButtonProps, BackgroundBox, type BackgroundBoxProps, _default$4 as BannerCarousel, type BannerCarouselProps, _default$6 as BannerStatic, type BannerStaticProps, _default$5 as BlockCarousel, type BodyTextProps, BookingButton, type BookingButtonProps, BreadMenu, type BreadMenuProps, CallToActionButton, type CallToActionButtonProps, type CarouselConfig, type CarouselProps, _default$1 as ClickTextImage, type ClickTextImageProps, CopyButton, type CopyButtonProps, type D3StratifyData, DebouncedTextField, type DebouncedTextFieldProps, DefaultLinkLike, type DefaultRendersRegistry, type DiagnosticOrigin, type DiagnosticSeverity, DownloadButton, type DownloadButtonProps, DrawerMenu, type DrawerMenuProps, type DrawerMenuPropsRendering, DropDown, type DropDownMenuProps, _default$3 as DynamicTransition, type DynamicTransitionProps, ElementButton, type ElementButtonProps, ElementLabel, type ElementLabelProps, type ErrorCode, type FallbackPlatform, FavoriteButton, type FavoriteButtonProps, type FavoriteType, FeaturedColumnsFooter, type FeaturedColumnsFooterProps, type FileType, type FilterTypesInRegistry, FiveColumnsFooter, type FiveColumnsFooterProps, GetInTouch, type GetSelectorsReturnType, type GetTypesInRegistry, HIERARCHY_ERROR_CODE, _default as Header, type HeaderBrandProps, type HeaderDrawerAnchor, type HeaderLayoutProps, type HeaderMenuPosition, type HeaderMenuStylesProps, type HeaderNavigationProps, type HeaderProps, type HeaderPropsGrouped, type HeaderPropsLegacy, type HeaderResponsiveBreadcrumbsProps, type HeaderResponsiveMenuProps, type HeaderRoutingProps, HeroBlock, type HeroBlockProps, type HierachyToDrawerPropsReturn, type HierachyToDrawerinputProps, type HierachyToTextDrawerProps, type HierachyToTextDrawerPropsReturn, type HierarchyIssue, type HierarchyRelations, type HierarchyRelationsOverrides, type HierarchyTree, type HierarchyTreeOverrides, HtmlImage, IconPicker, type ImageCarousel, type ImageComponentLike, type ImageConf, type IsSelectedMenuElement, type LinkTypeComponent, _default$2 as MainTitle, type MainTitleBlock, type MainTitleProps, type MediaAndTextNoMessage, type MediaAndTextProps, MediaText, type MegaMenuPolicy, type MenuPropsRendering, MenuRenderContext, type MenuRenderContextType, MenuSelectorContext, type MenuSelectorContextType, type MenuState, type MenuStore, type MenuTreeElement, type MenuTreeElementUI, type NodeId, type NodeInferred, Pad, type PadProps, PageLayout, type PageLayoutProps, PageTitle, PageTitleLabel, type PayloadMap, type Payload_Rg, type Registry, type RegistryEntry, type ResolverReturn, type RootOverridesUI, type RootTextElement, type RootTextElementUI, type RootTreeElement, RouterProvider, type RowPlan, type RowPolicy, type RowPolicyProps, SECTION_MIN_H, type ScriptComponentLike, type ScriptStrategy, Section, type SectionProps, type SectionSize, SectionTitle, SectionTitleLabel, ShareButton, type ShareButtonProps, type ShareData, SocialButton, type SocialButtonProps, type SocialPlatform, Spacer, type SpacerProps, StandardStack, type StandardStackProps, type StaticImageDataLike, type Stratify, type StratifyPayload, SubscribeButton, type SubscribeButtonProps, SubsectionTitle, SubsectionTitleLabel, SubsubsectionTitle, SubsubsectionTitleLabel, TextDrawer, type TextDrawerElement, type TextDrawerElementUI, type TextDrawerElement_Rg, type TextDrawerProps$1 as TextDrawerProps, type TextPolicyProps, type TextProps, type TextTypes, ThreeColumnsFooter, type ThreeColumnsFooterProps, Title, TitleLabel, type TitleLabelProps, type TitleProps, type TitleTypes, TouchButton, type TreeTextState, type TreeTextStore, TwoColumnsFooter, type TwoColumnsFooterProps, type UniversalImageProps, type UniversalScriptProps, VideoModal, type VideoModalProps, WhatsAppButton, type WhatsAppButtonProps, boldToNodes, buildTreeFromStratify, camelCase, compactMegaMenuPolicy, convertToD3Stratify, createMenuStore, createTreeTextStore, defaultDrawerRowPolicy, defaultDropDownPolicy, defaultRendersRegistry, defineEntry, defineHierarchyModel, getSelectedAndPath, getSelectors, hierarchyToDrawerInput, hierarchyToTextDrawerProps, index as icon, isStaticImageDataLike, parseInlineMarkdown, prepareMenuTree, resolver, safeTitleCase, sectionMinHeightSx, setOpen, setTreeTextOpen, sortD3Stratify, standardMegaMenuPolicy, index$1 as text, toImgAttrs, toTitleCase, useMenuRenderContext, useMenuSelectorContext, useNodeOpen, useRowPlan, useTreeTextOpen };
+export { ActionButton, type ActionButtonProps, BackButton, type BackButtonProps, BackgroundBoxProps, _default$2 as BannerCarousel, type BannerCarouselProps, _default$3 as BlockCarousel, BookingButton, type BookingButtonProps, CallToActionButton, type CallToActionButtonProps, type CarouselConfig, type CarouselProps, _default as ClickTextImage, type ClickTextImageProps, CopyButton, type CopyButtonProps, D3StratifyData, DebouncedTextField, type DebouncedTextFieldProps, type DefaultRendersRegistry, type DiagnosticOrigin, type DiagnosticSeverity, DownloadButton, type DownloadButtonProps, _default$1 as DynamicTransition, type DynamicTransitionProps, ElementButton, type ElementButtonProps, ElementLabel, type ElementLabelProps, type ErrorCode, type FallbackPlatform, FavoriteButton, type FavoriteButtonProps, type FavoriteType, FeaturedColumnsFooter, type FeaturedColumnsFooterProps, type FileType, type FilterTypesInRegistry, FiveColumnsFooter, type FiveColumnsFooterProps, GetInTouch, GetSelectorsReturnType, type GetTypesInRegistry, HIERARCHY_ERROR_CODE, HeroBlock, type HeroBlockProps, type HierachyToDrawerPropsReturn, type HierachyToDrawerinputProps, type HierachyToTextDrawerProps, type HierachyToTextDrawerPropsReturn, type HierarchyIssue, type HierarchyRelations, type HierarchyRelationsOverrides, type HierarchyTree, type HierarchyTreeOverrides, IconPicker, type ImageCarousel, ImageComponentLike, LinkTypeComponent, type MediaAndTextNoMessage, type MediaAndTextProps, MediaText, MegaMenuPolicy, MenuRenderContext, type MenuRenderContextType, MenuSelectorContext, type MenuSelectorContextType, type MenuState, type MenuStore, MenuTreeElement, MenuTreeElementUI, type NodeId, type NodeInferred, Pad, type PadProps, PageLayout, type PageLayoutProps, type PayloadMap, type Payload_Rg, type Registry, type RegistryEntry, type ResolverReturn, RootOverridesUI, type RootTextElement, type RootTextElementUI, RootTreeElement, RouterProvider, RowPlan, RowPolicy, type ScriptComponentLike, type ScriptStrategy, Section, type SectionProps, SectionSize, ShareButton, type ShareButtonProps, type ShareData, SocialButton, type SocialButtonProps, type SocialPlatform, Spacer, type SpacerProps, StandardStack, type StandardStackProps, StaticImageDataLike, type Stratify, StratifyPayload, SubscribeButton, type SubscribeButtonProps, TextDrawer, type TextDrawerElement, type TextDrawerElementUI, type TextDrawerElement_Rg, type TextDrawerProps$1 as TextDrawerProps, type TextPolicyProps, type TextProps, type TextTypes, ThreeColumnsFooter, type ThreeColumnsFooterProps, TouchButton, type TreeTextState, type TreeTextStore, TwoColumnsFooter, type TwoColumnsFooterProps, type UniversalScriptProps, VideoModal, type VideoModalProps, WhatsAppButton, type WhatsAppButtonProps, boldToNodes, buildTreeFromStratify, camelCase, compactMegaMenuPolicy, convertToD3Stratify, createMenuStore, createTreeTextStore, defaultDrawerRowPolicy, defaultDropDownPolicy, defaultRendersRegistry, defineEntry, defineHierarchyModel, hierarchyToDrawerInput, hierarchyToTextDrawerProps, index as icon, parseInlineMarkdown, prepareMenuTree, resolver, safeTitleCase, setOpen, setTreeTextOpen, sortD3Stratify, standardMegaMenuPolicy, index$1 as text, toTitleCase, useMenuRenderContext, useMenuSelectorContext, useNodeOpen, useRowPlan, useTreeTextOpen };

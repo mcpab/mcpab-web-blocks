@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { BoxProps } from '@mui/material/Box';
+import type { BoxProps } from '@mui/material/Box';
 import BackgroundBox from '../layout/BackgroundBox';
 import type { ImageConf } from '../layout/BackgroundBox';
 import Section from '../Section';
 import Container from '@mui/material/Container';
-import { SectionSize } from '../../design/sectionTokens';
-import { ImageComponentLike } from '../../core/image/image-types';
+import type { SectionSize } from '../../design/sectionTokens';
+import type { ImageComponentLike } from '../../core/image/image-types';
 
 /** Props for {@link BannerStatic}. */
 export type BannerStaticProps = {

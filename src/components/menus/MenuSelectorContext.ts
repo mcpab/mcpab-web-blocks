@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { GetSelectorsReturnType } from './drawer/pathSelectors';
+import type { GetSelectorsReturnType } from './drawer/pathSelectors';
 
 /**
  * Provides selection state derived from the active page selector callback.

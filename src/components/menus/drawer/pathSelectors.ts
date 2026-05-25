@@ -1,5 +1,5 @@
-import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
-import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
+import type { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
+import type { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 
 /**
  * Callback used to determine whether a menu node is the currently active (selected) item.

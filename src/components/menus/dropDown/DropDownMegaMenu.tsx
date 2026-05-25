@@ -1,16 +1,14 @@
-import Grid from '@mui/material/Grid';
 import React from 'react';
 import List from '@mui/material/List';
-import { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
-import { ElementLabel } from '../ElementLabel';
+import type { StratifyPayload } from '../../../core/hierarchy/D3StratifyTypes';
 import { MenuDepthContext, useMenuDepthContext } from '../MenuDepthContext';
-import { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
+import type { MenuTreeElement, MenuTreeElementUI } from '../MenuTypes';
 import { useRowPlan } from '../useRowPlan';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { ElementButton } from '../ElementButton';
 import { useMenuRenderContext } from '../MenuRenderContext';
-import { LinkTypeComponent } from '../../../core/link';
+import type { LinkTypeComponent } from '../../../core/link';
 import { standardMegaMenuPolicy } from './defaultMegaMenuPolicy';
 
 /** @internal Props for {@link DropDownMegaMenu}. */
@@ -89,11 +87,14 @@ export type ColumnElementProps = {
  */
 function ColumnElement({ id, node, children, overrides, linkLikeComp }: ColumnElementProps) {
   //
-  if (!node) return null;
-
-  const { rowPlan, depth } = useRowPlan({ id, node, children, overrides });
+  const rowPlanReturn = useRowPlan({ id, node, children, overrides });
   const { megaMenuPolicy = standardMegaMenuPolicy } = useMenuRenderContext();
   const { showItemDivider, columnMinWidth } = megaMenuPolicy;
+
+  if (!node) return null;
+  if (!rowPlanReturn) return null;
+
+  const { rowPlan, depth } = rowPlanReturn;
 
   const elementLabel = (
     <ElementButton

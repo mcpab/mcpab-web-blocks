@@ -1,7 +1,7 @@
 'use client';
 
-import { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
-import { TextDrawerElement, TextDrawerElementUI } from './TextDrawerTypes';
+import type { StratifyPayload } from '../../core/hierarchy/D3StratifyTypes';
+import type { TextDrawerElement, TextDrawerElementUI } from './TextDrawerTypes';
 import { useTextControllerContext } from './TextControllerContext';
 import { useTextTreeDepthContext } from './TreeDepthContext';
 import { useTreeTextOpen, setTreeTextOpen } from './textTreeStore';

@@ -4,7 +4,7 @@ import * as React from 'react';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import MuiLink from '@mui/material/Link';
 import type { SxProps, Theme } from '@mui/material/styles';
-import { toTitleCase } from '../../../lib';
+import { toTitleCase } from '../../../lib/text/transform';
 import { DefaultLinkLike, type LinkTypeComponent } from '../../../core/link';
 
 /**
@@ -67,7 +67,7 @@ const BreadMenu = function ({
 
   const items = React.useMemo(() => {
     const crumbs: React.ReactNode[] = [];
-    let acc: string[] = [];
+    const acc: string[] = [];
 
     segments.forEach((seg, idx) => {
       acc.push(seg);
@@ -104,7 +104,7 @@ const BreadMenu = function ({
     });
 
     return crumbs;
-  }, [segments, segmentLabels, titleCase]);
+  }, [segments, segmentLabels, titleCase,linkComponent]);
 
   return (
     <nav aria-label="Breadcrumb">

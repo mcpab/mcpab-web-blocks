@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
-import { getSelectors, IsSelectedMenuElement } from '../drawer/pathSelectors';
+import type { IsSelectedMenuElement } from '../drawer/pathSelectors';
+import { getSelectors } from '../drawer/pathSelectors';
 import { MenuSelectorContext } from '../MenuSelectorContext';
-import { MenuPropsRendering } from '../MenuTypes';
+import type { MenuPropsRendering } from '../MenuTypes';
 import { DropDown_Client } from './DropDown_Client';
-import { MegaMenuPolicy } from '../RowPolicyTypes';
-import { Theme } from '@emotion/react';
-import { SxProps } from '@mui/system';
+import type { MegaMenuPolicy } from '../RowPolicyTypes';
+import type { Theme } from '@emotion/react';
+import type { SxProps } from '@mui/system';
 
 /** Props for the {@link DropDown} component. Extends the shared {@link MenuPropsRendering}. */
 export type DropDownMenuProps = MenuPropsRendering & {

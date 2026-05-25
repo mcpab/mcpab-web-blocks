@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { MenuStore, MenuState } from './menuStore';
+import type { MenuStore, MenuState } from './menuStore';
 
 /**
  * Provides the shared {@link MenuStore} instance that tracks open/closed state
