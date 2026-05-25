@@ -15,6 +15,7 @@ import {
   type InlineTextProps,
 } from './inline';
 
+/// Here we define the labels
 export type SectionKind = 'section';
 export type SubSectionKind = 'subsection';
 export type RichText = 'richText';
@@ -72,37 +73,40 @@ export type DefaultRenderingContract = {
   };
 };
 
-export type AnyRenderTextNode = {
+// here we create the list of all possible text nodes
+export type TextNodeMap = {
   [K in keyof DefaultRenderingContract]: DefaultRenderingContract[K]['node'];
-}[keyof DefaultRenderingContract];
+};
+export type PropsNodeMap = {
+  [K in keyof DefaultRenderingContract]: DefaultRenderingContract[K]['props'];
+};
+
+export type AnyRenderTextNode = TextNodeMap[keyof DefaultRenderingContract];
+export type AnyRenderTextProp = PropsNodeMap[keyof DefaultRenderingContract];
 
 /// this is the prototype of the entry of the registry
 // this is wrong --> K extends keyof DefaultRenderingContract
 // should be K extends TextNodeKeys but we need to make it work now
-type RenderedTextRegistryEntry<
-  K extends TextNodeKind,
-  D extends DefaultRenderingContract = DefaultRenderingContract,
-> = {
+type RenderedTextRegistryEntry<K extends TextNodeKind> = {
   type: K;
   rendering: ({
     node,
     overrides,
     Component,
   }: {
-    node: D[K]['node'];
-    overrides?: Partial<D[K]['props']>;
-    Component?: React.ComponentType<D[K]['props']>;
+    node: TextNodeMap[K];
+    overrides?: Partial<PropsNodeMap[K]>;
+    Component?: React.ComponentType<PropsNodeMap[K]>;
   }) => ReactNode;
 };
 
-// then we define the registry
-export type RenderedTextRegistry<D extends DefaultRenderingContract = DefaultRenderingContract> = {
-  [K in TextNodeKind]: RenderedTextRegistryEntry<K, D>;
+// then we define the registry type
+export type RenderedTextRegistry = {
+  [K in TextNodeKind]: RenderedTextRegistryEntry<K>;
 };
 
-export function createDefaultRenderedRegistry<
-  D extends DefaultRenderingContract = DefaultRenderingContract,
->(): RenderedTextRegistry<D> {
+// and the actual instance
+export function createDefaultRenderedRegistry(): RenderedTextRegistry {
   return {
     text: {
       type: 'text',
@@ -143,6 +147,7 @@ export function createDefaultRenderedRegistry<
   };
 }
 
+// this is the type of the function passed in the context
 export type RenderTextNode<R extends RenderedTextRegistry> = ({
   node,
   renderedRegistry,
@@ -153,29 +158,39 @@ export type RenderTextNode<R extends RenderedTextRegistry> = ({
   // latexPropsOverride?: LatexPropsOverrides<any>;
 }) => { rendered: React.ReactNode };
 
-export function defaultRenderTextNode<R extends RenderedTextRegistry>(): RenderTextNode<R>  {
+export function defaultRenderTextNode<R extends RenderedTextRegistry>(): RenderTextNode<R> {
+  //
 
-function renderWithOverrides<T extends RenderingLabels>(
-    type: T,
-    node: RenderingNodes[T],
-  ) {
-    const overrides = latexPropsOverride?.[type]?.[node.id];
-    return {
-      rendered: renderedRegistry[type].rendering({ node, overrides }),
-    };
-  }
-  return ({node,renderedRegistry}) => {
+  const rt: RenderTextNode<R> = ({ node, renderedRegistry }) => {
+    //
 
-     const nodeType = node.type;
+    const nodeType = node.type;
 
-     if(nodeType==='code') {
-      
-      return renderedRegistry[nodeType].rendering(node);
-     }
+    if (nodeType === 'code') {
+      const rt = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: rt }) };
+    } else if (nodeType === 'emphasis') {
+      const rt = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: rt }) };
+    } else if (nodeType === 'link') {
+      const rt = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: rt }) };
+    } else if (nodeType === 'strong') {
+      const rt = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: rt }) };
+    } else if (nodeType === 'strongEmphasis') {
+      const rt = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: rt }) };
+    } else if (nodeType === 'text') {
+      const rt = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: rt }) };
+    } else {
+      const _exhaustive: never = node;
+      return {
+        rendered: <>Renderer registry is missing support for node type: {nodeType}</>,
+      };
+    }
+  };
 
-  }
-
-
-
-
+  return rt;
 }
