@@ -1,19 +1,8 @@
 import { createContext, useContext } from 'react';
-import { RenderedRegistry, RenderingNodesAndProps } from '../../core/rendering/RegistryTypes';
-import { DefaultTextNodesRegistry, TextNodeKind } from './defaultTextRegistries';
-import { DefaultRendersRegistry } from './textNodeRenderers';
 import { LinkTypeComponent } from '../../core/link';
+import { RenderTextNode } from './defaultTextRegistries';
 
-/*
- * Input type for the indent policy function.
- * Passed by `TextElement` when computing `pl` for each node's wrapper `Box`.
- */
-type IndentPolicyProps = {
-  /** The base indent unit configured on `TextDrawer` (default `0`). */
-  baseIndent: number;
-  /** Zero-based depth of the node being rendered. */
-  depth: number;
-};
+ 
 
 /**
  * Shape of the value provided by {@link TextTreeRendererContext}.
@@ -37,15 +26,8 @@ export type TextTreeRendererContextType = {
    * Typically `<ExpandMore />` from MUI icons.
    */
   closeIndicator: React.ReactNode;
-  /**
-   * Base indent unit (in MUI spacing units) passed to `indentPolicy`.
-   * Comes from the `indent` prop on `TextDrawer`.
-   */
-  baseIndent: number;
  
-  rendersRegistry: typeof DefaultTextNodesRegistry;
- 
-  indentPolicy: ({ baseIndent, depth }: IndentPolicyProps) => number;
+  nodesRenderer: RenderTextNode;
 
   LinkComponent : LinkTypeComponent;
 };
