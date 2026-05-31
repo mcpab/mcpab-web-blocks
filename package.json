@@ -9,7 +9,11 @@
   "files": [
     "dist"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "./src/mui-augment.ts",
+    "./dist/mui-augment.js",
+    "./dist/mui-augment.cjs"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

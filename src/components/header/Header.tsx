@@ -1,7 +1,7 @@
 'use client';
 
 import Box from '@mui/material/Box';
-import type { DrawerMenuProps } from '../menus/drawer/DrawerMenu';
+import type { DrawerMenuRootProps } from '../menus/drawer/DrawerMenuRoot';
 import type { DropDownMenuProps } from '../menus/dropDown/DropDown';
 import type { BreadMenuProps } from '../navigation/Breadcrumbs/BreadMenu';
 import type { HeaderLogoProps } from './HeaderLogo';
@@ -9,7 +9,7 @@ import { HeaderDrawer } from './HeaderDrawer';
 import { HeaderMenu } from './HeaderMenu';
 
 export type HeaderProps = {
-  drawerProps: DrawerMenuProps;
+  drawerProps: DrawerMenuRootProps;
   menuProps: DropDownMenuProps;
   logoProps: HeaderLogoProps;
   breadMenuProps: BreadMenuProps;

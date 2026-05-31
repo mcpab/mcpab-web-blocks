@@ -1,12 +1,12 @@
-import Box3 from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import Box3 from '@mui/material/Box';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import * as React22 from 'react';
-import React22__default, { createContext, useId, useSyncExternalStore, useMemo, useContext, useState, useEffect } from 'react';
+import * as React16 from 'react';
+import { createContext, useId, useContext, Fragment as Fragment$1, useState, useSyncExternalStore, useMemo } from 'react';
 import Container from '@mui/material/Container';
 import Fade from '@mui/material/Fade';
 import Stack from '@mui/material/Stack';
-import Typography9 from '@mui/material/Typography';
+import Typography13 from '@mui/material/Typography';
 import Button6 from '@mui/material/Button';
 import PhoneIcon from '@mui/icons-material/Phone';
 import CircularProgress2 from '@mui/material/CircularProgress';
@@ -52,15 +52,13 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import Paper from '@mui/material/Paper';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
+import Divider from '@mui/material/Divider';
 import MuiLink2 from '@mui/material/Link';
-import { stratify } from 'd3-hierarchy';
 import { getLayoutFromCatalog, CSSLayout, GridCssMuiRenderer } from '@mcpab/gridcss';
 import { Box } from '@mui/system';
-import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import List from '@mui/material/List';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -74,17 +72,16 @@ import LoginIcon from '@mui/icons-material/Login';
 import InfoIcon from '@mui/icons-material/Info';
 import PeopleIcon from '@mui/icons-material/People';
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
+import Drawer from '@mui/material/Drawer';
+import MenuIcon from '@mui/icons-material/Menu';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import Popover from '@mui/material/Popover';
 import Grid from '@mui/material/Grid';
 import Modal from '@mui/material/Modal';
 import Avatar from '@mui/material/Avatar';
+import Popover from '@mui/material/Popover';
 
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -290,7 +287,7 @@ var BannerStatic = ({
     }
   );
 };
-var BannerStatic_default = React22.memo(BannerStatic);
+var BannerStatic_default = React16.memo(BannerStatic);
 function clampFrameIndex(index, length) {
   return Math.max(0, Math.min(index, Math.max(length - 1, 0)));
 }
@@ -301,7 +298,7 @@ var DynamicTransition = ({
   startIndex = 0,
   boxProps
 }) => {
-  const frameItems = React22.useMemo(
+  const frameItems = React16.useMemo(
     () => (frames != null ? frames : []).map((frame, index) => ({ frame, key: index })),
     [frames]
   );
@@ -326,12 +323,12 @@ function DynamicTransitionInner({
 }) {
   var _a;
   const initialIndex = clampFrameIndex(startIndex, frameItems.length);
-  const [transitionState, setTransitionState] = React22.useState({
+  const [transitionState, setTransitionState] = React16.useState({
     activeIndex: initialIndex,
     previousIndex: initialIndex,
     hasTransitioned: false
   });
-  React22.useEffect(() => {
+  React16.useEffect(() => {
     const hasCycle = frameItems.length >= 2;
     if (!hasCycle) return;
     const period = Math.max(0, interval) + Math.max(0, transitionDuration);
@@ -373,7 +370,7 @@ function DynamicTransitionInner({
     }
   );
 }
-var DynamicTransition_default = React22.memo(DynamicTransition);
+var DynamicTransition_default = React16.memo(DynamicTransition);
 var BlockCarousel = ({
   config,
   children,
@@ -390,7 +387,7 @@ var BlockCarousel = ({
   } = config || {};
   const interval = intervalProp != null ? intervalProp : 5e3;
   const { sx: rootSx, ...restRoot } = rootProps != null ? rootProps : {};
-  const frames = React22.useMemo(() => {
+  const frames = React16.useMemo(() => {
     return images.map((img, i) => {
       const { transform, image, objectPosition } = img;
       return /* @__PURE__ */ jsx(
@@ -471,7 +468,7 @@ var BlockCarousel = ({
     }
   );
 };
-var BlockCarousel_default = React22.memo(BlockCarousel);
+var BlockCarousel_default = React16.memo(BlockCarousel);
 var BannerCarousel = ({
   images,
   id,
@@ -498,7 +495,7 @@ var BannerCarousel = ({
     }
   );
 };
-var BannerCarousel_default = React22.memo(BannerCarousel);
+var BannerCarousel_default = React16.memo(BannerCarousel);
 var variantLevels = {
   page: "h1",
   section: "h2",
@@ -508,7 +505,7 @@ var variantLevels = {
 var Title = (props) => {
   const { sectionType: role, sx, ...rest } = props;
   return /* @__PURE__ */ jsx(
-    Typography9,
+    Typography13,
     {
       variant: variantLevels[role],
       sx,
@@ -543,7 +540,7 @@ var MainTitle = ({
     return /* @__PURE__ */ jsx(Component, { ...componentProps, children: content }, `main-title-${index}`);
   }) });
 };
-var MainTitle_default = React22.memo(MainTitle);
+var MainTitle_default = React16.memo(MainTitle);
 var TouchButton = styled(Button6)(({ theme }) => ({
   textTransform: "none",
   borderRadius: theme.shape.borderRadius,
@@ -580,8 +577,8 @@ function SuccessButtonContent({
   children,
   fallback
 }) {
-  const [visible, setVisible] = React22.useState(true);
-  React22.useEffect(() => {
+  const [visible, setVisible] = React16.useState(true);
+  React16.useEffect(() => {
     const timer = window.setTimeout(() => {
       setVisible(false);
     }, successDuration);
@@ -734,9 +731,9 @@ var DownloadButton = ({
   children,
   ...rest
 }) => {
-  const [isDownloading, setIsDownloading] = React22.useState(false);
-  const [downloadProgress, setDownloadProgress] = React22.useState(0);
-  const [isComplete, setIsComplete] = React22.useState(false);
+  const [isDownloading, setIsDownloading] = React16.useState(false);
+  const [downloadProgress, setDownloadProgress] = React16.useState(0);
+  const [isComplete, setIsComplete] = React16.useState(false);
   const detectedFileType = fileType || detectFileType(href);
   const fileIcon = getFileIcon(detectedFileType);
   const isExternal = href.startsWith("http");
@@ -789,14 +786,14 @@ var DownloadButton = ({
     if (isComplete) {
       return /* @__PURE__ */ jsxs(Box3, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
         /* @__PURE__ */ jsx(CheckCircleIcon, { sx: { color: green[500] } }),
-        /* @__PURE__ */ jsx(Typography9, { variant: "inherit", children: "Downloaded!" })
+        /* @__PURE__ */ jsx(Typography13, { variant: "inherit", children: "Downloaded!" })
       ] });
     }
     return /* @__PURE__ */ jsxs(Box3, { sx: { display: "flex", alignItems: "center", gap: 1, width: "100%" }, children: [
       fileIcon,
       /* @__PURE__ */ jsxs(Box3, { sx: { flex: 1 }, children: [
         /* @__PURE__ */ jsxs(Box3, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
-          /* @__PURE__ */ jsx(Typography9, { variant: "inherit", children }),
+          /* @__PURE__ */ jsx(Typography13, { variant: "inherit", children }),
           showFileSize && fileSize && /* @__PURE__ */ jsx(
             Chip,
             {
@@ -956,13 +953,13 @@ var SocialButton = ({
   );
 };
 var SocialButton_default = SocialButton;
-var RouterContext = React22.createContext(null);
+var RouterContext = React16.createContext(null);
 var RouterProvider = ({ router, children }) => {
   return /* @__PURE__ */ jsx(RouterContext.Provider, { value: router, children });
 };
 var useRouter = () => {
-  const contextRouter = React22.useContext(RouterContext);
-  return React22.useMemo(() => {
+  const contextRouter = React16.useContext(RouterContext);
+  return React16.useMemo(() => {
     if (contextRouter) {
       return contextRouter;
     }
@@ -1093,10 +1090,10 @@ var ShareButton = ({
   children = "Share",
   ...rest
 }) => {
-  const [anchorEl, setAnchorEl] = React22.useState(null);
-  const [showSuccess, setShowSuccess] = React22.useState(false);
-  const [successMessage, setSuccessMessage] = React22.useState("");
-  const shareData = React22.useMemo(
+  const [anchorEl, setAnchorEl] = React16.useState(null);
+  const [showSuccess, setShowSuccess] = React16.useState(false);
+  const [successMessage, setSuccessMessage] = React16.useState("");
+  const shareData = React16.useMemo(
     () => ({
       url: url || (typeof window !== "undefined" ? window.location.href : ""),
       title: title || (typeof document !== "undefined" ? document.title : ""),
@@ -1105,7 +1102,7 @@ var ShareButton = ({
     }),
     [url, title, text, files]
   );
-  const canUseNativeShare = React22.useMemo(() => {
+  const canUseNativeShare = React16.useMemo(() => {
     if (typeof navigator === "undefined" || !navigator.share) return false;
     if (files && files.length > 0) {
       return navigator.canShare && navigator.canShare({ files });
@@ -1233,11 +1230,11 @@ var SubscribeButton = ({
   children = "Subscribe",
   ...rest
 }) => {
-  const [email, setEmail] = React22.useState("");
-  const [isLoading, setIsLoading] = React22.useState(false);
-  const [showSuccess, setShowSuccess] = React22.useState(false);
-  const [showError, setShowError] = React22.useState(false);
-  const [emailError, setEmailError] = React22.useState("");
+  const [email, setEmail] = React16.useState("");
+  const [isLoading, setIsLoading] = React16.useState(false);
+  const [showSuccess, setShowSuccess] = React16.useState(false);
+  const [showError, setShowError] = React16.useState(false);
+  const [emailError, setEmailError] = React16.useState("");
   const validateEmail = (email2) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email2);
@@ -1261,7 +1258,7 @@ var SubscribeButton = ({
       } else {
         setShowError(true);
       }
-    } catch (error) {
+    } catch {
       setShowError(true);
     } finally {
       setIsLoading(false);
@@ -1349,7 +1346,7 @@ var WhatsAppButton = ({
     }
     return formattedPhone;
   };
-  const whatsappUrl = React22.useMemo(() => {
+  const whatsappUrl = React16.useMemo(() => {
     const formattedPhone = formatPhoneNumber(phone, countryCode);
     const encodedMessage = encodeURIComponent(message);
     return `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
@@ -1458,8 +1455,8 @@ var CopyButton = ({
   sx,
   ...rest
 }) => {
-  const [showSuccess, setShowSuccess] = React22.useState(false);
-  const [justCopied, setJustCopied] = React22.useState(false);
+  const [showSuccess, setShowSuccess] = React16.useState(false);
+  const [justCopied, setJustCopied] = React16.useState(false);
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
@@ -1528,17 +1525,17 @@ var CopyButton = ({
 };
 var CopyButton_default = CopyButton;
 var ClickTextImage = ({ title, image, text, ImageComponent }) => {
-  const [open, setOpen2] = React22.useState(false);
+  const [open, setOpen] = React16.useState(false);
   const contentId = useId();
   const TILE_MIN_H = { xs: 240, sm: 280, md: 300 };
-  const imageConf = React22.useMemo(
+  const imageConf = React16.useMemo(
     () => ({
       src: image,
       overlayColor: open ? "rgba(255,255,255,1)" : "rgba(0,0,0,0.45)"
     }),
     [image, open]
   );
-  const toggleOpen = () => setOpen2((v) => !v);
+  const toggleOpen = () => setOpen((v) => !v);
   const onKeyDown = (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -1602,7 +1599,7 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
             },
             children: [
               /* @__PURE__ */ jsx(
-                Typography9,
+                Typography13,
                 {
                   variant: "narrative",
                   color: "common.white",
@@ -1617,7 +1614,7 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
                   size: "small",
                   onClick: (e) => {
                     e.stopPropagation();
-                    setOpen2(true);
+                    setOpen(true);
                   },
                   sx: {
                     fontWeight: "bold",
@@ -1649,7 +1646,7 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
               maxHeight: "100%"
             },
             children: [
-              /* @__PURE__ */ jsx(Typography9, { variant: "narrative", sx: { mb: 2 }, children: text }),
+              /* @__PURE__ */ jsx(Typography13, { variant: "narrative", sx: { mb: 2 }, children: text }),
               /* @__PURE__ */ jsx(
                 Button6,
                 {
@@ -1657,7 +1654,7 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
                   size: "small",
                   onClick: (e) => {
                     e.stopPropagation();
-                    setOpen2(false);
+                    setOpen(false);
                   },
                   sx: { fontWeight: "bold", "&:hover": { backgroundColor: "action.hover" } },
                   children: "Close"
@@ -1670,44 +1667,7 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
     }
   );
 };
-var ClickTextImage_default = React22.memo(ClickTextImage);
-function createTreeTextStore(initialState) {
-  let treeTextState = { ...initialState };
-  const listeners = /* @__PURE__ */ new Set();
-  return {
-    getState: () => treeTextState,
-    setState: (next) => {
-      if (next === treeTextState) return;
-      treeTextState = typeof next === "function" ? next(treeTextState) : next;
-      listeners.forEach((listener) => listener());
-    },
-    subscribe: (listener) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener);
-    }
-  };
-}
-function useTreeTextOpen(store, nodeId) {
-  return useSyncExternalStore(
-    store.subscribe,
-    () => {
-      var _a;
-      return (_a = store.getState()[nodeId]) != null ? _a : false;
-    },
-    () => false
-  );
-}
-function setTreeTextOpen(store, nodeId) {
-  return (open) => {
-    store.setState((prev) => ({ ...prev, [nodeId]: open }));
-  };
-}
-var TextControllerContext = createContext(null);
-function useTextControllerContext() {
-  const ctx = useContext(TextControllerContext);
-  if (!ctx) throw new Error("TextControllerContext missing. Wrap with <TextControllerContext>.");
-  return ctx;
-}
+var ClickTextImage_default = React16.memo(ClickTextImage);
 var TextTreeRendererContext = createContext(null);
 function useTextTreeRendererContext() {
   const ctx = useContext(TextTreeRendererContext);
@@ -1715,97 +1675,23 @@ function useTextTreeRendererContext() {
     throw new Error("TextTreeRendererContext missing. Wrap with <TextTreeRendererContext>.");
   return ctx;
 }
-var TreeTextDepthContext = createContext(null);
-function useTextTreeDepthContext() {
-  const ctx = useContext(TreeTextDepthContext);
-  if (!ctx) throw new Error("TreeTextDepthContext missing. Wrap with <TreeTextDepthContext>.");
-  return ctx;
+function ContentTreeView({ tree }) {
+  const { nodesRenderer } = useTextTreeRendererContext();
+  return /* @__PURE__ */ jsx(Box3, { display: "flex", flexDirection: "column", children: tree.children.map((node) => {
+    const result = nodesRenderer({ node });
+    return /* @__PURE__ */ jsx(Fragment$1, { children: result.rendered }, node.id);
+  }) });
 }
-function TextOpenClose({
-  id,
-  textDrawerElement,
-  textDrawerElementUI,
-  children,
-  isOpen,
-  onToggle,
-  depth
-}) {
-  const { openIndicator, closeIndicator, rendersRegistry } = useTextTreeRendererContext();
-  if (!textDrawerElement) return null;
-  const handleClick = () => {
-    onToggle(!isOpen);
-  };
-  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsx(React22__default.Fragment, { children: /* @__PURE__ */ jsx(
-    TextElement,
-    {
-      id: childId,
-      children: childBranch.children,
-      textDrawerElement: childBranch.node,
-      textDrawerElementUI: childBranch.overrides
-    }
-  ) }, childId)) : [];
-  const renderer = textDrawerElement.renderer;
-  const props = rendersRegistry[renderer].props({
-    textDrawerElement,
-    textDrawerElementUI,
-    depth,
-    hasChildren: true,
-    isOpen,
-    closeIndicator,
-    openIndicator,
-    onClick: handleClick
-  });
-  const Component = rendersRegistry[renderer].renderer;
-  return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Component, { ...props }),
-    /* @__PURE__ */ jsx(Collapse, { in: isOpen, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsx(TreeTextDepthContext.Provider, { value: { depth: depth + 1 }, children: childrenComponents }) })
-  ] });
-}
-function TextElement({
-  id,
-  textDrawerElement,
-  textDrawerElementUI,
-  children
-}) {
-  const { treeTextStore } = useTextControllerContext();
-  const isOpen = useTreeTextOpen(treeTextStore, id);
-  const onToggle = (open) => setTreeTextOpen(treeTextStore, id)(open);
-  const { depth } = useTextTreeDepthContext();
-  const { rendersRegistry, openIndicator, closeIndicator, baseIndent, indentPolicy } = useTextTreeRendererContext();
-  if (!textDrawerElement) return null;
-  const hasChildren = children !== void 0 && Object.keys(children).length > 0;
-  if (hasChildren) {
-    return /* @__PURE__ */ jsx(Box3, { pl: indentPolicy({ baseIndent, depth }), children: /* @__PURE__ */ jsx(
-      TextOpenClose,
-      {
-        id,
-        textDrawerElement,
-        textDrawerElementUI,
-        children,
-        isOpen,
-        onToggle,
-        depth
-      }
-    ) });
-  }
-  const renderer = textDrawerElement.renderer;
-  const props = rendersRegistry[renderer].props({
-    textDrawerElement,
-    textDrawerElementUI,
-    depth,
-    hasChildren,
-    isOpen,
-    closeIndicator,
-    openIndicator,
-    onClick: () => {
-    }
-  });
-  const Component = rendersRegistry[renderer].renderer;
-  return /* @__PURE__ */ jsx(Box3, { pl: indentPolicy({ baseIndent, depth }), children: /* @__PURE__ */ jsx(Component, { ...props }) });
+function RichText({ inlineNodes }) {
+  const { nodesRenderer } = useTextTreeRendererContext();
+  return /* @__PURE__ */ jsx(Box3, { component: "span", children: inlineNodes.map((node) => {
+    const result = nodesRenderer({ node });
+    return /* @__PURE__ */ jsx(Fragment$1, { children: result.rendered }, node.id);
+  }) });
 }
 var TitleLabel = ({ sectionType, component = "span", sx, ...rest }) => {
   return /* @__PURE__ */ jsx(
-    Typography9,
+    Typography13,
     {
       variant: variantLevels[sectionType],
       component,
@@ -1819,501 +1705,340 @@ var PageTitleLabel = (p) => /* @__PURE__ */ jsx(TitleLabel, { sectionType: "page
 var SectionTitleLabel = (p) => /* @__PURE__ */ jsx(TitleLabel, { sectionType: "section", ...p });
 var SubsectionTitleLabel = (p) => /* @__PURE__ */ jsx(TitleLabel, { sectionType: "subsection", ...p });
 var SubsubsectionTitleLabel = (p) => /* @__PURE__ */ jsx(TitleLabel, { sectionType: "subsubsection", ...p });
-function LabelOnly({ title, sx }) {
-  return /* @__PURE__ */ jsx(SubsubsectionTitleLabel, { component: "div", sx, children: title });
-}
-function LinkedLabel({ title, href, sx }) {
-  return /* @__PURE__ */ jsx(MuiLink2, { href, underline: "hover", sx, children: /* @__PURE__ */ jsx(SubsubsectionTitleLabel, { component: "span", children: title }) });
-}
-
-// src/components/content/textNodeRenderers/rendersRegistryTypes.ts
-function defineEntry(e) {
-  return e;
-}
-function SimpleText({ text, sx }) {
-  return /* @__PURE__ */ jsx(Typography9, { variant: "narrative", sx, children: text });
-}
-var Spacer = ({ size = 4 }) => {
-  return /* @__PURE__ */ jsx(
-    Box3,
-    {
-      sx: (theme) => ({
-        height: theme.spacing(size),
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-      })
-    }
-  );
-};
-var Spacer_default = Spacer;
-var STACK_SPACING = {
-  compact: 2,
-  standard: 4,
-  relaxed: 6,
-  large: 8,
-  extraLarge: 10
-};
-var BaseStack = ({ size = "standard", ...props }) => {
-  const spacing = STACK_SPACING[size];
-  return /* @__PURE__ */ jsx(Stack, { spacing, ...props });
-};
-var StandardStack = ({ sx, ...props }) => {
-  return /* @__PURE__ */ jsx(
-    BaseStack,
-    {
-      ...props,
-      sx: [
-        {
-          width: "100%",
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "visible"
-        },
-        ...Array.isArray(sx) ? sx : [sx]
-      ]
-    }
-  );
-};
-var StandardStack_default = StandardStack;
-function TitleAndSubDepth({
+function Section2({
   title,
-  subtitle,
-  indicator,
-  onClick,
-  depth
+  content,
+  defaultOpen: isOpen,
+  collapsible: shouldOpen,
+  hasDivider,
+  contentGap
 }) {
-  const TitleLabel2 = depth === 0 ? SubsectionTitleLabel : SubsubsectionTitleLabel;
-  return /* @__PURE__ */ jsxs(Box3, { onClick, display: "flex", justifyContent: "space-between", children: [
-    /* @__PURE__ */ jsxs(StandardStack_default, { size: "compact", children: [
-      /* @__PURE__ */ jsx(TitleLabel2, { component: "div", children: title }),
-      subtitle && /* @__PURE__ */ jsx(SubsubsectionTitleLabel, { component: "div", children: subtitle })
-    ] }),
-    indicator
-  ] });
-}
-function TitleAndSubStd({ title, subtitle, indicator, onClick }) {
-  return /* @__PURE__ */ jsxs(Box3, { onClick, display: "flex", justifyContent: "space-between", children: [
-    /* @__PURE__ */ jsxs(StandardStack_default, { size: "compact", children: [
-      /* @__PURE__ */ jsx(SubsectionTitle, { children: title }),
-      subtitle && /* @__PURE__ */ jsx(SubsubsectionTitle, { children: subtitle })
-    ] }),
-    indicator
-  ] });
-}
-function TitledText({ title, subtitle, text, sx }) {
-  return /* @__PURE__ */ jsxs(StandardStack_default, { size: "compact", sx, children: [
-    /* @__PURE__ */ jsx(SubsubsectionTitleLabel, { component: "div", children: title }),
-    subtitle && /* @__PURE__ */ jsx(SubsubsectionTitleLabel, { component: "div", children: subtitle }),
-    /* @__PURE__ */ jsx(Typography9, { variant: "narrative", children: text })
-  ] });
-}
-
-// src/components/content/textNodeRenderers/defaultTextPolicyRegister.ts
-var defaultRendersRegistry = {
-  /** Bare narrative text. Uses `content`; falls back to `title` when absent. Supports `sx`. */
-  simpleText: {
-    type: "plainText",
-    props: ({ textDrawerElement, textDrawerElementUI }) => {
-      var _a;
-      return {
-        text: (_a = textDrawerElement.content) != null ? _a : textDrawerElement.title,
-        sx: textDrawerElementUI == null ? void 0 : textDrawerElementUI.sx
-      };
-    },
-    renderer: SimpleText
-  },
-  /** Label + optional subtitle + body paragraph. Uses `content`; falls back to `title`. Supports `sx`. */
-  titledText: defineEntry({
-    type: "paragraph",
-    props: ({ textDrawerElement, textDrawerElementUI }) => {
-      var _a;
-      return {
-        title: textDrawerElement.title,
-        subtitle: textDrawerElement.subtitle,
-        text: (_a = textDrawerElement.content) != null ? _a : textDrawerElement.title,
-        sx: textDrawerElementUI == null ? void 0 : textDrawerElementUI.sx
-      };
-    },
-    renderer: TitledText
-  }),
-  /** Title-only label with no body content. Supports `sx`. */
-  labelOnly: defineEntry({
-    type: "plainText",
-    props: ({ textDrawerElement, textDrawerElementUI }) => ({
-      title: textDrawerElement.title,
-      sx: textDrawerElementUI == null ? void 0 : textDrawerElementUI.sx
-    }),
-    renderer: LabelOnly
-  }),
-  /**
-   * Collapsible section header — fixed heading size (h3 / `SubsectionTitle`).
-   * Use when the section is always at the top level and heading size must not vary.
-   */
-  titleAndSubStd: defineEntry({
-    type: "section",
-    props: ({ textDrawerElement, isOpen, openIndicator, closeIndicator, onClick }) => {
-      const indicator = isOpen ? openIndicator : closeIndicator;
-      return { title: textDrawerElement.title, subtitle: textDrawerElement.subtitle, indicator, onClick };
-    },
-    renderer: TitleAndSubStd
-  }),
-  /**
-   * Collapsible section header — depth-aware heading size.
-   * Renders `SubsectionTitleLabel` (h3) at depth 0 and `SubsubsectionTitleLabel` (h4)
-   * at depth > 0.  Prefer this over `titleAndSubStd` for sections that may be nested.
-   */
-  titleAndSubDepth: defineEntry({
-    type: "section",
-    props: ({ textDrawerElement, isOpen, openIndicator, closeIndicator, onClick, depth }) => {
-      const indicator = isOpen ? openIndicator : closeIndicator;
-      return { title: textDrawerElement.title, subtitle: textDrawerElement.subtitle, indicator, onClick, depth };
-    },
-    renderer: TitleAndSubDepth
-  }),
-  /**
-   * Clickable link leaf node.  Requires `href` in the payload; falls back to `'#'`
-   * if missing.  Supports `sx`.
-   */
-  linkedLabel: defineEntry({
-    type: "plainText",
-    props: ({ textDrawerElement, textDrawerElementUI }) => {
-      var _a;
-      return {
-        title: textDrawerElement.title,
-        href: (_a = textDrawerElement.href) != null ? _a : "#",
-        sx: textDrawerElementUI == null ? void 0 : textDrawerElementUI.sx
-      };
-    },
-    renderer: LinkedLabel
-  })
-};
-function TextDrawer_Client({ treeFromRoot, indent = 0 }) {
-  const renderContext = {
-    baseIndent: indent,
-    openIndicator: /* @__PURE__ */ jsx(ExpandLess, {}),
-    closeIndicator: /* @__PURE__ */ jsx(ExpandMore, {}),
-    rendersRegistry: defaultRendersRegistry,
-    indentPolicy({ baseIndent, depth }) {
-      return baseIndent * depth;
-    }
+  const { nodesRenderer } = useTextTreeRendererContext();
+  const [isOpenSection, setOpen] = useState(isOpen);
+  const { openIndicator, closeIndicator } = useTextTreeRendererContext();
+  const onClick = () => {
+    setOpen((open) => !open);
   };
-  const childrenComponents = treeFromRoot.children ? Object.entries(treeFromRoot.children).map(([childId, childBranch]) => /* @__PURE__ */ jsx(React22__default.Fragment, { children: /* @__PURE__ */ jsx(
-    TextElement,
+  const indicator = shouldOpen ? isOpenSection ? openIndicator : closeIndicator : null;
+  const titleRendered = nodesRenderer({ node: title }).rendered;
+  return /* @__PURE__ */ jsxs(Box3, { display: "flex", flexDirection: "column", gap: contentGap, children: [
+    /* @__PURE__ */ jsxs(Box3, { display: "flex", flexDirection: "row", onClick: shouldOpen ? onClick : void 0, children: [
+      indicator,
+      /* @__PURE__ */ jsxs(SectionTitle, { children: [
+        titleRendered,
+        hasDivider && /* @__PURE__ */ jsx(Divider, {})
+      ] })
+    ] }),
+    /* @__PURE__ */ jsx(Collapse, { in: shouldOpen ? isOpenSection : true, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsx(Box3, { display: "flex", flexDirection: "column", gap: contentGap, children: content.map((node) => {
+      return /* @__PURE__ */ jsx(Fragment$1, { children: nodesRenderer({ node }).rendered }, node.id);
+    }) }) })
+  ] });
+}
+function SubSection({
+  title,
+  content: richTextBlocks,
+  hasDivider,
+  contentGap,
+  collapsible = false,
+  defaultOpen = true
+}) {
+  const [isOpenSubSection, setOpen] = useState(defaultOpen);
+  const { closeIndicator, nodesRenderer, openIndicator } = useTextTreeRendererContext();
+  const onClick = () => {
+    setOpen((open) => !open);
+  };
+  const indicator = collapsible ? isOpenSubSection ? openIndicator : closeIndicator : null;
+  return /* @__PURE__ */ jsxs(Box3, { display: "flex", flexDirection: "column", gap: contentGap, children: [
+    /* @__PURE__ */ jsxs(Box3, { display: "flex", flexDirection: "row", onClick: collapsible ? onClick : void 0, children: [
+      indicator,
+      /* @__PURE__ */ jsxs(SubsectionTitle, { children: [
+        /* @__PURE__ */ jsx(RichText, { inlineNodes: title.content }),
+        hasDivider && /* @__PURE__ */ jsx(Divider, {})
+      ] })
+    ] }),
+    /* @__PURE__ */ jsx(Collapse, { in: collapsible ? isOpenSubSection : true, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsx(Box3, { display: "flex", flexDirection: "column", gap: contentGap, children: richTextBlocks.map((node) => {
+      return /* @__PURE__ */ jsx(Fragment$1, { children: nodesRenderer({ node }).rendered }, node.id);
+    }) }) })
+  ] });
+}
+function InlineText({ body }) {
+  return /* @__PURE__ */ jsx(Typography13, { component: "span", variant: "inherit", children: body });
+}
+function InlineStrong({ body }) {
+  return /* @__PURE__ */ jsx(Typography13, { component: "strong", variant: "inherit", sx: { fontWeight: 700 }, children: body });
+}
+function InlineEmphasis({ body }) {
+  return /* @__PURE__ */ jsx(Typography13, { component: "em", variant: "inherit", sx: { fontStyle: "italic" }, children: body });
+}
+function InlineStrongEmphasis({ body }) {
+  return /* @__PURE__ */ jsx(
+    Typography13,
     {
-      id: childId,
-      children: childBranch.children,
-      textDrawerElement: childBranch.node,
-      textDrawerElementUI: childBranch.overrides
+      component: "strong",
+      variant: "inherit",
+      sx: { fontStyle: "italic", fontWeight: 700 },
+      children: /* @__PURE__ */ jsx("em", { children: body })
     }
-  ) }, childId)) : [];
-  return /* @__PURE__ */ jsx(TextTreeRendererContext.Provider, { value: renderContext, children: /* @__PURE__ */ jsx(TreeTextDepthContext.Provider, { value: { depth: 0 }, children: childrenComponents }) });
+  );
 }
-function TextDrawer({ treeFromRoot, indent = 0 }) {
-  const treeTextStore = useMemo(() => {
-    const initialStoreState = {};
-    populateInitialStoreState(treeFromRoot, initialStoreState);
-    initialStoreState["root"] = false;
-    return createTreeTextStore(initialStoreState);
-  }, [treeFromRoot]);
-  return /* @__PURE__ */ jsx(TextControllerContext.Provider, { value: { treeTextStore }, children: /* @__PURE__ */ jsx(TextDrawer_Client, { treeFromRoot, indent }) });
+function InlineCode({ body }) {
+  return /* @__PURE__ */ jsx(
+    Typography13,
+    {
+      component: "code",
+      variant: "inherit",
+      sx: {
+        borderRadius: 0.5,
+        bgcolor: "action.hover",
+        fontFamily: "monospace",
+        px: 0.5
+      },
+      children: body
+    }
+  );
 }
-function populateInitialStoreState(node, store) {
-  var _a, _b;
-  if (node.children) {
-    for (const key in node.children) {
-      store[key] = (_b = (_a = node.children[key].overrides) == null ? void 0 : _a.defaultOpen) != null ? _b : false;
-      populateInitialStoreState(node.children[key], store);
+function InlineLink({ body, href }) {
+  const { LinkComponent } = useTextTreeRendererContext();
+  return /* @__PURE__ */ jsx(MuiLink2, { component: LinkComponent, href, underline: "hover", color: "inherit", children: body });
+}
+function isOverridableType(type) {
+  return type === "section" || type === "subSection";
+}
+var defaultRenderedRegistry = {
+  text: {
+    type: "text",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(InlineText, { body: node.body, ...overrides });
+    }
+  },
+  strong: {
+    type: "strong",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(InlineStrong, { body: node.body, ...overrides });
+    }
+  },
+  emphasis: {
+    type: "emphasis",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(InlineEmphasis, { body: node.body, ...overrides });
+    }
+  },
+  strongEmphasis: {
+    type: "strongEmphasis",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(InlineStrongEmphasis, { body: node.body, ...overrides });
+    }
+  },
+  code: {
+    type: "code",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(InlineCode, { body: node.body, ...overrides });
+    }
+  },
+  link: {
+    type: "link",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(InlineLink, { body: node.body, href: node.href, ...overrides });
+    }
+  },
+  richText: {
+    type: "richText",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(RichText, { inlineNodes: node.content, ...overrides });
+    }
+  },
+  subSection: {
+    type: "subSection",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(SubSection, { title: node.title, content: node.content, hasDivider: true, ...overrides });
+    }
+  },
+  section: {
+    type: "section",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(
+        Section2,
+        {
+          defaultOpen: true,
+          content: node.content,
+          title: node.title,
+          collapsible: true,
+          hasDivider: true,
+          ...overrides
+        }
+      );
     }
   }
-}
-
-// src/core/hierarchy/hierarchyErrorShape.ts
-var HIERARCHY_ERROR_CODE = {
-  // --- Core grid / geometry issues ----------------------------
-  MISSING_PARENT: "MISSING_PARENT",
-  INVALID_PARENT: "INVALID_PARENT",
-  INVALID_HIERARCHY: "INVALID_HIERARCHY",
-  MISSING_ROOT_ATTACHMENT: "MISSING_ROOT_ATTACHMENT",
-  D3_STRATIFY_ERROR: "D3_STRATIFY_ERROR",
-  NULL_NODE: "NULL_NODE",
-  INVALID_CYCLE: "INVALID_CYCLE"
 };
-
-// src/core/hierarchy/resolver.ts
-function resolver(hierarchyTree) {
-  const issues = [];
-  let hasUndefinedElements = false;
-  let hasMissingParents = false;
-  let hasRoot = false;
-  let hasInvalidParent = false;
-  let hasInvalidHierarchy = false;
-  const hierarchy = hierarchyTree.nodes;
-  for (const key in hierarchy) {
-    if (key === "root") {
-      issues.push({
-        code: HIERARCHY_ERROR_CODE.INVALID_HIERARCHY,
-        message: `No element can have 'root' as its key.`
-      });
-      hasInvalidHierarchy = true;
-      continue;
-    }
-    const element = hierarchy[key];
-    if (!element) {
-      issues.push({
-        code: HIERARCHY_ERROR_CODE.INVALID_HIERARCHY,
-        message: `Element ${key} is undefined.`
-      });
-      hasUndefinedElements = true;
-      continue;
-    }
-    if (element.parent === void 0 || element.parent === null) {
-      issues.push({
-        code: HIERARCHY_ERROR_CODE.MISSING_PARENT,
-        message: `Element ${key} is missing a parent.`
-      });
-      hasMissingParents = true;
-    } else {
-      if (element.parent !== "root" && !(element.parent in hierarchy)) {
-        issues.push({
-          code: HIERARCHY_ERROR_CODE.INVALID_PARENT,
-          message: `Element ${key} has a parent ${element.parent} which does not exist in the hierarchy.`
-        });
-        hasInvalidParent = true;
-      }
-      if (element.parent === key) {
-        issues.push({
-          code: HIERARCHY_ERROR_CODE.INVALID_PARENT,
-          message: `Element ${key} cannot be its own parent.`
-        });
-        hasInvalidParent = true;
-      }
-      if (element.parent === "root") {
-        hasRoot = true;
-      }
-    }
-  }
-  if (!hasRoot) {
-    issues.push({
-      code: HIERARCHY_ERROR_CODE.MISSING_ROOT_ATTACHMENT,
-      message: `Hierarchy is missing an element with parent 'root'.`
-    });
-  }
-  if (hasMissingParents || hasUndefinedElements || !hasRoot || hasInvalidParent || hasInvalidHierarchy) {
-    return {
-      ok: false,
-      issues
-    };
-  }
-  const visited = /* @__PURE__ */ new Map();
-  let hasCycle = false;
-  for (const key in hierarchy) {
-    if (!visited.has(key)) {
-      const path = [];
-      const acyclicResult = acyclic(key, hierarchy, visited, path);
-      if (!acyclicResult) {
-        hasCycle = true;
-        issues.push({
-          code: HIERARCHY_ERROR_CODE.INVALID_CYCLE,
-          message: `Cycle detected in hierarchy: ${path.join(" -> ")}`
-        });
-        break;
-      }
-    }
-  }
-  if (hasCycle) {
-    return {
-      ok: false,
-      issues
-    };
-  }
-  return {
-    ok: true,
-    resolvedHierarchy: hierarchyTree
-  };
-}
-function acyclic(node, hierarchy, visited, path) {
-  if (!visited.has(node)) {
-    visited.set(node, "visiting");
-    path.push(node);
-    const parent = hierarchy[node].parent;
-    if (parent === "root") {
-      visited.set(node, "visited");
-      return true;
-    } else {
-      const res = acyclic(parent, hierarchy, visited, path);
-      if (res) {
-        visited.set(node, "visited");
-      }
-      return res;
-    }
-  } else if (visited.get(node) === "visiting") {
-    path.push(node);
-    return false;
-  } else {
+var isValidId = (textOverrides, type, id) => {
+  if (!isOverridableType(type)) return false;
+  if (textOverrides === void 0) return false;
+  if (textOverrides[type] === void 0) return false;
+  if (id in textOverrides[type]) {
     return true;
   }
-}
-
-// src/core/hierarchy/sortD3Stratify.ts
-function sortD3Stratify(stratify2) {
-  const issues = [];
-  stratify2.each((node) => {
-    if (node.parent === null) {
-      return;
-    }
-    if (node.data.payload.node === null) {
-      const parentId = node.parent ? node.parent.id : "null";
-      let parentString = "";
-      if (parentId) {
-        parentString = ` under parent id ${parentId}`;
-      }
-      issues.push({
-        code: HIERARCHY_ERROR_CODE.NULL_NODE,
-        message: `There is a null node while sorting${parentString}.`
-      });
-    }
-  });
-  const root = stratify2.sort((a, b) => {
-    if (a.data.payload.node === null || b.data.payload.node === null) {
-      return 0;
-    }
-    const aOrder = a.data.payload.node.order;
-    const bOrder = b.data.payload.node.order;
-    if (aOrder === void 0 && bOrder === void 0) {
-      return a.data.id.localeCompare(b.data.id);
-    }
-    if (aOrder === void 0 && bOrder !== void 0) return 1;
-    if (aOrder !== void 0 && bOrder === void 0) return -1;
-    if (aOrder !== void 0 && bOrder !== void 0) return aOrder - bOrder;
-    return 0;
-  });
-  if (issues.length > 0) {
-    return { ok: false, issues };
-  }
-  return { root, ok: true };
-}
-
-// src/core/hierarchy/buildTreeFromStratify.ts
-function buildTreeFromStratify(stratify2) {
-  const { node, overrides } = stratify2.data.payload;
-  const root = {
-    node,
-    overrides
-  };
-  const issues = [];
-  const buildNode = createBuildNode(issues);
-  stratify2.eachBefore(buildNode);
-  root.children = stratify2.data.payload.children;
-  return { root, issues };
-}
-function createBuildNode(issues) {
-  return (nodeStratify) => {
-    const id = nodeStratify.id;
-    if (id === void 0) {
-      issues.push({
-        code: HIERARCHY_ERROR_CODE.INVALID_HIERARCHY,
-        message: `Node with undefined id found.`
-      });
-      return;
-    }
-    const parent = nodeStratify.parent;
-    if (parent === null) {
-      return;
-    }
-    let parentChildren = parent.data.payload.children;
-    if (parentChildren === void 0) {
-      parentChildren = {};
-      parent.data.payload.children = parentChildren;
-    }
-    parentChildren[id] = nodeStratify.data.payload;
-  };
-}
-function convertToD3Stratify(hierarchy, overridesNodes) {
-  const data = [];
-  const issues = [];
-  data.push({
-    id: "root",
-    parentId: null,
-    payload: { node: null, children: {} }
-    // creating the children array only for root
-  });
-  for (const key in hierarchy) {
-    const node = hierarchy[key].payload;
-    let overrides = void 0;
-    if (overridesNodes) {
-      if (key in overridesNodes) {
-        const oveR = overridesNodes[key];
-        if (oveR !== void 0) {
-          overrides = oveR.payload;
-        }
-      }
-    }
-    data.push({
-      id: key,
-      parentId: hierarchy[key].parent,
-      payload: { node, ...overrides !== void 0 ? { overrides } : {} }
-    });
-  }
-  try {
-    const root = stratify()(data);
-    return { ok: true, root };
-  } catch (e) {
-    const message = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
-    issues.push({
-      code: HIERARCHY_ERROR_CODE.D3_STRATIFY_ERROR,
-      message: `D3 Stratify error: ${message}`
-    });
-    return { ok: false, issues };
-  }
-}
-
-// src/components/content/prepareTextTree.ts
-function prepareTextTree({
-  hierarchy,
-  overrides
+  return false;
+};
+function defaultRenderTextNode({
+  contentTree,
+  renderedRegistry = defaultRenderedRegistry,
+  textOverrides
 }) {
-  const resolverReturn = resolver(hierarchy);
-  if (!resolverReturn.ok) {
-    console.error("Hierarchy issues detected:", resolverReturn.issues);
-    return { ok: false, issues: resolverReturn.issues };
-  }
-  const resultHtoD3 = convertToD3Stratify(
-    hierarchy.nodes,
-    overrides.nodes
-  );
-  if (!resultHtoD3.ok) {
-    console.error("Failed to convert hierarchy to D3 Stratify:", resultHtoD3.issues);
-    return { ok: false, issues: resultHtoD3.issues };
-  }
-  const sorted = sortD3Stratify(resultHtoD3.root);
-  if (!sorted.ok) {
-    console.error("Failed to sort D3 Stratify:", sorted.issues);
-    return { ok: false, issues: sorted.issues };
-  }
-  const treeBuildResult = buildTreeFromStratify(sorted.root);
-  if (treeBuildResult.issues.length > 0) {
-    console.error("Failed to build tree from D3 Stratify:", treeBuildResult.issues);
-    return { ok: false, issues: treeBuildResult.issues };
-  }
-  return { ok: true, root: treeBuildResult.root };
+  const rt = ({ node }) => {
+    var _a, _b;
+    const nodeType = node.type;
+    const nodeId = node.id;
+    if (nodeType === "code") {
+      const codeNode = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: codeNode }) };
+    } else if (nodeType === "emphasis") {
+      const emphasisNode = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: emphasisNode }) };
+    } else if (nodeType === "link") {
+      const linkNode = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: linkNode }) };
+    } else if (nodeType === "strong") {
+      const strongNode = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: strongNode }) };
+    } else if (nodeType === "strongEmphasis") {
+      const strongEmphasisNode = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: strongEmphasisNode }) };
+    } else if (nodeType === "text") {
+      const textNode = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: textNode }) };
+    } else if (nodeType === "richText") {
+      const richTextNode = node;
+      return { rendered: renderedRegistry[nodeType].rendering({ node: richTextNode }) };
+    } else if (nodeType === "subSection") {
+      const subSectionNode = node;
+      const overrides = isValidId(textOverrides, nodeType, nodeId) ? (_a = textOverrides == null ? void 0 : textOverrides[nodeType]) == null ? void 0 : _a[nodeId] : void 0;
+      return {
+        rendered: renderedRegistry[nodeType].rendering({
+          node: subSectionNode,
+          overrides
+        })
+      };
+    } else if (nodeType === "section") {
+      const sectionNode = node;
+      const overrides = isValidId(textOverrides, nodeType, nodeId) ? (_b = textOverrides == null ? void 0 : textOverrides[nodeType]) == null ? void 0 : _b[nodeId] : void 0;
+      return {
+        rendered: renderedRegistry[nodeType].rendering({
+          node: sectionNode,
+          overrides
+        })
+      };
+    } else {
+      return {
+        rendered: /* @__PURE__ */ jsxs(Fragment, { children: [
+          "Renderer registry is missing support for node type: ",
+          nodeType
+        ] })
+      };
+    }
+  };
+  return rt;
 }
 
-// src/components/content/hierarchyToTextDrawerProps.ts
-function hierarchyToTextDrawerProps({
-  hierarchy,
-  overrides
-}) {
-  const treeRoot = prepareTextTree({ hierarchy, overrides});
-  if (!treeRoot.ok) {
-    console.error("Failed to prepare text tree:", treeRoot.issues);
-    return { ok: false, issues: treeRoot.issues };
+// src/components/content/parseInlineText.ts
+function createInlineNode(idPrefix, index, type, body, href) {
+  const id = `${idPrefix}.${index}`;
+  if (type === "link") {
+    return {
+      id,
+      type,
+      body,
+      href: href != null ? href : ""
+    };
   }
   return {
-    ok: true,
-    treeFromRoot: treeRoot.root
+    id,
+    type,
+    body
   };
+}
+function findClosingMarker(source, marker, fromIndex) {
+  return source.indexOf(marker, fromIndex + marker.length);
+}
+function parseLink(source, fromIndex) {
+  const labelEnd = source.indexOf("]", fromIndex + 1);
+  if (labelEnd === -1 || source[labelEnd + 1] !== "(") {
+    return null;
+  }
+  const hrefEnd = source.indexOf(")", labelEnd + 2);
+  if (hrefEnd === -1) {
+    return null;
+  }
+  return {
+    body: source.slice(fromIndex + 1, labelEnd),
+    href: source.slice(labelEnd + 2, hrefEnd),
+    end: hrefEnd + 1
+  };
+}
+function parseInlineText(source, { idPrefix = "inline" } = {}) {
+  const nodes = [];
+  let index = 0;
+  let cursor = 0;
+  let textBuffer = "";
+  const pushText = () => {
+    if (!textBuffer) {
+      return;
+    }
+    nodes.push(createInlineNode(idPrefix, index, "text", textBuffer));
+    index += 1;
+    textBuffer = "";
+  };
+  const pushNode = (type, body, href) => {
+    pushText();
+    nodes.push(createInlineNode(idPrefix, index, type, body, href));
+    index += 1;
+  };
+  while (cursor < source.length) {
+    const char = source[cursor];
+    if (char === "[") {
+      const link = parseLink(source, cursor);
+      if (link) {
+        pushNode("link", link.body, link.href);
+        cursor = link.end;
+        continue;
+      }
+    }
+    if (char === "`") {
+      const end = findClosingMarker(source, "`", cursor);
+      if (end !== -1) {
+        pushNode("code", source.slice(cursor + 1, end));
+        cursor = end + 1;
+        continue;
+      }
+    }
+    if (source.startsWith("***", cursor)) {
+      const end = findClosingMarker(source, "***", cursor);
+      if (end !== -1) {
+        pushNode("strongEmphasis", source.slice(cursor + 3, end));
+        cursor = end + 3;
+        continue;
+      }
+    }
+    if (source.startsWith("**", cursor)) {
+      const end = findClosingMarker(source, "**", cursor);
+      if (end !== -1) {
+        pushNode("strong", source.slice(cursor + 2, end));
+        cursor = end + 2;
+        continue;
+      }
+    }
+    if (char === "*") {
+      const end = findClosingMarker(source, "*", cursor);
+      if (end !== -1) {
+        pushNode("emphasis", source.slice(cursor + 1, end));
+        cursor = end + 1;
+        continue;
+      }
+    }
+    textBuffer += char;
+    cursor += 1;
+  }
+  pushText();
+  return nodes;
 }
 var defineOverride = (_layout, override) => override;
 function TwoColumnsFooter(props) {
@@ -2458,64 +2183,72 @@ function FiveColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsx(Box, { width: "100%", height: "100%", children: rendered });
 }
-var MenuControllerContext = createContext(null);
-function useMenuControllerContext() {
-  const ctx = useContext(MenuControllerContext);
-  if (!ctx) throw new Error("MenuControllerContext missing. Wrap with <MenuProvider>.");
-  return ctx;
+var DefaultLinkLike = React16.forwardRef(function DefaultLinkLike2(props, ref) {
+  return /* @__PURE__ */ jsx("a", { ref, ...props });
+});
+
+// src/components/menus/drawer/DrawerMenuSelectors.ts
+function walkTree({
+  drawerMenuNode,
+  currentPath,
+  ancestorIds,
+  payload
+}) {
+  if (payload.selectedId !== null) {
+    return;
+  }
+  if (drawerMenuNode.type === "link") {
+    if (drawerMenuNode.href === currentPath) {
+      payload.selectedId = drawerMenuNode.id;
+      payload.ancestorIds = ancestorIds;
+    }
+    return;
+  }
+  const childAncestorIds = [...ancestorIds, drawerMenuNode.id];
+  for (const child of drawerMenuNode.children) {
+    walkTree({
+      drawerMenuNode: child,
+      currentPath,
+      ancestorIds: childAncestorIds,
+      payload
+    });
+  }
 }
-var MenuSelectorContext = createContext(null);
-function useMenuSelectorContext() {
-  const ctx = useContext(MenuSelectorContext);
-  if (!ctx) throw new Error("MenuSelectorContext missing. Wrap with <MenuProvider>.");
-  return ctx;
-}
-function createMenuStore(initialState) {
-  let menusState = { ...initialState };
-  const listeners = /* @__PURE__ */ new Set();
+function getDrawerMenuSelectors({
+  drawerMenuTree,
+  currentPath
+}) {
+  const payload = {
+    ancestorIds: [],
+    selectedId: null
+  };
+  for (const child of drawerMenuTree.children) {
+    walkTree({
+      drawerMenuNode: child,
+      currentPath,
+      ancestorIds: [],
+      payload
+    });
+  }
+  const selectedPathIds = payload.ancestorIds;
+  const selectedId = payload.selectedId;
   return {
-    getState: () => menusState,
-    setState: (next) => {
-      if (next === menusState) return;
-      menusState = typeof next === "function" ? next(menusState) : next;
-      listeners.forEach((listener) => listener());
+    selectedId,
+    selectedPathIds,
+    isSelected(nodeId) {
+      return selectedId === nodeId;
     },
-    subscribe: (listener) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener);
+    isAncestorSelected(nodeId) {
+      return selectedPathIds.includes(nodeId);
     }
   };
 }
-function useNodeOpen(store, nodeId) {
-  return useSyncExternalStore(
-    store.subscribe,
-    () => {
-      var _a;
-      return (_a = store.getState()[nodeId]) != null ? _a : false;
-    },
-    () => false
-  );
-}
-function setOpen(store, nodeId) {
-  return (open) => {
-    store.setState((prev) => ({ ...prev, [nodeId]: open }));
-  };
-}
-var DefaultLinkLike = React22.forwardRef(function DefaultLinkLike2(props, ref) {
-  return /* @__PURE__ */ jsx("a", { ref, ...props });
+
+// src/lib/icon/index.ts
+var icon_exports = {};
+__export(icon_exports, {
+  IconPicker: () => IconPicker_default
 });
-var MenuDepthContext = createContext(null);
-function useMenuDepthContext() {
-  const ctx = useContext(MenuDepthContext);
-  if (!ctx) throw new Error("MenuDepthContext missing. Wrap with <MenuProvider>.");
-  return ctx;
-}
-var MenuRenderContext = createContext(null);
-function useMenuRenderContext() {
-  const ctx = useContext(MenuRenderContext);
-  if (!ctx) throw new Error("MenuRenderContext missing. Wrap with <MenuProvider>.");
-  return ctx;
-}
 function normalizeKey(input) {
   return input.trim().toLowerCase().replace(/^\/+|\/+$/g, "").replace(/\s+/g, " ").replace(/[ _]+/g, "-");
 }
@@ -2556,255 +2289,271 @@ var IconPicker = ({ name, fontSize = "medium" }) => {
   return /* @__PURE__ */ jsx(Icon, { fontSize });
 };
 var IconPicker_default = IconPicker;
-
-// src/lib/utils.ts
-function camelCase(input) {
-  return input.toLowerCase().replace(/[^a-z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
+var DrawerMenuRenderContext = createContext(null);
+function useDrawerMenuRenderContext() {
+  const ctx = useContext(DrawerMenuRenderContext);
+  if (!ctx)
+    throw new Error("DrawerMenuRenderContext missing. Wrap with <DrawerMenuRenderContext>.");
+  return ctx;
 }
-function safeTitleCase(label) {
-  const trimmed = label.trim();
-  if (!trimmed) return label;
-  if (shouldSkipCasing(trimmed)) {
-    return label;
-  }
-  return trimmed.replace(/\b[a-z][a-z']*\b/g, (word) => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  });
+var MenuSelectionContext = createContext(null);
+function useMenuSelectionContext() {
+  const ctx = useContext(MenuSelectionContext);
+  if (!ctx)
+    throw new Error(
+      "MenuSelectionContext missing. Wrap with <MenuSelectionContext.Provider>."
+    );
+  return ctx;
 }
-function shouldSkipCasing(str) {
-  if (/\d/.test(str)) return true;
-  if (/[\/._+:#@\\\-]/.test(str)) return true;
-  if (/[A-Z]{2,}/.test(str)) return true;
-  if (/[a-z][A-Z]/.test(str)) return true;
-  if (/[^\x00-\x7F]/.test(str)) return true;
-  return false;
-}
-var defaultDrawerRowPolicy = ({
-  baseIndent,
-  openIndicator,
-  closeIndicator
-}) => {
-  return ({
-    depth,
-    menuTreeElement,
-    menuTreeElementUI,
-    isOpen,
-    isSelected,
-    isAncestorSelected,
-    hasChildren
-  }) => {
-    const label = menuTreeElement.label;
-    const displayLabel = depth === 0 ? safeTitleCase(label) : label;
-    const icon = depth === 0 ? /* @__PURE__ */ jsx(IconPicker_default, { name: label != null ? label : "", fontSize: "medium" }) : void 0;
-    const indicator = hasChildren ? isOpen ? openIndicator : closeIndicator : void 0;
-    const paddingInlineStart = depth === 0 ? 0 : baseIndent * (depth + 2);
-    const typographyProps = {
-      variant: "narrative",
-      noWrap: true
-    };
-    if (depth === 0) {
-      typographyProps.fontWeight = 600;
-      typographyProps.color = "text.primary";
-    } else {
-      typographyProps.color = "text.secondary";
-      typographyProps.fontSize = "0.875rem";
-    }
-    let rowSx;
-    if (isSelected) {
-      typographyProps.color = "primary.main";
-      typographyProps.fontWeight = 600;
-      rowSx = {
-        borderInlineStart: "3px solid",
-        borderColor: "primary.main",
-        bgcolor: "action.hover"
-      };
-    }
-    if (isAncestorSelected) {
-      typographyProps.fontWeight = 600;
-      typographyProps.color = "text.primary";
-    }
-    return {
-      text: displayLabel,
-      icon,
-      indicator,
-      indicatorPlacement: "end",
-      paddingInlineStart,
-      typographyProps,
-      rowSx
-    };
-  };
-};
-function ElementLabel({ typographyProps, icon, text }) {
-  return /* @__PURE__ */ jsxs(Fragment, { children: [
-    icon && /* @__PURE__ */ jsx(ListItemIcon, { sx: { minWidth: 36 }, children: icon }),
-    /* @__PURE__ */ jsx(ListItemText, { primary: /* @__PURE__ */ jsx(Typography9, { ...typographyProps, children: text }) })
-  ] });
-}
-function ElementButton({
-  link,
-  overrides,
-  rowPlan,
-  indicator,
-  linkComponent
+function DrawerMenuLink({
+  href,
+  label,
+  id,
+  disabled,
+  icon,
+  buttonProps,
+  iconProps,
+  labelTypographyProps
 }) {
-  if ((overrides == null ? void 0 : overrides.display) === false) return null;
-  const onClick = overrides == null ? void 0 : overrides.onClick;
-  const { typographyProps, icon, text, paddingInlineStart, rowSx } = rowPlan;
-  const elementLabel = /* @__PURE__ */ jsx(ElementLabel, { typographyProps, icon, text });
-  const sx = [
-    { paddingInlineStart },
-    ...Array.isArray(rowSx) ? rowSx : rowSx ? [rowSx] : []
-  ];
-  const elementWithIndicator = /* @__PURE__ */ jsxs(Fragment, { children: [
-    elementLabel,
-    indicator
-  ] });
-  if (link && linkComponent) {
-    return /* @__PURE__ */ jsx(ListItemButton, { component: linkComponent, href: link, onClick, sx, children: elementWithIndicator });
-  } else if (onClick) {
-    return /* @__PURE__ */ jsx(ListItemButton, { onClick, sx, children: elementWithIndicator });
-  }
-  return /* @__PURE__ */ jsx(ListItem, { sx, children: elementWithIndicator });
-}
-function DrawerOpenClose({
-  children,
-  rowPlan,
-  isOpen,
-  onToggle,
-  depth
-}) {
-  const handleClick = () => {
-    onToggle(!isOpen);
-  };
-  const { indicator } = rowPlan;
-  const localOverrides = {
-    onClick: handleClick
-  };
-  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsx(React22__default.Fragment, { children: /* @__PURE__ */ jsx(
-    DrawerElement,
+  const { LinkComponent } = useDrawerMenuRenderContext();
+  const { isSelected } = useMenuSelectionContext();
+  const selected = isSelected(id);
+  return /* @__PURE__ */ jsxs(
+    ListItemButton,
     {
-      id: childId,
-      menuTreeElement: childBranch.node,
-      overrides: childBranch.overrides,
-      children: childBranch.children
+      component: LinkComponent,
+      href,
+      selected,
+      disabled,
+      ...buttonProps,
+      children: [
+        icon && /* @__PURE__ */ jsx(ListItemIcon, { ...iconProps, children: icon }),
+        /* @__PURE__ */ jsx(
+          ListItemText,
+          {
+            primary: /* @__PURE__ */ jsx(Typography13, { variant: "narrative", ...labelTypographyProps, children: label })
+          }
+        )
+      ]
     }
-  ) }, childId)) : [];
-  return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(ElementButton, { overrides: localOverrides, rowPlan, indicator }),
-    children && /* @__PURE__ */ jsx(Collapse, { in: isOpen, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsx(
+  );
+}
+var MenuDepthContext = createContext(null);
+function useMenuDepthContext() {
+  const ctx = useContext(MenuDepthContext);
+  if (!ctx)
+    throw new Error("MenuDepthContext missing. Wrap with <MenuDepthContext>.");
+  return ctx;
+}
+var DrawerMenuControllerContext = createContext(null);
+function useDrawerMenuControllerContext() {
+  const ctx = useContext(DrawerMenuControllerContext);
+  if (!ctx) {
+    throw new Error(
+      "DrawerMenuControllerContext missing. Wrap with <DrawerMenuControllerContext.Provider>."
+    );
+  }
+  return ctx;
+}
+function createDrawerMenuStore(initialState) {
+  let drawerMenuState = { ...initialState };
+  const listeners = /* @__PURE__ */ new Set();
+  return {
+    getState: () => drawerMenuState,
+    setState: (next) => {
+      if (next === drawerMenuState) return;
+      drawerMenuState = typeof next === "function" ? next(drawerMenuState) : next;
+      listeners.forEach((listener) => listener());
+    },
+    subscribe: (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    }
+  };
+}
+function getInitialDrawerMenuStoreState({
+  selectors
+}) {
+  const drawerMenuState = {};
+  for (const ancestorId of selectors.selectedPathIds) {
+    drawerMenuState[ancestorId] = true;
+  }
+  return drawerMenuState;
+}
+function useDrawerMenuNodeOpen(store, nodeId) {
+  return useSyncExternalStore(
+    store.subscribe,
+    () => {
+      var _a;
+      return (_a = store.getState()[nodeId]) != null ? _a : false;
+    },
+    () => false
+  );
+}
+function setDrawerMenuNodeOpen(store, nodeId) {
+  return (open) => {
+    store.setState((prev) => ({ ...prev, [nodeId]: open }));
+  };
+}
+function DrawerMenuGroup({
+  id,
+  label,
+  items,
+  headerProps,
+  labelTypographyProps,
+  listProps
+}) {
+  const { closeIndicator, openIndicator, nodesRenderer, basePadding } = useDrawerMenuRenderContext();
+  const { depth } = useMenuDepthContext();
+  const { drawerMenuStore } = useDrawerMenuControllerContext();
+  const openGroup = useDrawerMenuNodeOpen(drawerMenuStore, id);
+  const toggleOpen = () => {
+    setDrawerMenuNodeOpen(drawerMenuStore, id)(!openGroup);
+  };
+  const indicator = openGroup ? openIndicator : closeIndicator;
+  return /* @__PURE__ */ jsxs(Box3, { display: "flex", flexDirection: "column", children: [
+    /* @__PURE__ */ jsxs(
+      Box3,
+      {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        onClick: toggleOpen,
+        paddingLeft: basePadding * depth,
+        sx: { cursor: "pointer" },
+        ...headerProps,
+        children: [
+          indicator,
+          /* @__PURE__ */ jsx(Typography13, { variant: "narrative", fontWeight: "bold", ...labelTypographyProps, children: label })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsx(Collapse, { in: openGroup, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: depth + 1 }, children: /* @__PURE__ */ jsx(
       List,
       {
         dense: true,
         disablePadding: true,
         sx: { width: "100%", maxWidth: 360, bgcolor: "background.paper" },
-        children: /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: depth + 1 }, children: childrenComponents })
+        ...listProps,
+        children: items.map((item) => {
+          return /* @__PURE__ */ jsx(Fragment$1, { children: nodesRenderer({ node: item }).rendered }, item.id);
+        })
       }
-    ) })
+    ) }) })
   ] });
 }
-function DrawerElement({ id, menuTreeElement, overrides, children }) {
-  const { menuStore } = useMenuControllerContext();
-  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
-  const isOpen = useNodeOpen(menuStore, id);
-  const onToggle = (open) => setOpen(menuStore, id)(open);
-  const { rowPolicy, linkLikeComp } = useMenuRenderContext();
-  const { depth } = useMenuDepthContext();
-  if (!menuTreeElement) return null;
-  const hasChildren = children !== void 0 && Object.keys(children).length > 0;
-  const isSelectedNode = isSelected(id);
-  const isAncestorSelectedNode = isAncestorSelected(id);
-  const rowPlan = rowPolicy({
-    depth,
-    menuTreeElement,
-    menuTreeElementUI: overrides,
-    isOpen,
-    isSelected: isSelectedNode,
-    isAncestorSelected: isAncestorSelectedNode,
-    hasChildren
-  });
-  const ui = overrides;
-  if ((ui == null ? void 0 : ui.display) === false) return null;
-  if (hasChildren) {
-    return /* @__PURE__ */ jsxs(Fragment, { children: [
-      /* @__PURE__ */ jsx(
-        DrawerOpenClose,
+var defaultDrawerMenuRegistry = {
+  group: {
+    type: "group",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(
+        DrawerMenuGroup,
         {
-          children,
-          rowPlan,
-          isOpen,
-          onToggle,
-          depth
+          id: node.id,
+          items: node.children,
+          label: node.label,
+          ...overrides
         }
-      ),
-      (ui == null ? void 0 : ui.divider) && /* @__PURE__ */ jsx(Divider, {})
-    ] });
+      );
+    }
+  },
+  link: {
+    type: "link",
+    rendering({ node, overrides }) {
+      var _a;
+      const Icon = /* @__PURE__ */ jsx(IconPicker_default, { name: (_a = node.iconKey) != null ? _a : node.label });
+      return /* @__PURE__ */ jsx(
+        DrawerMenuLink,
+        {
+          href: node.href,
+          label: node.label,
+          disabled: false,
+          id: node.id,
+          icon: Icon,
+          ...overrides
+        }
+      );
+    }
   }
-  return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(
-      ElementButton,
-      {
-        link: menuTreeElement.link,
-        overrides,
-        rowPlan,
-        linkComponent: linkLikeComp
-      }
-    ),
-    (ui == null ? void 0 : ui.divider) && /* @__PURE__ */ jsx(Divider, {})
-  ] });
-}
-function DrawerMenu_Client({
-  root,
-  treeFromRoot,
-  rootOverrides,
-  anchor = "left",
-  indent = 0,
-  drawerPaperSx,
-  listSx,
-  triggerButtonSx
+};
+function defaultRenderDrawerMenuNode({
+  renderedRegistry = defaultDrawerMenuRegistry,
+  runtimeOverrides
 }) {
-  var _a;
-  const selectors = useMenuSelectorContext();
-  const menuController = useMenuControllerContext();
+  const rt = ({ node }) => {
+    var _a, _b;
+    const nodeType = node.type;
+    const nodeId = node.id;
+    if (nodeType === "group") {
+      const groupNode = node;
+      const overrides = (_a = runtimeOverrides == null ? void 0 : runtimeOverrides[nodeType]) == null ? void 0 : _a[nodeId];
+      return {
+        rendered: renderedRegistry[nodeType].rendering({
+          node: groupNode,
+          overrides
+        })
+      };
+    } else if (nodeType === "link") {
+      const linkNode = node;
+      const overrides = (_b = runtimeOverrides == null ? void 0 : runtimeOverrides[nodeType]) == null ? void 0 : _b[nodeId];
+      return {
+        rendered: renderedRegistry[nodeType].rendering({
+          node: linkNode,
+          overrides
+        })
+      };
+    } else {
+      return {
+        rendered: /* @__PURE__ */ jsxs(Fragment, { children: [
+          "Renderer registry is missing support for node type: ",
+          nodeType
+        ] })
+      };
+    }
+  };
+  return rt;
+}
+function DrawerMenuRoot({
+  currentPath,
+  menuTree,
+  treeOverrides,
+  closeIndicator = /* @__PURE__ */ jsx(ChevronRightIcon, { fontSize: "small" }),
+  openIndicator = /* @__PURE__ */ jsx(ExpandMoreIcon, { fontSize: "small" }),
+  basePadding = 2,
+  LinkComponent = DefaultLinkLike,
+  anchor
+}) {
+  const selectors = useMemo(
+    () => getDrawerMenuSelectors({ drawerMenuTree: menuTree, currentPath }),
+    [menuTree, currentPath]
+  );
+  const initialDrawerMenuState = useMemo(
+    () => getInitialDrawerMenuStoreState({ selectors }),
+    [selectors]
+  );
+  const drawerMenuStore = useMemo(
+    () => createDrawerMenuStore(initialDrawerMenuState),
+    [initialDrawerMenuState]
+  );
+  const nodesRenderer = useMemo(
+    () => defaultRenderDrawerMenuNode({
+      runtimeOverrides: treeOverrides
+    }),
+    [treeOverrides]
+  );
+  const renderedContext = useMemo(
+    () => ({
+      basePadding,
+      closeIndicator,
+      LinkComponent,
+      openIndicator,
+      nodesRenderer
+    }),
+    [basePadding, closeIndicator, LinkComponent, nodesRenderer, openIndicator]
+  );
   const [openDrawer, setOpenDrawer] = useState(false);
   const toggleDrawer = (drawerState) => () => setOpenDrawer(drawerState);
-  const rootLabel = root.label || "Menu";
-  const renderedTreeFromRoot = React22__default.useMemo(
-    () => ({
-      ...treeFromRoot,
-      node: {
-        ...treeFromRoot.node,
-        label: rootLabel
-      }
-    }),
-    [treeFromRoot, rootLabel]
-  );
-  const linkLikeComp = (_a = rootOverrides == null ? void 0 : rootOverrides.linkComponent) != null ? _a : DefaultLinkLike;
-  const renderContext = {
-    linkLikeComp,
-    rowPolicy: defaultDrawerRowPolicy({
-      baseIndent: indent,
-      openIndicator: /* @__PURE__ */ jsx(ExpandLess, {}),
-      closeIndicator: /* @__PURE__ */ jsx(ExpandMore, {})
-    })
-  };
-  const selectedPathIds = selectors.selectedPathIds;
-  const selectId = selectors.selectedId;
-  const menuStore = menuController.menuStore;
-  useEffect(() => {
-    for (const selectedId of selectedPathIds) {
-      if (selectedId !== selectId) setOpen(menuStore, selectedId)(true);
-    }
-  }, [selectId, menuStore, selectedPathIds]);
-  const childrenComponents = renderedTreeFromRoot.children ? Object.entries(renderedTreeFromRoot.children).map(([childId, childBranch]) => /* @__PURE__ */ jsx(React22__default.Fragment, { children: /* @__PURE__ */ jsx(
-    DrawerElement,
-    {
-      id: childId,
-      menuTreeElement: childBranch.node,
-      overrides: childBranch.overrides,
-      children: childBranch.children
-    }
-  ) }, childId)) : [];
-  return /* @__PURE__ */ jsxs(MenuRenderContext.Provider, { value: renderContext, children: [
+  return /* @__PURE__ */ jsx(Box3, { children: /* @__PURE__ */ jsx(MenuSelectionContext.Provider, { value: selectors, children: /* @__PURE__ */ jsx(DrawerMenuRenderContext.Provider, { value: renderedContext, children: /* @__PURE__ */ jsx(DrawerMenuControllerContext.Provider, { value: { drawerMenuStore }, children: /* @__PURE__ */ jsxs(MenuDepthContext.Provider, { value: { depth: 0 }, children: [
     /* @__PURE__ */ jsx(
       Drawer,
       {
@@ -2813,148 +2562,17 @@ function DrawerMenu_Client({
         anchor,
         slotProps: {
           paper: {
-            sx: { minWidth: 240, pl: 1, pt: 2, overflowY: "auto", ...drawerPaperSx },
+            sx: { minWidth: 240, pl: 1, pt: 2, overflowY: "auto" },
             elevation: 2
           }
         },
-        children: /* @__PURE__ */ jsx(
-          List,
-          {
-            dense: true,
-            disablePadding: true,
-            component: "nav",
-            sx: { width: "100%", maxWidth: 360, bgcolor: "background.paper", ...listSx },
-            children: /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: 0 }, children: childrenComponents })
-          }
-        )
+        children: /* @__PURE__ */ jsx(List, { dense: true, disablePadding: true, children: menuTree.children.map((child) => {
+          return /* @__PURE__ */ jsx(Fragment$1, { children: nodesRenderer({ node: child }).rendered }, child.id);
+        }) })
       }
     ),
-    /* @__PURE__ */ jsx(IconButton, { onClick: toggleDrawer(true), "aria-label": "Open menu", sx: triggerButtonSx, children: /* @__PURE__ */ jsx(MenuIcon, {}) })
-  ] });
-}
-
-// src/components/menus/drawer/pathSelectors.ts
-var EarlyReturnValue = {
-  isSelected: () => false,
-  isAncestorSelected: () => false,
-  selectedId: null,
-  selectedPathIds: /* @__PURE__ */ new Set()
-};
-var DefaultNullSelector = () => false;
-function getSelectors({
-  treeFromRoot,
-  selector
-}) {
-  const select = selector != null ? selector : DefaultNullSelector;
-  const path = [];
-  const rootChildren = treeFromRoot.children;
-  if (!rootChildren) {
-    console.warn("The menu tree is empty. No nodes to select.");
-    return EarlyReturnValue;
-  }
-  let selectedInfo = null;
-  for (const key in rootChildren) {
-    const childBranch = rootChildren[key];
-    selectedInfo = getSelectedAndPath({
-      nodeId: key,
-      menuNode: childBranch,
-      selector: select,
-      path
-    });
-    if (selectedInfo !== null) {
-      break;
-    }
-  }
-  if (!selectedInfo) {
-    console.warn("No selected node found in the menu tree based on the provided selector.");
-    return EarlyReturnValue;
-  }
-  const selectedId = selectedInfo.selectedId;
-  const isSelected = (nodeId) => selectedId === nodeId;
-  const selectedPathIds = new Set(path);
-  const isAncestorSelected = (nodeId) => selectedPathIds.has(nodeId) && selectedId !== nodeId;
-  return {
-    isSelected,
-    isAncestorSelected,
-    selectedId,
-    selectedPathIds
-  };
-}
-function getSelectedAndPath({ nodeId, menuNode, selector, path }) {
-  const node = menuNode.node;
-  const children = menuNode.children;
-  path.push(nodeId);
-  const isThisSelected = selector(nodeId, node);
-  if (isThisSelected) {
-    return { selectedId: nodeId };
-  }
-  if (children === void 0) {
-    path.pop();
-    return null;
-  }
-  for (const key in children) {
-    const childBranch = children[key];
-    const selectedChild = getSelectedAndPath({
-      nodeId: key,
-      menuNode: childBranch,
-      selector,
-      path
-    });
-    if (selectedChild) {
-      return selectedChild;
-    }
-  }
-  path.pop();
-  return null;
-}
-function DrawerMenu({
-  root,
-  treeFromRoot,
-  rootOverrides,
-  anchor = "left",
-  indent = 0,
-  drawerPaperSx,
-  listSx,
-  triggerButtonSx,
-  selector
-}) {
-  const selectors = useMemo(
-    () => getSelectors({
-      treeFromRoot,
-      selector
-    }),
-    [treeFromRoot, selector]
-  );
-  const menuStore = useMemo(() => {
-    const initialStoreState = {};
-    populateInitialStoreState2(treeFromRoot, initialStoreState, selectors.selectedPathIds);
-    initialStoreState["root"] = false;
-    return createMenuStore(initialStoreState);
-  }, [treeFromRoot, selectors.selectedPathIds]);
-  return /* @__PURE__ */ jsx(MenuSelectorContext.Provider, { value: selectors, children: /* @__PURE__ */ jsx(MenuControllerContext.Provider, { value: { menuStore }, children: /* @__PURE__ */ jsx(
-    DrawerMenu_Client,
-    {
-      root,
-      treeFromRoot,
-      rootOverrides,
-      anchor,
-      indent,
-      drawerPaperSx,
-      listSx,
-      triggerButtonSx
-    }
-  ) }) });
-}
-function populateInitialStoreState2(node, store, selectedIs) {
-  if (node.children) {
-    for (const key in node.children) {
-      store[key] = false;
-      if (selectedIs.has(key)) {
-        store[key] = true;
-      }
-      populateInitialStoreState2(node.children[key], store, selectedIs);
-    }
-  }
+    /* @__PURE__ */ jsx(IconButton, { onClick: toggleDrawer(true), "aria-label": "Open menu", children: /* @__PURE__ */ jsx(MenuIcon, {}) })
+  ] }) }) }) }) });
 }
 function normalizePathname(pathname) {
   var _a, _b;
@@ -2975,13 +2593,13 @@ var BreadMenu = function({
   sx,
   titleCase = true
 }) {
-  const normalizedPath = React22.useMemo(() => normalizePathname(pathname), [pathname]);
-  const excludeSet = React22.useMemo(() => new Set(exclude != null ? exclude : []), [exclude]);
-  const segments = React22.useMemo(() => {
+  const normalizedPath = React16.useMemo(() => normalizePathname(pathname), [pathname]);
+  const excludeSet = React16.useMemo(() => new Set(exclude != null ? exclude : []), [exclude]);
+  const segments = React16.useMemo(() => {
     const raw = normalizedPath.split("/").filter(Boolean);
     return excludeSet.size ? raw.filter((s) => !excludeSet.has(s)) : raw;
   }, [normalizedPath, excludeSet]);
-  const items = React22.useMemo(() => {
+  const items = React16.useMemo(() => {
     const crumbs = [];
     const acc = [];
     segments.forEach((seg, idx) => {
@@ -3060,7 +2678,7 @@ function HeaderLogo({
       },
       children: [
         /* @__PURE__ */ jsx(ImageComponent, { src, width, height, alt }),
-        subtitle ? /* @__PURE__ */ jsx(Typography9, { variant: "eyebrow", sx: { mt: 1 }, children: subtitle }) : null
+        subtitle ? /* @__PURE__ */ jsx(Typography13, { variant: "eyebrow", sx: { mt: 1 }, children: subtitle }) : null
       ]
     }
   );
@@ -3098,354 +2716,42 @@ function HeaderDrawer({ drawerProps, logoProps, breadMenuProps }) {
     {
       left: /* @__PURE__ */ jsx(HeaderLogo, { ...logoProps }),
       centerUp: /* @__PURE__ */ jsx(BreadMenu_default, { ...breadMenuProps }),
-      right: /* @__PURE__ */ jsx(DrawerMenu, { ...drawerProps })
+      right: /* @__PURE__ */ jsx(DrawerMenuRoot, { ...drawerProps })
     }
   );
 }
-var defaultDropDownPolicy = ({
-  baseIndent,
-  downIndicator,
-  rightIndicator
-}) => {
-  return ({
-    depth,
-    menuTreeElement,
-    menuTreeElementUI,
-    isOpen,
-    isSelected,
-    isAncestorSelected,
-    hasChildren
-  }) => {
-    let label = menuTreeElement.label;
-    const icon = depth === 0 ? /* @__PURE__ */ jsx(IconPicker_default, { name: label != null ? label : "", fontSize: "medium" }) : void 0;
-    const indicatorIcon = depth === 0 ? downIndicator : rightIndicator;
-    const indicator = hasChildren ? indicatorIcon : void 0;
-    const paddingInlineStart = depth > 1 ? (depth - 1) * 8 : 0;
-    const rowPolicy = {
-      text: label,
-      icon,
-      indicator,
-      indicatorPlacement: "end",
-      paddingInlineStart
-    };
-    const typographyProps = {
-      variant: "narrative",
-      noWrap: true
-      // color: color,
-      // fontWeight: fontWeight,
-    };
-    if (depth === 0) {
-      label = safeTitleCase(label);
-      typographyProps.color = "text.primary";
-    }
-    if (depth === 1) {
-      typographyProps.color = "text.secondary";
-      typographyProps.fontWeight = 700;
-      typographyProps.fontSize = "0.7rem";
-      typographyProps.letterSpacing = "0.08em";
-      typographyProps.textTransform = "uppercase";
-    }
-    if (isSelected) {
-      typographyProps.color = "primary.main";
-      typographyProps.fontWeight = 700;
-    }
-    if (isAncestorSelected && depth === 0) {
-      typographyProps.fontWeight = 500;
-      typographyProps.color = "text.primary";
-    }
-    rowPolicy.typographyProps = typographyProps;
-    return rowPolicy;
-  };
-};
-
-// src/components/menus/dropDown/defaultMegaMenuPolicy.ts
-var standardMegaMenuPolicy = {
-  showColumnDividers: true,
-  showItemDivider: true,
-  columnMinWidth: 160,
-  outerPadding: 3
-};
-var compactMegaMenuPolicy = {
-  showColumnDividers: false,
-  showItemDivider: false,
-  columnMinWidth: 120,
-  outerPadding: 1
-};
-
-// src/components/menus/useRowPlan.ts
-function useRowPlan({ id, node, children, overrides }) {
-  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
-  const hasChildren = children !== void 0 && Object.keys(children).length > 0;
-  const { depth } = useMenuDepthContext();
-  const isSelectedNode = isSelected(id);
-  const isAncestorSelectedNode = isAncestorSelected(id);
-  const { rowPolicy } = useMenuRenderContext();
-  if (node === null) return null;
-  const rowPlan = rowPolicy({
-    depth,
-    menuTreeElement: node,
-    menuTreeElementUI: overrides,
-    isOpen: true,
-    isSelected: isSelectedNode,
-    isAncestorSelected: isAncestorSelectedNode,
-    hasChildren
-  });
-  return { rowPlan, depth, hasChildren };
+var DropDownMenuRenderContext = createContext(null);
+function useDropDownMenuRenderContext() {
+  const ctx = useContext(DropDownMenuRenderContext);
+  if (!ctx)
+    throw new Error("DropDownMenuRenderContext missing. Wrap with <DropDownMenuRenderContext>.");
+  return ctx;
 }
-function DropDownMegaMenu({ children }) {
-  const { depth } = useMenuDepthContext();
-  const { linkLikeComp, megaMenuPolicy = standardMegaMenuPolicy } = useMenuRenderContext();
-  const { showColumnDividers, outerPadding } = megaMenuPolicy;
-  if (depth !== 1) {
-    console.warn("DropDownMegaMenu should only be used at depth 1. Current depth:", depth);
-    return null;
-  }
-  const entries = Object.entries(children);
-  const childrenComponents = entries.map(([childId, childBranch], index) => /* @__PURE__ */ jsxs(React22__default.Fragment, { children: [
-    /* @__PURE__ */ jsx(
-      ColumnElement,
-      {
-        id: childId,
-        node: childBranch.node,
-        children: childBranch.children,
-        overrides: childBranch.overrides,
-        linkLikeComp
-      }
-    ),
-    showColumnDividers && index < entries.length - 1 && /* @__PURE__ */ jsx(Divider, { orientation: "vertical", flexItem: true })
-  ] }, childId));
-  return /* @__PURE__ */ jsx(Box3, { padding: outerPadding, children: /* @__PURE__ */ jsx(Box3, { sx: { display: "flex", flexDirection: "row", alignItems: "flex-start" }, children: childrenComponents }) });
-}
-function ColumnElement({ id, node, children, overrides, linkLikeComp }) {
-  const rowPlanReturn = useRowPlan({ id, node, children, overrides });
-  const { megaMenuPolicy = standardMegaMenuPolicy } = useMenuRenderContext();
-  const { showItemDivider, columnMinWidth } = megaMenuPolicy;
-  if (!node) return null;
-  if (!rowPlanReturn) return null;
-  const { rowPlan, depth } = rowPlanReturn;
-  const elementLabel = /* @__PURE__ */ jsx(
-    ElementButton,
-    {
-      link: node.link,
-      overrides,
-      rowPlan,
-      linkComponent: linkLikeComp
-    }
-  );
-  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsx(React22__default.Fragment, { children: /* @__PURE__ */ jsx(
-    ColumnElement,
-    {
-      id: childId,
-      node: childBranch.node,
-      children: childBranch.children,
-      overrides: childBranch.overrides,
-      linkLikeComp
-    }
-  ) }, childId)) : [];
-  if (depth === 1) {
-    return /* @__PURE__ */ jsx(Box3, { padding: 2, sx: { minWidth: columnMinWidth }, children: /* @__PURE__ */ jsxs(List, { children: [
-      elementLabel,
-      showItemDivider && /* @__PURE__ */ jsx(Divider, {}),
-      /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: depth + 1 }, children: childrenComponents })
-    ] }) });
-  } else {
-    return /* @__PURE__ */ jsxs(Fragment, { children: [
-      elementLabel,
-      /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: depth + 1 }, children: childrenComponents })
-    ] });
-  }
-}
-function DropDownOpenClose({
-  id,
-  menuTreeElement,
-  overrides,
-  children
-}) {
-  const { depth } = useMenuDepthContext();
-  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
-  const [anchorEl, setAnchorEl] = React22__default.useState(null);
-  const { rowPolicy } = useMenuRenderContext();
-  if (!menuTreeElement) return null;
-  if (depth !== 0) {
-    console.warn("DropDownOpenClose should only be used at depth 0. Current depth:", depth);
-    return null;
-  }
-  const hasChildren = children !== void 0 && Object.keys(children).length > 0;
-  const isSelectedNode = isSelected(id);
-  const isAncestorSelectedNode = isAncestorSelected(id);
-  const isOpen = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const rowPlan = rowPolicy({
-    depth,
-    menuTreeElement,
-    menuTreeElementUI: overrides,
-    isOpen,
-    isSelected: isSelectedNode,
-    isAncestorSelected: isAncestorSelectedNode,
-    hasChildren
-  });
-  const { indicator } = rowPlan;
-  const localOverrides = {
-    ...overrides,
-    onClick: handleClick
-  };
-  return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(ElementButton, { overrides: localOverrides, rowPlan, indicator }),
-    /* @__PURE__ */ jsx(
-      Popover,
-      {
-        open: isOpen,
-        anchorEl,
-        anchorOrigin: {
-          vertical: "bottom",
-          horizontal: "left"
-        },
-        onClose: handleClose,
-        transformOrigin: {
-          vertical: "top",
-          horizontal: "left"
-        },
-        children: /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: 1 }, children: /* @__PURE__ */ jsx(DropDownMegaMenu, { children }) })
-      }
-    )
-  ] });
-}
-function DropDownElement({
-  id,
-  menuTreeElement,
-  overrides,
-  children
-}) {
-  const { depth } = useMenuDepthContext();
-  const { isSelected, isAncestorSelected } = useMenuSelectorContext();
-  const { rowPolicy, linkLikeComp } = useMenuRenderContext();
-  if (depth !== 0) {
-    console.warn(
-      "DropDownElement should only be used at the top level (depth 0). Current depth:",
-      depth
-    );
-    return null;
-  }
-  const ui = overrides;
-  if ((ui == null ? void 0 : ui.display) === false) return null;
-  if (!menuTreeElement) return null;
-  const hasChildren = children !== void 0 && Object.keys(children).length > 0;
-  const isSelectedNode = isSelected(id);
-  const isAncestorSelectedNode = isAncestorSelected(id);
-  const rowPlan = rowPolicy({
-    depth: 0,
-    menuTreeElement,
-    menuTreeElementUI: overrides,
-    isOpen: true,
-    isSelected: isSelectedNode,
-    isAncestorSelected: isAncestorSelectedNode,
-    hasChildren
-  });
-  if (!hasChildren) {
-    return /* @__PURE__ */ jsx(Fragment, { children: /* @__PURE__ */ jsx(
-      ElementButton,
-      {
-        link: menuTreeElement.link,
-        overrides,
-        rowPlan,
-        linkComponent: linkLikeComp
-      }
-    ) });
-  } else {
-    return /* @__PURE__ */ jsx(Fragment, { children: /* @__PURE__ */ jsx(
-      DropDownOpenClose,
-      {
-        id,
-        menuTreeElement,
-        overrides,
-        children
-      }
-    ) });
-  }
-}
-function DropDown_Client({
-  treeFromRoot,
-  rootOverrides,
-  megaMenuPolicy,
-  appBarSx,
-  toolbarSx
-}) {
-  var _a;
-  const linkLikeComp = (_a = rootOverrides == null ? void 0 : rootOverrides.linkComponent) != null ? _a : DefaultLinkLike;
-  const children = treeFromRoot.children;
-  const renderContext = {
-    linkLikeComp,
-    rowPolicy: defaultDropDownPolicy({
-      baseIndent: 0,
-      downIndicator: /* @__PURE__ */ jsx(ExpandMore, { fontSize: "small" }),
-      rightIndicator: /* @__PURE__ */ jsx(ChevronRightIcon, { fontSize: "small" })
-    }),
-    megaMenuPolicy: megaMenuPolicy !== void 0 ? megaMenuPolicy : standardMegaMenuPolicy
-  };
-  const childrenComponents = children ? Object.entries(children).map(([childId, childBranch]) => /* @__PURE__ */ jsx(Box3, { display: "flex", justifyContent: "center", alignItems: "center", children: /* @__PURE__ */ jsx(
-    DropDownElement,
-    {
-      id: childId,
-      menuTreeElement: childBranch.node,
-      overrides: childBranch.overrides,
-      children: childBranch.children
-    }
-  ) }, childId)) : [];
-  return /* @__PURE__ */ jsx(MenuRenderContext.Provider, { value: renderContext, children: /* @__PURE__ */ jsx(
+function DropDown({ navigationTree, selectors, rendererContext }) {
+  const { nodesRenderer } = rendererContext;
+  return /* @__PURE__ */ jsx(
     AppBar,
     {
       position: "sticky",
       color: "default",
       elevation: 0,
-      sx: { borderBottom: 1, borderColor: "divider", ...appBarSx },
+      sx: { borderBottom: 1, borderColor: "divider" },
       children: /* @__PURE__ */ jsx(
         Toolbar,
         {
           component: "nav",
           "aria-label": "Primary",
           sx: {
-            justifyContent: "space-between",
-            gap: 1,
-            ...toolbarSx
+            justifyContent: "center",
+            gap: 1
           },
-          children: /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: 0 }, children: childrenComponents })
+          children: /* @__PURE__ */ jsx(MenuSelectionContext.Provider, { value: selectors, children: /* @__PURE__ */ jsx(DropDownMenuRenderContext.Provider, { value: rendererContext, children: /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: 0 }, children: navigationTree.children.map((item) => {
+            return /* @__PURE__ */ jsx(Fragment$1, { children: nodesRenderer({ node: item }).rendered }, item.id);
+          }) }) }) })
         }
       )
     }
-  ) });
-}
-function DropDown({
-  root,
-  treeFromRoot,
-  rootOverrides,
-  selector,
-  megaMenuPolicy,
-  appBarSx,
-  toolbarSx
-}) {
-  const selectors = useMemo(
-    () => getSelectors({
-      treeFromRoot,
-      selector
-    }),
-    [treeFromRoot, selector]
   );
-  return /* @__PURE__ */ jsx(MenuSelectorContext.Provider, { value: selectors, children: /* @__PURE__ */ jsx(
-    DropDown_Client,
-    {
-      root,
-      treeFromRoot,
-      rootOverrides,
-      megaMenuPolicy,
-      appBarSx,
-      toolbarSx
-    }
-  ) });
 }
 function HeaderMenu({ menuProps, logoProps, breadMenuProps }) {
   return /* @__PURE__ */ jsx(
@@ -3479,18 +2785,18 @@ var DebouncedTextField = ({
   ...props
 }) => {
   const isControlled = controlledValue !== void 0;
-  const [uncontrolledValue, setUncontrolledValue] = React22.useState(String(defaultValue != null ? defaultValue : ""));
+  const [uncontrolledValue, setUncontrolledValue] = React16.useState(String(defaultValue != null ? defaultValue : ""));
   const inputValue = isControlled ? String(controlledValue != null ? controlledValue : "") : uncontrolledValue;
-  const timerRef = React22.useRef(null);
-  const composingRef = React22.useRef(false);
-  const lastEmittedRef = React22.useRef(inputValue);
-  const clearTimer = React22.useCallback(() => {
+  const timerRef = React16.useRef(null);
+  const composingRef = React16.useRef(false);
+  const lastEmittedRef = React16.useRef(inputValue);
+  const clearTimer = React16.useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const schedule = React22.useCallback(
+  const schedule = React16.useCallback(
     (next) => {
       if (!onDebouncedChange) return;
       clearTimer();
@@ -3505,14 +2811,14 @@ var DebouncedTextField = ({
     },
     [debounceMs, onDebouncedChange, clearTimer]
   );
-  React22.useEffect(() => {
+  React16.useEffect(() => {
     schedule(inputValue);
   }, [debounceMs]);
-  React22.useEffect(() => {
+  React16.useEffect(() => {
     if (isControlled) schedule(String(controlledValue != null ? controlledValue : ""));
   }, [isControlled, controlledValue]);
-  React22.useEffect(() => clearTimer, [clearTimer]);
-  const handleChange = React22.useCallback(
+  React16.useEffect(() => clearTimer, [clearTimer]);
+  const handleChange = React16.useCallback(
     (e) => {
       var _a;
       const next = (_a = e.target.value) != null ? _a : "";
@@ -3522,7 +2828,7 @@ var DebouncedTextField = ({
     },
     [isControlled, onChange, schedule]
   );
-  const handleBlur = React22.useCallback(
+  const handleBlur = React16.useCallback(
     (e) => {
       var _a, _b;
       if (flushOnBlur && onDebouncedChange) {
@@ -3560,6 +2866,36 @@ var DebouncedTextField = ({
   );
 };
 var DebouncedTextField_default = DebouncedTextField;
+var STACK_SPACING = {
+  compact: 2,
+  standard: 4,
+  relaxed: 6,
+  large: 8,
+  extraLarge: 10
+};
+var BaseStack = ({ size = "standard", ...props }) => {
+  const spacing = STACK_SPACING[size];
+  return /* @__PURE__ */ jsx(Stack, { spacing, ...props });
+};
+var StandardStack = ({ sx, ...props }) => {
+  return /* @__PURE__ */ jsx(
+    BaseStack,
+    {
+      ...props,
+      sx: [
+        {
+          width: "100%",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "visible"
+        },
+        ...Array.isArray(sx) ? sx : [sx]
+      ]
+    }
+  );
+};
+var StandardStack_default = StandardStack;
 var PageLayout = ({ children, transparent = false, sx }) => {
   return /* @__PURE__ */ jsx(
     StandardStack_default,
@@ -3579,9 +2915,9 @@ var PageLayout = ({ children, transparent = false, sx }) => {
 var PageLayout_default = PageLayout;
 function formatTitle(node, kind = "title") {
   if (typeof node === "string") {
-    return kind === "title" ? /* @__PURE__ */ jsx(SubsubsectionTitle, { children: node }) : /* @__PURE__ */ jsx(Typography9, { variant: "strapline", children: node });
+    return kind === "title" ? /* @__PURE__ */ jsx(SubsubsectionTitle, { children: node }) : /* @__PURE__ */ jsx(Typography13, { variant: "strapline", children: node });
   }
-  return React22.isValidElement(node) ? node : null;
+  return React16.isValidElement(node) ? node : null;
 }
 var HeroBlock = ({
   image,
@@ -3634,7 +2970,7 @@ var HeroBlock = ({
                 },
                 children: [
                   formatTitle(header, "title"),
-                  message && /* @__PURE__ */ jsx(Typography9, { variant: "lead", color: "text.primary", sx: { textAlign: "left", maxWidth: 720 }, children: message }),
+                  message && /* @__PURE__ */ jsx(Typography13, { variant: "lead", color: "text.primary", sx: { textAlign: "left", maxWidth: 720 }, children: message }),
                   formatTitle(subTitle, "subtitle")
                 ]
               }
@@ -3672,7 +3008,7 @@ var HeroBlock = ({
                     }
                   ),
                   caption && /* @__PURE__ */ jsx(
-                    Typography9,
+                    Typography13,
                     {
                       variant: "finePrint",
                       color: "text.secondary",
@@ -3902,7 +3238,7 @@ function VideoModal({
   widthPercent = 80,
   modalSx
 }) {
-  const [open, setOpen2] = useState(false);
+  const [open, setOpen] = useState(false);
   const titleId = useId();
   const descId = useId();
   const iframeSrc = resolveIframeSrc(videoId, src);
@@ -3916,7 +3252,7 @@ function VideoModal({
         slotProps: { img: { loading: "lazy", decoding: "async" } }
       }
     ),
-    /* @__PURE__ */ jsx(Button6, { variant: "text", color: "secondary", onClick: () => setOpen2(true), children: buttonLabel })
+    /* @__PURE__ */ jsx(Button6, { variant: "text", color: "secondary", onClick: () => setOpen(true), children: buttonLabel })
   ] });
   const wrappedTrigger = trigger ? /* @__PURE__ */ jsx(
     "span",
@@ -3924,11 +3260,11 @@ function VideoModal({
       role: "button",
       tabIndex: 0,
       "aria-label": typeof title === "string" ? `Open video: ${title}` : "Open video",
-      onClick: () => setOpen2(true),
+      onClick: () => setOpen(true),
       onKeyDown: (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          setOpen2(true);
+          setOpen(true);
         }
       },
       style: { display: "inline-flex" },
@@ -3941,7 +3277,7 @@ function VideoModal({
       Modal,
       {
         open,
-        onClose: () => setOpen2(false),
+        onClose: () => setOpen(false),
         "aria-labelledby": titleId,
         "aria-describedby": descId,
         children: /* @__PURE__ */ jsxs(
@@ -3991,10 +3327,10 @@ function VideoModal({
                     px: 2,
                     textAlign: "center"
                   },
-                  children: /* @__PURE__ */ jsx(Typography9, { variant: "narrative", color: "text.secondary", children: "Video source is missing or invalid." })
+                  children: /* @__PURE__ */ jsx(Typography13, { variant: "narrative", color: "text.secondary", children: "Video source is missing or invalid." })
                 }
               ) }),
-              /* @__PURE__ */ jsx(Box3, { sx: { mt: 2, textAlign: "right" }, children: /* @__PURE__ */ jsx(Button6, { onClick: () => setOpen2(false), "aria-label": "Close video modal", children: "Close" }) })
+              /* @__PURE__ */ jsx(Box3, { sx: { mt: 2, textAlign: "right" }, children: /* @__PURE__ */ jsx(Button6, { onClick: () => setOpen(false), "aria-label": "Close video modal", children: "Close" }) })
             ]
           }
         )
@@ -4002,63 +3338,286 @@ function VideoModal({
     )
   ] });
 }
-
-// src/components/menus/prepareMenuTree.ts
-function prepareMenuTree({
-  hierarchy,
-  overrides
+function DropDownGroup({
+  id,
+  items,
+  label,
+  headerProps,
+  labelTypographyProps,
+  hasDivider = true,
+  dividerProps
 }) {
-  const resolverReturn = resolver(hierarchy);
-  if (!resolverReturn.ok) {
-    console.error("Hierarchy issues detected:", resolverReturn.issues);
-    return { ok: false, issues: resolverReturn.issues };
-  }
-  const resultHtoD3 = convertToD3Stratify(
-    hierarchy.nodes,
-    overrides.nodes
+  const { depth } = useMenuDepthContext();
+  const { nodesRenderer, basePadding } = useDropDownMenuRenderContext();
+  const { isAncestorSelected } = useMenuSelectionContext();
+  const ancestorSelected = isAncestorSelected(id);
+  const padding = Math.max(depth - 1, 0) * basePadding;
+  const shouldShowDivider = hasDivider && depth > 0;
+  const childDepth = depth + 1;
+  return /* @__PURE__ */ jsxs(Box3, { display: "flex", flexDirection: "column", paddingLeft: padding, children: [
+    /* @__PURE__ */ jsxs(Box3, { display: "flex", flexDirection: "column", ...headerProps, children: [
+      /* @__PURE__ */ jsx(
+        Typography13,
+        {
+          variant: "narrative",
+          fontWeight: ancestorSelected ? 700 : 600,
+          color: ancestorSelected ? "primary.main" : "text.primary",
+          ...labelTypographyProps,
+          children: label
+        }
+      ),
+      shouldShowDivider && /* @__PURE__ */ jsx(Divider, { ...dividerProps })
+    ] }),
+    /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: childDepth }, children: items.map((item) => {
+      return /* @__PURE__ */ jsx(Fragment$1, { children: nodesRenderer({ node: item }).rendered }, item.id);
+    }) })
+  ] });
+}
+function DropDownLink({
+  href,
+  id,
+  label,
+  buttonProps,
+  disabled,
+  icon,
+  labelTypographyProps
+}) {
+  const { LinkComponent } = useDropDownMenuRenderContext();
+  const { isSelected } = useMenuSelectionContext();
+  const selected = isSelected(id);
+  return /* @__PURE__ */ jsx(
+    Button6,
+    {
+      component: LinkComponent,
+      href,
+      disabled,
+      color: selected ? "primary" : "inherit",
+      variant: "text",
+      startIcon: icon,
+      ...buttonProps,
+      children: /* @__PURE__ */ jsx(Typography13, { variant: "narrative", ...labelTypographyProps, children: label })
+    }
   );
-  if (!resultHtoD3.ok) {
-    console.error("Failed to convert hierarchy to D3 Stratify:", resultHtoD3.issues);
-    return { ok: false, issues: resultHtoD3.issues };
+}
+function DropDownNavGroup({
+  id,
+  items,
+  label,
+  headerProps,
+  labelTypographyProps,
+  megaMenuProps
+}) {
+  const { isAncestorSelected } = useMenuSelectionContext();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const ancestorSelected = isAncestorSelected(id);
+  const isOpen = Boolean(anchorEl);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const childDepth = 1;
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(
+      Button6,
+      {
+        color: ancestorSelected ? "primary" : "inherit",
+        variant: "text",
+        onClick: handleClick,
+        ...headerProps,
+        children: /* @__PURE__ */ jsx(
+          Typography13,
+          {
+            variant: "narrative",
+            fontWeight: ancestorSelected ? 700 : 600,
+            color: "inherit",
+            ...labelTypographyProps,
+            children: label
+          }
+        )
+      }
+    ),
+    /* @__PURE__ */ jsx(
+      Popover,
+      {
+        open: isOpen,
+        anchorEl,
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "left"
+        },
+        onClose: handleClose,
+        transformOrigin: {
+          vertical: "top",
+          horizontal: "left"
+        },
+        children: /* @__PURE__ */ jsx(MegaMenu, { childDepth, items, megaMenuProps })
+      }
+    )
+  ] });
+}
+function MegaMenu({
+  items,
+  childDepth,
+  megaMenuProps
+}) {
+  const { nodesRenderer } = useDropDownMenuRenderContext();
+  return /* @__PURE__ */ jsx(
+    Box3,
+    {
+      display: "grid",
+      gridAutoFlow: "column",
+      gridAutoColumns: "minmax(180px, 1fr)",
+      columnGap: 3,
+      rowGap: 2,
+      padding: 3,
+      ...megaMenuProps,
+      children: /* @__PURE__ */ jsx(MenuDepthContext.Provider, { value: { depth: childDepth }, children: items.map((item) => {
+        return /* @__PURE__ */ jsx(Fragment$1, { children: nodesRenderer({ node: item }).rendered }, item.id);
+      }) })
+    }
+  );
+}
+var defaultDropDownMenuRegistry = {
+  link: {
+    type: "link",
+    rendering({ node, overrides }) {
+      var _a;
+      const Icon = /* @__PURE__ */ jsx(IconPicker_default, { name: (_a = node.iconKey) != null ? _a : node.label });
+      return /* @__PURE__ */ jsx(DropDownLink, { href: node.href, id: node.id, label: node.label, icon: Icon, ...overrides });
+    }
+  },
+  group: {
+    type: "group",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(DropDownGroup, { id: node.id, items: node.children, label: node.label, ...overrides });
+    }
+  },
+  navGroup: {
+    type: "navGroup",
+    rendering({ node, overrides }) {
+      return /* @__PURE__ */ jsx(DropDownNavGroup, { id: node.id, items: node.children, label: node.label, ...overrides });
+    }
   }
-  const sorted = sortD3Stratify(resultHtoD3.root);
-  if (!sorted.ok) {
-    console.error("Failed to sort D3 Stratify:", sorted.issues);
-    return { ok: false, issues: sorted.issues };
-  }
-  const treeBuildResult = buildTreeFromStratify(sorted.root);
-  if (treeBuildResult.issues.length > 0) {
-    console.error("Failed to build tree from D3 Stratify:", treeBuildResult.issues);
-    return { ok: false, issues: treeBuildResult.issues };
-  }
-  return { ok: true, root: treeBuildResult.root };
+};
+function defaultRenderDropDownMenuNode({
+  renderedRegistry = defaultDropDownMenuRegistry,
+  runtimeOverrides
+}) {
+  const rt = ({ node }) => {
+    var _a, _b, _c;
+    const nodeType = node.type;
+    const nodeId = node.id;
+    if (nodeType === "group") {
+      const groupNode = node;
+      const overrides = (_a = runtimeOverrides == null ? void 0 : runtimeOverrides[nodeType]) == null ? void 0 : _a[nodeId];
+      return {
+        rendered: renderedRegistry[nodeType].rendering({
+          node: groupNode,
+          overrides
+        })
+      };
+    } else if (nodeType === "link") {
+      const linkNode = node;
+      const overrides = (_b = runtimeOverrides == null ? void 0 : runtimeOverrides[nodeType]) == null ? void 0 : _b[nodeId];
+      return {
+        rendered: renderedRegistry[nodeType].rendering({
+          node: linkNode,
+          overrides
+        })
+      };
+    } else if (nodeType === "navGroup") {
+      const linkNode = node;
+      const overrides = (_c = runtimeOverrides == null ? void 0 : runtimeOverrides[nodeType]) == null ? void 0 : _c[nodeId];
+      return {
+        rendered: renderedRegistry[nodeType].rendering({
+          node: linkNode,
+          overrides
+        })
+      };
+    } else {
+      return {
+        rendered: /* @__PURE__ */ jsxs(Fragment, { children: [
+          "Renderer registry is missing support for node type: ",
+          nodeType
+        ] })
+      };
+    }
+  };
+  return rt;
 }
 
-// src/components/menus/drawer/hierarchyToDrawerInput.tsx
-function hierarchyToDrawerInput({
-  hierarchy,
-  overrides
+// src/components/menus/dropDown/DropDownMenuSelectors.ts
+function walkNavigationNode({
+  node,
+  currentPath,
+  ancestorIds,
+  payload
 }) {
-  var _a;
-  const treeRoot = prepareMenuTree({ hierarchy, overrides});
-  if (!treeRoot.ok) {
-    console.error("Failed to prepare menu tree:", treeRoot.issues);
-    return { ok: false, issues: treeRoot.issues };
+  if (payload.selectedId !== null) {
+    return;
   }
-  const root = hierarchy.root;
-  const rootOverrides = (_a = overrides.root) == null ? void 0 : _a.payload;
+  if (node.type === "link") {
+    if (node.href === currentPath) {
+      payload.selectedId = node.id;
+      payload.ancestorIds = ancestorIds;
+    }
+    return;
+  }
+  const childAncestorIds = [...ancestorIds, node.id];
+  for (const child of node.children) {
+    walkNavigationNode({
+      node: child,
+      currentPath,
+      ancestorIds: childAncestorIds,
+      payload
+    });
+  }
+}
+function getDropDownMenuSelectors({
+  navigationTree,
+  currentPath
+}) {
+  const payload = {
+    ancestorIds: [],
+    selectedId: null
+  };
+  for (const child of navigationTree.children) {
+    walkNavigationNode({
+      node: child,
+      currentPath,
+      ancestorIds: [],
+      payload
+    });
+  }
+  const selectedPathIds = payload.ancestorIds;
+  const selectedId = payload.selectedId;
   return {
-    ok: true,
-    root,
-    treeFromRoot: treeRoot.root,
-    rootOverrides
+    selectedId,
+    selectedPathIds,
+    isSelected(nodeId) {
+      return selectedId === nodeId;
+    },
+    isAncestorSelected(nodeId) {
+      return selectedPathIds.includes(nodeId);
+    }
   };
 }
-
-// src/core/hierarchy/defineHierarchyModel.ts
-var defineHierarchyModel = (_payloadMap, model) => {
-  return model;
+var Spacer = ({ size = 4 }) => {
+  return /* @__PURE__ */ jsx(
+    Box3,
+    {
+      sx: (theme) => ({
+        height: theme.spacing(size),
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      })
+    }
+  );
 };
+var Spacer_default = Spacer;
 function isStaticImageDataLike(x) {
   if (!x || typeof x !== "object") return false;
   return "src" in x && typeof x.src === "string";
@@ -4095,7 +3654,7 @@ function toImgAttrs(p) {
     style
   };
 }
-var HtmlImage = React22.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
+var HtmlImage = React16.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
   const mergedStyle = fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", ...style } : style != null ? style : {};
   const imgProps = toImgAttrs({ ...props, style: mergedStyle });
   return /* @__PURE__ */ jsx("img", { ref, ...imgProps });
@@ -4167,12 +3726,29 @@ function flatMapNodes(nodes, fn) {
   return out;
 }
 
-// src/lib/icon/index.ts
-var icon_exports = {};
-__export(icon_exports, {
-  IconPicker: () => IconPicker_default
-});
+// src/lib/utils.ts
+function camelCase(input) {
+  return input.toLowerCase().replace(/[^a-z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
+}
+function safeTitleCase(label) {
+  const trimmed = label.trim();
+  if (!trimmed) return label;
+  if (shouldSkipCasing(trimmed)) {
+    return label;
+  }
+  return trimmed.replace(/\b[a-z][a-z']*\b/g, (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  });
+}
+function shouldSkipCasing(str) {
+  if (/\d/.test(str)) return true;
+  if (/[\/._+:#@\\\-]/.test(str)) return true;
+  if (/[A-Z]{2,}/.test(str)) return true;
+  if (/[a-z][A-Z]/.test(str)) return true;
+  if (/[^\x00-\x7F]/.test(str)) return true;
+  return false;
+}
 
-export { ActionButton_default as ActionButton, BackButton_default as BackButton, BackgroundBox_default as BackgroundBox, BannerCarousel_default as BannerCarousel, BannerStatic_default as BannerStatic, BlockCarousel_default as BlockCarousel, BookingButton_default as BookingButton, BreadMenu_default as BreadMenu, CallToActionButton_default as CallToActionButton, ClickTextImage_default as ClickTextImage, CopyButton_default as CopyButton, DebouncedTextField_default as DebouncedTextField, DefaultLinkLike, DownloadButton_default as DownloadButton, DrawerMenu, DropDown, DynamicTransition_default as DynamicTransition, ElementButton, ElementLabel, FavoriteButton_default as FavoriteButton, FeaturedColumnsFooter, FiveColumnsFooter, GetInTouch_default as GetInTouch, HIERARCHY_ERROR_CODE, Header, HeaderDrawer, HeaderLogo, HeaderMenu, HeaderMinimal, HeroBlock_default as HeroBlock, HtmlImage, IconPicker_default as IconPicker, MainTitle_default as MainTitle, MediaText_default as MediaText, MenuRenderContext, MenuSelectorContext, Pad, PageLayout_default as PageLayout, PageTitle, PageTitleLabel, RouterProvider, SECTION_MIN_H, Section, SectionTitle, SectionTitleLabel, ShareButton_default as ShareButton, SocialButton_default as SocialButton, Spacer_default as Spacer, StandardStack_default as StandardStack, SubscribeButton_default as SubscribeButton, SubsectionTitle, SubsectionTitleLabel, SubsubsectionTitle, SubsubsectionTitleLabel, TextDrawer, ThreeColumnsFooter, Title, TitleLabel, TouchButton_default as TouchButton, TwoColumnsFooter, VideoModal, WhatsAppButton_default as WhatsAppButton, boldToNodes, buildTreeFromStratify, camelCase, compactMegaMenuPolicy, convertToD3Stratify, createMenuStore, createTreeTextStore, defaultDrawerRowPolicy, defaultDropDownPolicy, defaultRendersRegistry, defineEntry, defineHierarchyModel, getSelectedAndPath, getSelectors, hierarchyToDrawerInput, hierarchyToTextDrawerProps, icon_exports as icon, isStaticImageDataLike, parseInlineMarkdown, prepareMenuTree, resolver, safeTitleCase, sectionMinHeightSx, setOpen, setTreeTextOpen, sortD3Stratify, standardMegaMenuPolicy, text_exports as text, toImgAttrs, toTitleCase, useMenuRenderContext, useMenuSelectorContext, useNodeOpen, useRowPlan, useTreeTextOpen };
+export { ActionButton_default as ActionButton, BackButton_default as BackButton, BackgroundBox_default as BackgroundBox, BannerCarousel_default as BannerCarousel, BannerStatic_default as BannerStatic, BlockCarousel_default as BlockCarousel, BookingButton_default as BookingButton, BreadMenu_default as BreadMenu, CallToActionButton_default as CallToActionButton, ClickTextImage_default as ClickTextImage, ContentTreeView, CopyButton_default as CopyButton, DebouncedTextField_default as DebouncedTextField, DefaultLinkLike, DownloadButton_default as DownloadButton, DrawerMenuControllerContext, MenuDepthContext as DrawerMenuDepthContext, DrawerMenuGroup, DrawerMenuLink, DrawerMenuRenderContext, DrawerMenuRoot, MenuSelectionContext as DrawerMenuSelectionContext, DropDown, DropDownGroup, DropDownLink, DropDownMenuRenderContext, DynamicTransition_default as DynamicTransition, FavoriteButton_default as FavoriteButton, FeaturedColumnsFooter, FiveColumnsFooter, GetInTouch_default as GetInTouch, Header, HeaderDrawer, HeaderLogo, HeaderMenu, HeaderMinimal, HeroBlock_default as HeroBlock, HtmlImage, IconPicker_default as IconPicker, InlineCode, InlineEmphasis, InlineLink, InlineStrong, InlineStrongEmphasis, InlineText, MainTitle_default as MainTitle, MediaText_default as MediaText, Pad, PageLayout_default as PageLayout, PageTitle, PageTitleLabel, RichText, RouterProvider, SECTION_MIN_H, Section, SectionTitle, SectionTitleLabel, ShareButton_default as ShareButton, SocialButton_default as SocialButton, Spacer_default as Spacer, StandardStack_default as StandardStack, SubSection, SubscribeButton_default as SubscribeButton, SubsectionTitle, SubsectionTitleLabel, SubsubsectionTitle, SubsubsectionTitleLabel, TextTreeRendererContext, ThreeColumnsFooter, Title, TitleLabel, TouchButton_default as TouchButton, TwoColumnsFooter, VideoModal, WhatsAppButton_default as WhatsAppButton, boldToNodes, camelCase, createDrawerMenuStore, defaultDrawerMenuRegistry, defaultDropDownMenuRegistry, defaultRenderDrawerMenuNode, defaultRenderDropDownMenuNode, defaultRenderTextNode, defaultRenderedRegistry, getDrawerMenuSelectors, getDropDownMenuSelectors, getInitialDrawerMenuStoreState, icon_exports as icon, isStaticImageDataLike, parseInlineMarkdown, parseInlineText, safeTitleCase, sectionMinHeightSx, setDrawerMenuNodeOpen, text_exports as text, toImgAttrs, toTitleCase, useDrawerMenuControllerContext, useMenuDepthContext as useDrawerMenuDepthContext, useDrawerMenuNodeOpen, useDrawerMenuRenderContext, useMenuSelectionContext as useDrawerMenuSelectionContext, useDropDownMenuRenderContext, useTextTreeRendererContext };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

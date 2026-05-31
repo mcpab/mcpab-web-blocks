@@ -1,8 +1,8 @@
+import './mui-augment.cjs';
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import * as _mui_material_styles from '@mui/material/styles';
 import { SxProps, Theme } from '@mui/material/styles';
 import * as React$1 from 'react';
-import React__default from 'react';
+import { ReactNode } from 'react';
 import { BoxProps } from '@mui/material/Box';
 import { S as SectionSize, B as BackgroundBoxProps } from './banner-HxLY3UzV.cjs';
 export { b as BackgroundBox, _ as BannerStatic, a as BannerStaticProps, I as ImageConf, c as SECTION_MIN_H, s as sectionMinHeightSx } from './banner-HxLY3UzV.cjs';
@@ -12,14 +12,18 @@ export { HtmlImage, UniversalImageProps, isStaticImageDataLike, toImgAttrs } fro
 export { BodyTextProps, MainTitle, MainTitleBlock, MainTitleProps, PageTitle, PageTitleLabel, SectionTitle, SectionTitleLabel, SubsectionTitle, SubsectionTitleLabel, SubsubsectionTitle, SubsubsectionTitleLabel, Title, TitleLabel, TitleLabelProps, TitleProps, TitleTypes } from './typography.cjs';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { IconButtonProps } from '@mui/material/IconButton';
-import { S as StratifyPayload, M as MenuTreeElement, R as RootTreeElement, a as RootOverridesUI, b as MenuTreeElementUI, c as RowPlan, L as LinkTypeComponent, d as MenuLabelTypographyProps, G as GetSelectorsReturnType, e as RowPolicy, f as MegaMenuPolicy, D as D3StratifyData } from './index-CTQiHYXT.cjs';
-export { B as BreadMenu, y as BreadMenuProps, z as DefaultLinkLike, r as DrawerMenu, s as DrawerMenuProps, t as DrawerMenuPropsRendering, w as DropDown, x as DropDownMenuProps, H as Header, h as HeaderDrawer, i as HeaderDrawerProps, l as HeaderLogo, m as HeaderLogoProps, j as HeaderMenu, k as HeaderMenuProps, n as HeaderMinimal, o as HeaderMinimalProps, g as HeaderProps, I as IsSelectedMenuElement, p as MenuPropsRendering, q as RowPolicyProps, v as getSelectedAndPath, u as getSelectors } from './index-CTQiHYXT.cjs';
+import { L as LinkTypeComponent, D as DrawerMenuTree, R as RenderDrawerMenuNode } from './index-CaiwJjGE.cjs';
+export { A as AnyDrawerMenuNode, U as AnyNavigationNode, a0 as BreadMenu, a1 as BreadMenuProps, r as DefaultDrawerMenuRenderingProps, M as DefaultDropDownMenuRenderingProps, a2 as DefaultLinkLike, n as DrawerMenuGroup, v as DrawerMenuGroupNode, o as DrawerMenuGroupProps, j as DrawerMenuLink, w as DrawerMenuLinkNode, k as DrawerMenuLinkProps, x as DrawerMenuNodeKind, y as DrawerMenuNodeMap, l as DrawerMenuRoot, m as DrawerMenuRootProps, z as DrawerMenuTreeNode, s as DrawerMenuTreeOverrides, B as DropDown, E as DropDownGroup, F as DropDownGroupProps, G as DropDownLink, I as DropDownLinkProps, C as DropDownMenuProps, O as DropDownMenuRenderContext, Q as DropDownMenuRenderContextType, T as DropDownMenuSelectors, H as Header, b as HeaderDrawer, c as HeaderDrawerProps, f as HeaderLogo, g as HeaderLogoProps, d as HeaderMenu, e as HeaderMenuProps, h as HeaderMinimal, i as HeaderMinimalProps, a as HeaderProps, V as NavigationBarGroupNode, W as NavigationGroupNode, X as NavigationLinkNode, Y as NavigationNodeKind, Z as NavigationNodeMap, _ as NavigationTree, $ as NavigationTreeNode, N as RenderDropDownMenuNode, t as RenderedDrawerMenuRegistry, u as RuntimeDrawerMenuTreeOverrides, p as defaultDrawerMenuRegistry, J as defaultDropDownMenuRegistry, q as defaultRenderDrawerMenuNode, K as defaultRenderDropDownMenuNode, S as getDropDownMenuSelectors, P as useDropDownMenuRenderContext } from './index-CaiwJjGE.cjs';
 import { TextFieldProps } from '@mui/material/TextField';
 import { StackProps } from '@mui/material/Stack';
-import { HierarchyNode } from 'd3-hierarchy';
 import * as _mui_material_OverridableComponent from '@mui/material/OverridableComponent';
 import * as _mui_material_SvgIcon from '@mui/material/SvgIcon';
 import '@mui/material/Typography';
+import '@mui/material/ListItemButton';
+import '@mui/material/ListItemIcon';
+import '@mui/material/List';
+import '@mui/material/Drawer';
+import '@mui/material/Divider';
 import '@emotion/react';
 import '@mui/system';
 
@@ -36,7 +40,7 @@ type PadProps = {
 };
 declare function Pad({ reverse, children, sx }: PadProps): react_jsx_runtime.JSX.Element;
 
-type SectionProps = BoxProps & {
+type SectionProps$1 = BoxProps & {
     /** Preset minimum heights (responsive). Defaults to 'md'. */
     size?: SectionSize;
     /** Center content both vertically and horizontally. Defaults to false. */
@@ -53,7 +57,7 @@ type SectionProps = BoxProps & {
 /**
  * Structural section wrapper for page composition.
  */
-declare function Section({ size, center, lockHeight, sx, children, id, ...rest }: SectionProps): react_jsx_runtime.JSX.Element;
+declare function Section({ size, center, lockHeight, sx, children, id, ...rest }: SectionProps$1): react_jsx_runtime.JSX.Element;
 
 /** A single slide in the background carousel. */
 type ImageCarousel = {
@@ -1500,733 +1504,295 @@ type ClickTextImageProps = {
 };
 declare const _default: React$1.NamedExoticComponent<ClickTextImageProps>;
 
-/**
- * Serializable data for a single node in the text drawer tree.
- *
- * @remarks
- * `renderer` is a key into the active {@link Registry} and must match one of its
- * registered entries.  The fields consumed by each renderer vary — see
- * `textNodeRenderers/defaultTextPolicyRegister` for the built-in mapping.
- *
- * `type` must agree with `renderer`'s declared `type` in the registry; the
- * `TextDrawerElement_Rg` utility type enforces this correlation at compile time
- * when building hierarchy payloads.
- */
-type TextDrawerElement = {
-    /** Primary label — shown in every renderer as the summary row or heading. */
-    title: string;
-    /**
-     * Registry key that selects the renderer and `type` for this node.
-     * Must be a key of the active {@link Registry}.
-     */
-    renderer: string;
-    /**
-     * Semantic category that the chosen renderer belongs to.
-     * Matches `RegistryEntry.type` for the corresponding `renderer` key.
-     * Values: `'plainText'` | `'section'` | `'paragraph'`.
-     */
-    type: string;
-    /** Optional second line shown in header renderers (`titleAndSubStd`, `titleAndSubDepth`, `titledText`). */
-    subtitle?: string;
-    /** Header icon identifier — reserved for future icon-picker integration. */
-    icon?: string;
-    /** Body text used by content renderers (`simpleText`, `titledText`). Falls back to `title` when absent. */
-    content?: string;
-    /**
-     * Navigation target for link renderers (`linkedLabel`).
-     * Falls back to `'#'` when the renderer is `linkedLabel` and this field is missing.
-     */
-    href?: string;
-    /** Relative sort order among siblings — lower numbers render first. */
-    order?: number;
+type InlineTextProps = {
+    body: string;
 };
-/**
- * UI-only overrides for a single node, merged from `HierarchyTreeOverrides`.
- *
- * @remarks
- * These fields are kept separate from {@link TextDrawerElement} because they
- * are UI concerns (open state, visual tweaks) that are not part of the data
- * model and must not influence hierarchy processing.
- */
-type TextDrawerElementUI = {
-    /**
-     * When `true`, a visual separator is drawn above this node.
-     * Consumed by layout wrappers; not yet forwarded by any built-in renderer.
-     */
-    divider?: boolean;
-    /**
-     * When `true`, the collapsible section starts expanded.
-     * Seeded into {@link TreeTextStore} initial state by `TextDrawer`.
-     * Safe to set on leaf nodes — the store tracks the value but it has no
-     * visual effect when there are no children to collapse.
-     */
+declare function InlineText({ body }: InlineTextProps): react_jsx_runtime.JSX.Element;
+
+type InlineStrongProps = {
+    body: string;
+};
+declare function InlineStrong({ body }: InlineStrongProps): react_jsx_runtime.JSX.Element;
+
+type InlineEmphasisProps = {
+    body: string;
+};
+declare function InlineEmphasis({ body }: InlineEmphasisProps): react_jsx_runtime.JSX.Element;
+
+type InlineStrongEmphasisProps = {
+    body: string;
+};
+declare function InlineStrongEmphasis({ body }: InlineStrongEmphasisProps): react_jsx_runtime.JSX.Element;
+
+type InlineCodeProps = {
+    body: string;
+};
+declare function InlineCode({ body }: InlineCodeProps): react_jsx_runtime.JSX.Element;
+
+type InlineLinkProps = {
+    body: string;
+    href: string;
+};
+declare function InlineLink({ body, href }: InlineLinkProps): react_jsx_runtime.JSX.Element;
+
+type RichTextProps = {
+    inlineNodes: AnyInlineTextNode[];
+};
+declare function RichText({ inlineNodes }: RichTextProps): react_jsx_runtime.JSX.Element;
+
+type SubSectionProps = {
+    title: RichTextBlock;
+    content: RichTextBlock[];
+    hasDivider?: boolean;
+    contentGap?: BoxProps['gap'];
+    collapsible?: boolean;
     defaultOpen?: boolean;
-    /**
-     * Arbitrary MUI `sx` forwarded to the renderer's root element.
-     * The renderer must explicitly accept and forward `sx` — all built-in
-     * renderers except `titleAndSubStd` / `titleAndSubDepth` do so.
-     */
-    sx?: SxProps<Theme>;
 };
-/**
- * Props for the public-facing `TextDrawer` component.
- *
- * @remarks
- * Obtain `treeFromRoot` by calling {@link hierarchyToTextDrawerProps} with a
- * typed `HierarchyTree` literal.  The result is a pre-sorted `StratifyPayload`
- * ready to be passed directly here.
- */
-type TextDrawerProps$1 = {
-    /** Pre-built tree produced by {@link hierarchyToTextDrawerProps}. */
-    treeFromRoot: StratifyPayload<TextDrawerElement, TextDrawerElementUI>;
+declare function SubSection({ title, content: richTextBlocks, hasDivider, contentGap, collapsible, defaultOpen, }: SubSectionProps): react_jsx_runtime.JSX.Element;
+
+type SectionProps = {
+    title: RichTextBlock;
+    content: (RichTextBlock | SubSectionBlock)[];
+    collapsible?: boolean;
+    defaultOpen: boolean;
+    hasDivider?: boolean;
+    contentGap?: BoxProps['gap'];
 };
-/**
- * Root-level metadata for the text drawer hierarchy.
- *
- * @remarks
- * Passed as the second type parameter to `HierarchyTree<P, RootTextElement>`.
- * Currently only carries an `id` for future root-level addressing; the field
- * is not consumed by any renderer.
- */
-type RootTextElement = {
-    /** Identifier for the root node — not rendered, reserved for future use. */
+
+type SectionKind = 'section';
+type SubSectionKind = 'subSection';
+type RichTextKind = 'richText';
+type TextKind = 'text';
+type StrongKind = 'strong';
+type EmphasisKind = 'emphasis';
+type StrongEmphasisKind = 'strongEmphasis';
+type CodeKind = 'code';
+type LinkKind = 'link';
+type InlineTextKind = TextKind | StrongKind | EmphasisKind | StrongEmphasisKind | CodeKind | LinkKind;
+type TextNodeKind = InlineTextKind | RichTextKind | SubSectionKind | SectionKind;
+type BlockTextKind = SectionKind | SubSectionKind;
+type SingleTextNode<K extends InlineTextKind> = {
     id: string;
+    type: K;
+    body: string;
 };
-/**
- * Root-level UI overrides (mirrors `TextDrawerElementUI` for the root node).
- * Currently empty; provided so `HierarchyTreeOverrides` receives a concrete type.
- */
-type RootTextElementUI = {};
-
-/**
- * Props for the `TextDrawer` component.
- *
- * @remarks
- * Obtain `treeFromRoot` by calling {@link hierarchyToTextDrawerProps} with a
- * typed `HierarchyTree` literal and checking `result.ok` before use.
- */
-type TextDrawerProps = {
-    /** Pre-built, sorted tree produced by {@link hierarchyToTextDrawerProps}. */
-    treeFromRoot: StratifyPayload<TextDrawerElement, TextDrawerElementUI>;
-    /**
-     * Base indent unit (MUI spacing) applied to each depth level.
-     * The actual padding is computed as `indent * depth` by the default
-     * `indentPolicy` in `TextDrawer_Client`.
-     * @defaultValue 0
-     */
-    indent?: number;
-};
-/**
- * Public-facing accordion/collapsible text tree component.
- *
- * @remarks
- * `TextDrawer` is the **only** component consumers should mount directly.
- * It is responsible for:
- * - Building the {@link TreeTextStore} from the tree's `defaultOpen` overrides.
- * - Providing the store via an internal context provider.
- * - Delegating rendering to `TextDrawer_Client` (a `'use client'` boundary).
- *
- * The store is memoised on `treeFromRoot` — it is only rebuilt when the tree
- * reference changes, so the open/closed state survives parent re-renders.
- *
- * @example
- * ```tsx
- * const result = hierarchyToTextDrawerProps({ hierarchy, overrides });
- * if (result.ok) {
- *   return <TextDrawer treeFromRoot={result.treeFromRoot} indent={2} />;
- * }
- * ```
- */
-declare function TextDrawer({ treeFromRoot, indent }: TextDrawerProps): react_jsx_runtime.JSX.Element;
-
-/**
- * Map of node IDs to their payload types.
- *
- * @remarks
- * - Keys are node IDs.
- * - `"root"` may exist on the payload map as an anchor payload key.
- * - `"root"` is excluded from node ids in {@link HierarchyRelations}.
- *
- * @typeParam NodePayload - Default payload type when using a uniform payload map.
- */
-type PayloadMap<NodePayload = unknown> = Record<string, NodePayload>;
-type ForbidRootKey<P extends Record<string, any>> = 'root' extends keyof P ? never : P;
-type NodeId<P extends PayloadMap> = Extract<keyof ForbidRootKey<P>, string>;
-type AllowedParents<N extends string, P extends PayloadMap> = Exclude<Extract<keyof P, string>, N>;
-/**
- * Parent relation model for a hierarchy.
- *
- * @remarks
- * This is a **normalized** hierarchy representation: each node explicitly stores its parent.
- *
- * ### Type-level guarantees
- * - Parent id must be a known node id or `"root"`.
- * - No self-parenting.
- *
- * ### Runtime invariants (not enforced by types)
- * - No cycles.
- *
- * @example
- * ```ts
- * const payloads = {
- *   a: { name: "a" },
- *   b: { name: "b" },
- *   c: { name: "c" },
- *   root: { name: "root" }, // allowed as an anchor payload
- * } as const satisfies PayloadMap;
- *
- * const relations = {
- *   a: { payload: { name: "a" }, parent: "b" },
- *   b: { payload: { name: "b" }, parent: "root" },
- *   c: { payload: { name: "c" }, parent: "b" },
- * } as const satisfies HierarchyRelations<typeof payloads>;
- * ```
- *
- * @typeParam P - Node ID → payload type map. `"root"` may be present as an anchor key.
- */
-type HierarchyRelations<P extends PayloadMap> = {
-    [K in NodeId<P>]: {
-        /** Payload associated with this node key. */
-        payload: P[K];
-        /**
-         * Parent ID.
-         *
-         * @remarks
-         * - Can be `"root"` (anchor)
-         * - Can be any other node id in {@link P}
-         * - Cannot be the same node key (self-parenting forbidden)
-         */
-        parent: AllowedParents<K & string, P> | 'root';
-    };
-};
-/**
- * A hierarchy tree wrapper that includes a root payload plus node relations.
- *
- * @remarks
- * The `"root"` entry is treated as an **anchor**, not a node in {@link HierarchyRelations}.
- *
- * @typeParam P - Node ID → payload type map.
- * @typeParam RootPayLoad - Payload type stored at the `"root"` anchor.
- */
-type HierarchyTree<P extends PayloadMap, RootPayLoad = unknown> = {
-    /** Payload at the `"root"` anchor. */
-    root: RootPayLoad;
-    /** Normalized node relations (child → parent). */
-    nodes: HierarchyRelations<P>;
-};
-/**
- * Payload overrides for a hierarchy relations map.
- *
- * @remarks
- * Useful for producing “view-model” payloads (e.g. adding UI fields) while keeping the same structure.
- *
- * @typeParam P - Original payload universe.
- * @typeParam H - Relations map being overridden.
- * @typeParam PN - New payload type for overridden entries.
- */
-type HierarchyRelationsOverrides<P extends PayloadMap, H extends HierarchyRelations<P>, PN> = {
-    [K in Extract<keyof H, string>]?: {
-        payload: PN;
-    };
-};
-/**
- * Overrides for an entire hierarchy tree (root + nodes).
- *
- * @typeParam P - Original payload universe.
- * @typeParam H - Tree being overridden.
- * @typeParam RootOverridePayload - New payload type for the root anchor.
- * @typeParam PN - New payload type for overridden nodes.
- */
-type HierarchyTreeOverrides<P extends PayloadMap, H extends HierarchyTree<P>, RootOverridePayload = unknown, PN = unknown> = {
-    root?: {
-        payload: RootOverridePayload;
-    };
-    nodes?: HierarchyRelationsOverrides<P, H['nodes'], PN>;
-};
-/**
- * @example
- * ```ts
- * const ex = {
- *   a: { name: "a" },
- *   b: { name: "b", other: "aa" },
- *   c: { name: "c", jk: "b" },
- *   root: { name: "root", pp: "c" }, // allowed as an anchor payload
- * } as const satisfies PayloadMap;
- *
- * const rt = {
- *   a: { payload: { name: "a" }, parent: "b" },
- *   b: { payload: { name: "b", other: "aa" }, parent: "a" },
- *   c: { payload: { name: "c", jk: "b" }, parent: "b" },
- *   // root: { payload: { name: "root", pp: "c" }, parent: "c" }, // not allowed (root isn't a node)
- * } as const satisfies HierarchyRelations<typeof ex>;
- *
- * const ov = {
- *   a: { payload: { id: "aaa" } },
- *   b: { payload: { id: "bbb" } },
- *   c: { payload: { id: "ccc" } },
- * } as const satisfies HierarchyRelationsOverrides<typeof ex, typeof rt, { id: string }>;
- * ```
- */
-type NodeInferred<P> = P extends PayloadMap<infer NodeType> ? NodeType : never;
-
-type DiagnosticSeverity = 'error' | 'warning' | 'info';
-type DiagnosticOrigin = 'resolver';
-declare const errorCodeBrand: unique symbol;
-type ErrorCodeBrand = {
-    readonly [errorCodeBrand]: true;
-};
-type ErrorCode = string & ErrorCodeBrand;
-declare const HIERARCHY_ERROR_CODE: {
-    readonly MISSING_PARENT: ErrorCode;
-    readonly INVALID_PARENT: ErrorCode;
-    readonly INVALID_HIERARCHY: ErrorCode;
-    readonly MISSING_ROOT_ATTACHMENT: ErrorCode;
-    readonly D3_STRATIFY_ERROR: ErrorCode;
-    readonly NULL_NODE: ErrorCode;
-    readonly INVALID_CYCLE: ErrorCode;
-};
-type HierarchyIssue = {
-    code: ErrorCode;
-    message: string;
-    details?: unknown;
-};
-
-/**
- * Input props for {@link hierarchyToTextDrawerProps}.
- *
- * @typeParam P - The payload map literal type inferred from the `hierarchy`
- *   constant.  Must satisfy `PayloadMap<TextDrawerElement>`.
- */
-type HierachyToTextDrawerProps<P extends PayloadMap<TextDrawerElement>> = {
-    /**
-     * Compile-time–validated tree literal.
-     * Use `as const satisfies HierarchyTree<P, RootTextElement>` at the
-     * definition site to get full TypeScript narrowing.
-     */
-    hierarchy: HierarchyTree<P, RootTextElement>;
-    /**
-     * UI-only overrides keyed by node ID.
-     * Each node's overrides are merged with its base payload at render time.
-     * All node IDs in `overrides.nodes` must exist in `hierarchy.nodes`.
-     */
-    overrides: HierarchyTreeOverrides<P, HierarchyTree<P, RootTextElement>, RootTextElementUI, TextDrawerElementUI>;
-};
-/**
- * Discriminated-union return type from {@link hierarchyToTextDrawerProps}.
- *
- * Check `ok` before accessing `treeFromRoot`.
- */
-type HierachyToTextDrawerPropsReturn = {
-    ok: false;
-    issues: HierarchyIssue[];
-} | {
-    ok: true;
-    /** Pre-built, sorted tree ready to pass directly to `<TextDrawer treeFromRoot={…} />`. */
-    treeFromRoot: StratifyPayload<TextDrawerElement, TextDrawerElementUI>;
-};
-/**
- * Public entry point — converts a typed hierarchy literal into the prop
- * expected by `TextDrawer`.
- *
- * @remarks
- * This is the **only** function consumers should call.  Internally it delegates
- * to `prepareTextTree` which runs the full pipeline:
- * 1. `resolver` — validates parent references and detects cycles.
- * 2. `convertToD3Stratify` — flattens the hierarchy into D3-compatible records.
- * 3. `sortD3Stratify` — applies `order` fields for stable sibling ordering.
- * 4. `buildTreeFromStratify` — reconstructs the recursive `StratifyPayload` tree.
- *
- * All validation errors are collected into `issues` and returned as
- * `{ ok: false, issues }` so the caller can decide how to surface them.
- *
- * @typeParam P - Inferred payload map from the `hierarchy` literal.
- *
- * @example
- * ```ts
- * const result = hierarchyToTextDrawerProps({ hierarchy, overrides });
- * if (!result.ok) {
- *   console.error(result.issues);
- * } else {
- *   return <TextDrawer treeFromRoot={result.treeFromRoot} indent={2} />;
- * }
- * ```
- */
-declare function hierarchyToTextDrawerProps<P extends PayloadMap<TextDrawerElement>>({ hierarchy, overrides, }: HierachyToTextDrawerProps<P>): HierachyToTextDrawerPropsReturn;
-
-/**
- * Flat map of node-id → open/closed boolean for the entire text drawer tree.
- *
- * @remarks
- * Every node (parent and leaf) has an entry so that `defaultOpen` overrides can
- * be seeded uniformly.  Leaf nodes retain their state in the store even though
- * they have no visible collapse effect — this keeps the API surface consistent
- * and allows future controlled-open scenarios without schema changes.
- */
-type TreeTextState = Record<string, boolean>;
-/**
- * Minimal external store compatible with React's `useSyncExternalStore`.
- *
- * @remarks
- * Deliberately framework-agnostic — no React imports, no context coupling.
- * The store is created once per `TextDrawer` mount (via `useMemo`) and shared
- * downward through the `TextDrawer` context provider.
- *
- * @typeParam TreeTextState - Shape of the state slice managed by this store.
- */
-type TreeTextStore<TreeTextState> = {
-    /** Returns the current state snapshot. */
-    getState: () => TreeTextState;
-    /**
-     * Replaces the state or applies a functional update.
-     * Skips notification if the new reference is identical to the current one.
-     * Notifies all subscribers after every accepted update.
-     */
-    setState: (next: TreeTextState | ((prev: TreeTextState) => TreeTextState)) => void;
-    /**
-     * Registers a listener called after every state change.
-     * @returns An unsubscribe function — call it to remove the listener.
-     */
-    subscribe: (listener: () => void) => () => void;
-};
-/**
- * Creates a new {@link TreeTextStore} initialised with `initialState`.
- *
- * @remarks
- * The store uses a `Set` of listeners for O(1) subscribe/unsubscribe.
- * Reference equality is checked in `setState` to avoid spurious re-renders
- * when the same state object is returned from a functional update.
- *
- * @param initialState - Seed state; typically produced by walking the tree and
- *   collecting each node's `defaultOpen` override.
- * @returns A fully wired store instance.
- *
- * @example
- * ```ts
- * const store = createTreeTextStore({ 'section-a': true, 'section-b': false });
- * ```
- */
-declare function createTreeTextStore(initialState: TreeTextState): TreeTextStore<TreeTextState>;
-/**
- * React hook — subscribes to a single node's open/closed state.
- *
- * @remarks
- * Uses `useSyncExternalStore` for concurrent-safe granular subscriptions.
- * Each node only re-renders when its own boolean flips; sibling toggles are
- * invisible to it.  The server-side snapshot always returns `false` (collapsed).
- *
- * @param store - The shared store from `TextDrawer`.
- * @param nodeId - The node whose open state to observe.
- * @returns `true` when the node is open, `false` when closed or not found.
- */
-declare function useTreeTextOpen(store: TreeTextStore<TreeTextState>, nodeId: string): boolean;
-/**
- * Returns a stable setter that toggles a single node's open state in the store.
- *
- * @remarks
- * Curried so callers (typically `TextElement`) can create the setter once and
- * pass it down as a stable callback without re-creating it on every render.
- *
- * @param store - The shared store from `TextDrawer`.
- * @param nodeId - The node to mutate.
- * @returns A setter `(open: boolean) => void` that merges the new value into
- *   the existing state via a functional update.
- *
- * @example
- * ```ts
- * const onToggle = setTreeTextOpen(store, 'section-a');
- * onToggle(true);  // opens section-a
- * onToggle(false); // closes section-a
- * ```
- */
-declare function setTreeTextOpen(store: TreeTextStore<TreeTextState>, nodeId: string): (open: boolean) => void;
-
-/**
- * Semantic category of a text drawer node.
- *
- * - `'plainText'` — a leaf node that renders static content (text, label, link).
- * - `'paragraph'`— a leaf node that pairs a heading with body text.
- * - `'section'` — a parent node with collapsible children; must display an
- *   open/close indicator and handle `onClick` to toggle the `Collapse`.
- */
-type TextTypes = 'plainText' | 'section' | 'paragraph';
-/**
- * Fixed input type for every renderer's `props` factory function.
- *
- * @remarks
- * All available context is passed in one go so that each registry entry can
- * destructure only what it needs without having to declare a narrower input
- * type.  The **output** is what varies per entry (captured by `RendererProps`
- * in {@link RegistryEntry}); the input is always this type.
- *
- * Keeping the input fixed (not generic) avoids the "unknown at call site"
- * problem that would arise if the input type were also a type parameter.
- */
-type TextPolicyProps = {
-    /** The node's serialised data payload. */
-    textDrawerElement: TextDrawerElement;
-    /** Merged UI overrides for this node; `undefined` when none were provided. */
-    textDrawerElementUI: TextDrawerElementUI | undefined;
-    /** Zero-based nesting depth; passed to depth-aware renderers. */
-    depth: number;
-    /** Whether the node is currently in the open/expanded state. */
-    isOpen: boolean;
-    /** Whether the node has child nodes (always `true` for `section` renderers). */
-    hasChildren: boolean;
-    /** React node to display when the section is expanded (e.g. `<ExpandLess />`). */
-    openIndicator: React__default.ReactNode;
-    /** React node to display when the section is collapsed (e.g. `<ExpandMore />`). */
-    closeIndicator: React__default.ReactNode;
-    /**
-     * Callback to toggle this node's collapsed/expanded state.
-     * Must be wired to the `TreeTextStore` setter by the calling component.
-     * Passed as a no-op for leaf nodes.
-     */
-    onClick: () => void;
-};
-/**
- * A single renderer entry in a {@link Registry}.
- *
- * @remarks
- * The existential pattern here is intentional:
- * - `RendererProps` is the **only** generic — it ties `props` output to
- *   `renderer` input so TypeScript can catch mismatches.
- * - The `Registry` type erases `RendererProps` to `any` (existential) so that
- *   a heterogeneous map of entries can be stored.  Type safety is enforced
- *   **per entry** via the {@link defineEntry} helper, not at the map level.
- *
- * @typeParam RendererProps - The prop type of the associated React component.
- */
-type RegistryEntry<RendererProps extends unknown> = {
-    /**
-     * Semantic category; must match `TextDrawerElement.type` for payloads that
-     * use this renderer key.
-     */
-    type: TextTypes;
-    /**
-     * Pure factory that maps the comprehensive {@link TextPolicyProps} onto the
-     * narrower props expected by `renderer`.  Destructure only what is needed.
-     */
-    props: (props: TextPolicyProps) => RendererProps;
-    /** The React component that receives the output of `props`. */
-    renderer: React__default.ComponentType<RendererProps>;
-};
-/**
- * A map of renderer keys to their {@link RegistryEntry} definitions.
- *
- * @remarks
- * `RegistryEntry<any>` is the correct existential type here — using `unknown`
- * breaks spread at the call sites in `TextElement` and `TextOpenClose`.
- * Type correctness per entry is guaranteed by {@link defineEntry}.
- */
-type Registry = Record<string, RegistryEntry<any>>;
-/**
- * Derive a discriminated-union element type from a registry `R`.
- *
- * @remarks
- * Distributes over all keys `K` in `R` and produces a union where each
- * member has `renderer: K` and `type: R[K]['type']` correlated at compile
- * time.  This prevents assigning a `renderer` key whose `type` disagrees with
- * the node's `type` field.
- *
- * Use this when defining a payload map for `HierarchyTree`:
- *
- * @example
- * ```ts
- * const payloads = { ... } as const satisfies Payload_Rg<DefaultRendersRegistry>;
- * ```
- *
- * @typeParam R - The concrete registry (e.g. `DefaultRendersRegistry`).
- */
-type TextDrawerElement_Rg<R extends Registry> = {
-    [K in keyof R]: {
-        title: string;
-        renderer: K;
-        type: R[K]['type'];
-        subtitle?: string;
-        icon?: string;
-        content?: string;
-        href?: string;
-        order?: number;
-    };
-}[keyof R];
-/**
- * A record of named payloads where every value is a valid element for registry `R`.
- *
- * @remarks
- * Convenience alias for `Record<string, TextDrawerElement_Rg<R>>` — use it
- * as the `satisfies` target when declaring a hierarchy's payload constants.
- *
- * @typeParam R - The concrete registry (e.g. `DefaultRendersRegistry`).
- */
-type Payload_Rg<R extends Registry> = Record<string, TextDrawerElement_Rg<R>>;
-/**
- * Extracts the subset of renderer keys in `R` whose `type` matches `T`.
- *
- * @example
- * ```ts
- * type SectionRenderers = FilterTypesInRegistry<'section', DefaultRendersRegistry>;
- * // → 'titleAndSubStd' | 'titleAndSubDepth'
- * ```
- *
- * @typeParam T - The `TextTypes` value to filter by.
- * @typeParam R - The registry to search.
- */
-type FilterTypesInRegistry<T extends TextTypes, R extends Registry> = {
-    [K in keyof R]: R[K]['type'] extends T ? K : never;
-}[keyof R];
-/**
- * Extracts the union of all `type` values present in registry `R`.
- *
- * @typeParam R - The registry to inspect.
- */
-type GetTypesInRegistry<R extends Registry> = {
-    [K in keyof R]: R[K]['type'];
-}[keyof R];
-/**
- * Identity helper that forces TypeScript to infer `RendererProps` concretely
- * for a single registry entry, catching `props`/`renderer` mismatches that
- * `satisfies Registry` (which erases to `any`) would miss.
- *
- * @remarks
- * Without this helper, `renderer: MyComponent` and `props: () => wrongShape`
- * would compile silently because `Registry` uses `RegistryEntry<any>`.
- * Wrapping each entry in `defineEntry({...})` gives TypeScript enough
- * information to infer `RP` and validate that `props` returns a type
- * assignable to `MyComponent`'s props.
- *
- * @example
- * ```ts
- * titleAndSubStd: defineEntry({
- *   type: 'section',
- *   props: ({ textDrawerElement, isOpen, openIndicator, closeIndicator, onClick }) => ({
- *     title: textDrawerElement.title,
- *     indicator: isOpen ? openIndicator : closeIndicator,
- *     onClick,
- *   }),
- *   renderer: TitleAndSubStd, // TS verifies the shape matches TitleAndSubStdProps
- * }),
- * ```
- */
-declare function defineEntry<RP>(e: RegistryEntry<RP>): RegistryEntry<RP>;
-
-/**
- * Props for the `SimpleText` renderer.
- *
- * @remarks
- * Populated by the `simpleText` entry in {@link defaultRendersRegistry}:
- * `text` is `content ?? title`; `sx` comes from `TextDrawerElementUI.sx`.
- */
-type SimpleTextProps = {
-    /** The text content to display. */
-    text: string;
-    /** Optional MUI sx overrides forwarded from the node's UI overrides. */
-    sx?: SxProps<Theme>;
-};
-/**
- * Leaf renderer — displays a single block of narrative text.
- *
- * @remarks
- * Renders a MUI `Typography` with `variant="narrative"`.  No heading, no
- * label — just prose.  Suitable for answer text in FAQ patterns or any node
- * where the content speaks for itself without a separate title row.
- *
- * Registry key: `"simpleText"` | Type: `"plainText"`
- */
-declare function SimpleText({ text, sx }: SimpleTextProps): react_jsx_runtime.JSX.Element;
-
-/**
- * Default renderer registry — the set of renderers available to every
- * `TextDrawer` out of the box.
- *
- * @remarks
- * Each key is a `renderer` value that can appear in a `TextDrawerElement`
- * payload.  The registry is passed to `TextDrawer_Client` via
- * the render context's `rendersRegistry` field.
- *
- * ## Available renderers
- *
- * | Key | Type | Component | Description |
- * |---|---|---|---|
- * | `simpleText` | `plainText` | `SimpleText` | Bare narrative text; uses `content` or falls back to `title`. |
- * | `titledText` | `paragraph` | `TitledText` | Label + optional subtitle + body text. |
- * | `labelOnly` | `plainText` | `LabelOnly` | Title rendered as a non-link label with no body. |
- * | `titleAndSubStd` | `section` | `TitleAndSubStd` | Collapsible section header at a fixed size. |
- * | `titleAndSubDepth` | `section` | `TitleAndSubDepth` | Collapsible section header that shrinks from h3→h4 at depth > 0. |
- * | `linkedLabel` | `plainText` | `LinkedLabel` | Clickable MUI link; requires `href` in the payload. |
- *
- * All entries are wrapped in {@link defineEntry} (except `simpleText` which is
- * inlined as a plain object — both approaches are valid) to ensure that the
- * `props` return shape is validated against the renderer's prop type at
- * compile time.
- *
- * @example
- * ```ts
- * // Using the default registry (automatic — no action needed)
- * <TextDrawer treeFromRoot={result.treeFromRoot} indent={2} />
- *
- * // Referencing the type for payload type-checking:
- * const payloads = { ... } as const satisfies Payload_Rg<DefaultRendersRegistry>;
- * ```
- */
-declare const defaultRendersRegistry: {
-    /** Bare narrative text. Uses `content`; falls back to `title` when absent. Supports `sx`. */
-    readonly simpleText: {
-        readonly type: "plainText";
-        readonly props: ({ textDrawerElement, textDrawerElementUI }: TextPolicyProps) => {
-            text: string;
-            sx: _mui_material_styles.SxProps<_mui_material_styles.Theme> | undefined;
-        };
-        readonly renderer: typeof SimpleText;
-    };
-    /** Label + optional subtitle + body paragraph. Uses `content`; falls back to `title`. Supports `sx`. */
-    readonly titledText: RegistryEntry<{
-        title: string;
-        subtitle: string | undefined;
-        text: string;
-        sx: _mui_material_styles.SxProps<_mui_material_styles.Theme> | undefined;
-    }>;
-    /** Title-only label with no body content. Supports `sx`. */
-    readonly labelOnly: RegistryEntry<{
-        title: string;
-        sx: _mui_material_styles.SxProps<_mui_material_styles.Theme> | undefined;
-    }>;
-    /**
-     * Collapsible section header — fixed heading size (h3 / `SubsectionTitle`).
-     * Use when the section is always at the top level and heading size must not vary.
-     */
-    readonly titleAndSubStd: RegistryEntry<{
-        title: string;
-        subtitle: string | undefined;
-        indicator: React$1.ReactNode;
-        onClick: () => void;
-    }>;
-    /**
-     * Collapsible section header — depth-aware heading size.
-     * Renders `SubsectionTitleLabel` (h3) at depth 0 and `SubsubsectionTitleLabel` (h4)
-     * at depth > 0.  Prefer this over `titleAndSubStd` for sections that may be nested.
-     */
-    readonly titleAndSubDepth: RegistryEntry<{
-        title: string;
-        subtitle: string | undefined;
-        indicator: React$1.ReactNode;
-        onClick: () => void;
-        depth: number;
-    }>;
-    /**
-     * Clickable link leaf node.  Requires `href` in the payload; falls back to `'#'`
-     * if missing.  Supports `sx`.
-     */
-    readonly linkedLabel: RegistryEntry<{
-        title: string;
+type InlineTextNodesMap = {
+    text: SingleTextNode<TextKind>;
+    strong: SingleTextNode<StrongKind>;
+    emphasis: SingleTextNode<EmphasisKind>;
+    strongEmphasis: SingleTextNode<StrongEmphasisKind>;
+    code: SingleTextNode<CodeKind>;
+    link: SingleTextNode<LinkKind> & {
         href: string;
-        sx: _mui_material_styles.SxProps<_mui_material_styles.Theme> | undefined;
+    };
+};
+type AnyInlineTextNode = InlineTextNodesMap[InlineTextKind];
+type RichTextBlock = {
+    id: string;
+    type: RichTextKind;
+    content: AnyInlineTextNode[];
+};
+type SubSectionBlock = {
+    id: string;
+    title: RichTextBlock;
+    type: SubSectionKind;
+    content: RichTextBlock[];
+};
+type SectionBlock = {
+    id: string;
+    type: SectionKind;
+    title: RichTextBlock;
+    content: (RichTextBlock | SubSectionBlock)[];
+};
+type TextNodesMap = InlineTextNodesMap & {
+    richText: RichTextBlock;
+    subSection: SubSectionBlock;
+    section: SectionBlock;
+};
+type ContentTreeNode = RichTextBlock | SectionBlock | SubSectionBlock;
+type ContentTree = {
+    type: 'root';
+    id: 'root';
+    children: ContentTreeNode[];
+};
+type OverridableTypes = SectionKind | SubSectionKind;
+type NonOverridableContentProps = 'title' | 'content';
+type IdsOfType<T, I> = I extends {
+    type: T;
+    id: string;
+} ? I['id'] : I extends readonly (infer C)[] ? IdsOfType<T, C> : I extends Record<string, infer C> ? IdsOfType<T, C> : never;
+type TextTreeOverrides<T extends ContentTree> = {
+    [K in OverridableTypes]?: Partial<{
+        [ID in Extract<IdsOfType<K, T>, string>]: Partial<Omit<DefaultRenderingPropsMap[K], NonOverridableContentProps>>;
     }>;
 };
+type AnyTextNode = TextNodesMap[TextNodeKind];
+type DefaultRenderingPropsMap = {
+    text: InlineTextProps;
+    strong: InlineStrongProps;
+    emphasis: InlineEmphasisProps;
+    strongEmphasis: InlineStrongEmphasisProps;
+    code: InlineCodeProps;
+    link: InlineLinkProps;
+    richText: RichTextProps;
+    subSection: SubSectionProps;
+    section: SectionProps;
+};
+type RenderedTextRegistryEntry<K extends TextNodeKind> = {
+    type: K;
+    rendering: ({ node, overrides, }: {
+        node: TextNodesMap[K];
+        overrides?: Partial<DefaultRenderingPropsMap[K]>;
+    }) => ReactNode;
+};
+type RenderedTextRegistry = {
+    [K in TextNodeKind]: RenderedTextRegistryEntry<K>;
+};
+declare const defaultRenderedRegistry: {
+    text: {
+        type: "text";
+        rendering({ node, overrides }: {
+            node: SingleTextNode<"text">;
+            overrides?: Partial<InlineTextProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+    strong: {
+        type: "strong";
+        rendering({ node, overrides }: {
+            node: SingleTextNode<"strong">;
+            overrides?: Partial<InlineStrongProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+    emphasis: {
+        type: "emphasis";
+        rendering({ node, overrides }: {
+            node: SingleTextNode<"emphasis">;
+            overrides?: Partial<InlineEmphasisProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+    strongEmphasis: {
+        type: "strongEmphasis";
+        rendering({ node, overrides }: {
+            node: SingleTextNode<"strongEmphasis">;
+            overrides?: Partial<InlineStrongEmphasisProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+    code: {
+        type: "code";
+        rendering({ node, overrides }: {
+            node: SingleTextNode<"code">;
+            overrides?: Partial<InlineCodeProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+    link: {
+        type: "link";
+        rendering({ node, overrides }: {
+            node: SingleTextNode<"link"> & {
+                href: string;
+            };
+            overrides?: Partial<InlineLinkProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+    richText: {
+        type: "richText";
+        rendering({ node, overrides }: {
+            node: RichTextBlock;
+            overrides?: Partial<RichTextProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+    subSection: {
+        type: "subSection";
+        rendering({ node, overrides }: {
+            node: SubSectionBlock;
+            overrides?: Partial<SubSectionProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+    section: {
+        type: "section";
+        rendering({ node, overrides }: {
+            node: SectionBlock;
+            overrides?: Partial<SectionProps> | undefined;
+        }): react_jsx_runtime.JSX.Element;
+    };
+};
+type RenderTextNode = (args: {
+    node: AnyTextNode;
+}) => {
+    rendered: React.ReactNode;
+};
+declare function defaultRenderTextNode<T extends ContentTree>({ contentTree, renderedRegistry, textOverrides, }: {
+    contentTree: T;
+    renderedRegistry?: RenderedTextRegistry;
+    textOverrides?: TextTreeOverrides<T>;
+}): RenderTextNode;
+
+type ContentTreeViewProps = {
+    tree: ContentTree;
+};
+declare function ContentTreeView({ tree }: ContentTreeViewProps): react_jsx_runtime.JSX.Element;
+
 /**
- * Convenience type alias for the default registry — use as the type argument
- * to `Payload_Rg<DefaultRendersRegistry>` when defining payload constants.
+ * Shape of the value provided by {@link TextTreeRendererContext}.
+ *
+ * @remarks
+ * This context carries *rendering* configuration — visual indicators, the
+ * active renderer registry, and the indent strategy.  State management lives
+ * separately in {@link TextControllerContext} / {@link TreeTextStore}.
+ *
+ * Created once per `TextDrawer_Client` mount with values supplied by the
+ * parent `TextDrawer` component via props.
  */
-type DefaultRendersRegistry = typeof defaultRendersRegistry;
+type TextTreeRendererContextType = {
+    /**
+     * React node rendered as the toggle indicator when a section is **open**.
+     * Typically `<ExpandLess />` from MUI icons.
+     */
+    openIndicator: React.ReactNode;
+    /**
+     * React node rendered as the toggle indicator when a section is **closed**.
+     * Typically `<ExpandMore />` from MUI icons.
+     */
+    closeIndicator: React.ReactNode;
+    nodesRenderer: RenderTextNode;
+    LinkComponent: LinkTypeComponent;
+};
+/**
+ * React context that carries renderer configuration down the component tree.
+ *
+ * @remarks
+ * Provided by `TextDrawer_Client`.  Consumed by `TextElement` and
+ * `TextOpenClose` via {@link useTextTreeRendererContext}.
+ *
+ * Do **not** consume this context directly — use the hook instead.
+ */
+declare const TextTreeRendererContext: React$1.Context<TextTreeRendererContextType | null>;
+/**
+ * Hook — returns the {@link TextTreeRendererContextType} for the nearest
+ * `TextDrawer_Client` ancestor.
+ *
+ * @throws {Error} If called outside of a `TextTreeRendererContext.Provider` tree.
+ */
+declare function useTextTreeRendererContext(): TextTreeRendererContextType;
+
+type ParseInlineTextOptions = {
+    /** Prefix used to generate deterministic inline node ids. */
+    idPrefix?: string;
+};
+/**
+ * Parses a small markdown-ish inline syntax into renderable inline nodes.
+ *
+ * Supported syntax:
+ * - `plain text`
+ * - `` `code` ``
+ * - `***strong emphasis***`
+ * - `**strong**`
+ * - `*emphasis*`
+ * - `[label](href)`
+ *
+ * This parser is intentionally flat: markup inside markup is kept as literal
+ * text. Unclosed or malformed markers are emitted as plain text.
+ */
+declare function parseInlineText(source: string, { idPrefix }?: ParseInlineTextOptions): AnyInlineTextNode[];
 
 /** Props for {@link TwoColumnsFooter}. All slots are optional. */
 type TwoColumnsFooterProps = {
@@ -2552,304 +2118,101 @@ type VideoModalProps = {
  */
 declare function VideoModal({ videoId, src, title, trigger, avatarSrc, buttonLabel, align, widthPercent, modalSx, }: VideoModalProps): react_jsx_runtime.JSX.Element;
 
+type MenuDepthContextType = {
+    depth: number;
+};
+declare const MenuDepthContext: React$1.Context<MenuDepthContextType | null>;
+declare function useMenuDepthContext(): MenuDepthContextType;
+
+type MenuSelectionContextType = {
+    isSelected: (nodeId: string) => boolean;
+    isAncestorSelected: (nodeId: string) => boolean;
+    selectedId: string | null;
+    selectedPathIds: string[];
+};
 /**
- * State shape for a menu store: a map of node id → open/closed boolean.
- * Only nodes that have been explicitly toggled appear in the map;
- * absent nodes default to `false` (closed).
+ * React context that carries renderer configuration down the component tree.
+ *
+ * @remarks
+ * Provided by `TextDrawer_Client`.  Consumed by `TextElement` and
+ * `TextOpenClose` via {@link useTextTreeRendererContext}.
+ *
+ * Do **not** consume this context directly — use the hook instead.
  */
-type MenuState = Record<string, boolean>;
+declare const MenuSelectionContext: React$1.Context<MenuSelectionContextType | null>;
 /**
- * Minimal observable store for menu open/close state.
+ * Hook — returns the {@link TextTreeRendererContextType} for the nearest
+ * `TextDrawer_Client` ancestor.
  *
- * Compatible with React's `useSyncExternalStore`. Supports both direct
- * state replacement and functional updates to avoid stale closures.
- *
- * @see {@link createMenuStore} to create an instance.
- * @see {@link useNodeOpen} / {@link setOpen} for component-level helpers.
+ * @throws {Error} If called outside of a `TextTreeRendererContext.Provider` tree.
  */
-type MenuStore<MenuState> = {
+declare function useMenuSelectionContext(): MenuSelectionContextType;
+
+type DrawerMenuSelectors = {
+    isSelected: (nodeId: string) => boolean;
+    isAncestorSelected: (nodeId: string) => boolean;
+    selectedId: string | null;
+    selectedPathIds: string[];
+};
+declare function getDrawerMenuSelectors({ drawerMenuTree, currentPath, }: {
+    drawerMenuTree: DrawerMenuTree;
+    currentPath: string;
+}): DrawerMenuSelectors;
+
+type DrawerMenuState = Record<string, boolean>;
+type DrawerMenuStore = {
     /** Returns the current state snapshot. */
-    getState: () => MenuState;
+    getState: () => DrawerMenuState;
     /** Replaces the state or applies a functional update. Notifies all subscribers. */
-    setState: (next: MenuState | ((prev: MenuState) => MenuState)) => void;
+    setState: (next: DrawerMenuState | ((prev: DrawerMenuState) => DrawerMenuState)) => void;
     /** Subscribes a listener that is called on every state change. Returns an unsubscribe function. */
     subscribe: (listener: () => void) => () => void;
 };
-/**
- * Creates a new {@link MenuStore} with the given initial state.
- *
- * @example
- * ```ts
- * const store = createMenuStore({});
- * ```
- */
-declare function createMenuStore(initialState: MenuState): MenuStore<MenuState>;
-/**
- * React hook that subscribes to the open/closed state of a single node.
- *
- * Returns `false` for nodes that have never been explicitly toggled.
- * Safe for server rendering (snapshot always returns `false`).
- *
- * @param store - The store created by {@link createMenuStore}.
- * @param nodeId - The node whose open state to read.
- */
-declare function useNodeOpen(store: MenuStore<MenuState>, nodeId: string): boolean;
-/**
- * Returns a stable setter that toggles the open state of a single node.
- *
- * @param store - The store created by {@link createMenuStore}.
- * @param nodeId - The node whose open state to update.
- * @returns A function `(open: boolean) => void` to call on toggle events.
- */
-declare function setOpen(store: MenuStore<MenuState>, nodeId: string): (open: boolean) => void;
+declare function createDrawerMenuStore(initialState: DrawerMenuState): DrawerMenuStore;
+declare function getInitialDrawerMenuStoreState({ selectors, }: {
+    selectors: DrawerMenuSelectors;
+}): DrawerMenuState;
+declare function useDrawerMenuNodeOpen(store: DrawerMenuStore, nodeId: string): boolean;
+declare function setDrawerMenuNodeOpen(store: DrawerMenuStore, nodeId: string): (open: boolean) => void;
 
-/** Input shape for {@link hierarchyToDrawerInput}. */
-type HierachyToDrawerinputProps<P extends PayloadMap<MenuTreeElement>> = {
-    /** Typed hierarchy tree defining the menu structure. */
-    hierarchy: HierarchyTree<P, RootTreeElement>;
-    /** Per-node and root UI overrides (link component, dividers, display flags, etc.). */
-    overrides: HierarchyTreeOverrides<P, HierarchyTree<P, RootTreeElement>, RootOverridesUI, MenuTreeElementUI>;
+type DrawerMenuControllerContextType = {
+    drawerMenuStore: DrawerMenuStore;
 };
-/**
- * Return type of {@link hierarchyToDrawerInput}.
- * Either a validated prop set ready to pass to {@link DrawerMenu}, or a list of validation issues.
- */
-type HierachyToDrawerPropsReturn = {
-    ok: false;
-    issues: HierarchyIssue[];
-} | {
-    ok: true;
-    root: RootTreeElement;
-    treeFromRoot: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
-    rootOverrides?: RootOverridesUI;
-};
-/**
- * Converts a typed hierarchy tree into the prop shape expected by {@link DrawerMenu}.
- *
- * Validates the hierarchy and flattens it into a stratified tree. Returns `ok: false`
- * with a list of {@link HierarchyIssue}s if validation fails.
- *
- * @example
- * ```tsx
- * const result = hierarchyToDrawerInput({ hierarchy, overrides });
- * if (!result.ok) {
- *   console.error(result.issues);
- *   return null;
- * }
- * return <DrawerMenu {...result} selector={(id) => id === currentPageId} />;
- * ```
- */
-declare function hierarchyToDrawerInput<P extends PayloadMap<MenuTreeElement>>({ hierarchy, overrides, }: HierachyToDrawerinputProps<P>): HierachyToDrawerPropsReturn;
+declare const DrawerMenuControllerContext: React$1.Context<DrawerMenuControllerContextType | null>;
+declare function useDrawerMenuControllerContext(): DrawerMenuControllerContextType;
 
-/** @internal Input shape for {@link prepareMenuTree} — `MenuProps` minus display-only fields. */
-type PrepareMenuTreeProps<P extends PayloadMap<MenuTreeElement>> = HierachyToDrawerinputProps<P> & {
-    issues: HierarchyIssue[];
-};
-/**
- * Validates, converts, sorts, and builds a typed menu tree from a raw hierarchy definition.
- *
- * Runs the full hierarchy pipeline:
- * 1. `resolver` — validates node references and detects cycles.
- * 2. `convertToD3Stratify` — maps node + override payloads to the stratify format.
- * 3. `sortD3Stratify` — orders siblings by `MenuTreeElement.order`.
- * 4. `buildTreeFromStratify` — assembles the nested {@link StratifyPayload} tree.
- *
- * Returns `{ ok: false, issues }` at the first pipeline failure so callers can
- * surface validation errors rather than rendering broken trees.
- *
- * @returns `{ ok: true, root }` on success, or `{ ok: false, issues }` on failure.
- *
- * @internal Called by {@link hierarchyToDrawerInput}.
- */
-declare function prepareMenuTree<P extends PayloadMap<MenuTreeElement>>({ hierarchy, overrides, }: PrepareMenuTreeProps<P>): {
-    ok: false;
-    issues: HierarchyIssue[];
-} | {
-    ok: true;
-    root: StratifyPayload<MenuTreeElement, MenuTreeElementUI>;
-};
-
-/** @internal Props for {@link useRowPlan}. */
-type UseRowPlanProps = {
-    id: string;
-    node: MenuTreeElement | null;
-    children: Record<string, StratifyPayload<MenuTreeElement, MenuTreeElementUI>> | undefined;
-    overrides: MenuTreeElementUI | undefined;
-};
-/**
- * Computes the {@link RowPlan} for a single menu node by combining depth,
- * selection state, and the active {@link RowPolicy} from context.
- *
- * Reads from {@link MenuDepthContext}, {@link MenuSelectorContext}, and
- * {@link MenuRenderContext} — all three must be provided by an ancestor.
- *
- * @returns The computed `rowPlan`, the current `depth`, and a `hasChildren` flag.
- *
- * @internal Used by leaf and column elements that do not manage open/close state themselves.
- */
-declare function useRowPlan({ id, node, children, overrides }: UseRowPlanProps): {
-    rowPlan: RowPlan;
-    depth: number;
-    hasChildren: boolean;
-} | null;
-
-/**
- * Props for {@link ElementButton}.
- * @internal
- */
-type ElementButtonProps = {
-    /** UI overrides for this node (display flag, click handler). */
-    overrides: MenuTreeElementUI | undefined;
-    /** Visual plan produced by the active {@link RowPolicy}. */
-    rowPlan: RowPlan;
-    /** Link component used for navigation (e.g. Next.js `Link`). Required when `link` is set. */
-    linkComponent?: LinkTypeComponent;
+type DrawerMenuRenderContextType = {
     /**
-     * Indicator icon (e.g. chevron) rendered after the label.
-     * Sourced from `rowPlan.indicator` by the caller — passed separately so toggle
-     * components can intercept the click without wrapping the whole button.
+     * React node rendered as the toggle indicator when a section is **open**.
+     * Typically `<ExpandLess />` from MUI icons.
      */
-    indicator?: React__default.ReactNode;
-    /** Navigation href. When set (with `linkComponent`), renders a `ListItemButton` link. */
-    link?: string;
-};
-/**
- * Lowest-level interactive row element. Renders one of three variants:
- *
- * - **Link** (`link` + `linkComponent` provided) — `ListItemButton` with `component={linkComponent}`.
- * - **Button** (`overrides.onClick` provided) — `ListItemButton` with an `onClick` handler.
- * - **Plain item** — non-interactive `ListItem`.
- *
- * Inner content is always {@link ElementLabel} (icon + text) followed by the optional `indicator`.
- *
- * @internal Used by {@link DrawerElement}, {@link DrawerOpenClose}, {@link DropDownElement}, and {@link DropDownOpenClose}.
- */
-declare function ElementButton({ link, overrides, rowPlan, indicator, linkComponent, }: ElementButtonProps): react_jsx_runtime.JSX.Element | null;
-
-/** @internal Props for {@link ElementLabel}. */
-type ElementLabelProps = {
-    /** Optional icon rendered to the left in a `ListItemIcon` (36 px slot). */
-    icon: React.ReactNode;
-    /** Label text or node rendered inside `ListItemText`. */
-    text: React.ReactNode;
-    /** Typography styling forwarded from the active {@link RowPlan}. */
-    typographyProps?: MenuLabelTypographyProps;
-};
-/**
- * Renders the icon + label portion of a menu row.
- *
- * Used by {@link ElementButton} as the inner content of every row, regardless
- * of whether the row is a link, a toggle button, or a plain item.
- *
- * @internal
- */
-declare function ElementLabel({ typographyProps, icon, text }: ElementLabelProps): react_jsx_runtime.JSX.Element;
-
-/**
- * Provides selection state derived from the active page selector callback.
- *
- * Holds stable `isSelected` and `isAncestorSelected` functions computed once
- * by {@link getSelectors} and distributed to all menu elements without re-renders.
- *
- * @see {@link GetSelectorsReturnType} for the full shape of the context value.
- */
-type MenuSelectorContextType = GetSelectorsReturnType;
-declare const MenuSelectorContext: React$1.Context<GetSelectorsReturnType | null>;
-
-/** Returns {@link MenuSelectorContextType} from {@link MenuSelectorContext}. Throws if missing. */
-declare function useMenuSelectorContext(): GetSelectorsReturnType;
-
-/**
- * Shared rendering configuration passed down through a menu tree.
- *
- * Provides the {@link RowPolicy} (per-row styling), the {@link MegaMenuPolicy}
- * (mega menu panel layout), and the link component used for navigation items.
- * Set once at the top of each menu variant (DrawerMenu, DropDown) and consumed
- * by every element and label component below it.
- */
-type MenuRenderContextType = {
-    /** Component used to render navigation links (e.g. Next.js `Link`). */
-    linkLikeComp: LinkTypeComponent;
-    /** Determines visual styling for each row based on depth and selection state. */
-    rowPolicy: RowPolicy;
-    /** Layout policy for the mega menu panel (dropdown only). */
-    megaMenuPolicy?: MegaMenuPolicy;
-};
-declare const MenuRenderContext: React$1.Context<MenuRenderContextType | null>;
-
-/** Returns {@link MenuRenderContextType} from {@link MenuRenderContext}. Throws if missing. */
-declare function useMenuRenderContext(): MenuRenderContextType;
-
-/** Configuration for {@link defaultDrawerRowPolicy}. */
-type DefaultRowPolicyProps = {
-    /**
-     * Base indentation multiplier in MUI spacing units.
-     * Depth-N items receive `baseIndent * (N + 2)` units of inline-start padding,
-     * designed to clear the icon width present at depth 0.
-     * Should match the `indent` prop passed to {@link DrawerMenu}.
-     */
-    baseIndent: number;
-    /** Icon shown next to a node when its children are expanded. */
     openIndicator: React.ReactNode;
-    /** Icon shown next to a node when its children are collapsed. */
-    closeIndicator: React.ReactNode;
-};
-/**
- * Default {@link RowPolicy} for the drawer menu.
- *
- * Styling rules:
- * - **depth 0** — semibold (`fontWeight: 600`), `text.primary`, icon resolved by label name via `IconPicker`.
- * - **depth 1+** — `0.875rem` font, `text.secondary`, no icon.
- * - **selected** — `primary.main` colour, semibold, 3px inline-start accent border + `action.hover` background.
- * - **ancestor of selected** — promoted to `text.primary` and semibold to trace the active path.
- *
- * Pass a custom `RowPolicy` via {@link MenuRenderContext} to restyle without modifying components.
- */
-declare const defaultDrawerRowPolicy: ({ baseIndent, openIndicator, closeIndicator, }: DefaultRowPolicyProps) => RowPolicy;
-
-/** Configuration for {@link defaultDropDownPolicy}. */
-type DefaultDropDownProps = {
     /**
-     * Reserved for future use. Currently unused — the dropdown does not apply
-     * depth-based indentation to depth-0 items. Sub-items in the mega menu use
-     * raw-pixel indentation: `(depth - 1) * 8px`.
+     * React node rendered as the toggle indicator when a section is **closed**.
+     * Typically `<ExpandMore />` from MUI icons.
      */
-    baseIndent: number;
-    /** Indicator icon shown on depth-0 items that have children (pointing downward). */
-    downIndicator: React.ReactNode;
-    /** Indicator icon shown on depth-2+ items that have children (pointing right). */
-    rightIndicator: React.ReactNode;
+    closeIndicator: React.ReactNode;
+    nodesRenderer: RenderDrawerMenuNode;
+    LinkComponent: LinkTypeComponent;
+    basePadding: number;
 };
 /**
- * Default {@link RowPolicy} for the horizontal dropdown / mega menu navigation.
+ * React context that carries renderer configuration down the component tree.
  *
- * Styling rules by depth:
- * - **depth 0** — nav bar items: `text.primary`, icon resolved by label name via `IconPicker`,
- *   down-chevron indicator. Label is title-cased.
- * - **depth 1** — mega menu column headers: uppercase, letter-spaced, small (`0.7rem`),
- *   `text.secondary`, bold (`700`). No icon.
- * - **depth 2+** — mega menu items: indented `(depth - 1) * 8px` (raw pixels). No icon.
- * - **selected** — `primary.main` colour, bold (`700`). No background change.
- * - **ancestor-selected at depth 0** — medium weight (`500`), `text.primary`.
+ * @remarks
+ * Provided by `TextDrawer_Client`.  Consumed by `TextElement` and
+ * `TextOpenClose` via {@link useTextTreeRendererContext}.
  *
- * Pass a custom `RowPolicy` via {@link MenuRenderContext} to restyle without modifying components.
+ * Do **not** consume this context directly — use the hook instead.
  */
-declare const defaultDropDownPolicy: ({ baseIndent, downIndicator, rightIndicator, }: DefaultDropDownProps) => RowPolicy;
-
+declare const DrawerMenuRenderContext: React$1.Context<DrawerMenuRenderContextType | null>;
 /**
- * Standard {@link MegaMenuPolicy} preset.
+ * Hook — returns the {@link TextTreeRendererContextType} for the nearest
+ * `TextDrawer_Client` ancestor.
  *
- * Vertical dividers between columns, horizontal divider below each column header,
- * generous column width and outer padding. Suitable for most navigation bars.
+ * @throws {Error} If called outside of a `TextTreeRendererContext.Provider` tree.
  */
-declare const standardMegaMenuPolicy: MegaMenuPolicy;
-/**
- * Compact {@link MegaMenuPolicy} preset.
- *
- * No dividers, narrower columns, tighter outer padding.
- * Useful for secondary navigation or space-constrained layouts.
- */
-declare const compactMegaMenuPolicy: MegaMenuPolicy;
+declare function useDrawerMenuRenderContext(): DrawerMenuRenderContextType;
 
 /**
  * Vertical spacing primitive based on `theme.spacing`.
@@ -2881,146 +2244,6 @@ declare const StandardStack: React$1.FC<StandardStackProps>;
  */
 
 declare const TouchButton: typeof Button;
-
-/**
- * @module HierarchyResolver
- * @remarks
- * Runtime validation for {@link HierarchyTree} / {@link HierarchyRelations}.
- *
- * Types prevent some invalid states (e.g. self-parenting), but runtime validation is still required for:
- * - missing parents / missing nodes
- * - invalid parent references
- * - cycle detection
- * - ensuring at least one node attaches to `"root"`
- */
-
-/**
- * Result of {@link resolver}.
- *
- * @remarks
- * - When `ok: false`, `issues` contains one or more {@link HierarchyIssue} entries.
- * - When `ok: true`, `resolvedHierarchy` is the validated hierarchy tree.
- */
-type ResolverReturn<H extends HierarchyTree<any, any>> = {
-    ok: false;
-    issues: HierarchyIssue[];
-} | {
-    ok: true;
-    resolvedHierarchy: H;
-};
-/**
- * Validate a hierarchy tree and detect invalid relations.
- *
- * @remarks
- * Checks performed:
- * 1. No `"root"` key inside `nodes`
- * 2. No undefined node entries
- * 3. Every node has a parent (non-null/undefined)
- * 4. Parent must be `"root"` or an existing node id
- * 5. No self-parenting
- * 6. At least one node attaches to `"root"`
- * 7. No cycles (DFS)
- *
- * @example
- * ```ts
- * const result = resolver(tree);
- * if (!result.ok) {
- *   console.log(result.issues);
- * } else {
- *   const valid = result.resolvedHierarchy;
- * }
- * ```
- */
-declare function resolver<H extends HierarchyTree<any, any>>(hierarchyTree: H): ResolverReturn<H>;
-
-/**
- * @module HierarchyD3
- * @remarks
- * Utilities for converting this library’s hierarchy relations into a `d3-hierarchy` stratified tree.
- *
- * This module produces the `id/parentId` array required by `d3.stratify()` and returns a
- * {@link HierarchyNode} root containing a synthetic `"root"` anchor node.
- */
-
-/**
- * The `d3-hierarchy` node type returned by {@link convertToD3Stratify}.
- */
-type Stratify<Node, NodeOverrides> = HierarchyNode<D3StratifyData<Node, NodeOverrides>>;
-
-declare function convertToD3Stratify<Node, NodeOverrides, P extends PayloadMap<Node>>(hierarchy: HierarchyRelations<P>, overridesNodes?: HierarchyRelationsOverrides<P, HierarchyRelations<P>, NodeOverrides>): {
-    ok: true;
-    root: Stratify<Node, NodeOverrides>;
-} | {
-    ok: false;
-    issues: HierarchyIssue[];
-};
-
-/**
- * Helper that anchors generic inference for a hierarchy relations model.
- *
- * @remarks
- * `_payloadMap` is intentionally unused at runtime; it exists to drive
- * compile-time inference for `P`.
- */
-declare const defineHierarchyModel: <P extends PayloadMap>(_payloadMap: P, model: HierarchyRelations<P>) => HierarchyRelations<P>;
-
-/**
- * Sort a `d3-hierarchy` stratified tree by `payload.node.order`.
- *
- * @remarks
- * - Uses the `HierarchyNode.sort` method to order siblings.
- * - Primary key: `payload.node.order` (ascending).
- * - Fallback: `id` lexicographic compare when `order` is missing.
- *
- * Validation:
- * - Reports {@link HIERARCHY_ERROR_CODE.NULL_NODE} if it encounters a non-root node
- *   whose `payload.node` is `null`.
- *
- * ⚠️ Current behavior: issues are collected but sorting still proceeds.
- * If you want `ok:false` on any issue, return early when `issues.length > 0`.
- *
- * @typeParam Node - Node payload type. Must include `{ order: number }`.
- * @typeParam NodeOverrides - Optional override payload type embedded in {@link StratifyPayload}.
- */
-declare function sortD3Stratify<Node extends {
-    order?: number;
-}, NodeOverrides>(stratify: Stratify<Node, NodeOverrides>): {
-    ok: true;
-    root: Stratify<Node, NodeOverrides>;
-} | {
-    ok: false;
-    issues: HierarchyIssue[];
-};
-
-/**
- * Build a nested `{ children: Record<id, payload> }` tree from a `d3-hierarchy` stratified root.
- *
- * @remarks
- * This converts the `HierarchyNode` representation (where children are stored as arrays of nodes)
- * into a plain object tree of {@link StratifyPayload} values keyed by child id.
- *
- * ⚠️ **Mutation:** This function mutates `stratify.data.payload` objects by assigning/creating
- * `payload.children` on parents during traversal.
- *
- * The returned `root` is the payload object corresponding to the stratify root (often the synthetic `"root"` node),
- * with `root.children` set to the constructed children map.
- *
- * @param stratify - Root {@link Stratify} node returned by `d3.stratify()`.
- * @returns `{ root, issues }` where `root` is a plain {@link StratifyPayload} tree.
- *
- * @example
- * ```ts
- * const res = convertToD3Stratify(nodes, overrides);
- * if (!res.ok) throw new Error(res.issues[0]?.message);
- *
- * const built = buildTreeFromStratify(res.root);
- * console.log(built.root?.children);
- * ```
- */
-declare function buildTreeFromStratify<Node, NodeOverrides>(stratify: Stratify<Node, NodeOverrides>): {
-    root: StratifyPayload<Node, NodeOverrides>;
-    issues: HierarchyIssue[];
-};
 
 /** Subset/superset of Next.js Script strategies */
 type ScriptStrategy = 'beforeInteractive' | 'afterInteractive' | 'lazyOnload' | 'worker';
@@ -3241,4 +2464,4 @@ declare namespace index {
 declare function camelCase(input: string): string;
 declare function safeTitleCase(label: string): string;
 
-export { ActionButton, type ActionButtonProps, BackButton, type BackButtonProps, BackgroundBoxProps, _default$2 as BannerCarousel, type BannerCarouselProps, _default$3 as BlockCarousel, BookingButton, type BookingButtonProps, CallToActionButton, type CallToActionButtonProps, type CarouselConfig, type CarouselProps, _default as ClickTextImage, type ClickTextImageProps, CopyButton, type CopyButtonProps, D3StratifyData, DebouncedTextField, type DebouncedTextFieldProps, type DefaultRendersRegistry, type DiagnosticOrigin, type DiagnosticSeverity, DownloadButton, type DownloadButtonProps, _default$1 as DynamicTransition, type DynamicTransitionProps, ElementButton, type ElementButtonProps, ElementLabel, type ElementLabelProps, type ErrorCode, type FallbackPlatform, FavoriteButton, type FavoriteButtonProps, type FavoriteType, FeaturedColumnsFooter, type FeaturedColumnsFooterProps, type FileType, type FilterTypesInRegistry, FiveColumnsFooter, type FiveColumnsFooterProps, GetInTouch, GetSelectorsReturnType, type GetTypesInRegistry, HIERARCHY_ERROR_CODE, HeroBlock, type HeroBlockProps, type HierachyToDrawerPropsReturn, type HierachyToDrawerinputProps, type HierachyToTextDrawerProps, type HierachyToTextDrawerPropsReturn, type HierarchyIssue, type HierarchyRelations, type HierarchyRelationsOverrides, type HierarchyTree, type HierarchyTreeOverrides, IconPicker, type ImageCarousel, ImageComponentLike, LinkTypeComponent, type MediaAndTextNoMessage, type MediaAndTextProps, MediaText, MegaMenuPolicy, MenuRenderContext, type MenuRenderContextType, MenuSelectorContext, type MenuSelectorContextType, type MenuState, type MenuStore, MenuTreeElement, MenuTreeElementUI, type NodeId, type NodeInferred, Pad, type PadProps, PageLayout, type PageLayoutProps, type PayloadMap, type Payload_Rg, type Registry, type RegistryEntry, type ResolverReturn, RootOverridesUI, type RootTextElement, type RootTextElementUI, RootTreeElement, RouterProvider, RowPlan, RowPolicy, type ScriptComponentLike, type ScriptStrategy, Section, type SectionProps, SectionSize, ShareButton, type ShareButtonProps, type ShareData, SocialButton, type SocialButtonProps, type SocialPlatform, Spacer, type SpacerProps, StandardStack, type StandardStackProps, StaticImageDataLike, type Stratify, StratifyPayload, SubscribeButton, type SubscribeButtonProps, TextDrawer, type TextDrawerElement, type TextDrawerElementUI, type TextDrawerElement_Rg, type TextDrawerProps$1 as TextDrawerProps, type TextPolicyProps, type TextProps, type TextTypes, ThreeColumnsFooter, type ThreeColumnsFooterProps, TouchButton, type TreeTextState, type TreeTextStore, TwoColumnsFooter, type TwoColumnsFooterProps, type UniversalScriptProps, VideoModal, type VideoModalProps, WhatsAppButton, type WhatsAppButtonProps, boldToNodes, buildTreeFromStratify, camelCase, compactMegaMenuPolicy, convertToD3Stratify, createMenuStore, createTreeTextStore, defaultDrawerRowPolicy, defaultDropDownPolicy, defaultRendersRegistry, defineEntry, defineHierarchyModel, hierarchyToDrawerInput, hierarchyToTextDrawerProps, index as icon, parseInlineMarkdown, prepareMenuTree, resolver, safeTitleCase, setOpen, setTreeTextOpen, sortD3Stratify, standardMegaMenuPolicy, index$1 as text, toTitleCase, useMenuRenderContext, useMenuSelectorContext, useNodeOpen, useRowPlan, useTreeTextOpen };
+export { ActionButton, type ActionButtonProps, type AnyInlineTextNode, type AnyTextNode, BackButton, type BackButtonProps, BackgroundBoxProps, _default$2 as BannerCarousel, type BannerCarouselProps, _default$3 as BlockCarousel, type BlockTextKind, BookingButton, type BookingButtonProps, CallToActionButton, type CallToActionButtonProps, type CarouselConfig, type CarouselProps, _default as ClickTextImage, type ClickTextImageProps, type CodeKind, type ContentTree, type ContentTreeNode, ContentTreeView, type ContentTreeViewProps, CopyButton, type CopyButtonProps, DebouncedTextField, type DebouncedTextFieldProps, type DefaultRenderingPropsMap, DownloadButton, type DownloadButtonProps, DrawerMenuControllerContext, type DrawerMenuControllerContextType, MenuDepthContext as DrawerMenuDepthContext, type MenuDepthContextType as DrawerMenuDepthContextType, DrawerMenuRenderContext, type DrawerMenuRenderContextType, MenuSelectionContext as DrawerMenuSelectionContext, type MenuSelectionContextType as DrawerMenuSelectionContextType, type DrawerMenuSelectors, type DrawerMenuState, type DrawerMenuStore, DrawerMenuTree, _default$1 as DynamicTransition, type DynamicTransitionProps, type EmphasisKind, type FallbackPlatform, FavoriteButton, type FavoriteButtonProps, type FavoriteType, FeaturedColumnsFooter, type FeaturedColumnsFooterProps, type FileType, FiveColumnsFooter, type FiveColumnsFooterProps, GetInTouch, HeroBlock, type HeroBlockProps, IconPicker, type IdsOfType, type ImageCarousel, ImageComponentLike, InlineCode, type InlineCodeProps, InlineEmphasis, type InlineEmphasisProps, InlineLink, type InlineLinkProps, InlineStrong, InlineStrongEmphasis, type InlineStrongEmphasisProps, type InlineStrongProps, InlineText, type InlineTextKind, type InlineTextNodesMap, type InlineTextProps, type LinkKind, LinkTypeComponent, type MediaAndTextNoMessage, type MediaAndTextProps, MediaText, type OverridableTypes, Pad, type PadProps, PageLayout, type PageLayoutProps, type ParseInlineTextOptions, RenderDrawerMenuNode, type RenderTextNode, type RenderedTextRegistry, RichText, type RichTextBlock, type RichTextKind, type RichTextProps, RouterProvider, type ScriptComponentLike, type ScriptStrategy, Section, type SectionBlock, type SectionKind, type SectionProps$1 as SectionProps, SectionSize, ShareButton, type ShareButtonProps, type ShareData, SocialButton, type SocialButtonProps, type SocialPlatform, Spacer, type SpacerProps, StandardStack, type StandardStackProps, StaticImageDataLike, type StrongEmphasisKind, type StrongKind, SubSection, type SubSectionBlock, type SubSectionKind, type SubSectionProps, SubscribeButton, type SubscribeButtonProps, type TextKind, type TextNodeKind, type TextNodesMap, type TextProps, type TextTreeOverrides, TextTreeRendererContext, type TextTreeRendererContextType, ThreeColumnsFooter, type ThreeColumnsFooterProps, TouchButton, TwoColumnsFooter, type TwoColumnsFooterProps, type UniversalScriptProps, VideoModal, type VideoModalProps, WhatsAppButton, type WhatsAppButtonProps, boldToNodes, camelCase, createDrawerMenuStore, defaultRenderTextNode, defaultRenderedRegistry, getDrawerMenuSelectors, getInitialDrawerMenuStoreState, index as icon, parseInlineMarkdown, parseInlineText, safeTitleCase, setDrawerMenuNodeOpen, index$1 as text, toTitleCase, useDrawerMenuControllerContext, useMenuDepthContext as useDrawerMenuDepthContext, useDrawerMenuNodeOpen, useDrawerMenuRenderContext, useMenuSelectionContext as useDrawerMenuSelectionContext, useTextTreeRendererContext };

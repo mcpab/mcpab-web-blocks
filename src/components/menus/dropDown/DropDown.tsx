@@ -1,92 +1,53 @@
-import { useMemo } from 'react';
-import type { IsSelectedMenuElement } from '../drawer/pathSelectors';
-import { getSelectors } from '../drawer/pathSelectors';
-import { MenuSelectorContext } from '../MenuSelectorContext';
-import type { MenuPropsRendering } from '../MenuTypes';
-import { DropDown_Client } from './DropDown_Client';
-import type { MegaMenuPolicy } from '../RowPolicyTypes';
-import type { Theme } from '@emotion/react';
-import type { SxProps } from '@mui/system';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import { Fragment } from 'react';
+import { MenuDepthContext } from '../tree/MenuDepthContext';
+import { MenuSelectionContext } from '../tree/MenuSelectionContext';
+
+import type { DropDownMenuSelectors } from './DropDownMenuSelectors';
+import { DropDownMenuRenderContext } from './DropDownMenuRendererContext';
+import type { DropDownMenuRenderContextType } from './DropDownMenuRendererContext';
+import type { NavigationTree } from './DropDownMenuTreeTypes';
 
 /** Props for the {@link DropDown} component. Extends the shared {@link MenuPropsRendering}. */
-export type DropDownMenuProps = MenuPropsRendering & {
-  /**
-   * Callback that identifies the currently active menu item (e.g. the current page).
-   * Drives selected and ancestor-selected visual states via {@link MenuSelectorContext}.
-   * If omitted, no item is highlighted.
-   */
-  selector?: IsSelectedMenuElement;
-  /**
-   * Layout and styling policy for the mega menu panels.
-   * Controls column dividers, item dividers, column min-width, and outer padding.
-   * @defaultValue {@link standardMegaMenuPolicy}
-   */
-  megaMenuPolicy?: MegaMenuPolicy;
-  /** Optional `sx` overrides for the dropdown `AppBar`. */
-  appBarSx?: SxProps<Theme>;
-  /** Optional `sx` overrides for the dropdown `Toolbar`. */
-  toolbarSx?: SxProps<Theme>;
+export type DropDownMenuProps = {
+  navigationTree: NavigationTree;
+  selectors: DropDownMenuSelectors;
+  rendererContext: DropDownMenuRenderContextType;
 };
 
-/**
- * Top-level entry point for the horizontal dropdown (mega menu) navigation bar.
- *
- * Sets up {@link MenuSelectorContext} from the `selector` callback, then delegates
- * rendering to the client dropdown renderer that mounts a sticky MUI `AppBar`.
- *
- * Top-level items are rendered at depth 0. Items with children open a MUI `Popover`
- * containing a mega menu panel laid out as columns.
- *
- * @example
- * ```tsx
- * const result = hierarchyToDrawerInput({ hierarchy, overrides });
- * if (result.ok) {
- *   return (
- *     <DropDown
- *       {...result}
- *       selector={(id) => id === currentPageId}
- *       megaMenuPolicy={compactMegaMenuPolicy}
- *     />
- *   );
- * }
- * ```
- *
- * @see {@link hierarchyToDrawerInput} to build the required props from a hierarchy definition.
- * @see {@link defaultDropDownPolicy} for the default row styling policy.
- * @see {@link standardMegaMenuPolicy} / {@link compactMegaMenuPolicy} for built-in mega menu policies.
- */
-export function DropDown({
-  root,
-  treeFromRoot,
-  rootOverrides,
-  selector,
-  megaMenuPolicy,
-  appBarSx,
-  toolbarSx,
-}: DropDownMenuProps) {
+export function DropDown({ navigationTree, selectors, rendererContext }: DropDownMenuProps) {
   //
   //
 
-  const selectors = useMemo(
-    () =>
-      getSelectors({
-        treeFromRoot,
-        selector: selector,
-      }),
-    [treeFromRoot, selector],
-  );
+  const { nodesRenderer } = rendererContext;
 
   return (
-    <MenuSelectorContext.Provider value={selectors}>
-      <DropDown_Client
-        root={root}
-        treeFromRoot={treeFromRoot}
-        rootOverrides={rootOverrides}
-        megaMenuPolicy={megaMenuPolicy}
-        appBarSx={appBarSx}
-        toolbarSx={toolbarSx}
-      />
-    </MenuSelectorContext.Provider>
+    <AppBar
+      position="sticky"
+      color="default"
+      elevation={0}
+      sx={{ borderBottom: 1, borderColor: 'divider' }}
+    >
+      <Toolbar
+        component="nav"
+        aria-label="Primary"
+        sx={{
+          justifyContent: 'center',
+          gap: 1,
+        }}
+      >
+        <MenuSelectionContext.Provider value={selectors}>
+          <DropDownMenuRenderContext.Provider value={rendererContext}>
+            <MenuDepthContext.Provider value={{ depth: 0 }}>
+              {navigationTree.children.map((item) => {
+                return <Fragment key={item.id}>{nodesRenderer({ node: item }).rendered}</Fragment>;
+              })}
+            </MenuDepthContext.Provider>
+          </DropDownMenuRenderContext.Provider>
+        </MenuSelectionContext.Provider>
+      </Toolbar>
+    </AppBar>
   );
 
   //

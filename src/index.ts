@@ -1,6 +1,6 @@
-import type {} from "./mui-augment";
+import './mui-augment';
 
-export * from './components';
-export * from './core';
-export * from './design';
-export * from './lib';
+export * from './components/index';
+export * from './core/index';
+export * from './design/index';
+export * from './lib/index';
