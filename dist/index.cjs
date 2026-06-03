@@ -3,7 +3,7 @@
 var styles = require('@mui/material/styles');
 var Box3 = require('@mui/material/Box');
 var jsxRuntime = require('react/jsx-runtime');
-var React16 = require('react');
+var React17 = require('react');
 var Container = require('@mui/material/Container');
 var Fade = require('@mui/material/Fade');
 var Stack = require('@mui/material/Stack');
@@ -105,7 +105,7 @@ function _interopNamespace(e) {
 }
 
 var Box3__default = /*#__PURE__*/_interopDefault(Box3);
-var React16__namespace = /*#__PURE__*/_interopNamespace(React16);
+var React17__namespace = /*#__PURE__*/_interopNamespace(React17);
 var Container__default = /*#__PURE__*/_interopDefault(Container);
 var Fade__default = /*#__PURE__*/_interopDefault(Fade);
 var Stack__default = /*#__PURE__*/_interopDefault(Stack);
@@ -253,9 +253,76 @@ function Section({
     }
   );
 }
+function isStaticImageDataLike(x) {
+  if (!x || typeof x !== "object") return false;
+  return "src" in x && typeof x.src === "string";
+}
+function resolveImageSource(p) {
+  const { src, width, height } = p;
+  const url = isStaticImageDataLike(src) ? src.src : src;
+  const resolvedWidth = width != null ? width : isStaticImageDataLike(src) ? src.width : void 0;
+  const resolvedHeight = height != null ? height : isStaticImageDataLike(src) ? src.height : void 0;
+  return { src: url, width: resolvedWidth, height: resolvedHeight };
+}
+function toImgAttrs(p) {
+  const {
+    src: _src,
+    width: _w,
+    height: _h,
+    // Next-ish props to strip:
+    fill,
+    sizes,
+    placeholder,
+    priority,
+    quality,
+    unoptimized,
+    // keep style separate (we may override when fill=true)
+    style,
+    ...rest
+  } = p;
+  const { src, width, height } = resolveImageSource({ src: _src, width: _w, height: _h });
+  return {
+    ...rest,
+    src,
+    width,
+    height,
+    style
+  };
+}
+var HtmlImage = React17__namespace.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
+  const mergedStyle = fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", ...style } : style != null ? style : {};
+  const imgProps = toImgAttrs({ ...props, style: mergedStyle });
+  return /* @__PURE__ */ jsxRuntime.jsx("img", { ref, ...imgProps });
+});
 function getBoxPosition(objectPosition) {
   const [x = "50%", y = "50%"] = objectPosition.split(" ");
   return { left: x, top: y, transform: `translate(-${x}, -${y})` };
+}
+function computeAR({ imageConf }) {
+  if (imageConf === void 0) {
+    return {
+      computedAR: "16 / 9",
+      placeholder: "empty"
+    };
+  }
+  let computedAR = "16 / 9";
+  let placeholder = "empty";
+  const src = imageConf.src;
+  if (imageConf.aspectRatio !== void 0) {
+    computedAR = imageConf.aspectRatio;
+  } else {
+    if (isStaticImageDataLike(src) && src.width !== void 0 && src.height !== void 0) {
+      computedAR = src.width / src.height;
+    }
+  }
+  if (imageConf.placeholder !== void 0) {
+    placeholder = imageConf.placeholder;
+  } else {
+    if (isStaticImageDataLike(src)) {
+      placeholder = "blur";
+    }
+  }
+  return { computedAR, placeholder };
 }
 var BackgroundBox = ({
   imageConf,
@@ -265,11 +332,9 @@ var BackgroundBox = ({
   ImageComponent,
   ...rest
 }) => {
-  var _a, _b, _c, _d, _e;
-  const isStaticImport = typeof (imageConf == null ? void 0 : imageConf.src) === "object" && (imageConf == null ? void 0 : imageConf.src) && "width" in imageConf.src && "height" in imageConf.src;
-  const computedAR = (_a = imageConf == null ? void 0 : imageConf.aspectRatio) != null ? _a : isStaticImport ? imageConf.src.width / imageConf.src.height : "16 / 9";
-  const placeholder = (_b = imageConf == null ? void 0 : imageConf.placeholder) != null ? _b : isStaticImport ? "blur" : "empty";
-  const quality = (_c = imageConf == null ? void 0 : imageConf.quality) != null ? _c : 70;
+  var _a, _b, _c;
+  const { computedAR, placeholder } = computeAR({ imageConf });
+  const quality = (_a = imageConf == null ? void 0 : imageConf.quality) != null ? _a : 70;
   let imageLayer = null;
   if (imageConf == null ? void 0 : imageConf.src) {
     const objPos = imageConf.objectPosition || "50% 50%";
@@ -310,7 +375,7 @@ var BackgroundBox = ({
           alt: "",
           src: imageConf.src,
           fill: true,
-          sizes: (_d = imageConf.sizes) != null ? _d : "100vw",
+          sizes: (_b = imageConf.sizes) != null ? _b : "100vw",
           placeholder,
           priority: imageConf.priority,
           quality,
@@ -318,7 +383,7 @@ var BackgroundBox = ({
           style: {
             objectFit: imageConf.mode || "cover",
             objectPosition: objPos,
-            opacity: (_e = imageConf.opacity) != null ? _e : 1,
+            opacity: (_c = imageConf.opacity) != null ? _c : 1,
             transform: imageConf.transform || "none",
             zIndex: 0
           }
@@ -387,7 +452,7 @@ var BannerStatic = ({
     }
   );
 };
-var BannerStatic_default = React16__namespace.memo(BannerStatic);
+var BannerStatic_default = React17__namespace.memo(BannerStatic);
 function clampFrameIndex(index, length) {
   return Math.max(0, Math.min(index, Math.max(length - 1, 0)));
 }
@@ -398,7 +463,7 @@ var DynamicTransition = ({
   startIndex = 0,
   boxProps
 }) => {
-  const frameItems = React16__namespace.useMemo(
+  const frameItems = React17__namespace.useMemo(
     () => (frames != null ? frames : []).map((frame, index) => ({ frame, key: index })),
     [frames]
   );
@@ -423,12 +488,12 @@ function DynamicTransitionInner({
 }) {
   var _a;
   const initialIndex = clampFrameIndex(startIndex, frameItems.length);
-  const [transitionState, setTransitionState] = React16__namespace.useState({
+  const [transitionState, setTransitionState] = React17__namespace.useState({
     activeIndex: initialIndex,
     previousIndex: initialIndex,
     hasTransitioned: false
   });
-  React16__namespace.useEffect(() => {
+  React17__namespace.useEffect(() => {
     const hasCycle = frameItems.length >= 2;
     if (!hasCycle) return;
     const period = Math.max(0, interval) + Math.max(0, transitionDuration);
@@ -470,7 +535,7 @@ function DynamicTransitionInner({
     }
   );
 }
-var DynamicTransition_default = React16__namespace.memo(DynamicTransition);
+var DynamicTransition_default = React17__namespace.memo(DynamicTransition);
 var BlockCarousel = ({
   config,
   children,
@@ -487,7 +552,7 @@ var BlockCarousel = ({
   } = config || {};
   const interval = intervalProp != null ? intervalProp : 5e3;
   const { sx: rootSx, ...restRoot } = rootProps != null ? rootProps : {};
-  const frames = React16__namespace.useMemo(() => {
+  const frames = React17__namespace.useMemo(() => {
     return images.map((img, i) => {
       const { transform, image, objectPosition } = img;
       return /* @__PURE__ */ jsxRuntime.jsx(
@@ -568,7 +633,7 @@ var BlockCarousel = ({
     }
   );
 };
-var BlockCarousel_default = React16__namespace.memo(BlockCarousel);
+var BlockCarousel_default = React17__namespace.memo(BlockCarousel);
 var BannerCarousel = ({
   images,
   id,
@@ -595,7 +660,7 @@ var BannerCarousel = ({
     }
   );
 };
-var BannerCarousel_default = React16__namespace.memo(BannerCarousel);
+var BannerCarousel_default = React17__namespace.memo(BannerCarousel);
 var variantLevels = {
   page: "h1",
   section: "h2",
@@ -640,7 +705,7 @@ var MainTitle = ({
     return /* @__PURE__ */ jsxRuntime.jsx(Component, { ...componentProps, children: content }, `main-title-${index}`);
   }) });
 };
-var MainTitle_default = React16__namespace.memo(MainTitle);
+var MainTitle_default = React17__namespace.memo(MainTitle);
 var TouchButton = styles.styled(Button6__default.default)(({ theme }) => ({
   textTransform: "none",
   borderRadius: theme.shape.borderRadius,
@@ -677,8 +742,8 @@ function SuccessButtonContent({
   children,
   fallback
 }) {
-  const [visible, setVisible] = React16__namespace.useState(true);
-  React16__namespace.useEffect(() => {
+  const [visible, setVisible] = React17__namespace.useState(true);
+  React17__namespace.useEffect(() => {
     const timer = window.setTimeout(() => {
       setVisible(false);
     }, successDuration);
@@ -831,9 +896,9 @@ var DownloadButton = ({
   children,
   ...rest
 }) => {
-  const [isDownloading, setIsDownloading] = React16__namespace.useState(false);
-  const [downloadProgress, setDownloadProgress] = React16__namespace.useState(0);
-  const [isComplete, setIsComplete] = React16__namespace.useState(false);
+  const [isDownloading, setIsDownloading] = React17__namespace.useState(false);
+  const [downloadProgress, setDownloadProgress] = React17__namespace.useState(0);
+  const [isComplete, setIsComplete] = React17__namespace.useState(false);
   const detectedFileType = fileType || detectFileType(href);
   const fileIcon = getFileIcon(detectedFileType);
   const isExternal = href.startsWith("http");
@@ -1053,13 +1118,13 @@ var SocialButton = ({
   );
 };
 var SocialButton_default = SocialButton;
-var RouterContext = React16__namespace.createContext(null);
+var RouterContext = React17__namespace.createContext(null);
 var RouterProvider = ({ router, children }) => {
   return /* @__PURE__ */ jsxRuntime.jsx(RouterContext.Provider, { value: router, children });
 };
 var useRouter = () => {
-  const contextRouter = React16__namespace.useContext(RouterContext);
-  return React16__namespace.useMemo(() => {
+  const contextRouter = React17__namespace.useContext(RouterContext);
+  return React17__namespace.useMemo(() => {
     if (contextRouter) {
       return contextRouter;
     }
@@ -1190,10 +1255,10 @@ var ShareButton = ({
   children = "Share",
   ...rest
 }) => {
-  const [anchorEl, setAnchorEl] = React16__namespace.useState(null);
-  const [showSuccess, setShowSuccess] = React16__namespace.useState(false);
-  const [successMessage, setSuccessMessage] = React16__namespace.useState("");
-  const shareData = React16__namespace.useMemo(
+  const [anchorEl, setAnchorEl] = React17__namespace.useState(null);
+  const [showSuccess, setShowSuccess] = React17__namespace.useState(false);
+  const [successMessage, setSuccessMessage] = React17__namespace.useState("");
+  const shareData = React17__namespace.useMemo(
     () => ({
       url: url || (typeof window !== "undefined" ? window.location.href : ""),
       title: title || (typeof document !== "undefined" ? document.title : ""),
@@ -1202,7 +1267,7 @@ var ShareButton = ({
     }),
     [url, title, text, files]
   );
-  const canUseNativeShare = React16__namespace.useMemo(() => {
+  const canUseNativeShare = React17__namespace.useMemo(() => {
     if (typeof navigator === "undefined" || !navigator.share) return false;
     if (files && files.length > 0) {
       return navigator.canShare && navigator.canShare({ files });
@@ -1330,11 +1395,11 @@ var SubscribeButton = ({
   children = "Subscribe",
   ...rest
 }) => {
-  const [email, setEmail] = React16__namespace.useState("");
-  const [isLoading, setIsLoading] = React16__namespace.useState(false);
-  const [showSuccess, setShowSuccess] = React16__namespace.useState(false);
-  const [showError, setShowError] = React16__namespace.useState(false);
-  const [emailError, setEmailError] = React16__namespace.useState("");
+  const [email, setEmail] = React17__namespace.useState("");
+  const [isLoading, setIsLoading] = React17__namespace.useState(false);
+  const [showSuccess, setShowSuccess] = React17__namespace.useState(false);
+  const [showError, setShowError] = React17__namespace.useState(false);
+  const [emailError, setEmailError] = React17__namespace.useState("");
   const validateEmail = (email2) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email2);
@@ -1446,7 +1511,7 @@ var WhatsAppButton = ({
     }
     return formattedPhone;
   };
-  const whatsappUrl = React16__namespace.useMemo(() => {
+  const whatsappUrl = React17__namespace.useMemo(() => {
     const formattedPhone = formatPhoneNumber(phone, countryCode);
     const encodedMessage = encodeURIComponent(message);
     return `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
@@ -1555,8 +1620,8 @@ var CopyButton = ({
   sx,
   ...rest
 }) => {
-  const [showSuccess, setShowSuccess] = React16__namespace.useState(false);
-  const [justCopied, setJustCopied] = React16__namespace.useState(false);
+  const [showSuccess, setShowSuccess] = React17__namespace.useState(false);
+  const [justCopied, setJustCopied] = React17__namespace.useState(false);
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
@@ -1625,10 +1690,10 @@ var CopyButton = ({
 };
 var CopyButton_default = CopyButton;
 var ClickTextImage = ({ title, image, text, ImageComponent }) => {
-  const [open, setOpen] = React16__namespace.useState(false);
-  const contentId = React16.useId();
+  const [open, setOpen] = React17__namespace.useState(false);
+  const contentId = React17.useId();
   const TILE_MIN_H = { xs: 240, sm: 280, md: 300 };
-  const imageConf = React16__namespace.useMemo(
+  const imageConf = React17__namespace.useMemo(
     () => ({
       src: image,
       overlayColor: open ? "rgba(255,255,255,1)" : "rgba(0,0,0,0.45)"
@@ -1767,10 +1832,10 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
     }
   );
 };
-var ClickTextImage_default = React16__namespace.memo(ClickTextImage);
-var TextTreeRendererContext = React16.createContext(null);
+var ClickTextImage_default = React17__namespace.memo(ClickTextImage);
+var TextTreeRendererContext = React17.createContext(null);
 function useTextTreeRendererContext() {
-  const ctx = React16.useContext(TextTreeRendererContext);
+  const ctx = React17.useContext(TextTreeRendererContext);
   if (!ctx)
     throw new Error("TextTreeRendererContext missing. Wrap with <TextTreeRendererContext>.");
   return ctx;
@@ -1779,14 +1844,14 @@ function ContentTreeView({ tree }) {
   const { nodesRenderer } = useTextTreeRendererContext();
   return /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { display: "flex", flexDirection: "column", children: tree.children.map((node) => {
     const result = nodesRenderer({ node });
-    return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: result.rendered }, node.id);
+    return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: result.rendered }, node.id);
   }) });
 }
 function RichText({ inlineNodes }) {
   const { nodesRenderer } = useTextTreeRendererContext();
   return /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { component: "span", children: inlineNodes.map((node) => {
     const result = nodesRenderer({ node });
-    return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: result.rendered }, node.id);
+    return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: result.rendered }, node.id);
   }) });
 }
 var TitleLabel = ({ sectionType, component = "span", sx, ...rest }) => {
@@ -1814,7 +1879,7 @@ function Section2({
   contentGap
 }) {
   const { nodesRenderer } = useTextTreeRendererContext();
-  const [isOpenSection, setOpen] = React16.useState(isOpen);
+  const [isOpenSection, setOpen] = React17.useState(isOpen);
   const { openIndicator, closeIndicator } = useTextTreeRendererContext();
   const onClick = () => {
     setOpen((open) => !open);
@@ -1830,7 +1895,7 @@ function Section2({
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsx(Collapse__default.default, { in: shouldOpen ? isOpenSection : true, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { display: "flex", flexDirection: "column", gap: contentGap, children: content.map((node) => {
-      return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: nodesRenderer({ node }).rendered }, node.id);
+      return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: nodesRenderer({ node }).rendered }, node.id);
     }) }) })
   ] });
 }
@@ -1842,7 +1907,7 @@ function SubSection({
   collapsible = false,
   defaultOpen = true
 }) {
-  const [isOpenSubSection, setOpen] = React16.useState(defaultOpen);
+  const [isOpenSubSection, setOpen] = React17.useState(defaultOpen);
   const { closeIndicator, nodesRenderer, openIndicator } = useTextTreeRendererContext();
   const onClick = () => {
     setOpen((open) => !open);
@@ -1857,7 +1922,7 @@ function SubSection({
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsx(Collapse__default.default, { in: collapsible ? isOpenSubSection : true, timeout: "auto", unmountOnExit: true, children: /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { display: "flex", flexDirection: "column", gap: contentGap, children: richTextBlocks.map((node) => {
-      return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: nodesRenderer({ node }).rendered }, node.id);
+      return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: nodesRenderer({ node }).rendered }, node.id);
     }) }) })
   ] });
 }
@@ -2140,12 +2205,11 @@ function parseInlineText(source, { idPrefix = "inline" } = {}) {
   pushText();
   return nodes;
 }
-var defineOverride = (_layout, override) => override;
 function TwoColumnsFooter(props) {
   const layout = gridcss.getLayoutFromCatalog("secondary", "header2colFooter");
   const diagnostics = [];
   const absoluteLayout = gridcss.CSSLayout({ layout, diagnostics });
-  const layoutRendering = defineOverride(layout, {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.header })
@@ -2164,7 +2228,7 @@ function TwoColumnsFooter(props) {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.column_2 })
       }
     }
-  });
+  };
   const rendered = gridcss.GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,
     layoutRendering,
@@ -2172,12 +2236,11 @@ function TwoColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsxRuntime.jsx(system.Box, { width: "100%", height: "100%", children: rendered });
 }
-var defineOverride2 = (_layout, override) => override;
 function ThreeColumnsFooter(props) {
   const layout = gridcss.getLayoutFromCatalog("secondary", "footerHeader3Columns");
   const diagnostics = [];
   const absoluteLayout = gridcss.CSSLayout({ layout, diagnostics });
-  const layoutRendering = defineOverride2(layout, {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.header })
@@ -2199,7 +2262,7 @@ function ThreeColumnsFooter(props) {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.column_3 })
       }
     }
-  });
+  };
   const rendered = gridcss.GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,
     layoutRendering,
@@ -2207,12 +2270,11 @@ function ThreeColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsxRuntime.jsx(system.Box, { width: "100%", height: "100%", children: rendered });
 }
-var defineOverride3 = (_layout, override) => override;
 function FeaturedColumnsFooter(props) {
   const layout = gridcss.getLayoutFromCatalog("secondary", "header3colFooter");
   const diagnostics = [];
   const absoluteLayout = gridcss.CSSLayout({ layout, diagnostics });
-  const layoutRendering = defineOverride3(layout, {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.header })
@@ -2234,7 +2296,7 @@ function FeaturedColumnsFooter(props) {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.column_3 })
       }
     }
-  });
+  };
   const rendered = gridcss.GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,
     layoutRendering,
@@ -2242,12 +2304,11 @@ function FeaturedColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsxRuntime.jsx(system.Box, { width: "100%", height: "100%", children: rendered });
 }
-var defineOverride4 = (_layout, override) => override;
 function FiveColumnsFooter(props) {
   const layout = gridcss.getLayoutFromCatalog("secondary", "footerHeader5Columns");
   const diagnostics = [];
   const absoluteLayout = gridcss.CSSLayout({ layout, diagnostics });
-  const layoutRendering = defineOverride4(layout, {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.header })
@@ -2275,7 +2336,7 @@ function FiveColumnsFooter(props) {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.column_5 })
       }
     }
-  });
+  };
   const rendered = gridcss.GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,
     layoutRendering,
@@ -2283,7 +2344,7 @@ function FiveColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsxRuntime.jsx(system.Box, { width: "100%", height: "100%", children: rendered });
 }
-var DefaultLinkLike = React16__namespace.forwardRef(function DefaultLinkLike2(props, ref) {
+var DefaultLinkLike = React17__namespace.forwardRef(function DefaultLinkLike2(props, ref) {
   return /* @__PURE__ */ jsxRuntime.jsx("a", { ref, ...props });
 });
 
@@ -2389,16 +2450,16 @@ var IconPicker = ({ name, fontSize = "medium" }) => {
   return /* @__PURE__ */ jsxRuntime.jsx(Icon, { fontSize });
 };
 var IconPicker_default = IconPicker;
-var DrawerMenuRenderContext = React16.createContext(null);
+var DrawerMenuRenderContext = React17.createContext(null);
 function useDrawerMenuRenderContext() {
-  const ctx = React16.useContext(DrawerMenuRenderContext);
+  const ctx = React17.useContext(DrawerMenuRenderContext);
   if (!ctx)
     throw new Error("DrawerMenuRenderContext missing. Wrap with <DrawerMenuRenderContext>.");
   return ctx;
 }
-var MenuSelectionContext = React16.createContext(null);
+var MenuSelectionContext = React17.createContext(null);
 function useMenuSelectionContext() {
-  const ctx = React16.useContext(MenuSelectionContext);
+  const ctx = React17.useContext(MenuSelectionContext);
   if (!ctx)
     throw new Error(
       "MenuSelectionContext missing. Wrap with <MenuSelectionContext.Provider>."
@@ -2438,16 +2499,16 @@ function DrawerMenuLink({
     }
   );
 }
-var MenuDepthContext = React16.createContext(null);
+var MenuDepthContext = React17.createContext(null);
 function useMenuDepthContext() {
-  const ctx = React16.useContext(MenuDepthContext);
+  const ctx = React17.useContext(MenuDepthContext);
   if (!ctx)
     throw new Error("MenuDepthContext missing. Wrap with <MenuDepthContext>.");
   return ctx;
 }
-var DrawerMenuControllerContext = React16.createContext(null);
+var DrawerMenuControllerContext = React17.createContext(null);
 function useDrawerMenuControllerContext() {
-  const ctx = React16.useContext(DrawerMenuControllerContext);
+  const ctx = React17.useContext(DrawerMenuControllerContext);
   if (!ctx) {
     throw new Error(
       "DrawerMenuControllerContext missing. Wrap with <DrawerMenuControllerContext.Provider>."
@@ -2481,7 +2542,7 @@ function getInitialDrawerMenuStoreState({
   return drawerMenuState;
 }
 function useDrawerMenuNodeOpen(store, nodeId) {
-  return React16.useSyncExternalStore(
+  return React17.useSyncExternalStore(
     store.subscribe,
     () => {
       var _a;
@@ -2536,7 +2597,7 @@ function DrawerMenuGroup({
         sx: { width: "100%", maxWidth: 360, bgcolor: "background.paper" },
         ...listProps,
         children: items.map((item) => {
-          return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: nodesRenderer({ node: item }).rendered }, item.id);
+          return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: nodesRenderer({ node: item }).rendered }, item.id);
         })
       }
     ) }) })
@@ -2623,25 +2684,25 @@ function DrawerMenuRoot({
   LinkComponent = DefaultLinkLike,
   anchor
 }) {
-  const selectors = React16.useMemo(
+  const selectors = React17.useMemo(
     () => getDrawerMenuSelectors({ drawerMenuTree: menuTree, currentPath }),
     [menuTree, currentPath]
   );
-  const initialDrawerMenuState = React16.useMemo(
+  const initialDrawerMenuState = React17.useMemo(
     () => getInitialDrawerMenuStoreState({ selectors }),
     [selectors]
   );
-  const drawerMenuStore = React16.useMemo(
+  const drawerMenuStore = React17.useMemo(
     () => createDrawerMenuStore(initialDrawerMenuState),
     [initialDrawerMenuState]
   );
-  const nodesRenderer = React16.useMemo(
+  const nodesRenderer = React17.useMemo(
     () => defaultRenderDrawerMenuNode({
       runtimeOverrides: treeOverrides
     }),
     [treeOverrides]
   );
-  const renderedContext = React16.useMemo(
+  const renderedContext = React17.useMemo(
     () => ({
       basePadding,
       closeIndicator,
@@ -2651,7 +2712,7 @@ function DrawerMenuRoot({
     }),
     [basePadding, closeIndicator, LinkComponent, nodesRenderer, openIndicator]
   );
-  const [openDrawer, setOpenDrawer] = React16.useState(false);
+  const [openDrawer, setOpenDrawer] = React17.useState(false);
   const toggleDrawer = (drawerState) => () => setOpenDrawer(drawerState);
   return /* @__PURE__ */ jsxRuntime.jsx(Box3__default.default, { children: /* @__PURE__ */ jsxRuntime.jsx(MenuSelectionContext.Provider, { value: selectors, children: /* @__PURE__ */ jsxRuntime.jsx(DrawerMenuRenderContext.Provider, { value: renderedContext, children: /* @__PURE__ */ jsxRuntime.jsx(DrawerMenuControllerContext.Provider, { value: { drawerMenuStore }, children: /* @__PURE__ */ jsxRuntime.jsxs(MenuDepthContext.Provider, { value: { depth: 0 }, children: [
     /* @__PURE__ */ jsxRuntime.jsx(
@@ -2667,7 +2728,7 @@ function DrawerMenuRoot({
           }
         },
         children: /* @__PURE__ */ jsxRuntime.jsx(List__default.default, { dense: true, disablePadding: true, children: menuTree.children.map((child) => {
-          return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: nodesRenderer({ node: child }).rendered }, child.id);
+          return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: nodesRenderer({ node: child }).rendered }, child.id);
         }) })
       }
     ),
@@ -2693,13 +2754,13 @@ var BreadMenu = function({
   sx,
   titleCase = true
 }) {
-  const normalizedPath = React16__namespace.useMemo(() => normalizePathname(pathname), [pathname]);
-  const excludeSet = React16__namespace.useMemo(() => new Set(exclude != null ? exclude : []), [exclude]);
-  const segments = React16__namespace.useMemo(() => {
+  const normalizedPath = React17__namespace.useMemo(() => normalizePathname(pathname), [pathname]);
+  const excludeSet = React17__namespace.useMemo(() => new Set(exclude != null ? exclude : []), [exclude]);
+  const segments = React17__namespace.useMemo(() => {
     const raw = normalizedPath.split("/").filter(Boolean);
     return excludeSet.size ? raw.filter((s) => !excludeSet.has(s)) : raw;
   }, [normalizedPath, excludeSet]);
-  const items = React16__namespace.useMemo(() => {
+  const items = React17__namespace.useMemo(() => {
     const crumbs = [];
     const acc = [];
     segments.forEach((seg, idx) => {
@@ -2820,9 +2881,9 @@ function HeaderDrawer({ drawerProps, logoProps, breadMenuProps }) {
     }
   );
 }
-var DropDownMenuRenderContext = React16.createContext(null);
+var DropDownMenuRenderContext = React17.createContext(null);
 function useDropDownMenuRenderContext() {
-  const ctx = React16.useContext(DropDownMenuRenderContext);
+  const ctx = React17.useContext(DropDownMenuRenderContext);
   if (!ctx)
     throw new Error("DropDownMenuRenderContext missing. Wrap with <DropDownMenuRenderContext>.");
   return ctx;
@@ -2846,7 +2907,7 @@ function DropDown({ navigationTree, selectors, rendererContext }) {
             gap: 1
           },
           children: /* @__PURE__ */ jsxRuntime.jsx(MenuSelectionContext.Provider, { value: selectors, children: /* @__PURE__ */ jsxRuntime.jsx(DropDownMenuRenderContext.Provider, { value: rendererContext, children: /* @__PURE__ */ jsxRuntime.jsx(MenuDepthContext.Provider, { value: { depth: 0 }, children: navigationTree.children.map((item) => {
-            return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: nodesRenderer({ node: item }).rendered }, item.id);
+            return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: nodesRenderer({ node: item }).rendered }, item.id);
           }) }) }) })
         }
       )
@@ -2885,18 +2946,18 @@ var DebouncedTextField = ({
   ...props
 }) => {
   const isControlled = controlledValue !== void 0;
-  const [uncontrolledValue, setUncontrolledValue] = React16__namespace.useState(String(defaultValue != null ? defaultValue : ""));
+  const [uncontrolledValue, setUncontrolledValue] = React17__namespace.useState(String(defaultValue != null ? defaultValue : ""));
   const inputValue = isControlled ? String(controlledValue != null ? controlledValue : "") : uncontrolledValue;
-  const timerRef = React16__namespace.useRef(null);
-  const composingRef = React16__namespace.useRef(false);
-  const lastEmittedRef = React16__namespace.useRef(inputValue);
-  const clearTimer = React16__namespace.useCallback(() => {
+  const timerRef = React17__namespace.useRef(null);
+  const composingRef = React17__namespace.useRef(false);
+  const lastEmittedRef = React17__namespace.useRef(inputValue);
+  const clearTimer = React17__namespace.useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const schedule = React16__namespace.useCallback(
+  const schedule = React17__namespace.useCallback(
     (next) => {
       if (!onDebouncedChange) return;
       clearTimer();
@@ -2911,14 +2972,14 @@ var DebouncedTextField = ({
     },
     [debounceMs, onDebouncedChange, clearTimer]
   );
-  React16__namespace.useEffect(() => {
+  React17__namespace.useEffect(() => {
     schedule(inputValue);
   }, [debounceMs]);
-  React16__namespace.useEffect(() => {
+  React17__namespace.useEffect(() => {
     if (isControlled) schedule(String(controlledValue != null ? controlledValue : ""));
   }, [isControlled, controlledValue]);
-  React16__namespace.useEffect(() => clearTimer, [clearTimer]);
-  const handleChange = React16__namespace.useCallback(
+  React17__namespace.useEffect(() => clearTimer, [clearTimer]);
+  const handleChange = React17__namespace.useCallback(
     (e) => {
       var _a;
       const next = (_a = e.target.value) != null ? _a : "";
@@ -2928,7 +2989,7 @@ var DebouncedTextField = ({
     },
     [isControlled, onChange, schedule]
   );
-  const handleBlur = React16__namespace.useCallback(
+  const handleBlur = React17__namespace.useCallback(
     (e) => {
       var _a, _b;
       if (flushOnBlur && onDebouncedChange) {
@@ -3017,7 +3078,7 @@ function formatTitle(node, kind = "title") {
   if (typeof node === "string") {
     return kind === "title" ? /* @__PURE__ */ jsxRuntime.jsx(SubsubsectionTitle, { children: node }) : /* @__PURE__ */ jsxRuntime.jsx(Typography13__default.default, { variant: "strapline", children: node });
   }
-  return React16__namespace.isValidElement(node) ? node : null;
+  return React17__namespace.isValidElement(node) ? node : null;
 }
 var HeroBlock = ({
   image,
@@ -3127,9 +3188,6 @@ var HeroBlock = ({
   );
 };
 var HeroBlock_default = HeroBlock;
-var defineOverride5 = (layout, override) => {
-  return override;
-};
 function toYouTubeEmbedSrc(input) {
   const value = input.trim();
   if (!value) return null;
@@ -3255,7 +3313,7 @@ var MediaText = (props) => {
       }
     ) });
   }
-  const renderer = defineOverride5(layout, {
+  const renderer = {
     row_1: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.reverse ? props.message : media })
@@ -3264,7 +3322,7 @@ var MediaText = (props) => {
         contentRenderer: () => /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: props.reverse ? media : props.message })
       }
     }
-  });
+  };
   const rendered = gridcss.GridCssMuiRenderer({
     layoutAbsolute,
     layoutRendering: renderer,
@@ -3338,9 +3396,9 @@ function VideoModal({
   widthPercent = 80,
   modalSx
 }) {
-  const [open, setOpen] = React16.useState(false);
-  const titleId = React16.useId();
-  const descId = React16.useId();
+  const [open, setOpen] = React17.useState(false);
+  const titleId = React17.useId();
+  const descId = React17.useId();
   const iframeSrc = resolveIframeSrc(videoId, src);
   const avatarUrl = typeof avatarSrc === "string" ? avatarSrc : avatarSrc == null ? void 0 : avatarSrc.src;
   const defaultTrigger = /* @__PURE__ */ jsxRuntime.jsxs(Box3__default.default, { sx: { display: "flex", alignItems: "center", justifyContent: align, gap: 1 }, children: [
@@ -3469,7 +3527,7 @@ function DropDownGroup({
       shouldShowDivider && /* @__PURE__ */ jsxRuntime.jsx(Divider__default.default, { ...dividerProps })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsx(MenuDepthContext.Provider, { value: { depth: childDepth }, children: items.map((item) => {
-      return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: nodesRenderer({ node: item }).rendered }, item.id);
+      return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: nodesRenderer({ node: item }).rendered }, item.id);
     }) })
   ] });
 }
@@ -3508,7 +3566,7 @@ function DropDownNavGroup({
   megaMenuProps
 }) {
   const { isAncestorSelected } = useMenuSelectionContext();
-  const [anchorEl, setAnchorEl] = React16.useState(null);
+  const [anchorEl, setAnchorEl] = React17.useState(null);
   const ancestorSelected = isAncestorSelected(id);
   const isOpen = Boolean(anchorEl);
   const handleClose = () => {
@@ -3574,7 +3632,7 @@ function MegaMenu({
       padding: 3,
       ...megaMenuProps,
       children: /* @__PURE__ */ jsxRuntime.jsx(MenuDepthContext.Provider, { value: { depth: childDepth }, children: items.map((item) => {
-        return /* @__PURE__ */ jsxRuntime.jsx(React16.Fragment, { children: nodesRenderer({ node: item }).rendered }, item.id);
+        return /* @__PURE__ */ jsxRuntime.jsx(React17.Fragment, { children: nodesRenderer({ node: item }).rendered }, item.id);
       }) })
     }
   );
@@ -3718,47 +3776,6 @@ var Spacer = ({ size = 4 }) => {
   );
 };
 var Spacer_default = Spacer;
-function isStaticImageDataLike(x) {
-  if (!x || typeof x !== "object") return false;
-  return "src" in x && typeof x.src === "string";
-}
-function resolveImageSource(p) {
-  const { src, width, height } = p;
-  const url = isStaticImageDataLike(src) ? src.src : src;
-  const resolvedWidth = width != null ? width : isStaticImageDataLike(src) ? src.width : void 0;
-  const resolvedHeight = height != null ? height : isStaticImageDataLike(src) ? src.height : void 0;
-  return { src: url, width: resolvedWidth, height: resolvedHeight };
-}
-function toImgAttrs(p) {
-  const {
-    src: _src,
-    width: _w,
-    height: _h,
-    // Next-ish props to strip:
-    fill,
-    sizes,
-    placeholder,
-    priority,
-    quality,
-    unoptimized,
-    // keep style separate (we may override when fill=true)
-    style,
-    ...rest
-  } = p;
-  const { src, width, height } = resolveImageSource({ src: _src, width: _w, height: _h });
-  return {
-    ...rest,
-    src,
-    width,
-    height,
-    style
-  };
-}
-var HtmlImage = React16__namespace.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
-  const mergedStyle = fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", ...style } : style != null ? style : {};
-  const imgProps = toImgAttrs({ ...props, style: mergedStyle });
-  return /* @__PURE__ */ jsxRuntime.jsx("img", { ref, ...imgProps });
-});
 
 // src/lib/text/index.ts
 var text_exports = {};
@@ -3842,10 +3859,10 @@ function safeTitleCase(label) {
 }
 function shouldSkipCasing(str) {
   if (/\d/.test(str)) return true;
-  if (/[\/._+:#@\\\-]/.test(str)) return true;
+  if (/[/._+:#@\\-]/.test(str)) return true;
   if (/[A-Z]{2,}/.test(str)) return true;
   if (/[a-z][A-Z]/.test(str)) return true;
-  if (/[^\x00-\x7F]/.test(str)) return true;
+  if ([...str].some((char) => char.charCodeAt(0) > 127)) return true;
   return false;
 }
 

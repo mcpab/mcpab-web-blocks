@@ -4,8 +4,8 @@ import { SxProps, Theme } from '@mui/material/styles';
 import * as React$1 from 'react';
 import { ReactNode } from 'react';
 import { BoxProps } from '@mui/material/Box';
-import { S as SectionSize, B as BackgroundBoxProps } from './banner-HxLY3UzV.cjs';
-export { b as BackgroundBox, _ as BannerStatic, a as BannerStaticProps, I as ImageConf, c as SECTION_MIN_H, s as sectionMinHeightSx } from './banner-HxLY3UzV.cjs';
+import { S as SectionSize, B as BackgroundBoxProps } from './banner-eqfYR-b_.cjs';
+export { b as BackgroundBox, _ as BannerStatic, a as BannerStaticProps, I as ImageConf, c as SECTION_MIN_H, s as sectionMinHeightSx } from './banner-eqfYR-b_.cjs';
 import { ContainerProps } from '@mui/material/Container';
 import { StaticImageDataLike, ImageComponentLike } from './image.cjs';
 export { HtmlImage, UniversalImageProps, isStaticImageDataLike, toImgAttrs } from './image.cjs';
@@ -2036,7 +2036,7 @@ declare const HeroBlock: React$1.FC<HeroBlockProps>;
 
 type PresetName = '40-60' | '45-55' | '50-50' | '55-45' | '60-40';
 type TextProps = {
-    /**
+    /**q
      * Named preset for common text/media split layouts.
      *
      * @type {PresetName}

@@ -1,12 +1,79 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { jsx, jsxs } from 'react/jsx-runtime';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
 // src/components/banner/BannerStatic.tsx
+function isStaticImageDataLike(x) {
+  if (!x || typeof x !== "object") return false;
+  return "src" in x && typeof x.src === "string";
+}
+function resolveImageSource(p) {
+  const { src, width, height } = p;
+  const url = isStaticImageDataLike(src) ? src.src : src;
+  const resolvedWidth = width != null ? width : isStaticImageDataLike(src) ? src.width : void 0;
+  const resolvedHeight = height != null ? height : isStaticImageDataLike(src) ? src.height : void 0;
+  return { src: url, width: resolvedWidth, height: resolvedHeight };
+}
+function toImgAttrs(p) {
+  const {
+    src: _src,
+    width: _w,
+    height: _h,
+    // Next-ish props to strip:
+    fill,
+    sizes,
+    placeholder,
+    priority,
+    quality,
+    unoptimized,
+    // keep style separate (we may override when fill=true)
+    style,
+    ...rest
+  } = p;
+  const { src, width, height } = resolveImageSource({ src: _src, width: _w, height: _h });
+  return {
+    ...rest,
+    src,
+    width,
+    height,
+    style
+  };
+}
+React.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
+  const mergedStyle = fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", ...style } : style != null ? style : {};
+  const imgProps = toImgAttrs({ ...props, style: mergedStyle });
+  return /* @__PURE__ */ jsx("img", { ref, ...imgProps });
+});
 function getBoxPosition(objectPosition) {
   const [x = "50%", y = "50%"] = objectPosition.split(" ");
   return { left: x, top: y, transform: `translate(-${x}, -${y})` };
+}
+function computeAR({ imageConf }) {
+  if (imageConf === void 0) {
+    return {
+      computedAR: "16 / 9",
+      placeholder: "empty"
+    };
+  }
+  let computedAR = "16 / 9";
+  let placeholder = "empty";
+  const src = imageConf.src;
+  if (imageConf.aspectRatio !== void 0) {
+    computedAR = imageConf.aspectRatio;
+  } else {
+    if (isStaticImageDataLike(src) && src.width !== void 0 && src.height !== void 0) {
+      computedAR = src.width / src.height;
+    }
+  }
+  if (imageConf.placeholder !== void 0) {
+    placeholder = imageConf.placeholder;
+  } else {
+    if (isStaticImageDataLike(src)) {
+      placeholder = "blur";
+    }
+  }
+  return { computedAR, placeholder };
 }
 var BackgroundBox = ({
   imageConf,
@@ -16,11 +83,9 @@ var BackgroundBox = ({
   ImageComponent,
   ...rest
 }) => {
-  var _a, _b, _c, _d, _e;
-  const isStaticImport = typeof (imageConf == null ? void 0 : imageConf.src) === "object" && (imageConf == null ? void 0 : imageConf.src) && "width" in imageConf.src && "height" in imageConf.src;
-  const computedAR = (_a = imageConf == null ? void 0 : imageConf.aspectRatio) != null ? _a : isStaticImport ? imageConf.src.width / imageConf.src.height : "16 / 9";
-  const placeholder = (_b = imageConf == null ? void 0 : imageConf.placeholder) != null ? _b : isStaticImport ? "blur" : "empty";
-  const quality = (_c = imageConf == null ? void 0 : imageConf.quality) != null ? _c : 70;
+  var _a, _b, _c;
+  const { computedAR, placeholder } = computeAR({ imageConf });
+  const quality = (_a = imageConf == null ? void 0 : imageConf.quality) != null ? _a : 70;
   let imageLayer = null;
   if (imageConf == null ? void 0 : imageConf.src) {
     const objPos = imageConf.objectPosition || "50% 50%";
@@ -61,7 +126,7 @@ var BackgroundBox = ({
           alt: "",
           src: imageConf.src,
           fill: true,
-          sizes: (_d = imageConf.sizes) != null ? _d : "100vw",
+          sizes: (_b = imageConf.sizes) != null ? _b : "100vw",
           placeholder,
           priority: imageConf.priority,
           quality,
@@ -69,7 +134,7 @@ var BackgroundBox = ({
           style: {
             objectFit: imageConf.mode || "cover",
             objectPosition: objPos,
-            opacity: (_e = imageConf.opacity) != null ? _e : 1,
+            opacity: (_c = imageConf.opacity) != null ? _c : 1,
             transform: imageConf.transform || "none",
             zIndex: 0
           }

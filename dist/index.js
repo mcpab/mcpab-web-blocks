@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import Box3 from '@mui/material/Box';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import * as React16 from 'react';
+import * as React17 from 'react';
 import { createContext, useId, useContext, Fragment as Fragment$1, useState, useSyncExternalStore, useMemo } from 'react';
 import Container from '@mui/material/Container';
 import Fade from '@mui/material/Fade';
@@ -153,9 +153,76 @@ function Section({
     }
   );
 }
+function isStaticImageDataLike(x) {
+  if (!x || typeof x !== "object") return false;
+  return "src" in x && typeof x.src === "string";
+}
+function resolveImageSource(p) {
+  const { src, width, height } = p;
+  const url = isStaticImageDataLike(src) ? src.src : src;
+  const resolvedWidth = width != null ? width : isStaticImageDataLike(src) ? src.width : void 0;
+  const resolvedHeight = height != null ? height : isStaticImageDataLike(src) ? src.height : void 0;
+  return { src: url, width: resolvedWidth, height: resolvedHeight };
+}
+function toImgAttrs(p) {
+  const {
+    src: _src,
+    width: _w,
+    height: _h,
+    // Next-ish props to strip:
+    fill,
+    sizes,
+    placeholder,
+    priority,
+    quality,
+    unoptimized,
+    // keep style separate (we may override when fill=true)
+    style,
+    ...rest
+  } = p;
+  const { src, width, height } = resolveImageSource({ src: _src, width: _w, height: _h });
+  return {
+    ...rest,
+    src,
+    width,
+    height,
+    style
+  };
+}
+var HtmlImage = React17.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
+  const mergedStyle = fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", ...style } : style != null ? style : {};
+  const imgProps = toImgAttrs({ ...props, style: mergedStyle });
+  return /* @__PURE__ */ jsx("img", { ref, ...imgProps });
+});
 function getBoxPosition(objectPosition) {
   const [x = "50%", y = "50%"] = objectPosition.split(" ");
   return { left: x, top: y, transform: `translate(-${x}, -${y})` };
+}
+function computeAR({ imageConf }) {
+  if (imageConf === void 0) {
+    return {
+      computedAR: "16 / 9",
+      placeholder: "empty"
+    };
+  }
+  let computedAR = "16 / 9";
+  let placeholder = "empty";
+  const src = imageConf.src;
+  if (imageConf.aspectRatio !== void 0) {
+    computedAR = imageConf.aspectRatio;
+  } else {
+    if (isStaticImageDataLike(src) && src.width !== void 0 && src.height !== void 0) {
+      computedAR = src.width / src.height;
+    }
+  }
+  if (imageConf.placeholder !== void 0) {
+    placeholder = imageConf.placeholder;
+  } else {
+    if (isStaticImageDataLike(src)) {
+      placeholder = "blur";
+    }
+  }
+  return { computedAR, placeholder };
 }
 var BackgroundBox = ({
   imageConf,
@@ -165,11 +232,9 @@ var BackgroundBox = ({
   ImageComponent,
   ...rest
 }) => {
-  var _a, _b, _c, _d, _e;
-  const isStaticImport = typeof (imageConf == null ? void 0 : imageConf.src) === "object" && (imageConf == null ? void 0 : imageConf.src) && "width" in imageConf.src && "height" in imageConf.src;
-  const computedAR = (_a = imageConf == null ? void 0 : imageConf.aspectRatio) != null ? _a : isStaticImport ? imageConf.src.width / imageConf.src.height : "16 / 9";
-  const placeholder = (_b = imageConf == null ? void 0 : imageConf.placeholder) != null ? _b : isStaticImport ? "blur" : "empty";
-  const quality = (_c = imageConf == null ? void 0 : imageConf.quality) != null ? _c : 70;
+  var _a, _b, _c;
+  const { computedAR, placeholder } = computeAR({ imageConf });
+  const quality = (_a = imageConf == null ? void 0 : imageConf.quality) != null ? _a : 70;
   let imageLayer = null;
   if (imageConf == null ? void 0 : imageConf.src) {
     const objPos = imageConf.objectPosition || "50% 50%";
@@ -210,7 +275,7 @@ var BackgroundBox = ({
           alt: "",
           src: imageConf.src,
           fill: true,
-          sizes: (_d = imageConf.sizes) != null ? _d : "100vw",
+          sizes: (_b = imageConf.sizes) != null ? _b : "100vw",
           placeholder,
           priority: imageConf.priority,
           quality,
@@ -218,7 +283,7 @@ var BackgroundBox = ({
           style: {
             objectFit: imageConf.mode || "cover",
             objectPosition: objPos,
-            opacity: (_e = imageConf.opacity) != null ? _e : 1,
+            opacity: (_c = imageConf.opacity) != null ? _c : 1,
             transform: imageConf.transform || "none",
             zIndex: 0
           }
@@ -287,7 +352,7 @@ var BannerStatic = ({
     }
   );
 };
-var BannerStatic_default = React16.memo(BannerStatic);
+var BannerStatic_default = React17.memo(BannerStatic);
 function clampFrameIndex(index, length) {
   return Math.max(0, Math.min(index, Math.max(length - 1, 0)));
 }
@@ -298,7 +363,7 @@ var DynamicTransition = ({
   startIndex = 0,
   boxProps
 }) => {
-  const frameItems = React16.useMemo(
+  const frameItems = React17.useMemo(
     () => (frames != null ? frames : []).map((frame, index) => ({ frame, key: index })),
     [frames]
   );
@@ -323,12 +388,12 @@ function DynamicTransitionInner({
 }) {
   var _a;
   const initialIndex = clampFrameIndex(startIndex, frameItems.length);
-  const [transitionState, setTransitionState] = React16.useState({
+  const [transitionState, setTransitionState] = React17.useState({
     activeIndex: initialIndex,
     previousIndex: initialIndex,
     hasTransitioned: false
   });
-  React16.useEffect(() => {
+  React17.useEffect(() => {
     const hasCycle = frameItems.length >= 2;
     if (!hasCycle) return;
     const period = Math.max(0, interval) + Math.max(0, transitionDuration);
@@ -370,7 +435,7 @@ function DynamicTransitionInner({
     }
   );
 }
-var DynamicTransition_default = React16.memo(DynamicTransition);
+var DynamicTransition_default = React17.memo(DynamicTransition);
 var BlockCarousel = ({
   config,
   children,
@@ -387,7 +452,7 @@ var BlockCarousel = ({
   } = config || {};
   const interval = intervalProp != null ? intervalProp : 5e3;
   const { sx: rootSx, ...restRoot } = rootProps != null ? rootProps : {};
-  const frames = React16.useMemo(() => {
+  const frames = React17.useMemo(() => {
     return images.map((img, i) => {
       const { transform, image, objectPosition } = img;
       return /* @__PURE__ */ jsx(
@@ -468,7 +533,7 @@ var BlockCarousel = ({
     }
   );
 };
-var BlockCarousel_default = React16.memo(BlockCarousel);
+var BlockCarousel_default = React17.memo(BlockCarousel);
 var BannerCarousel = ({
   images,
   id,
@@ -495,7 +560,7 @@ var BannerCarousel = ({
     }
   );
 };
-var BannerCarousel_default = React16.memo(BannerCarousel);
+var BannerCarousel_default = React17.memo(BannerCarousel);
 var variantLevels = {
   page: "h1",
   section: "h2",
@@ -540,7 +605,7 @@ var MainTitle = ({
     return /* @__PURE__ */ jsx(Component, { ...componentProps, children: content }, `main-title-${index}`);
   }) });
 };
-var MainTitle_default = React16.memo(MainTitle);
+var MainTitle_default = React17.memo(MainTitle);
 var TouchButton = styled(Button6)(({ theme }) => ({
   textTransform: "none",
   borderRadius: theme.shape.borderRadius,
@@ -577,8 +642,8 @@ function SuccessButtonContent({
   children,
   fallback
 }) {
-  const [visible, setVisible] = React16.useState(true);
-  React16.useEffect(() => {
+  const [visible, setVisible] = React17.useState(true);
+  React17.useEffect(() => {
     const timer = window.setTimeout(() => {
       setVisible(false);
     }, successDuration);
@@ -731,9 +796,9 @@ var DownloadButton = ({
   children,
   ...rest
 }) => {
-  const [isDownloading, setIsDownloading] = React16.useState(false);
-  const [downloadProgress, setDownloadProgress] = React16.useState(0);
-  const [isComplete, setIsComplete] = React16.useState(false);
+  const [isDownloading, setIsDownloading] = React17.useState(false);
+  const [downloadProgress, setDownloadProgress] = React17.useState(0);
+  const [isComplete, setIsComplete] = React17.useState(false);
   const detectedFileType = fileType || detectFileType(href);
   const fileIcon = getFileIcon(detectedFileType);
   const isExternal = href.startsWith("http");
@@ -953,13 +1018,13 @@ var SocialButton = ({
   );
 };
 var SocialButton_default = SocialButton;
-var RouterContext = React16.createContext(null);
+var RouterContext = React17.createContext(null);
 var RouterProvider = ({ router, children }) => {
   return /* @__PURE__ */ jsx(RouterContext.Provider, { value: router, children });
 };
 var useRouter = () => {
-  const contextRouter = React16.useContext(RouterContext);
-  return React16.useMemo(() => {
+  const contextRouter = React17.useContext(RouterContext);
+  return React17.useMemo(() => {
     if (contextRouter) {
       return contextRouter;
     }
@@ -1090,10 +1155,10 @@ var ShareButton = ({
   children = "Share",
   ...rest
 }) => {
-  const [anchorEl, setAnchorEl] = React16.useState(null);
-  const [showSuccess, setShowSuccess] = React16.useState(false);
-  const [successMessage, setSuccessMessage] = React16.useState("");
-  const shareData = React16.useMemo(
+  const [anchorEl, setAnchorEl] = React17.useState(null);
+  const [showSuccess, setShowSuccess] = React17.useState(false);
+  const [successMessage, setSuccessMessage] = React17.useState("");
+  const shareData = React17.useMemo(
     () => ({
       url: url || (typeof window !== "undefined" ? window.location.href : ""),
       title: title || (typeof document !== "undefined" ? document.title : ""),
@@ -1102,7 +1167,7 @@ var ShareButton = ({
     }),
     [url, title, text, files]
   );
-  const canUseNativeShare = React16.useMemo(() => {
+  const canUseNativeShare = React17.useMemo(() => {
     if (typeof navigator === "undefined" || !navigator.share) return false;
     if (files && files.length > 0) {
       return navigator.canShare && navigator.canShare({ files });
@@ -1230,11 +1295,11 @@ var SubscribeButton = ({
   children = "Subscribe",
   ...rest
 }) => {
-  const [email, setEmail] = React16.useState("");
-  const [isLoading, setIsLoading] = React16.useState(false);
-  const [showSuccess, setShowSuccess] = React16.useState(false);
-  const [showError, setShowError] = React16.useState(false);
-  const [emailError, setEmailError] = React16.useState("");
+  const [email, setEmail] = React17.useState("");
+  const [isLoading, setIsLoading] = React17.useState(false);
+  const [showSuccess, setShowSuccess] = React17.useState(false);
+  const [showError, setShowError] = React17.useState(false);
+  const [emailError, setEmailError] = React17.useState("");
   const validateEmail = (email2) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email2);
@@ -1346,7 +1411,7 @@ var WhatsAppButton = ({
     }
     return formattedPhone;
   };
-  const whatsappUrl = React16.useMemo(() => {
+  const whatsappUrl = React17.useMemo(() => {
     const formattedPhone = formatPhoneNumber(phone, countryCode);
     const encodedMessage = encodeURIComponent(message);
     return `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
@@ -1455,8 +1520,8 @@ var CopyButton = ({
   sx,
   ...rest
 }) => {
-  const [showSuccess, setShowSuccess] = React16.useState(false);
-  const [justCopied, setJustCopied] = React16.useState(false);
+  const [showSuccess, setShowSuccess] = React17.useState(false);
+  const [justCopied, setJustCopied] = React17.useState(false);
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
@@ -1525,10 +1590,10 @@ var CopyButton = ({
 };
 var CopyButton_default = CopyButton;
 var ClickTextImage = ({ title, image, text, ImageComponent }) => {
-  const [open, setOpen] = React16.useState(false);
+  const [open, setOpen] = React17.useState(false);
   const contentId = useId();
   const TILE_MIN_H = { xs: 240, sm: 280, md: 300 };
-  const imageConf = React16.useMemo(
+  const imageConf = React17.useMemo(
     () => ({
       src: image,
       overlayColor: open ? "rgba(255,255,255,1)" : "rgba(0,0,0,0.45)"
@@ -1667,7 +1732,7 @@ var ClickTextImage = ({ title, image, text, ImageComponent }) => {
     }
   );
 };
-var ClickTextImage_default = React16.memo(ClickTextImage);
+var ClickTextImage_default = React17.memo(ClickTextImage);
 var TextTreeRendererContext = createContext(null);
 function useTextTreeRendererContext() {
   const ctx = useContext(TextTreeRendererContext);
@@ -2040,12 +2105,11 @@ function parseInlineText(source, { idPrefix = "inline" } = {}) {
   pushText();
   return nodes;
 }
-var defineOverride = (_layout, override) => override;
 function TwoColumnsFooter(props) {
   const layout = getLayoutFromCatalog("secondary", "header2colFooter");
   const diagnostics = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });
-  const layoutRendering = defineOverride(layout, {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.header })
@@ -2064,7 +2128,7 @@ function TwoColumnsFooter(props) {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.column_2 })
       }
     }
-  });
+  };
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,
     layoutRendering,
@@ -2072,12 +2136,11 @@ function TwoColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsx(Box, { width: "100%", height: "100%", children: rendered });
 }
-var defineOverride2 = (_layout, override) => override;
 function ThreeColumnsFooter(props) {
   const layout = getLayoutFromCatalog("secondary", "footerHeader3Columns");
   const diagnostics = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });
-  const layoutRendering = defineOverride2(layout, {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.header })
@@ -2099,7 +2162,7 @@ function ThreeColumnsFooter(props) {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.column_3 })
       }
     }
-  });
+  };
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,
     layoutRendering,
@@ -2107,12 +2170,11 @@ function ThreeColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsx(Box, { width: "100%", height: "100%", children: rendered });
 }
-var defineOverride3 = (_layout, override) => override;
 function FeaturedColumnsFooter(props) {
   const layout = getLayoutFromCatalog("secondary", "header3colFooter");
   const diagnostics = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });
-  const layoutRendering = defineOverride3(layout, {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.header })
@@ -2134,7 +2196,7 @@ function FeaturedColumnsFooter(props) {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.column_3 })
       }
     }
-  });
+  };
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,
     layoutRendering,
@@ -2142,12 +2204,11 @@ function FeaturedColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsx(Box, { width: "100%", height: "100%", children: rendered });
 }
-var defineOverride4 = (_layout, override) => override;
 function FiveColumnsFooter(props) {
   const layout = getLayoutFromCatalog("secondary", "footerHeader5Columns");
   const diagnostics = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });
-  const layoutRendering = defineOverride4(layout, {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.header })
@@ -2175,7 +2236,7 @@ function FiveColumnsFooter(props) {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.column_5 })
       }
     }
-  });
+  };
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,
     layoutRendering,
@@ -2183,7 +2244,7 @@ function FiveColumnsFooter(props) {
   });
   return /* @__PURE__ */ jsx(Box, { width: "100%", height: "100%", children: rendered });
 }
-var DefaultLinkLike = React16.forwardRef(function DefaultLinkLike2(props, ref) {
+var DefaultLinkLike = React17.forwardRef(function DefaultLinkLike2(props, ref) {
   return /* @__PURE__ */ jsx("a", { ref, ...props });
 });
 
@@ -2593,13 +2654,13 @@ var BreadMenu = function({
   sx,
   titleCase = true
 }) {
-  const normalizedPath = React16.useMemo(() => normalizePathname(pathname), [pathname]);
-  const excludeSet = React16.useMemo(() => new Set(exclude != null ? exclude : []), [exclude]);
-  const segments = React16.useMemo(() => {
+  const normalizedPath = React17.useMemo(() => normalizePathname(pathname), [pathname]);
+  const excludeSet = React17.useMemo(() => new Set(exclude != null ? exclude : []), [exclude]);
+  const segments = React17.useMemo(() => {
     const raw = normalizedPath.split("/").filter(Boolean);
     return excludeSet.size ? raw.filter((s) => !excludeSet.has(s)) : raw;
   }, [normalizedPath, excludeSet]);
-  const items = React16.useMemo(() => {
+  const items = React17.useMemo(() => {
     const crumbs = [];
     const acc = [];
     segments.forEach((seg, idx) => {
@@ -2785,18 +2846,18 @@ var DebouncedTextField = ({
   ...props
 }) => {
   const isControlled = controlledValue !== void 0;
-  const [uncontrolledValue, setUncontrolledValue] = React16.useState(String(defaultValue != null ? defaultValue : ""));
+  const [uncontrolledValue, setUncontrolledValue] = React17.useState(String(defaultValue != null ? defaultValue : ""));
   const inputValue = isControlled ? String(controlledValue != null ? controlledValue : "") : uncontrolledValue;
-  const timerRef = React16.useRef(null);
-  const composingRef = React16.useRef(false);
-  const lastEmittedRef = React16.useRef(inputValue);
-  const clearTimer = React16.useCallback(() => {
+  const timerRef = React17.useRef(null);
+  const composingRef = React17.useRef(false);
+  const lastEmittedRef = React17.useRef(inputValue);
+  const clearTimer = React17.useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const schedule = React16.useCallback(
+  const schedule = React17.useCallback(
     (next) => {
       if (!onDebouncedChange) return;
       clearTimer();
@@ -2811,14 +2872,14 @@ var DebouncedTextField = ({
     },
     [debounceMs, onDebouncedChange, clearTimer]
   );
-  React16.useEffect(() => {
+  React17.useEffect(() => {
     schedule(inputValue);
   }, [debounceMs]);
-  React16.useEffect(() => {
+  React17.useEffect(() => {
     if (isControlled) schedule(String(controlledValue != null ? controlledValue : ""));
   }, [isControlled, controlledValue]);
-  React16.useEffect(() => clearTimer, [clearTimer]);
-  const handleChange = React16.useCallback(
+  React17.useEffect(() => clearTimer, [clearTimer]);
+  const handleChange = React17.useCallback(
     (e) => {
       var _a;
       const next = (_a = e.target.value) != null ? _a : "";
@@ -2828,7 +2889,7 @@ var DebouncedTextField = ({
     },
     [isControlled, onChange, schedule]
   );
-  const handleBlur = React16.useCallback(
+  const handleBlur = React17.useCallback(
     (e) => {
       var _a, _b;
       if (flushOnBlur && onDebouncedChange) {
@@ -2917,7 +2978,7 @@ function formatTitle(node, kind = "title") {
   if (typeof node === "string") {
     return kind === "title" ? /* @__PURE__ */ jsx(SubsubsectionTitle, { children: node }) : /* @__PURE__ */ jsx(Typography13, { variant: "strapline", children: node });
   }
-  return React16.isValidElement(node) ? node : null;
+  return React17.isValidElement(node) ? node : null;
 }
 var HeroBlock = ({
   image,
@@ -3027,9 +3088,6 @@ var HeroBlock = ({
   );
 };
 var HeroBlock_default = HeroBlock;
-var defineOverride5 = (layout, override) => {
-  return override;
-};
 function toYouTubeEmbedSrc(input) {
   const value = input.trim();
   if (!value) return null;
@@ -3155,7 +3213,7 @@ var MediaText = (props) => {
       }
     ) });
   }
-  const renderer = defineOverride5(layout, {
+  const renderer = {
     row_1: {
       block_1: {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.reverse ? props.message : media })
@@ -3164,7 +3222,7 @@ var MediaText = (props) => {
         contentRenderer: () => /* @__PURE__ */ jsx(Fragment, { children: props.reverse ? media : props.message })
       }
     }
-  });
+  };
   const rendered = GridCssMuiRenderer({
     layoutAbsolute,
     layoutRendering: renderer,
@@ -3618,47 +3676,6 @@ var Spacer = ({ size = 4 }) => {
   );
 };
 var Spacer_default = Spacer;
-function isStaticImageDataLike(x) {
-  if (!x || typeof x !== "object") return false;
-  return "src" in x && typeof x.src === "string";
-}
-function resolveImageSource(p) {
-  const { src, width, height } = p;
-  const url = isStaticImageDataLike(src) ? src.src : src;
-  const resolvedWidth = width != null ? width : isStaticImageDataLike(src) ? src.width : void 0;
-  const resolvedHeight = height != null ? height : isStaticImageDataLike(src) ? src.height : void 0;
-  return { src: url, width: resolvedWidth, height: resolvedHeight };
-}
-function toImgAttrs(p) {
-  const {
-    src: _src,
-    width: _w,
-    height: _h,
-    // Next-ish props to strip:
-    fill,
-    sizes,
-    placeholder,
-    priority,
-    quality,
-    unoptimized,
-    // keep style separate (we may override when fill=true)
-    style,
-    ...rest
-  } = p;
-  const { src, width, height } = resolveImageSource({ src: _src, width: _w, height: _h });
-  return {
-    ...rest,
-    src,
-    width,
-    height,
-    style
-  };
-}
-var HtmlImage = React16.forwardRef(function HtmlImage2({ fill, style, ...props }, ref) {
-  const mergedStyle = fill ? { position: "absolute", inset: 0, width: "100%", height: "100%", ...style } : style != null ? style : {};
-  const imgProps = toImgAttrs({ ...props, style: mergedStyle });
-  return /* @__PURE__ */ jsx("img", { ref, ...imgProps });
-});
 
 // src/lib/text/index.ts
 var text_exports = {};
@@ -3742,10 +3759,10 @@ function safeTitleCase(label) {
 }
 function shouldSkipCasing(str) {
   if (/\d/.test(str)) return true;
-  if (/[\/._+:#@\\\-]/.test(str)) return true;
+  if (/[/._+:#@\\-]/.test(str)) return true;
   if (/[A-Z]{2,}/.test(str)) return true;
   if (/[a-z][A-Z]/.test(str)) return true;
-  if (/[^\x00-\x7F]/.test(str)) return true;
+  if ([...str].some((char) => char.charCodeAt(0) > 127)) return true;
   return false;
 }
 

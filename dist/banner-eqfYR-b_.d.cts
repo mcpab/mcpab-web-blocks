@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BoxProps } from '@mui/material/Box';
-import { StaticImageDataLike, ImageComponentLike } from './image.js';
+import { StaticImageDataLike, ImageComponentLike } from './image.cjs';
 import { SxProps, Theme } from '@mui/material/styles';
 
 /**
@@ -145,13 +145,6 @@ type BackgroundBoxProps = React.HTMLAttributes<HTMLDivElement> & {
     /** Image renderer compatible with Next.js Image-like props. */
     ImageComponent: ImageComponentLike;
 };
-/**
- * Container that renders an optional background image, optional overlay, and foreground content.
- *
- * @remarks
- * - If `imageConf.width` is set, image is rendered in width-capped mode.
- * - Without `imageConf.width`, image is rendered full-bleed.
- */
 declare const BackgroundBox: React.FC<BackgroundBoxProps>;
 
 /** Props for {@link BannerStatic}. */
