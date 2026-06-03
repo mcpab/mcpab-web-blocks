@@ -3,8 +3,6 @@ import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
 import { Fragment, useState } from 'react';
 import { SectionTitle } from '../typography';
-import { RichText } from './RichText';
-import { SubSection } from './SubSection';
 import { useTextTreeRendererContext } from './TextTreeRenderContext';
 import type { RichTextBlock, SubSectionBlock } from './defaultTextRegistries';
 

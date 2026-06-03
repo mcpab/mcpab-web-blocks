@@ -5,12 +5,13 @@ import type { Story } from '@ladle/react';
 import BannerCarousel from './BannerCarousel';
 import type { CarouselProps } from './BlockCarousel';
 import type { BannerCarouselProps } from './BannerCarousel';
+import type { UniversalImageProps } from '../../core/image';
 
 /**
  * Minimal ImageComponentLike mock.
  * Matches the common surface area of Next/Image-ish props, but just renders <img>.
  */
-const MockImage: React.FC<any> = ({
+const MockImage: React.FC<UniversalImageProps> = ({
   src,
   alt,
   style,
@@ -18,8 +19,19 @@ const MockImage: React.FC<any> = ({
   width,
   height,
   sizes,
+  fill,
+  placeholder,
+  priority,
+  quality,
+  unoptimized,
   ...rest
 }) => {
+  void fill;
+  void placeholder;
+  void priority;
+  void quality;
+  void unoptimized;
+
   // Handle Next/Image "static import" style: { src: string, ... }
   const resolvedSrc = typeof src === 'string' ? src : src?.src;
 
@@ -100,9 +112,9 @@ const slides = [
 const carouselConfig: CarouselProps = {
   // Most likely you have "images" as an array of sources.
   // If your type expects something else, swap it here.
-  images: slides as any,
+  images: slides.map((image) => ({ image })),
   interval: 2500,
-} as any;
+}  ;
 
 const Overlay: React.FC = () => (
   <div
@@ -165,7 +177,7 @@ Default.storyName = 'Default';
 
 export const TallerBand: Story = () => (
   <div style={{ width: '100%' }}>
-    <BannerCarousel images={carouselConfig} size={'lg' as any} ImageComponent={MockImage}>
+    <BannerCarousel images={carouselConfig} size={'lg'} ImageComponent={MockImage}>
       <Overlay />
     </BannerCarousel>
   </div>
@@ -174,7 +186,7 @@ TallerBand.storyName = 'Size: lg';
 
 export const BusyOverlay: Story = () => (
   <div style={{ width: '100%' }}>
-    <BannerCarousel images={carouselConfig} size={'micro' as any} ImageComponent={MockImage}>
+    <BannerCarousel images={carouselConfig} size={'micro'  } ImageComponent={MockImage}>
       <div
         style={{
           position: 'relative',

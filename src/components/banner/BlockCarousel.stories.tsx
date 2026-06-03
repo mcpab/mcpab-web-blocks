@@ -4,12 +4,13 @@ import type { Story } from "@ladle/react";
 
 import BlockCarousel from "./BlockCarousel";
 import type { CarouselProps, ImageCarousel } from "./BlockCarousel";
+import type { UniversalImageProps } from "../../core/image";
 
 /**
  * Minimal ImageComponentLike mock.
  * Works for Next/Image-like signatures; renders <img>.
  */
-const MockImage: React.FC<any> = ({
+const MockImage: React.FC<UniversalImageProps> = ({
   src,
   alt,
   style,
@@ -17,8 +18,19 @@ const MockImage: React.FC<any> = ({
   width,
   height,
   sizes,
+  fill,
+  placeholder,
+  priority,
+  quality,
+  unoptimized,
   ...rest
 }) => {
+  void fill;
+  void placeholder;
+  void priority;
+  void quality;
+  void unoptimized;
+
   const resolvedSrc = typeof src === "string" ? src : src?.src;
 
   return (

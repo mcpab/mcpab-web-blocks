@@ -105,8 +105,8 @@ export function toImgAttrs(p: UniversalImageProps): React.ImgHTMLAttributes<HTML
   return {
     ...(rest as React.ImgHTMLAttributes<HTMLImageElement>),
     src,
-    width: width as any,
-    height: height as any,
+    width: width,
+    height: height,
     style,
   };
 }

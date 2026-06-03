@@ -1,7 +1,7 @@
 import type {
   DiagnosticEntry,
-  Layout,
-  LayoutRenderOverrideFor} from '@mcpab/gridcss';
+  LayoutRenderOverrideFor
+} from '@mcpab/gridcss';
 import {
   CSSLayout,
   getLayoutFromCatalog,
@@ -26,13 +26,7 @@ export type FiveColumnsFooterProps = {
   /** Fifth column content. */
   column_5?: React.ReactNode;
 };
-
-/** Type-inference helper so `defineOverride` preserves the literal layout type. */
-const defineOverride = <L extends Layout<any, any>>(
-  _layout: L,
-  override: LayoutRenderOverrideFor<L>,
-) => override;
-
+ 
 /**
  * A footer divided into five equal content columns, with an optional header
  * band at the top and a footer strip at the bottom.
@@ -62,7 +56,7 @@ export function FiveColumnsFooter(props: FiveColumnsFooterProps) {
   const diagnostics: DiagnosticEntry[] = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });
 
-  const layoutRendering = defineOverride(layout, {
+  const layoutRendering =  {
     header: {
       block_1: {
         contentRenderer: () => <>{props.header}</>,
@@ -90,7 +84,7 @@ export function FiveColumnsFooter(props: FiveColumnsFooterProps) {
         contentRenderer: () => <>{props.column_5}</>,
       },
     },
-  });
+  } satisfies LayoutRenderOverrideFor<typeof layout>;;
 
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,

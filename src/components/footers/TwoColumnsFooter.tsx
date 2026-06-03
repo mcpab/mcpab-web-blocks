@@ -1,7 +1,7 @@
 import type {
   DiagnosticEntry,
-  Layout,
-  LayoutRenderOverrideFor} from '@mcpab/gridcss';
+  LayoutRenderOverrideFor
+} from '@mcpab/gridcss';
 import {
   CSSLayout,
   getLayoutFromCatalog,
@@ -20,12 +20,7 @@ export type TwoColumnsFooterProps = {
   /** Second column content. */
   column_2?: React.ReactNode;
 };
-
-/** Type-inference helper so `defineOverride` preserves the literal layout type. */
-const defineOverride = <L extends Layout<any, any>>(
-  _layout: L,
-  override: LayoutRenderOverrideFor<L>,
-) => override;
+ 
 
 /**
  * A footer divided into two content columns, with an optional header band at
@@ -49,7 +44,7 @@ export function TwoColumnsFooter(props: TwoColumnsFooterProps) {
   const diagnostics: DiagnosticEntry[] = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });
 
-  const layoutRendering = defineOverride(layout, {
+  const layoutRendering =  {
     header: {
       block_1: {
         contentRenderer: () => <>{props.header}</>,
@@ -68,7 +63,7 @@ export function TwoColumnsFooter(props: TwoColumnsFooterProps) {
         contentRenderer: () => <>{props.column_2}</>,
       },
     },
-  });
+  } satisfies LayoutRenderOverrideFor<typeof layout>;;
 
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,

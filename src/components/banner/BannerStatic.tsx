@@ -60,7 +60,7 @@ const BannerStatic: React.FC<BannerStaticProps> = ({
       sx={{
         position: 'relative',
         width: '100%',
-        ...(boxSx as any), // consumer overrides last
+        ...(boxSx), // consumer overrides last
       }}
     >
       <BackgroundBox imageConf={image} ImageComponent={ImageComponent}>

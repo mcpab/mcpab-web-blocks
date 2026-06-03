@@ -5,12 +5,13 @@ import type { Story } from "@ladle/react";
 import BannerStatic from "./BannerStatic";
 import type { BannerStaticProps } from "./BannerStatic";
 import type { ImageConf } from "../layout/BackgroundBox";
+import type { UniversalImageProps } from "../../core/image";
 
 /**
  * Minimal ImageComponentLike mock.
  * Works for Next/Image-like signatures; renders <img>.
  */
-const MockImage: React.FC<any> = ({
+const MockImage: React.FC<UniversalImageProps> = ({
   src,
   alt,
   style,
@@ -18,8 +19,19 @@ const MockImage: React.FC<any> = ({
   width,
   height,
   sizes,
+  fill,
+  placeholder,
+  priority,
+  quality,
+  unoptimized,
   ...rest
 }) => {
+  void fill;
+  void placeholder;
+  void priority;
+  void quality;
+  void unoptimized;
+
   const resolvedSrc = typeof src === "string" ? src : src?.src;
 
   return (
@@ -82,14 +94,14 @@ const heroB = svgDataUri(`
  * Common keys I’ve seen: src, overlayColor, overlayOpacity, position, transform, blur, etc.
  */
 const imageConfDefault: ImageConf = {
-  src: heroA as any,
+  src: heroA,
   overlayColor: "rgba(0,0,0,0.35)",
-} as any;
+};
 
 const imageConfHeavyOverlay: ImageConf = {
-  src: heroB as any,
+  src: heroB,
   overlayColor: "rgba(0,0,0,0.55)",
-} as any;
+};
 
 const Overlay: React.FC<{ title?: string; subtitle?: string }> = ({
   title = "BannerStatic",
@@ -171,7 +183,7 @@ Default.storyName = "Default";
 
 export const HeavyOverlay: Story = () => (
   <div style={{ width: "100%" }}>
-    <BannerStatic image={imageConfHeavyOverlay} size={"micro" as any} ImageComponent={MockImage}>
+    <BannerStatic image={imageConfHeavyOverlay} size="micro" ImageComponent={MockImage}>
       <Overlay title="Heavy overlay" subtitle="Good for testing legibility and contrast." />
     </BannerStatic>
   </div>
@@ -180,7 +192,7 @@ HeavyOverlay.storyName = "Heavy overlay";
 
 export const SizeLg: Story = () => (
   <div style={{ width: "100%" }}>
-    <BannerStatic image={imageConfDefault} size={"lg" as any} ImageComponent={MockImage}>
+    <BannerStatic image={imageConfDefault} size="lg" ImageComponent={MockImage}>
       <Overlay title="Size: lg" subtitle="Taller band token to test vertical centering." />
     </BannerStatic>
   </div>
@@ -191,7 +203,7 @@ export const WithBoxProps: Story = () => (
   <div style={{ width: "100%" }}>
     <BannerStatic
       image={imageConfDefault}
-      size={"micro" as any}
+      size="micro"
       ImageComponent={MockImage}
       boxProps={{
         id: "banner-static-story",

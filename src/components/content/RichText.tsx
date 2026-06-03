@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { Fragment } from 'react';
-import { AnyInlineTextNode } from './defaultTextRegistries';
+import { type AnyInlineTextNode } from './defaultTextRegistries';
 import { useTextTreeRendererContext } from './TextTreeRenderContext';
 
 export type RichTextProps = {
@@ -9,7 +9,7 @@ export type RichTextProps = {
 
 export function RichText({ inlineNodes }: RichTextProps) {
   //
-  
+
   const { nodesRenderer } = useTextTreeRendererContext();
 
   return (

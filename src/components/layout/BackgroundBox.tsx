@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { StaticImageDataLike } from '../../core/image/image-types';
+import { isStaticImageDataLike, type StaticImageDataLike } from '../../core/image/image-types';
 import type { ImageComponentLike } from '../../core/image/image-types';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
@@ -134,6 +134,38 @@ export type BackgroundBoxProps = React.HTMLAttributes<HTMLDivElement> & {
  * - If `imageConf.width` is set, image is rendered in width-capped mode.
  * - Without `imageConf.width`, image is rendered full-bleed.
  */
+
+function computeAR({ imageConf }: { imageConf: ImageConf | undefined }): {
+  computedAR: string | number;
+  placeholder: 'blur' | 'empty';
+} {
+  if (imageConf === undefined) {
+    return {
+      computedAR: '16 / 9',
+      placeholder: 'empty',
+    };
+  }
+
+  let computedAR: string | number = '16 / 9';
+  let placeholder: 'blur' | 'empty' = 'empty';
+  const src = imageConf.src;
+  if (imageConf.aspectRatio !== undefined) {
+    computedAR = imageConf.aspectRatio;
+  } else {
+    if (isStaticImageDataLike(src) && src.width !== undefined && src.height !== undefined) {
+      computedAR = src.width / src.height;
+    }
+  }
+  if (imageConf.placeholder !== undefined) {
+    placeholder = imageConf.placeholder;
+  } else {
+    if (isStaticImageDataLike(src)) {
+      placeholder = 'blur';
+    }
+  }
+
+  return { computedAR, placeholder };
+}
 const BackgroundBox: React.FC<BackgroundBoxProps> = ({
   imageConf,
   children,
@@ -142,17 +174,9 @@ const BackgroundBox: React.FC<BackgroundBoxProps> = ({
   ImageComponent,
   ...rest
 }) => {
-  const isStaticImport =
-    typeof imageConf?.src === 'object' &&
-    imageConf?.src &&
-    'width' in imageConf.src &&
-    'height' in imageConf.src;
-  const computedAR =
-    imageConf?.aspectRatio ??
-    (isStaticImport ? (imageConf!.src as any).width / (imageConf!.src as any).height : '16 / 9'); // sensible fallback
+  //
 
-  const placeholder: 'blur' | 'empty' =
-    imageConf?.placeholder ?? (isStaticImport ? 'blur' : 'empty');
+  const { computedAR, placeholder } = computeAR({ imageConf });
 
   const quality = imageConf?.quality ?? 70;
 
@@ -160,6 +184,8 @@ const BackgroundBox: React.FC<BackgroundBoxProps> = ({
   let imageLayer: React.ReactNode = null;
 
   if (imageConf?.src) {
+    //
+
     const objPos = imageConf.objectPosition || '50% 50%';
 
     if (imageConf.width) {
@@ -172,7 +198,7 @@ const BackgroundBox: React.FC<BackgroundBoxProps> = ({
             width: imageConf.width,
           }}
         >
-          <Box sx={{ position: 'relative', width: '100%', aspectRatio: computedAR as any }}>
+          <Box sx={{ position: 'relative', width: '100%', aspectRatio: computedAR }}>
             <ImageComponent
               alt=""
               src={imageConf.src}

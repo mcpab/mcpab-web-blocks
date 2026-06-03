@@ -3,6 +3,7 @@ import * as React from "react";
 import type { Story } from "@ladle/react";
 
 import MainTitle from "./MainTitle";
+import type { MainTitleBlock } from "./MainTitle";
 
 const Frame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div style={{ padding: 24, maxWidth: 980 }}>
@@ -91,11 +92,11 @@ export const SlotPropsAndOverrides: Story = () => (
           // TitleProps surface varies per your implementation; these are common MUI typography props.
           // Keep/remove as needed depending on TitleProps.
           sx: { letterSpacing: 0.5 },
-        } as any,
+        },
         // Defaults applied to ALL secondary blocks
         subtitle: {
           sx: { opacity: 0.9 },
-        } as any,
+        },
       }}
       blocks={[
         { title: "default primary styling", type: "primary" },
@@ -104,7 +105,7 @@ export const SlotPropsAndOverrides: Story = () => (
           type: "primary",
           titleProps: {
             sx: { textDecoration: "underline" },
-          } as any,
+          },
         },
         { title: "default secondary styling", type: "secondary" },
         {
@@ -112,9 +113,9 @@ export const SlotPropsAndOverrides: Story = () => (
           type: "secondary",
           titleProps: {
             sx: { opacity: 1, fontStyle: "italic" },
-          } as any,
+          },
         },
-      ]}
+      ] satisfies MainTitleBlock[]}
     />
   </Frame>
 );

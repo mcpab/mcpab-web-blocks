@@ -121,7 +121,7 @@ const BlockCarousel: React.FC<CarouselConfig> = ({
         display: 'grid', // grid lets us stack layers via grid-area
         width: '100%',
         minHeight: 'inherit', // ← inherit the band height from <Section>
-        ...(rootSx as any),
+        ...(rootSx),
       }}
     >
       {/* Frames root: positioned context for absolute slides */}

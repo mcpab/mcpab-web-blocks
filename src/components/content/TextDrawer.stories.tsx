@@ -1,9 +1,11 @@
 import type { Story } from '@ladle/react';
 
-import { ContentTree, defaultRenderTextNode, TextTreeOverrides } from './defaultTextRegistries';
+import { defaultRenderTextNode } from './defaultTextRegistries';
+import type { ContentTree, TextTreeOverrides } from './defaultTextRegistries';
 import { parseInlineText } from './parseInlineText';
 import { ContentTreeView } from './ContentTreeView';
-import { TextTreeRendererContext, TextTreeRendererContextType } from './TextTreeRenderContext';
+import { TextTreeRendererContext } from './TextTreeRenderContext';
+import type { TextTreeRendererContextType } from './TextTreeRenderContext';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { DefaultLinkLike } from '../../core/link';
@@ -90,7 +92,7 @@ export default {
   title: 'Content/TextDrawer',
 };
 
-let Component = <ContentTreeView tree={textTree} />;
+const Component = <ContentTreeView tree={textTree} />;
 
 const ctx: TextTreeRendererContextType = {
   openIndicator: <ExpandMoreIcon fontSize="small" />,

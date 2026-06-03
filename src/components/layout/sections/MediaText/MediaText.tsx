@@ -1,6 +1,6 @@
 'use client';
 
-import type { Layout, LayoutRenderOverrideFor } from '@mcpab/gridcss';
+import type { Layout } from '@mcpab/gridcss';
 import { CSSLayout, GridCssMuiRenderer } from '@mcpab/gridcss';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
@@ -12,7 +12,7 @@ import BackgroundBox from '../../BackgroundBox';
 type PresetName = '40-60' | '45-55' | '50-50' | '55-45' | '60-40';
 
 export type TextProps = {
-  /**
+  /**q
    * Named preset for common text/media split layouts.
    *
    * @type {PresetName}
@@ -64,12 +64,7 @@ type VideoMedia = {
   /** Explicitly prevent image when using video */
   image?: never;
 };
-const defineOverride = <L extends Layout<any, any>>(
-  layout: L,
-  override: LayoutRenderOverrideFor<L>,
-) => {
-  return override;
-};
+ 
 
 function toYouTubeEmbedSrc(input: string): string | null {
   const value = input.trim();
@@ -231,7 +226,7 @@ const MediaText: React.FC<MediaAndTextProps> = (props) => {
     );
   }
 
-  const renderer = defineOverride(layout, {
+  const renderer =  {
     row_1: {
       block_1: {
         contentRenderer: () => <>{props.reverse ? props.message : media}</>,
@@ -240,7 +235,7 @@ const MediaText: React.FC<MediaAndTextProps> = (props) => {
         contentRenderer: () => <>{props.reverse ? media : props.message}</>,
       },
     },
-  });
+  };
 
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: layoutAbsolute,

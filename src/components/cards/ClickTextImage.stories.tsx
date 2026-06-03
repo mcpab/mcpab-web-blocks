@@ -5,8 +5,28 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import ClickTextImage from './ClickTextImage';
+import type { UniversalImageProps } from '../../core/image';
 
-const MockImage: React.FC<any> = ({ src, alt, style, className, ...rest }) => {
+const MockImage: React.FC<UniversalImageProps> = ({
+  src,
+  alt,
+  style,
+  className,
+  fill,
+  sizes,
+  placeholder,
+  priority,
+  quality,
+  unoptimized,
+  ...rest
+}) => {
+  void fill;
+  void sizes;
+  void placeholder;
+  void priority;
+  void quality;
+  void unoptimized;
+
   const resolvedSrc = typeof src === 'string' ? src : src?.src;
   return (
     <img

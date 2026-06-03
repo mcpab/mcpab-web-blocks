@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
-import { LinkTypeComponent } from '../../core/link';
-import { RenderTextNode } from './defaultTextRegistries';
+import type { LinkTypeComponent } from '../../core/link';
+import type { RenderTextNode } from './defaultTextRegistries';
 
  
 
