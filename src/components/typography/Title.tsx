@@ -25,7 +25,7 @@ export const Title: React.FC<TitleProps> = (props) => {
     <Typography
       variant={variantLevels[role]}
       sx={sx}
-      color='primary'
+      color="text.primary"
       {...rest}
     />  
   );

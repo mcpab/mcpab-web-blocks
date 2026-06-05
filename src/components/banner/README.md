@@ -50,7 +50,7 @@ import { BannerStatic } from 'src/components/banner';
 
 ## Foreground content — `MainTitle`
 
-A vertical stack of title blocks. Each block is either a `PageTitle` (primary, h1-level) or a `SectionTitle` (secondary, h2-level). String content is auto-capitalised by default.
+A vertical stack of title blocks. Each block is either a `PageTitle` (primary, h1-level) or a `SectionTitle` (secondary, h2-level). These names describe visual hierarchy, not palette color. String content is auto-capitalised by default.
 
 ```tsx
 <MainTitle

@@ -99,7 +99,7 @@ export const WithCustomNodes: Story = () => (
       image={heroB}
       alt="Abstract gradient with geometric shapes"
       header={
-        <Typography variant="h4" color="primary">
+        <Typography variant="h4" color="text.primary">
           Build Once, Evolve Continuously
         </Typography>
       }

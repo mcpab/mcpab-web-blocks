@@ -46,7 +46,7 @@ const mediaB = svgDataUri(`
 
 const Message = (
   <Stack spacing={2} sx={{ p: { xs: 2, md: 3 } }}>
-    <Typography variant="h4" color="primary">
+    <Typography variant="h4" color="text.primary">
       MediaText section
     </Typography>
     <Typography variant="lead" color="text.primary">

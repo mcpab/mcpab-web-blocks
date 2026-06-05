@@ -43,7 +43,7 @@ var Title = (props) => {
     {
       variant: variantLevels[role],
       sx,
-      color: "primary",
+      color: "text.primary",
       ...rest
     }
   );
