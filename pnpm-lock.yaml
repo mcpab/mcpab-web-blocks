@@ -15,8 +15,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0)
       '@mcpab/gridcss':
-        specifier: git+https://github.com/mcpab/mcpab-gridCSS.git#v0.3.5
-        version: https://codeload.github.com/mcpab/mcpab-gridCSS/tar.gz/f41429e1c15aa03daa67f71e259d61f994c107e4(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@mui/material@7.3.6(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mui/system@7.3.5(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^0.3.5
+        version: 0.3.5(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@mui/material@7.3.6(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mui/system@7.3.5(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@mui/icons-material':
         specifier: '>=6'
         version: 7.3.6(@mui/material@7.3.6(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@types/react@18.3.27)(react@19.2.0)
@@ -902,9 +902,8 @@ packages:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
 
-  '@mcpab/gridcss@https://codeload.github.com/mcpab/mcpab-gridCSS/tar.gz/f41429e1c15aa03daa67f71e259d61f994c107e4':
-    resolution: {tarball: https://codeload.github.com/mcpab/mcpab-gridCSS/tar.gz/f41429e1c15aa03daa67f71e259d61f994c107e4}
-    version: 0.3.5
+  '@mcpab/gridcss@0.3.5':
+    resolution: {integrity: sha512-srP+f2SaDgpWB3wm06cn70d8GQ1UN4jZg9ogeY6Mau8GsWx4/aJWcLVW0AINDaYATsLYjiabA4HXRWk4ZziNhQ==, tarball: https://npm.pkg.github.com/download/@mcpab/gridcss/0.3.5/cc8ed0c907d6c8bd1ec7aefac1d35749e2deb0f0}
     peerDependencies:
       '@emotion/react': '>=11'
       '@emotion/styled': '>=11'
@@ -5253,7 +5252,7 @@ snapshots:
       - typescript
       - yaml
 
-  '@mcpab/gridcss@https://codeload.github.com/mcpab/mcpab-gridCSS/tar.gz/f41429e1c15aa03daa67f71e259d61f994c107e4(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@mui/material@7.3.6(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mui/system@7.3.5(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@mcpab/gridcss@0.3.5(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@mui/material@7.3.6(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mui/system@7.3.5(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@18.3.27)(react@19.2.0)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@19.2.0))(@types/react@18.3.27)(react@19.2.0)

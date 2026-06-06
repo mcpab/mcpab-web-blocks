@@ -1,6 +1,9 @@
 {
   "name": "@mcpab/web-blocks",
-  "version": "0.1.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "version": "0.1.1",
   "private": false,
   "type": "module",
   "main": "./dist/index.cjs",
@@ -100,7 +103,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mcpab/gridcss": "git+https://github.com/mcpab/mcpab-gridCSS.git#v0.3.5",
+    "@mcpab/gridcss": "^0.3.5",
     "@mui/system": "^7.3.5",
     "d3-hierarchy": "^3.1.2"
   }
