@@ -13,7 +13,7 @@ export type SpacerProps = {
   size?: number;
 };
 
-const Spacer: React.FC<SpacerProps> = ({ size = 4 }) => {
+export const Spacer: React.FC<SpacerProps> = ({ size = 4 }) => {
   return (
     <Box
       sx={(theme) => ({

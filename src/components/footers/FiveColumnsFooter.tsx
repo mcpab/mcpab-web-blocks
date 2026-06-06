@@ -98,3 +98,5 @@ export function FiveColumnsFooter(props: FiveColumnsFooterProps) {
     </Box>
   );
 }
+
+export default FiveColumnsFooter;

@@ -118,7 +118,7 @@ export type MediaAndTextProps = BaseProps & (ImageMedia | VideoMedia);
  */
 export type MediaAndTextNoMessage = Omit<BaseProps, 'message'> & (ImageMedia | VideoMedia);
 
-const MediaText: React.FC<MediaAndTextProps> = (props) => {
+export const MediaText: React.FC<MediaAndTextProps> = (props) => {
   //
   //
 

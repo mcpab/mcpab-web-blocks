@@ -1,5 +1,6 @@
 'use client';
 
+import '../../../mui-augment';
 import type { BoxProps } from '@mui/material/Box';
 import Box from '@mui/material/Box';
 import Divider, { type DividerProps } from '@mui/material/Divider';
@@ -66,3 +67,5 @@ export function DropDownGroup({
     </Box>
   );
 }
+
+export default DropDownGroup;

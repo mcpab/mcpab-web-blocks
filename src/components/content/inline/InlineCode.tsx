@@ -21,3 +21,4 @@ export function InlineCode({ body }: InlineCodeProps) {
   );
 }
 
+export default InlineCode;

@@ -59,3 +59,5 @@ export function Section({
     </Box>
   );
 }
+
+export default Section;

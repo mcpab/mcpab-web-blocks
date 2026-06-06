@@ -35,7 +35,7 @@ export interface SubscribeButtonProps extends Omit<ButtonProps, 'onClick'> {
   showInlineForm?: boolean;
 }
 
-const SubscribeButton: React.FC<SubscribeButtonProps> = ({
+export const SubscribeButton: React.FC<SubscribeButtonProps> = ({
   onSubscribe,
   placeholder = 'Enter your email address',
   successMessage = 'Successfully subscribed!',

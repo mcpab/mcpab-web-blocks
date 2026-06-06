@@ -9,7 +9,7 @@ export type HeaderMinimalProps = {
   right?: React.ReactNode;
 };
 
-export default function HeaderMinimal({ centerDown, centerUp, left, right }: HeaderMinimalProps) {
+export function HeaderMinimal({ centerDown, centerUp, left, right }: HeaderMinimalProps) {
   //
 
   return (
@@ -42,3 +42,5 @@ export default function HeaderMinimal({ centerDown, centerUp, left, right }: Hea
     </AppBar>
   );
 }
+
+export default HeaderMinimal;

@@ -61,7 +61,7 @@ export type MainTitleProps = {
  * />
  * ```
  */
-const MainTitle: React.FC<MainTitleProps> = ({
+export const MainTitle: React.FC<MainTitleProps> = ({
   blocks,
   autoCapitalize = true,
   slotProps,

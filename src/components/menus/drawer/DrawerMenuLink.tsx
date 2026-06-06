@@ -1,3 +1,4 @@
+import '../../../mui-augment';
 import ListItemButton, { type ListItemButtonProps } from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Typography, { type TypographyProps } from '@mui/material/Typography';
@@ -51,3 +52,5 @@ export function DrawerMenuLink({
     </ListItemButton>
   );
 }
+
+export default DrawerMenuLink;

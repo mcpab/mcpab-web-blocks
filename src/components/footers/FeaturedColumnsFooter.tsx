@@ -77,3 +77,5 @@ export function FeaturedColumnsFooter(props: FeaturedColumnsFooterProps) {
     </Box>
   );
 }
+
+export default FeaturedColumnsFooter;

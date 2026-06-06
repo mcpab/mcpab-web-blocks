@@ -12,7 +12,7 @@ import { styled } from '@mui/material/styles';
 
 // No 'use client' needed: no hooks/browser APIs.
 
-const TouchButton = styled(Button)(({ theme }) => ({
+export const TouchButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
   borderRadius: theme.shape.borderRadius,
   paddingInline: theme.spacing(2),

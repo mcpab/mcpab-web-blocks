@@ -12,3 +12,4 @@ export function InlineEmphasis({ body }: InlineEmphasisProps) {
   );
 }
 
+export default InlineEmphasis;

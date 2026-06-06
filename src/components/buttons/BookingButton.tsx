@@ -24,7 +24,7 @@ export interface BookingButtonProps extends ActionButtonProps {
   duration?: string;
 }
 
-const BookingButton: React.FC<BookingButtonProps> = ({
+export const BookingButton: React.FC<BookingButtonProps> = ({
   bookingUrl = "/book-consultation",
   serviceType,
   duration,

@@ -43,7 +43,7 @@ export type BannerStaticProps = {
  *
  * @see {@link BannerCarousel} for the animated multi-image variant.
  */
-const BannerStatic: React.FC<BannerStaticProps> = ({
+export const BannerStatic: React.FC<BannerStaticProps> = ({
   image,
   boxProps,
   size = 'micro',

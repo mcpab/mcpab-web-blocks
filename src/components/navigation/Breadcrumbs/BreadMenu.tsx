@@ -45,7 +45,7 @@ function normalizePathname(pathname?: string): string {
 /**
  * Breadcrumb navigation derived from a pathname.
  */
-const BreadMenu = function ({
+export const BreadMenu = function ({
   pathname,
   linkComponent = DefaultLinkLike,
   hideRoot = false,

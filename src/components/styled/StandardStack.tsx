@@ -22,7 +22,7 @@ const BaseStack: React.FC<StandardStackProps> = ({ size = 'standard', ...props }
   return <Stack spacing={spacing} {...props} />;
 };
 
-const StandardStack: React.FC<StandardStackProps> = ({ sx, ...props }) => {
+export const StandardStack: React.FC<StandardStackProps> = ({ sx, ...props }) => {
   return (
     <BaseStack
       {...props}

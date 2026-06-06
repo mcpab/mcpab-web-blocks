@@ -84,3 +84,5 @@ export function ThreeColumnsFooter(props: ThreeColumnsFooterProps) {
     </Box>
   );
 }
+
+export default ThreeColumnsFooter;

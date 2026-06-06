@@ -55,3 +55,5 @@ export function SubSection({
     </Box>
   );
 }
+
+export default SubSection;

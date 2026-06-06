@@ -84,7 +84,7 @@ function isIconName(value: string): value is IconName {
 }
 
 /** Icon renderer from semantic names. */
-const IconPicker: React.FC<IconPickerProps> = ({ name, fontSize = 'medium' }) => {
+export const IconPicker: React.FC<IconPickerProps> = ({ name, fontSize = 'medium' }) => {
   const key = normalizeKey(name);
 
   if (!isIconName(key)) return null;

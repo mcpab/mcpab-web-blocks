@@ -32,7 +32,7 @@ export interface CopyButtonProps extends Omit<ButtonProps, 'onClick' | 'onCopy'>
   onCopy?: (success: boolean) => void;
 }
 
-const CopyButton: React.FC<CopyButtonProps> = ({
+export const CopyButton: React.FC<CopyButtonProps> = ({
   text,
   successMessage = 'Copied to clipboard!',
   showTooltip = true,

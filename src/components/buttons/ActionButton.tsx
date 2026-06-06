@@ -173,7 +173,7 @@ export interface ActionButtonProps extends ButtonProps {
  *   View on GitHub
  * </ActionButton>
  */
-const ActionButton: React.FC<ActionButtonProps> = ({ icon, href, ...rest }) => {
+export const ActionButton: React.FC<ActionButtonProps> = ({ icon, href, ...rest }) => {
   const isExternal = href?.startsWith('http');
   return (
     <TouchButton

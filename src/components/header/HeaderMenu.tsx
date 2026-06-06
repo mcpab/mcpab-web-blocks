@@ -23,3 +23,5 @@ export function HeaderMenu({ menuProps, logoProps, breadMenuProps }: HeaderMenuP
     />
   );
 }
+
+export default HeaderMenu;

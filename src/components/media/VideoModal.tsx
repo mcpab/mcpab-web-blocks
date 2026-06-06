@@ -1,4 +1,7 @@
 'use client';
+
+import '../../mui-augment';
+
 /**
  * @packageDocumentation
  *
@@ -121,7 +124,7 @@ function resolveIframeSrc(videoId?: string, src?: string): string {
 /**
  * Trigger (default avatar+button or custom node) that opens a modal with responsive iframe media.
  */
-export default function VideoModal({
+export function VideoModal({
     videoId,
     src,
     title = 'Watch Video',
@@ -250,3 +253,5 @@ export default function VideoModal({
         </>
     );
 }
+
+export default VideoModal;

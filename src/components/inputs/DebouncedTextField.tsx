@@ -50,7 +50,7 @@ export type DebouncedTextFieldProps = Omit<TextFieldProps, 'onChange' | 'value'>
  * - Respects IME composition and defers debounced emits until composition ends.
  * - Optionally flushes pending value on blur.
  */
-const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
+export const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
   value: controlledValue,
   defaultValue = '',
   debounceMs = 500,

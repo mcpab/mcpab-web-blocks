@@ -1,5 +1,6 @@
 'use client';
 
+import '../../../mui-augment';
 import Box, { type BoxProps } from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import List, { type ListProps } from '@mui/material/List';
@@ -78,3 +79,5 @@ export function DrawerMenuGroup({
     </Box>
   );
 }
+
+export default DrawerMenuGroup;

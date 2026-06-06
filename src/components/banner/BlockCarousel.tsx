@@ -68,7 +68,7 @@ export type CarouselConfig = {
  *
  * @see {@link BannerCarousel} for the higher-level component that wraps this inside a `Section`.
  */
-const BlockCarousel: React.FC<CarouselConfig> = ({
+export const BlockCarousel: React.FC<CarouselConfig> = ({
   config,
   children,
   containerProps,

@@ -43,7 +43,7 @@ export type BannerCarouselProps = {
  * @see {@link BannerStatic} for a single-image variant.
  * @see {@link BlockCarousel} for the underlying carousel primitive.
  */
-const BannerCarousel: React.FC<BannerCarouselProps> = ({
+export const BannerCarousel: React.FC<BannerCarouselProps> = ({
   images,
   id,
   size = 'micro',

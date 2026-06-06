@@ -20,11 +20,6 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./banner": {
-      "types": "./dist/banner.d.ts",
-      "import": "./dist/banner.js",
-      "require": "./dist/banner.cjs"
-    },
     "./typography": {
       "types": "./dist/typography.d.ts",
       "import": "./dist/typography.js",
@@ -44,6 +39,11 @@
       "types": "./dist/mui-augment.d.ts",
       "import": "./dist/mui-augment.js",
       "require": "./dist/mui-augment.cjs"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js",
+      "require": "./dist/*.cjs"
     }
   },
   "scripts": {

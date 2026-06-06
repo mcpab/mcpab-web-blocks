@@ -20,3 +20,5 @@ export function ContentTreeView({ tree }: ContentTreeViewProps) {
     </Box>
   );
 }
+
+export default ContentTreeView;

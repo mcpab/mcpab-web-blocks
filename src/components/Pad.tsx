@@ -31,10 +31,12 @@ const PadRoot = styled(Box, { shouldForwardProp: (p) => p !== 'reverse' })<PadPr
   })
 );
 
-export default function Pad({ reverse = false, children, sx }: PadProps) {
+export function Pad({ reverse = false, children, sx }: PadProps) {
   return (
     <PadRoot reverse={reverse} sx={sx}>
       {children}
     </PadRoot>
   );
 }
+
+export default Pad;

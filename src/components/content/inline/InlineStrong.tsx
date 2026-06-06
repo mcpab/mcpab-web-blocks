@@ -12,3 +12,4 @@ export function InlineStrong({ body }: InlineStrongProps) {
   );
 }
 
+export default InlineStrong;

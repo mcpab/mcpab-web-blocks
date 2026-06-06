@@ -340,7 +340,7 @@ export interface SocialButtonProps extends Omit<ActionButtonProps, 'icon'> {
  *   customAriaLabel="Chat with us on WhatsApp"
  * />
  */
-const SocialButton: React.FC<SocialButtonProps> = ({
+export const SocialButton: React.FC<SocialButtonProps> = ({
   platform,
   useBrandColors = true,
   iconOnly = false,

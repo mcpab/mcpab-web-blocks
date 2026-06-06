@@ -250,7 +250,7 @@ const PLATFORM_CONFIG = {
  *   Share Event
  * </ShareButton>
  */
-const ShareButton: React.FC<ShareButtonProps> = ({
+export const ShareButton: React.FC<ShareButtonProps> = ({
   url,
   title,
   text,

@@ -28,7 +28,7 @@ export type SectionProps = BoxProps & {
 /**
  * Structural section wrapper for page composition.
  */
-export default function Section({
+export function Section({
   size = 'md',
   center = false,
   lockHeight = false,
@@ -60,3 +60,5 @@ export default function Section({
     </Box>
   );
 }
+
+export default Section;

@@ -15,7 +15,7 @@ export type HeaderProps = {
   breadMenuProps: BreadMenuProps;
 };
 
-export default function Header({breadMenuProps,drawerProps,logoProps,menuProps}:HeaderProps) {
+export function Header({breadMenuProps,drawerProps,logoProps,menuProps}:HeaderProps) {
 
     return( <>
     
@@ -35,3 +35,5 @@ export default function Header({breadMenuProps,drawerProps,logoProps,menuProps}:
     </>)
 
 }
+
+export default Header;

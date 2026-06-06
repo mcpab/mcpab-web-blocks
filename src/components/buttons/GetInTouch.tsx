@@ -155,7 +155,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
  *   <GetInTouch />
  * </TeamSection>
  */
-const GetInTouch = () => (
+export const GetInTouch = () => (
   <ActionButton icon={<PhoneIcon />} href="/contact" size="small">
     Get In Touch
   </ActionButton>

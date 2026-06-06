@@ -53,7 +53,7 @@ function clampFrameIndex(index: number, length: number): number {
  *
  * @see {@link BlockCarousel} which builds the frame array from `BackgroundBox` slides.
  */
-const DynamicTransition: React.FC<DynamicTransitionProps> = ({
+export const DynamicTransition: React.FC<DynamicTransitionProps> = ({
   frames,
   interval = 2000,
   transitionDuration = 1000,

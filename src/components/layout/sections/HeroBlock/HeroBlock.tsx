@@ -1,5 +1,6 @@
 'use client';
 
+import '../../../../mui-augment';
 import * as React from 'react';
 
 import Grid from '@mui/material/Grid';
@@ -69,7 +70,7 @@ function formatTitle(node: React.ReactNode, kind: 'title' | 'subtitle' = 'title'
 /**
  * Two-column hero section with heading/copy on the left and responsive media on the right.
  */
-const HeroBlock: React.FC<HeroBlockProps> = ({
+export const HeroBlock: React.FC<HeroBlockProps> = ({
   image,
   alt,
   header,

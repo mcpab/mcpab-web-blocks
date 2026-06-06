@@ -81,7 +81,7 @@ function SuccessButtonContent({
 }
 
 /** Button with built-in loading and temporary success presentation. */
-const CallToActionButton: React.FC<CallToActionButtonProps> = ({
+export const CallToActionButton: React.FC<CallToActionButtonProps> = ({
   loading = false,
   success = false,
   successDuration = 2000,

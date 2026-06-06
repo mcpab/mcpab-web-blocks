@@ -23,7 +23,7 @@ export interface WhatsAppButtonProps extends Omit<ActionButtonProps, 'href'> {
   countryCode?: string;
 }
 
-const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
+export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   phone,
   message = "Hi, I need help with...",
   countryCode,

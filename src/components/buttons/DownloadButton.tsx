@@ -302,7 +302,7 @@ const detectFileType = (href: string): FileType => {
  *   Export My Data
  * </DownloadButton>
  */
-const DownloadButton: React.FC<DownloadButtonProps> = ({
+export const DownloadButton: React.FC<DownloadButtonProps> = ({
   href,
   fileName,
   fileSize,

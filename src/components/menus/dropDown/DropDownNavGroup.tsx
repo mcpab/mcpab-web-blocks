@@ -1,5 +1,6 @@
 'use client';
 
+import '../../../mui-augment';
 import Box , {type BoxProps } from '@mui/material/Box';
 import Button, { type ButtonProps } from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
@@ -84,6 +85,8 @@ export function DropDownNavGroup({
 
   //
 }
+
+export default DropDownNavGroup;
 
 function MegaMenu({
   items,

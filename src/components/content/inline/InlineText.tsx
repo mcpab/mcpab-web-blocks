@@ -12,3 +12,4 @@ export function InlineText({ body }: InlineTextProps) {
   );
 }
 
+export default InlineText;

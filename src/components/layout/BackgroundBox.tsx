@@ -166,7 +166,7 @@ function computeAR({ imageConf }: { imageConf: ImageConf | undefined }): {
 
   return { computedAR, placeholder };
 }
-const BackgroundBox: React.FC<BackgroundBoxProps> = ({
+export const BackgroundBox: React.FC<BackgroundBoxProps> = ({
   imageConf,
   children,
   sx,

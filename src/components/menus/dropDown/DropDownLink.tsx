@@ -1,3 +1,4 @@
+import '../../../mui-augment';
 import Button, { type ButtonProps } from '@mui/material/Button';
 import Typography, { type TypographyProps } from '@mui/material/Typography';
 import { useMenuSelectionContext } from '../tree/MenuSelectionContext';
@@ -44,3 +45,5 @@ export function DropDownLink({
     </Button>
   );
 }
+
+export default DropDownLink;

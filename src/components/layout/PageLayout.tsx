@@ -19,7 +19,7 @@ export type PageLayoutProps = {
   sx?: SxProps<Theme>;
 };
 
-const PageLayout: React.FC<PageLayoutProps> = ({ children, transparent = false, sx }) => {
+export const PageLayout: React.FC<PageLayoutProps> = ({ children, transparent = false, sx }) => {
   return (
     <StandardStack
       size="large"

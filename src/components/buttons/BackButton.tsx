@@ -290,7 +290,7 @@ export interface BackButtonProps extends Omit<ButtonProps, 'startIcon' | 'onClic
  *   Back
  * </BackButton>
  */
-const BackButton: React.FC<BackButtonProps> = ({
+export const BackButton: React.FC<BackButtonProps> = ({
   onBack,
   fallbackHref,
   useHistory = true,

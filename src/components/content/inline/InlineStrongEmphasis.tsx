@@ -16,3 +16,4 @@ export function InlineStrongEmphasis({ body }: InlineStrongEmphasisProps) {
   );
 }
 
+export default InlineStrongEmphasis;

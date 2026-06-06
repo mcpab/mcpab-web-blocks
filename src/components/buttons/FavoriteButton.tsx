@@ -39,7 +39,7 @@ export interface FavoriteButtonProps extends Omit<IconButtonProps, 'onClick'> {
   tooltipText?: { favorited: string; unfavorited: string };
 }
 
-const FavoriteButton: React.FC<FavoriteButtonProps> = ({
+export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   isFavorited = false,
   onToggle,
   itemId,

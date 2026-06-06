@@ -23,3 +23,5 @@ export function HeaderDrawer({ drawerProps, logoProps, breadMenuProps }: HeaderD
     />
   );
 }
+
+export default HeaderDrawer;

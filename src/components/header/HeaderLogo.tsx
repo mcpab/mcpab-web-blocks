@@ -14,7 +14,7 @@ export type HeaderLogoProps = {
   sx?: SxProps<Theme>;
 };
 
-export default function HeaderLogo({
+export function HeaderLogo({
   ImageComponent,
   src,
   subtitle,
@@ -40,3 +40,5 @@ export default function HeaderLogo({
     </Box>
   );
 }
+
+export default HeaderLogo;

@@ -21,3 +21,5 @@ export function RichText({ inlineNodes }: RichTextProps) {
     </Box>
   );
 }
+
+export default RichText;

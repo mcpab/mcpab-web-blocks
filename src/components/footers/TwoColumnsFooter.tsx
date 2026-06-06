@@ -77,3 +77,5 @@ export function TwoColumnsFooter(props: TwoColumnsFooterProps) {
     </Box>
   );
 }
+
+export default TwoColumnsFooter;

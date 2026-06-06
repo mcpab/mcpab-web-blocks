@@ -52,3 +52,5 @@ export function DropDown({ navigationTree, selectors, rendererContext }: DropDow
 
   //
 }
+
+export default DropDown;

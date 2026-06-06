@@ -1,5 +1,6 @@
 'use client';
 
+import '../../mui-augment';
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -55,7 +56,7 @@ export type ClickTextImageProps = {
  * />
  * ```
  */
-const ClickTextImage: React.FC<ClickTextImageProps> = ({ title, image, text, ImageComponent }) => {
+export const ClickTextImage: React.FC<ClickTextImageProps> = ({ title, image, text, ImageComponent }) => {
   const [open, setOpen] = React.useState(false);
   const contentId = useId();
 

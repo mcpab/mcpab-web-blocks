@@ -18,3 +18,4 @@ export function InlineLink({ body, href}: InlineLinkProps) {
   );
 }
 
+export default InlineLink;
