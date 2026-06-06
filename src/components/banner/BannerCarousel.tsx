@@ -36,7 +36,7 @@ export type BannerCarouselProps = {
  *   size="lg"
  *   ImageComponent={Image}
  * >
- *   <MainTitle blocks={[{ title: 'Welcome' }]} />
+ *   <MainTitle title="Welcome" subtitle="Start here" />
  * </BannerCarousel>
  * ```
  *

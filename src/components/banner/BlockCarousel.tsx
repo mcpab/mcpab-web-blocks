@@ -62,7 +62,7 @@ export type CarouselConfig = {
  *   config={{ images, interval: 6000, overlayColor: 'rgba(0,0,0,0.35)' }}
  *   ImageComponent={Image}
  * >
- *   <MainTitle blocks={[{ title: 'Hello world' }]} />
+ *   <MainTitle title="Hello world" subtitle="A supporting line" />
  * </BlockCarousel>
  * ```
  *

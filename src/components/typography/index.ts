@@ -11,4 +11,4 @@ export {
   SubsubsectionTitleLabel,
 } from './TitleLabel';
 export { default as MainTitle } from '../banner/MainTitle';
-export type { MainTitleProps, MainTitleBlock } from '../banner/MainTitle';
+export type { MainTitleProps } from '../banner/MainTitle';

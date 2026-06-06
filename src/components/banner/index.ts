@@ -9,7 +9,7 @@
  * - {@link BannerStatic} — hero band with a single static background image.
  * - {@link BlockCarousel} — low-level carousel primitive used by `BannerCarousel`.
  * - {@link DynamicTransition} — client-side crossfade engine used by `BlockCarousel`.
- * - {@link MainTitle} — multi-block title renderer (primary / secondary hierarchy).
+ * - {@link MainTitle} — page title and supporting subtitle renderer.
  *
  * ## Usage tips
  * - Keep text readable: use `overlayColor` on carousel/static images, or solid backgrounds with sufficient contrast.
@@ -26,4 +26,4 @@ export type { CarouselConfig, CarouselProps, ImageCarousel } from './BlockCarous
 export { default as DynamicTransition } from './DynamicTransition';
 export type { DynamicTransitionProps } from './DynamicTransition';
 export { default as MainTitle } from './MainTitle';
-export type { MainTitleProps, MainTitleBlock } from './MainTitle';
+export type { MainTitleProps } from './MainTitle';

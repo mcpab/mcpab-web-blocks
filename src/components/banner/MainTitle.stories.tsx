@@ -3,7 +3,6 @@ import * as React from "react";
 import type { Story } from "@ladle/react";
 
 import MainTitle from "./MainTitle";
-import type { MainTitleBlock } from "./MainTitle";
 
 const Frame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div style={{ padding: 24, maxWidth: 980 }}>
@@ -14,109 +13,52 @@ const Frame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 export const Default: Story = () => (
   <Frame>
     <MainTitle
-      blocks={[
-        { title: "welcome to acme", type: "primary" },
-        { title: "building the future", type: "secondary" },
-      ]}
+      title="Welcome to Acme"
+      subtitle="Building the future"
     />
   </Frame>
 );
 Default.storyName = "Default";
 
-export const MultipleBlocks: Story = () => (
+export const LongCopy: Story = () => (
   <Frame>
     <MainTitle
-      blocks={[
-        { title: "new patient intake", type: "primary" },
-        { title: "telehealth & in-person appointments", type: "secondary" },
-        { title: "same-day availability in select cases", type: "secondary" },
-      ]}
+      title="New Patient Intake"
+      subtitle="Telehealth and in-person appointments with same-day availability in select cases"
     />
   </Frame>
 );
-MultipleBlocks.storyName = "Multiple blocks";
+LongCopy.storyName = "Long copy";
 
-export const AutoCapitalizeOff: Story = () => (
+export const CasePreserved: Story = () => (
   <Frame>
     <MainTitle
       autoCapitalize={false}
-      blocks={[
-        { title: "welcome to acme", type: "primary" },
-        { title: "building the future", type: "secondary" },
-      ]}
+      title="welcome to acme"
+      subtitle="building the future"
     />
   </Frame>
 );
-AutoCapitalizeOff.storyName = "autoCapitalize = false";
+CasePreserved.storyName = "Case preserved";
 
-export const RichContent: Story = () => (
+export const SlotProps: Story = () => (
   <Frame>
     <MainTitle
-      blocks={[
-        {
-          title: (
-            <span>
-              Welcome to <strong>Acme</strong> <span style={{ opacity: 0.8 }}>—</span>{" "}
-              <em>2026</em>
-            </span>
-          ),
-          type: "primary",
-        },
-        {
-          title: (
-            <span>
-              Book an appointment{" "}
-              <a href="#" onClick={(e) => e.preventDefault()}>
-                online
-              </a>
-            </span>
-          ),
-          type: "secondary",
-        },
-      ]}
-    />
-  </Frame>
-);
-RichContent.storyName = "Rich ReactNode titles";
-
-export const SlotPropsAndOverrides: Story = () => (
-  <Frame>
-    <MainTitle
+      title="Custom Title Defaults"
+      subtitle="Subtitle defaults are applied through slotProps"
       slotProps={{
         stack: {
           spacing: 2,
           alignItems: "flex-start",
         },
-        // Defaults applied to ALL primary blocks
         title: {
-          // TitleProps surface varies per your implementation; these are common MUI typography props.
-          // Keep/remove as needed depending on TitleProps.
           sx: { letterSpacing: 0.5 },
         },
-        // Defaults applied to ALL secondary blocks
         subtitle: {
           sx: { opacity: 0.9 },
         },
       }}
-      blocks={[
-        { title: "default primary styling", type: "primary" },
-        {
-          title: "primary with per-block override",
-          type: "primary",
-          titleProps: {
-            sx: { textDecoration: "underline" },
-          },
-        },
-        { title: "default secondary styling", type: "secondary" },
-        {
-          title: "secondary with per-block override",
-          type: "secondary",
-          titleProps: {
-            sx: { opacity: 1, fontStyle: "italic" },
-          },
-        },
-      ] satisfies MainTitleBlock[]}
     />
   </Frame>
 );
-SlotPropsAndOverrides.storyName = "slotProps + per-block overrides";
+SlotProps.storyName = "slotProps";

@@ -26,7 +26,7 @@ import { BannerCarousel } from 'src/components/banner';
   size="lg"
   ImageComponent={Image}
 >
-  <MainTitle blocks={[{ title: 'Welcome' }, { title: 'Subtitle', type: 'secondary' }]} />
+  <MainTitle title="Welcome" subtitle="Subtitle" />
 </BannerCarousel>
 ```
 
@@ -42,7 +42,7 @@ import { BannerStatic } from 'src/components/banner';
   size="md"
   ImageComponent={Image}
 >
-  <MainTitle blocks={[{ title: 'Our story' }]} />
+  <MainTitle title="Our story" subtitle="How we got here" />
 </BannerStatic>
 ```
 
@@ -50,14 +50,12 @@ import { BannerStatic } from 'src/components/banner';
 
 ## Foreground content — `MainTitle`
 
-A vertical stack of title blocks. Each block is either a `PageTitle` (primary, h1-level) or a `SectionTitle` (secondary, h2-level). These names describe visual hierarchy, not palette color. String content is auto-capitalised by default.
+A vertical stack containing a `PageTitle` and supporting `SectionTitle`. String content is auto-capitalised by default.
 
 ```tsx
 <MainTitle
-  blocks={[
-    { title: 'Main headline', type: 'primary' },
-    { title: 'Supporting line', type: 'secondary' },
-  ]}
+  title="Main headline"
+  subtitle="Supporting line"
   autoCapitalize   // default: true
 />
 ```
@@ -134,5 +132,5 @@ banner/
 ├── BannerStatic.tsx       — hero band with single static background image
 ├── BlockCarousel.tsx      — carousel primitive (grid-stacked layers)
 ├── DynamicTransition.tsx  — client-side crossfade engine
-└── MainTitle.tsx          — multi-block title stack (primary / secondary)
+└── MainTitle.tsx          — page title and subtitle stack
 ```

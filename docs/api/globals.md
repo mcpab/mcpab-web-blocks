@@ -86,7 +86,6 @@
 - [ImageConf](type-aliases/ImageConf.md)
 - [IsSelectedMenuElement](type-aliases/IsSelectedMenuElement.md)
 - [LinkTypeComponent](type-aliases/LinkTypeComponent.md)
-- [MainTitleBlock](type-aliases/MainTitleBlock.md)
 - [MainTitleProps](type-aliases/MainTitleProps.md)
 - [MediaAndTextNoMessage](type-aliases/MediaAndTextNoMessage.md)
 - [MediaAndTextProps](type-aliases/MediaAndTextProps.md)

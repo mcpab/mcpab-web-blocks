@@ -5,88 +5,53 @@ import { PageTitle, SectionTitle, type TitleProps } from '../typography/Title';
 import { toTitleCase } from '../../lib/text/transform';
 
 type TitleLocalProps = Omit<TitleProps, 'sectionType'>;
-
-/** A single title or subtitle block rendered by {@link MainTitle}. */
-export type MainTitleBlock = {
-  /** Text content. Strings are auto-capitalised when `autoCapitalize` is `true`. Accepts React nodes for rich content. */
-  title: string | React.ReactNode;
-  /**
-   * Visual hierarchy level.
-   * - `'primary'` — renders as `PageTitle` (h1-equivalent, large).
-   * - `'secondary'` — renders as `SectionTitle` (h2-equivalent, smaller).
-   * @defaultValue `'primary'`
-   */
-  type?: 'primary' | 'secondary';
-  /** Per-block typography overrides, merged on top of `slotProps.title` / `slotProps.subtitle`. */
-  titleProps?: TitleLocalProps;
-};
+ 
 
 /** Props for {@link MainTitle}. */
 export type MainTitleProps = {
-  /** Ordered list of title/subtitle blocks to render. */
-  blocks: MainTitleBlock[];
+  /** Primary title text rendered as a {@link PageTitle}. */
+  title: string;
+  /** Supporting subtitle text rendered as a {@link SectionTitle}. */
+  subtitle: string;
   /**
-   * When `true`, string titles are passed through `toTitleCase` before rendering.
-   * Has no effect on React node titles.
+   * When `true`, title and subtitle are passed through `toTitleCase` before rendering.
    * @defaultValue `true`
    */
   autoCapitalize?: boolean;
-  /** Slot-level prop overrides applied as defaults to all blocks of each type. */
+  /** Slot-level prop overrides applied to the wrapper and title elements. */
   slotProps?: {
     /** Props forwarded to the `Stack` wrapper. */
     stack?: StackProps;
-    /** Default typography props for all `'primary'` blocks. */
+    /** Props forwarded to the primary title. */
     title?: TitleLocalProps;
-    /** Default typography props for all `'secondary'` blocks. */
+    /** Props forwarded to the subtitle. */
     subtitle?: TitleLocalProps;
   };
 };
 
 /**
- * Renders a vertical stack of title and subtitle blocks.
- *
- * Each block in `blocks` is rendered as either a `PageTitle` (primary) or
- * `SectionTitle` (secondary), with per-block `titleProps` merged on top of
- * the shared `slotProps.title` / `slotProps.subtitle` defaults.
+ * Renders a vertical stack containing a page title and supporting subtitle.
  *
  * Typically used as foreground content inside {@link BannerCarousel} or {@link BannerStatic}.
  *
  * @example
  * ```tsx
  * <MainTitle
- *   blocks={[
- *     { title: 'Welcome to Acme', type: 'primary' },
- *     { title: 'Building the future', type: 'secondary' },
- *   ]}
+ *   title="Welcome to Acme"
+ *   subtitle="Building the future"
  * />
  * ```
  */
-export const MainTitle: React.FC<MainTitleProps> = ({
-  blocks,
-  autoCapitalize = true,
-  slotProps,
-}) => {
+export function MainTitle({ title, subtitle, autoCapitalize = true, slotProps }: MainTitleProps) {
+  const renderedTitle = autoCapitalize ? toTitleCase(title) : title;
+  const renderedSubtitle = autoCapitalize ? toTitleCase(subtitle) : subtitle;
+
   return (
     <Stack spacing={4} {...slotProps?.stack}>
-      {blocks.map((block, index) => {
-        const content =
-          typeof block.title === 'string' && autoCapitalize
-            ? toTitleCase(block.title)
-            : block.title;
-
-        const isPrimary = (block.type ?? 'primary') === 'primary';
-        const Component = isPrimary ? PageTitle : SectionTitle;
-        const defaults = isPrimary ? slotProps?.title : slotProps?.subtitle;
-        const componentProps = { ...defaults, ...block?.titleProps };
-
-        return (
-          <Component key={`main-title-${index}`} {...componentProps}>
-            {content}
-          </Component>
-        );
-      })}
+      <PageTitle {...slotProps?.title}>{renderedTitle}</PageTitle>
+      <SectionTitle {...slotProps?.subtitle}>{renderedSubtitle}</SectionTitle>
     </Stack>
   );
-};
+}
 
 export default React.memo(MainTitle);

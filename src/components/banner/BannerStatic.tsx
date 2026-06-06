@@ -37,7 +37,7 @@ export type BannerStaticProps = {
  *   size="md"
  *   ImageComponent={Image}
  * >
- *   <MainTitle blocks={[{ title: 'Our story' }]} />
+ *   <MainTitle title="Our story" subtitle="How we got here" />
  * </BannerStatic>
  * ```
  *
