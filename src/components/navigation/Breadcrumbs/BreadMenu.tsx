@@ -1,21 +1,18 @@
-'use client';
-
 import * as React from 'react';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import MuiLink from '@mui/material/Link';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { toTitleCase } from '../../../lib/text/transform';
-import { DefaultLinkLike, type LinkTypeComponent } from '../../../core/link';
+import { DefaultLinkLike, type LinkTypeComponent } from '../../../core/link/linkExtensions';
 
 /**
  * Props for {@link BreadMenu}.
  */
 export type BreadMenuProps = {
   /**
-   * Optional explicit pathname (useful for stories and SSR).
-   * Falls back to `window.location.pathname` when omitted.
+   * * Explicit pathname used to derive breadcrumb segments.
    */
-  pathname?: string;
+  pathname: string;
   /** Optional custom link component (e.g., Next.js Link). */
   linkComponent?: LinkTypeComponent;
   /** Hide the “Home” root link. @defaultValue false */
@@ -34,9 +31,8 @@ export type BreadMenuProps = {
   titleCase?: boolean;
 };
 
-function normalizePathname(pathname?: string): string {
-  const fallback = typeof window !== 'undefined' ? window.location.pathname : '/';
-  const raw = (pathname ?? fallback).trim() || '/';
+function normalizePathname(pathname: string): string {
+  const raw = pathname.trim() || '/';
   const noHash = raw.split('#')[0] ?? raw;
   const noQuery = noHash.split('?')[0] ?? noHash;
   return noQuery.startsWith('/') ? noQuery : `/${noQuery}`;
@@ -56,16 +52,15 @@ export const BreadMenu = function ({
   sx,
   titleCase = true,
 }: BreadMenuProps) {
-  const normalizedPath = React.useMemo(() => normalizePathname(pathname), [pathname]);
+  const normalizedPath = normalizePathname(pathname);
+  const excludeSet = new Set(exclude ?? []);
 
-  const excludeSet = React.useMemo(() => new Set(exclude ?? []), [exclude]);
-
-  const segments = React.useMemo(() => {
+  const segments = (() => {
     const raw = normalizedPath.split('/').filter(Boolean);
     return excludeSet.size ? raw.filter((s) => !excludeSet.has(s)) : raw;
-  }, [normalizedPath, excludeSet]);
+  })();
 
-  const items = React.useMemo(() => {
+  const items = () => {
     const crumbs: React.ReactNode[] = [];
     const acc: string[] = [];
 
@@ -104,7 +99,7 @@ export const BreadMenu = function ({
     });
 
     return crumbs;
-  }, [segments, segmentLabels, titleCase,linkComponent]);
+  };
 
   return (
     <nav aria-label="Breadcrumb">
@@ -122,7 +117,7 @@ export const BreadMenu = function ({
             Home
           </MuiLink>
         )}
-        {items}
+        {items()}
       </MuiBreadcrumbs>
     </nav>
   );

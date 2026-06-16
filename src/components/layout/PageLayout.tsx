@@ -1,5 +1,5 @@
 import * as React from 'react';
-import StandardStack from '../styled/StandardStack';
+import StandardStack, { StandardStackProps } from '../styled/StandardStack';
 import type { SxProps, Theme } from '@mui/material/styles';
 
 /**
@@ -13,16 +13,16 @@ import type { SxProps, Theme } from '@mui/material/styles';
  */
 export type PageLayoutProps = {
   children: React.ReactNode;
-
+  size? : StandardStackProps['size'];
   transparent?: boolean;
 
   sx?: SxProps<Theme>;
 };
 
-export const PageLayout: React.FC<PageLayoutProps> = ({ children, transparent = false, sx }) => {
+export function PageLayout  ({ children, size='large', transparent = false, sx }:PageLayoutProps) {
   return (
     <StandardStack
-      size="large"
+      size= {size}
       sx={[
         {
           background: transparent ? 'none' : undefined,

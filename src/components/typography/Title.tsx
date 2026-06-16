@@ -2,7 +2,10 @@
 
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import type {BodyTextProps} from './types';
+import type { TypographyProps } from "@mui/material/Typography";
+
+ 
+export type BodyTextProps = Omit<TypographyProps, 'variant' | 'component'>;
 
 export const variantLevels = {
   page: 'h1',
@@ -13,10 +16,10 @@ export const variantLevels = {
 
 export type TitleTypes = keyof typeof variantLevels;
 
-export interface TitleProps extends BodyTextProps {
+export type TitleProps = {
   /** Semantic level (maps to h1…h4). */
   sectionType: TitleTypes;
-}
+} & BodyTextProps;
 
 /** Base component that locks the variant based on `sectionType`. */
 export const Title: React.FC<TitleProps> = (props) => {

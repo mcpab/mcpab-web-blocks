@@ -1,4 +1,4 @@
-'use client';
+
 
 import Box from '@mui/material/Box';
 import type { DrawerMenuRootProps } from '../menus/drawer/DrawerMenuRoot';

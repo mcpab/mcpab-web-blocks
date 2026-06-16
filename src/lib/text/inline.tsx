@@ -10,7 +10,7 @@
 
 import * as React from 'react';
 import MuiLink from '@mui/material/Link';
-import type { LinkTypeComponent } from '../../core/link';
+import type { LinkTypeComponent } from '../../core/link/linkExtensions';
 
 /**
  * Convert a string containing **bold** markers into React nodes.

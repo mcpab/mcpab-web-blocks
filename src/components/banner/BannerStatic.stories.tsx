@@ -5,7 +5,7 @@ import type { Story } from "@ladle/react";
 import BannerStatic from "./BannerStatic";
 import type { BannerStaticProps } from "./BannerStatic";
 import type { ImageConf } from "../layout/BackgroundBox";
-import type { UniversalImageProps } from "../../core/image";
+import type { UniversalImageProps } from "../../core/image/imageExtensions";
 
 /**
  * Minimal ImageComponentLike mock.

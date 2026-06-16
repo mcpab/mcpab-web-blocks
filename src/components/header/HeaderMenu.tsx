@@ -1,4 +1,4 @@
-'use client';
+
 
 import { DropDown } from '../menus/dropDown/DropDown';
 import type { DropDownMenuProps } from '../menus/dropDown/DropDown';

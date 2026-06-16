@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { LinkTypeComponent } from '../../core/link';
+import type { LinkTypeComponent } from '../../core/link/linkExtensions';
 import type { RenderTextNode } from './defaultTextRegistries';
 
  

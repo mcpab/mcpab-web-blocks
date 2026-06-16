@@ -3,7 +3,7 @@ import Section from '../../components/Section';
 import type { CarouselProps } from './BlockCarousel';
 import BlockCarousel from './BlockCarousel';
 import type { SectionSize } from '../../design/sectionTokens';
-import type { ImageComponentLike } from '../../core/image/image-types';
+import type { ImageComponentLike } from '../../core/image/imageExtensions';
 
 /** Props for {@link BannerCarousel}. */
 export type BannerCarouselProps = {
@@ -43,34 +43,31 @@ export type BannerCarouselProps = {
  * @see {@link BannerStatic} for a single-image variant.
  * @see {@link BlockCarousel} for the underlying carousel primitive.
  */
-export const BannerCarousel: React.FC<BannerCarouselProps> = ({
+export function BannerCarousel({
   images,
   id,
   size = 'micro',
   children,
   ImageComponent,
-}) => {
+}: BannerCarouselProps) {
   return (
     <Section
       id={id as string | undefined} // Don't hardcode "banner" to avoid duplicate IDs on pages with multiple banners.
-      size={size}                    // Establishes minHeight via tokens and sets display:flex.
-      position={'relative'}          // Ensure Section is the positioning context for BlockCarousel.
+      size={size} // Establishes minHeight via tokens and sets display:flex.
+      position={'relative'} // Ensure Section is the positioning context for BlockCarousel.
       width={'100%'}
-      lockHeight                     // Make height definite for absolute children (BlockCarousel).
+      lockHeight // Make height definite for absolute children (BlockCarousel).
     >
       {/*
         Section applies: `& > * { flex: 1; min-height: inherit }`
         → BlockCarousel fills the band's height automatically.
       */}
-      <BlockCarousel
-        config={images}
-        ImageComponent={ImageComponent}
-      >
+      <BlockCarousel config={images} ImageComponent={ImageComponent}>
         {/* Overlay content. Keep it lean; wrap with a Container upstream if you need maxWidth constraints. */}
         {children}
       </BlockCarousel>
     </Section>
   );
-};
+}
 
 export default React.memo(BannerCarousel);

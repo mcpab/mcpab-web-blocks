@@ -2,11 +2,11 @@ import Box, { type BoxProps } from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
 import { Fragment, useState } from 'react';
-import { SectionTitle } from '../typography';
+import { SectionTitle } from '../typography/Title';
 import { useTextTreeRendererContext } from './TextTreeRenderContext';
 import type { RichTextBlock, SubSectionBlock } from './defaultTextRegistries';
 
-export type SectionProps = {
+export type ContentSectionProps = {
   title: RichTextBlock;
   content: (RichTextBlock | SubSectionBlock)[];
   collapsible?: boolean;
@@ -15,14 +15,14 @@ export type SectionProps = {
   contentGap?: BoxProps['gap'];
 };
 
-export function Section({
+export function ContentSection({
   title,
   content,
   defaultOpen: isOpen,
   collapsible: shouldOpen,
   hasDivider,
   contentGap,
-}: SectionProps) {
+}: ContentSectionProps) {
   //
 
   const { nodesRenderer } = useTextTreeRendererContext();
@@ -60,4 +60,4 @@ export function Section({
   );
 }
 
-export default Section;
+export default ContentSection;

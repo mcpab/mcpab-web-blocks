@@ -1,14 +1,7 @@
-import type {
-  DiagnosticEntry,
-  LayoutRenderOverrideFor
-} from '@mcpab/gridcss';
-import {
-  CSSLayout,
-  getLayoutFromCatalog,
-  GridCssMuiRenderer
-} from '@mcpab/gridcss';
+import type { DiagnosticEntry } from '@mcpab/gridcss';
+import { CSSLayout, getLayoutFromCatalog } from '@mcpab/gridcss';
 import { Box } from '@mui/system';
-
+import { GridCssMuiRenderer, LayoutRenderOverrideFor } from '@mcpab/gridcss/mui';
 /** Props for {@link ThreeColumnsFooter}. All slots are optional. */
 export type ThreeColumnsFooterProps = {
   /** Content rendered in the top header band of the footer. */
@@ -22,7 +15,6 @@ export type ThreeColumnsFooterProps = {
   /** Third column content. */
   column_3?: React.ReactNode;
 };
- 
 
 /**
  * A footer divided into three equal content columns, with an optional header
@@ -31,24 +23,13 @@ export type ThreeColumnsFooterProps = {
  * The layout is driven by the `footerHeader3Columns` entry in the secondary
  * GridCSS catalog. Pass any React node into each slot — typically navigation
  * link lists, contact details, or a brand logo.
- *
- * @example
- * ```tsx
- * <ThreeColumnsFooter
- *   header={<Logo />}
- *   column_1={<NavList title="Company" links={companyLinks} />}
- *   column_2={<NavList title="Services" links={serviceLinks} />}
- *   column_3={<SocialLinks />}
- *   footer={<Copyright />}
- * />
- * ```
  */
 export function ThreeColumnsFooter(props: ThreeColumnsFooterProps) {
   const layout = getLayoutFromCatalog('secondary', 'footerHeader3Columns');
   const diagnostics: DiagnosticEntry[] = [];
   const absoluteLayout = CSSLayout({ layout, diagnostics });
 
-  const layoutRendering =  {
+  const layoutRendering = {
     header: {
       block_1: {
         contentRenderer: () => <>{props.header}</>,
@@ -70,7 +51,7 @@ export function ThreeColumnsFooter(props: ThreeColumnsFooterProps) {
         contentRenderer: () => <>{props.column_3}</>,
       },
     },
-  } satisfies LayoutRenderOverrideFor<typeof layout>;;
+  } satisfies LayoutRenderOverrideFor<typeof layout>;
 
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: absoluteLayout,

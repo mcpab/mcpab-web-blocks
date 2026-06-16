@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import BackgroundBox from './BackgroundBox';
-import { HtmlImage } from '../../core/image/image-types';
+import { HtmlImage } from '../../core/image/imageExtensions';
 
 export default {
   title: 'Layout/Background Box',

@@ -4,7 +4,7 @@ import type { BoxProps } from '@mui/material/Box';
 import type { ContainerProps } from '@mui/material/Container';
 import Container from '@mui/material/Container';
 import DynamicTransition from './DynamicTransition';
-import type { StaticImageDataLike, ImageComponentLike } from '../../core/image/image-types';
+import type { StaticImageDataLike, ImageComponentLike } from '../../core/image/imageExtensions';
 import BackgroundBox from '../layout/BackgroundBox';
 
 /** A single slide in the background carousel. */
@@ -32,7 +32,7 @@ export type CarouselProps = {
 };
 
 /** Props for {@link BlockCarousel}. */
-export type CarouselConfig = {
+export type BlockCarouselProps = {
   /** Carousel timing and image list. Omit to render no background. */
   config?: CarouselProps;
   /** Foreground content rendered on top of the carousel (titles, CTAs, etc.). */
@@ -68,13 +68,13 @@ export type CarouselConfig = {
  *
  * @see {@link BannerCarousel} for the higher-level component that wraps this inside a `Section`.
  */
-export const BlockCarousel: React.FC<CarouselConfig> = ({
+export function BlockCarousel({
   config,
   children,
   containerProps,
   rootProps,
   ImageComponent,
-}) => {
+}: BlockCarouselProps) {
   const {
     images = [],
     interval: intervalProp,
@@ -87,8 +87,7 @@ export const BlockCarousel: React.FC<CarouselConfig> = ({
 
   const { sx: rootSx, ...restRoot } = rootProps ?? {};
 
-  const frames = React.useMemo(() => {
-    return images.map((img, i) => {
+  const frames =   images.map((img, i) => {
       const { transform, image, objectPosition } = img;
       return (
         <BackgroundBox
@@ -108,7 +107,7 @@ export const BlockCarousel: React.FC<CarouselConfig> = ({
         />
       );
     });
-  }, [images, overlayColor, preloadFirst,ImageComponent]);
+  
 
   return (
     <Box
@@ -121,7 +120,7 @@ export const BlockCarousel: React.FC<CarouselConfig> = ({
         display: 'grid', // grid lets us stack layers via grid-area
         width: '100%',
         minHeight: 'inherit', // ← inherit the band height from <Section>
-        ...(rootSx),
+        ...rootSx,
       }}
     >
       {/* Frames root: positioned context for absolute slides */}
@@ -159,6 +158,6 @@ export const BlockCarousel: React.FC<CarouselConfig> = ({
       </Container>
     </Box>
   );
-};
+}
 
-export default React.memo(BlockCarousel);
+export default  BlockCarousel;

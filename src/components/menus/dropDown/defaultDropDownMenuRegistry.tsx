@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { IconPicker } from '../../../lib/icon';
+import { IconPicker } from '../../../lib/icon/IconPicker';
 import { DropDownGroup, type DropDownGroupProps } from './DropDownGroup';
 import { DropDownLink, type DropDownLinkProps } from './DropDownLink';
 import type {

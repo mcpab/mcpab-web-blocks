@@ -23,30 +23,15 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./typography": {
-      "types": "./dist/typography.d.ts",
-      "import": "./dist/typography.js",
-      "require": "./dist/typography.cjs"
-    },
-    "./image": {
-      "types": "./dist/image.d.ts",
-      "import": "./dist/image.js",
-      "require": "./dist/image.cjs"
-    },
-    "./header": {
-      "types": "./dist/header.d.ts",
-      "import": "./dist/header.js",
-      "require": "./dist/header.cjs"
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.js",
+      "require": "./dist/client.cjs"
     },
     "./mui-augment": {
       "types": "./dist/mui-augment.d.ts",
       "import": "./dist/mui-augment.js",
       "require": "./dist/mui-augment.cjs"
-    },
-    "./*": {
-      "types": "./dist/*.d.ts",
-      "import": "./dist/*.js",
-      "require": "./dist/*.cjs"
     }
   },
   "scripts": {
@@ -67,23 +52,30 @@
     "docs:watch": "typedoc --watch"
   },
   "peerDependencies": {
+    "@emotion/react": ">=11",
+    "@emotion/styled": ">=11",
     "@mui/icons-material": ">=6",
     "@mui/material": ">=6",
+    "@mui/system": ">=6",
     "react": ">=18",
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@eslint/js": "^9.39.4",
     "@fontsource/crimson-pro": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
     "@ladle/react": "^5.1.1",
+    "@mui/icons-material": "^7.3.11",
+    "@mui/material": "^7.3.11",
+    "@mui/system": "^7.3.5",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/d3-hierarchy": "^3.1.7",
     "@types/jest": "^30.0.0",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "eslint": "^9",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
@@ -91,20 +83,17 @@
     "globals": "^17.6.0",
     "jest": "^30.2.0",
     "prettier": "^3.6.2",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "ts-jest": "^29.4.6",
     "tsup": "^8.0.0",
     "typedoc": "^0.28.16",
     "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.4"
+    "typescript-eslint": "^8.59.4",
+    "vite": "^6.4.3"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mcpab/gridcss": "^0.3.5",
-    "@mui/system": "^7.3.5",
-    "d3-hierarchy": "^3.1.2"
+    "@mcpab/gridcss": "workspace:*"
   }
 }

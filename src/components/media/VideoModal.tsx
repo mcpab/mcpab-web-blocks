@@ -40,8 +40,8 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import type { SxProps, Theme } from '@mui/material/styles';
-import type { StaticImageDataLike } from '../../core/image/image-types';
-import { SubsectionTitle } from '../typography';
+import type { StaticImageDataLike } from '../../core/image/imageExtensions';
+import { SubsectionTitle } from '../typography/Title';
 
 /**
  * Props for {@link VideoModal}.

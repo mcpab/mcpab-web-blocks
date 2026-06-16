@@ -4,7 +4,7 @@ import * as React from 'react';
  * Matches the common shape of `StaticImageData` (e.g., Next.js) without importing Next types.
  * You can broaden this later if your build pipeline produces different fields.
  */
-export interface StaticImageDataLike {
+export type StaticImageDataLike = {
   src: string;
   width?: number;
   height?: number;

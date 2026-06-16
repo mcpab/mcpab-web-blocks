@@ -1,5 +1,4 @@
-'use client';
-
+ 
 import '../../../../mui-augment';
 import * as React from 'react';
 
@@ -8,10 +7,10 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import type { StaticImageDataLike } from '../../../../core/image/image-types';
+import type { StaticImageDataLike } from '../../../../core/image/imageExtensions';
 import Container from '@mui/material/Container';
 import type { BackgroundBoxProps } from '../../BackgroundBox';
-import { SubsubsectionTitle } from '../../../typography';
+import { SubsubsectionTitle } from '../../../typography/Title';
 
 /**
  * Props for {@link HeroBlock}.
@@ -70,7 +69,7 @@ function formatTitle(node: React.ReactNode, kind: 'title' | 'subtitle' = 'title'
 /**
  * Two-column hero section with heading/copy on the left and responsive media on the right.
  */
-export const HeroBlock: React.FC<HeroBlockProps> = ({
+export function HeroBlock({
   image,
   alt,
   header,
@@ -81,7 +80,7 @@ export const HeroBlock: React.FC<HeroBlockProps> = ({
   ImageComponent,
   sx,
   ...containerProps
-}) => {
+}: HeroBlockProps) {
   return (
     <Container
       {...containerProps}
@@ -120,7 +119,11 @@ export const HeroBlock: React.FC<HeroBlockProps> = ({
           >
             {formatTitle(header, 'title')}
             {message && (
-              <Typography variant="lead" color="text.primary" sx={{ textAlign: 'left', maxWidth: 720 }}>
+              <Typography
+                variant="lead"
+                color="text.primary"
+                sx={{ textAlign: 'left', maxWidth: 720 }}
+              >
                 {message}
               </Typography>
             )}
@@ -156,12 +159,7 @@ export const HeroBlock: React.FC<HeroBlockProps> = ({
             </Paper>
 
             {caption && (
-              <Typography
-                variant="finePrint"
-                color="text.secondary"
-                textAlign={'center'}
-                mt={2}
-              >
+              <Typography variant="finePrint" color="text.secondary" textAlign={'center'} mt={2}>
                 {caption}
               </Typography>
             )}
@@ -170,6 +168,6 @@ export const HeroBlock: React.FC<HeroBlockProps> = ({
       </Grid>
     </Container>
   );
-};
+}
 
 export default HeroBlock;

@@ -1,77 +1,5 @@
 import { defineConfig } from 'tsup';
 
-const serverComponentEntries = {
-  BackgroundBox: 'src/components/layout/BackgroundBox.tsx',
-  BannerCarousel: 'src/components/banner/BannerCarousel.tsx',
-  BannerStatic: 'src/components/banner/BannerStatic.tsx',
-  BlockCarousel: 'src/components/banner/BlockCarousel.tsx',
-  ContentSection: 'src/components/content/Section.tsx',
-  ContentTreeView: 'src/components/content/ContentTreeView.tsx',
-  DrawerMenuLink: 'src/components/menus/drawer/DrawerMenuLink.tsx',
-  DropDown: 'src/components/menus/dropDown/DropDown.tsx',
-  DropDownLink: 'src/components/menus/dropDown/DropDownLink.tsx',
-  FeaturedColumnsFooter: 'src/components/footers/FeaturedColumnsFooter.tsx',
-  FiveColumnsFooter: 'src/components/footers/FiveColumnsFooter.tsx',
-  GetInTouch: 'src/components/buttons/GetInTouch.tsx',
-  HeaderLogo: 'src/components/header/HeaderLogo.tsx',
-  HeaderMinimal: 'src/components/header/HeaderMinimal.tsx',
-  IconPicker: 'src/lib/icon/IconPicker.tsx',
-  InlineCode: 'src/components/content/inline/InlineCode.tsx',
-  InlineEmphasis: 'src/components/content/inline/InlineEmphasis.tsx',
-  InlineLink: 'src/components/content/inline/InlineLink.tsx',
-  InlineStrong: 'src/components/content/inline/InlineStrong.tsx',
-  InlineStrongEmphasis: 'src/components/content/inline/InlineStrongEmphasis.tsx',
-  InlineText: 'src/components/content/inline/InlineText.tsx',
-  MainTitle: 'src/components/banner/MainTitle.tsx',
-  Pad: 'src/components/Pad.tsx',
-  PageLayout: 'src/components/layout/PageLayout.tsx',
-  PageTitle: 'src/components/typography/Title.tsx',
-  PageTitleLabel: 'src/components/typography/TitleLabel.tsx',
-  RichText: 'src/components/content/RichText.tsx',
-  Section: 'src/components/Section.tsx',
-  SectionTitle: 'src/components/typography/Title.tsx',
-  SectionTitleLabel: 'src/components/typography/TitleLabel.tsx',
-  Spacer: 'src/components/styled/Spacer.tsx',
-  StandardStack: 'src/components/styled/StandardStack.tsx',
-  SubSection: 'src/components/content/SubSection.tsx',
-  SubsectionTitle: 'src/components/typography/Title.tsx',
-  SubsectionTitleLabel: 'src/components/typography/TitleLabel.tsx',
-  SubsubsectionTitle: 'src/components/typography/Title.tsx',
-  SubsubsectionTitleLabel: 'src/components/typography/TitleLabel.tsx',
-  ThreeColumnsFooter: 'src/components/footers/ThreeColumnsFooter.tsx',
-  Title: 'src/components/typography/Title.tsx',
-  TitleLabel: 'src/components/typography/TitleLabel.tsx',
-  TouchButton: 'src/components/styled/TouchButton.tsx',
-  TwoColumnsFooter: 'src/components/footers/TwoColumnsFooter.tsx',
-};
-
-const clientComponentEntries = {
-  ActionButton: 'src/components/buttons/ActionButton.tsx',
-  BackButton: 'src/components/buttons/BackButton.tsx',
-  BookingButton: 'src/components/buttons/BookingButton.tsx',
-  BreadMenu: 'src/components/navigation/Breadcrumbs/BreadMenu.tsx',
-  CallToActionButton: 'src/components/buttons/CallToActionButton.tsx',
-  ClickTextImage: 'src/components/cards/ClickTextImage.tsx',
-  CopyButton: 'src/components/buttons/CopyButton.tsx',
-  DebouncedTextField: 'src/components/inputs/DebouncedTextField.tsx',
-  DownloadButton: 'src/components/buttons/DownloadButton.tsx',
-  DrawerMenuGroup: 'src/components/menus/drawer/DrawerMenuGroup.tsx',
-  DrawerMenuRoot: 'src/components/menus/drawer/DrawerMenuRoot.tsx',
-  DropDownGroup: 'src/components/menus/dropDown/DropDownGroup.tsx',
-  DynamicTransition: 'src/components/banner/DynamicTransition.tsx',
-  FavoriteButton: 'src/components/buttons/FavoriteButton.tsx',
-  Header: 'src/components/header/Header.tsx',
-  HeaderDrawer: 'src/components/header/HeaderDrawer.tsx',
-  HeaderMenu: 'src/components/header/HeaderMenu.tsx',
-  HeroBlock: 'src/components/layout/sections/HeroBlock/HeroBlock.tsx',
-  MediaText: 'src/components/layout/sections/MediaText/MediaText.tsx',
-  ShareButton: 'src/components/buttons/ShareButton.tsx',
-  SocialButton: 'src/components/buttons/SocialButton.tsx',
-  SubscribeButton: 'src/components/buttons/SubscribeButton.tsx',
-  VideoModal: 'src/components/media/VideoModal.tsx',
-  WhatsAppButton: 'src/components/buttons/WhatsAppButton.tsx',
-};
-
 const sharedOptions = {
   dts: true,
   format: ['esm', 'cjs'],
@@ -79,27 +7,18 @@ const sharedOptions = {
   treeshake: true,
   splitting: false,
   target: 'es2019',
-  esbuildOptions(o) {
-    o.jsx = 'automatic';
+  esbuildOptions(options) {
+    options.jsx = 'automatic';
   },
 } as const;
 
-export default defineConfig([
-  {
-    ...sharedOptions,
-    entry: {
-      index: 'src/index.ts',
-      'mui-augment': 'src/mui-augment.ts',
-      typography: 'src/components/typography/index.ts',
-      image: 'src/core/image/index.ts',
-      header: 'src/components/header/index.ts',
-      ...serverComponentEntries,
-    },
-    clean: true,
+export default defineConfig((options) => ({
+  ...sharedOptions,
+  entry: {
+    index: 'src/index.ts',
+    'mui-augment': 'src/mui-augment.ts',
+    client: 'src/client.ts',
   },
-  {
-    ...sharedOptions,
-    entry: clientComponentEntries,
-    clean: false,
-  },
-]);
+  clean: !options.watch,
+  onSuccess: 'node scripts/prepend-use-client.mjs',
+}));

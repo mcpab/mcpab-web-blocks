@@ -1,11 +1,13 @@
-'use client';
-
-import type { Layout } from '@mcpab/gridcss';
-import { CSSLayout, GridCssMuiRenderer } from '@mcpab/gridcss';
+import type { CssLength, Layout } from '@mcpab/gridcss';
+import { CSSLayout } from '@mcpab/gridcss';
+import { GridCssMuiRenderer } from '@mcpab/gridcss/mui';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 import * as React from 'react';
-import type { ImageComponentLike, StaticImageDataLike } from '../../../../core/image/image-types';
+import type {
+  ImageComponentLike,
+  StaticImageDataLike,
+} from '../../../../core/image/imageExtensions';
 import type { ImageConf } from '../../BackgroundBox';
 import BackgroundBox from '../../BackgroundBox';
 
@@ -50,6 +52,11 @@ type BaseProps = {
   sx?: SxProps<Theme>;
 
   ImageComponent: ImageComponentLike;
+
+  gap?: CssLength;
+  mediaSx?: SxProps<Theme>;
+  messageSx?: SxProps<Theme>;
+  imageConf?: Partial<Omit<ImageConf, 'src'>>;
 };
 
 type ImageMedia = {
@@ -64,7 +71,6 @@ type VideoMedia = {
   /** Explicitly prevent image when using video */
   image?: never;
 };
- 
 
 function toYouTubeEmbedSrc(input: string): string | null {
   const value = input.trim();
@@ -118,7 +124,7 @@ export type MediaAndTextProps = BaseProps & (ImageMedia | VideoMedia);
  */
 export type MediaAndTextNoMessage = Omit<BaseProps, 'message'> & (ImageMedia | VideoMedia);
 
-export const MediaText: React.FC<MediaAndTextProps> = (props) => {
+export function MediaText(props: MediaAndTextProps) {
   //
   //
 
@@ -185,17 +191,29 @@ export const MediaText: React.FC<MediaAndTextProps> = (props) => {
       src: props.image,
       mode: 'cover', // Fill container while maintaining aspect ratio
       objectPosition: '50% 50%', // Center the image within container
+      ...props.imageConf,
     };
 
     media = (
-      <BackgroundBox
-        ImageComponent={ImageComponent}
-        imageConf={imageConf}
+      <Box
         sx={{
-          position: 'absolute',
-          inset: 0, // Fill entire container
+          position: 'relative',
+          width: '100%',
+          minHeight: { xs: 320, md: 460 },
+          height: '100%',
+          overflow: 'hidden',
         }}
-      />
+      >
+        <BackgroundBox
+          ImageComponent={ImageComponent}
+          imageConf={imageConf}
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            height: '100%',
+          }}
+        />
+      </Box>
     );
   }
 
@@ -226,21 +244,42 @@ export const MediaText: React.FC<MediaAndTextProps> = (props) => {
     );
   }
 
-  const renderer =  {
+  const mediaSlot = (
+    <Box
+      sx={[
+        {
+          position: 'relative',
+          width: '100%',
+          minHeight: { xs: 320, md: 460 },
+          overflow: 'hidden',
+        },
+        ...(Array.isArray(props.mediaSx) ? props.mediaSx : [props.mediaSx]),
+      ]}
+    >
+      {media}
+    </Box>
+  );
+
+  const messageSlot = <Box sx={props.messageSx}>{props.message}</Box>;
+
+  const renderer = {
     row_1: {
       block_1: {
-        contentRenderer: () => <>{props.reverse ? props.message : media}</>,
+        contentRenderer: () => <>{props.reverse ? messageSlot : mediaSlot}</>,
       },
       block_2: {
-        contentRenderer: () => <>{props.reverse ? media : props.message}</>,
+        contentRenderer: () => <>{props.reverse ? mediaSlot : messageSlot}</>,
       },
     },
   };
 
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: layoutAbsolute,
-    layoutRendering: renderer,
+    layoutRendering: renderer, 
     diagnostics: [],
+    gridOptionsOverride:{
+          gap: props.gap  ,
+    }
   });
 
   // ========================================================================
@@ -264,5 +303,5 @@ export const MediaText: React.FC<MediaAndTextProps> = (props) => {
       {rendered}
     </Box>
   );
-};
+}
 export default MediaText;

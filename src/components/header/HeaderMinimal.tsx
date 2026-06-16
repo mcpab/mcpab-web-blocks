@@ -1,4 +1,4 @@
-import AppBar from '@mui/material/AppBar';
+import AppBar, { AppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 
@@ -7,15 +7,22 @@ export type HeaderMinimalProps = {
   centerUp?: React.ReactNode;
   centerDown?: React.ReactNode;
   right?: React.ReactNode;
+  appBarProps?: AppBarProps;
 };
 
-export function HeaderMinimal({ centerDown, centerUp, left, right }: HeaderMinimalProps) {
+export function HeaderMinimal({
+  centerDown,
+  centerUp,
+  left,
+  right,
+  appBarProps,
+}: HeaderMinimalProps) {
   //
 
   return (
     //
 
-    <AppBar position="sticky">
+    <AppBar position="sticky" {...appBarProps}>
       <Toolbar sx={{ display: 'flex' }}>
         <Box
           display="flex"

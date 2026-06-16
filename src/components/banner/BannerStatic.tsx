@@ -5,7 +5,7 @@ import type { ImageConf } from '../layout/BackgroundBox';
 import Section from '../Section';
 import Container from '@mui/material/Container';
 import type { SectionSize } from '../../design/sectionTokens';
-import type { ImageComponentLike } from '../../core/image/image-types';
+import type { ImageComponentLike } from '../../core/image/imageExtensions';
 
 /** Props for {@link BannerStatic}. */
 export type BannerStaticProps = {
@@ -43,13 +43,13 @@ export type BannerStaticProps = {
  *
  * @see {@link BannerCarousel} for the animated multi-image variant.
  */
-export const BannerStatic: React.FC<BannerStaticProps> = ({
+export function  BannerStatic ({
   image,
   boxProps,
   size = 'micro',
   children,
   ImageComponent,
-}) => {
+}: BannerStaticProps) {
   const { id, sx: boxSx, ...restBox } = boxProps ?? {};
 
   return (

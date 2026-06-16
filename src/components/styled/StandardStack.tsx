@@ -17,12 +17,12 @@ export interface StandardStackProps extends StackProps {
   size?: StackSize;
 }
 
-const BaseStack: React.FC<StandardStackProps> = ({ size = 'standard', ...props }) => {
+function BaseStack ({ size = 'standard', ...props }:StandardStackProps) {
   const spacing = STACK_SPACING[size];
   return <Stack spacing={spacing} {...props} />;
 };
 
-export const StandardStack: React.FC<StandardStackProps> = ({ sx, ...props }) => {
+export function StandardStack ({ sx, ...props }:StandardStackProps) {
   return (
     <BaseStack
       {...props}

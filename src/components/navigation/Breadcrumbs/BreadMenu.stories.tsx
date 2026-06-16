@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import BreadMenu from './BreadMenu';
-import type { LinkTypeComponent } from '../../../core/link';
+import type { LinkTypeComponent } from '../../../core/link/linkExtensions';
 
 export default {
   title: 'Navigation/Breadcrumbs/Bread Menu',
@@ -78,7 +78,7 @@ ExcludedSegments.storyName = 'Excluded segments';
 
 export const NoPathnameProp: Story = () => (
   <Box sx={{ p: 3, bgcolor: '#f1f5f9', borderRadius: 2 }}>
-    <BreadMenu linkComponent={StoryLink} />
+    <BreadMenu linkComponent={StoryLink} pathname='/'/>
   </Box>
 );
 

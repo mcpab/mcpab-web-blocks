@@ -53,13 +53,13 @@ function clampFrameIndex(index: number, length: number): number {
  *
  * @see {@link BlockCarousel} which builds the frame array from `BackgroundBox` slides.
  */
-export const DynamicTransition: React.FC<DynamicTransitionProps> = ({
+export function DynamicTransition({
   frames,
   interval = 2000,
   transitionDuration = 1000,
   startIndex = 0,
   boxProps,
-}) => {
+}: DynamicTransitionProps) {
   const frameItems = React.useMemo<FrameItem[]>(
     () => (frames ?? []).map((frame, index) => ({ frame, key: index })),
     [frames],
@@ -75,7 +75,7 @@ export const DynamicTransition: React.FC<DynamicTransitionProps> = ({
       key={`${frameItems.length}:${startIndex}`}
     />
   );
-};
+}
 
 type DynamicTransitionInnerProps = Omit<DynamicTransitionProps, 'frames'> & {
   frameItems: FrameItem[];
@@ -123,7 +123,13 @@ function DynamicTransitionInner({
     return (
       <Box
         {...boxProps}
-        sx={{ position: 'relative', inset: 0, width: '100%', height: '100%', ...(boxProps?.sx || {}) }}
+        sx={{
+          position: 'relative',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          ...(boxProps?.sx || {}),
+        }}
       >
         <div style={{ position: 'absolute', inset: 0 }}>{frameItems[0]?.frame}</div>
       </Box>
@@ -136,7 +142,13 @@ function DynamicTransitionInner({
   return (
     <Box
       {...boxProps}
-      sx={{ position: 'relative', inset: 0, width: '100%', height: '100%', ...(boxProps?.sx || {}) }}
+      sx={{
+        position: 'relative',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        ...(boxProps?.sx || {}),
+      }}
     >
       {!transitionState.hasTransitioned ? (
         <div style={{ position: 'absolute', inset: 0 }}>{inFrame?.frame}</div>

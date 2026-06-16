@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import type { ImageComponentLike, StaticImageDataLike } from '../../core/image/image-types';
+import type { ImageComponentLike, StaticImageDataLike } from '../../core/image/imageExtensions';
 import type { Theme } from '@emotion/react';
 import type { SxProps } from '@mui/system';
 

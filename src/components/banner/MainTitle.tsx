@@ -1,17 +1,17 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import type { StackProps } from '@mui/material/Stack';
-import { PageTitle, SectionTitle, type TitleProps } from '../typography/Title';
+import { PageTitle, type TitleProps } from '../typography/Title';
 import { toTitleCase } from '../../lib/text/transform';
+import Typography, { type TypographyProps } from '@mui/material/Typography';
 
 type TitleLocalProps = Omit<TitleProps, 'sectionType'>;
- 
 
 /** Props for {@link MainTitle}. */
 export type MainTitleProps = {
   /** Primary title text rendered as a {@link PageTitle}. */
   title: string;
-  /** Supporting subtitle text rendered as a {@link SectionTitle}. */
+  /** Supporting subtitle text rendered as paragraph text with heading-style typography. */
   subtitle: string;
   /**
    * When `true`, title and subtitle are passed through `toTitleCase` before rendering.
@@ -25,7 +25,7 @@ export type MainTitleProps = {
     /** Props forwarded to the primary title. */
     title?: TitleLocalProps;
     /** Props forwarded to the subtitle. */
-    subtitle?: TitleLocalProps;
+    subtitle?: TypographyProps;
   };
 };
 
@@ -49,7 +49,9 @@ export function MainTitle({ title, subtitle, autoCapitalize = true, slotProps }:
   return (
     <Stack spacing={4} {...slotProps?.stack}>
       <PageTitle {...slotProps?.title}>{renderedTitle}</PageTitle>
-      <SectionTitle {...slotProps?.subtitle}>{renderedSubtitle}</SectionTitle>
+      <Typography variant="h4" component="p" {...slotProps?.subtitle}>
+        {renderedSubtitle}
+      </Typography>
     </Stack>
   );
 }

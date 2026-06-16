@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { useId } from 'react';
-import type { StaticImageDataLike, ImageComponentLike } from '../../core/image/image-types';
+import type { StaticImageDataLike, ImageComponentLike } from '../../core/image/imageExtensions';
 import BackgroundBox from '../layout/BackgroundBox';
 
 /** Props for {@link ClickTextImage}. */
@@ -56,7 +56,7 @@ export type ClickTextImageProps = {
  * />
  * ```
  */
-export const ClickTextImage: React.FC<ClickTextImageProps> = ({ title, image, text, ImageComponent }) => {
+export function ClickTextImage({ title, image, text, ImageComponent }: ClickTextImageProps) {
   const [open, setOpen] = React.useState(false);
   const contentId = useId();
 
@@ -199,6 +199,6 @@ export const ClickTextImage: React.FC<ClickTextImageProps> = ({ title, image, te
       </Fade>
     </Paper>
   );
-};
+}
 
 export default React.memo(ClickTextImage);

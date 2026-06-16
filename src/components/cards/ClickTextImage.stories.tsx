@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import ClickTextImage from './ClickTextImage';
-import type { UniversalImageProps } from '../../core/image';
+import type { UniversalImageProps } from '../../core/image/imageExtensions';
 
 const MockImage: React.FC<UniversalImageProps> = ({
   src,

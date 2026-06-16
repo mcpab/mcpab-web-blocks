@@ -30,7 +30,7 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 export type FavoriteType = 'heart' | 'bookmark' | 'like';
 
 /** Props for {@link FavoriteButton}. */
-export interface FavoriteButtonProps extends Omit<IconButtonProps, 'onClick'> {
+export interface FavoriteButtonProps extends Omit<IconButtonProps, 'onClick' | 'onToggle'> {
   isFavorited?: boolean;
   onToggle: (isFavorited: boolean, itemId?: string) => void;
   itemId?: string;

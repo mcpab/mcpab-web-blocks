@@ -4,7 +4,7 @@ import type { Story } from "@ladle/react";
 
 import BlockCarousel from "./BlockCarousel";
 import type { CarouselProps, ImageCarousel } from "./BlockCarousel";
-import type { UniversalImageProps } from "../../core/image";
+import type { UniversalImageProps } from "../../core/image/imageExtensions";
 
 /**
  * Minimal ImageComponentLike mock.

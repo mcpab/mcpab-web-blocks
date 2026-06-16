@@ -18,7 +18,7 @@ import { RichText } from './RichText';
 import type { RichTextProps } from './RichText';
 import { SubSection } from './SubSection';
 import type { SubSectionProps } from './SubSection';
-import { Section, type SectionProps } from './Section';
+import { ContentSection, type ContentSectionProps } from './ContentSection';
 
 /// Here we define the labels
 export type SectionKind = 'section';
@@ -127,7 +127,7 @@ export type DefaultRenderingPropsMap = {
   link: InlineLinkProps;
   richText: RichTextProps;
   subSection: SubSectionProps;
-  section: SectionProps;
+  section: ContentSectionProps;
 };
 
 /// this is the prototype of the entry of the registry
@@ -202,7 +202,7 @@ export const defaultRenderedRegistry = {
     type: 'section',
     rendering({ node, overrides }) {
       return (
-        <Section
+        <ContentSection
           defaultOpen
           content={node.content}
           title={node.title}

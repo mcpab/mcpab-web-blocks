@@ -1,8 +1,7 @@
-import * as React from "react";
 import type { Story } from "@ladle/react";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import ActionButton from "./ActionButton";
 

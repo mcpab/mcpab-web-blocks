@@ -50,7 +50,7 @@ export type DebouncedTextFieldProps = Omit<TextFieldProps, 'onChange' | 'value'>
  * - Respects IME composition and defers debounced emits until composition ends.
  * - Optionally flushes pending value on blur.
  */
-export const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
+export function DebouncedTextField({
   value: controlledValue,
   defaultValue = '',
   debounceMs = 500,
@@ -58,9 +58,11 @@ export const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
   onDebouncedChange,
   flushOnBlur = true,
   ...props
-}) => {
+}: DebouncedTextFieldProps) {
   const isControlled = controlledValue !== undefined;
-  const [uncontrolledValue, setUncontrolledValue] = React.useState<string>(String(defaultValue ?? ''));
+  const [uncontrolledValue, setUncontrolledValue] = React.useState<string>(
+    String(defaultValue ?? ''),
+  );
   const inputValue = isControlled ? String(controlledValue ?? '') : uncontrolledValue;
 
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -90,7 +92,7 @@ export const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
         }
       }, delay);
     },
-    [debounceMs, onDebouncedChange, clearTimer]
+    [debounceMs, onDebouncedChange, clearTimer],
   );
 
   // Re-schedule with the latest delay when debounceMs changes.
@@ -115,7 +117,7 @@ export const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
       onChange?.(e);
       if (!composingRef.current) schedule(next);
     },
-    [isControlled, onChange, schedule]
+    [isControlled, onChange, schedule],
   );
 
   const handleBlur = React.useCallback(
@@ -130,7 +132,7 @@ export const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
       }
       props.onBlur?.(e);
     },
-    [flushOnBlur, onDebouncedChange, clearTimer, props]
+    [flushOnBlur, onDebouncedChange, clearTimer, props],
   );
 
   // IME guard: avoid mid-composition emissions.
@@ -154,6 +156,6 @@ export const DebouncedTextField: React.FC<DebouncedTextFieldProps> = ({
       onCompositionEnd={handleCompositionEnd}
     />
   );
-};
+}
 
 export default DebouncedTextField;

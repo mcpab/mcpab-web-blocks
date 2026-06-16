@@ -1,6 +1,6 @@
 import type { Story } from '@ladle/react';
 import Box from '@mui/material/Box';
-import { DefaultLinkLike } from '../../../core/link';
+import { DefaultLinkLike } from '../../../core/link/linkExtensions';
 import { DropDown } from './DropDown';
 import { defaultRenderDropDownMenuNode } from './defaultDropDownMenuRegistry';
 import { getDropDownMenuSelectors } from './DropDownMenuSelectors';

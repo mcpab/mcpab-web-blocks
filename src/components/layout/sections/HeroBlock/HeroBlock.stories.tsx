@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import HeroBlock from './HeroBlock';
-import { HtmlImage } from '../../../../core/image/image-types';
+import { HtmlImage } from '../../../../core/image/imageExtensions';
 
 export default {
   title: 'Layout/Sections/Hero Block',

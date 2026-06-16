@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { isStaticImageDataLike, type StaticImageDataLike } from '../../core/image/image-types';
-import type { ImageComponentLike } from '../../core/image/image-types';
+import { isStaticImageDataLike, type StaticImageDataLike } from '../../core/image/imageExtensions';
+import type { ImageComponentLike } from '../../core/image/imageExtensions';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 
@@ -97,6 +97,8 @@ export type ImageConf = {
    * @defaultValue inferred from static image dimensions, otherwise '16 / 9'
    */
   aspectRatio?: string | number;
+
+  filter?: string;
 };
 
 /**
@@ -166,14 +168,14 @@ function computeAR({ imageConf }: { imageConf: ImageConf | undefined }): {
 
   return { computedAR, placeholder };
 }
-export const BackgroundBox: React.FC<BackgroundBoxProps> = ({
+export function BackgroundBox({
   imageConf,
   children,
   sx,
   className,
   ImageComponent,
   ...rest
-}) => {
+}: BackgroundBoxProps) {
   //
 
   const { computedAR, placeholder } = computeAR({ imageConf });
@@ -212,6 +214,7 @@ export const BackgroundBox: React.FC<BackgroundBoxProps> = ({
                 objectFit: 'contain',
                 objectPosition: objPos,
                 transform: imageConf.transform || 'none',
+                filter: imageConf.filter,
                 display: 'block',
               }}
             />
@@ -236,6 +239,7 @@ export const BackgroundBox: React.FC<BackgroundBoxProps> = ({
                 objectPosition: objPos,
                 opacity: imageConf.opacity ?? 1,
                 transform: imageConf.transform || 'none',
+                filter: imageConf.filter,
                 zIndex: 0,
               }}
             />
@@ -266,6 +270,6 @@ export const BackgroundBox: React.FC<BackgroundBoxProps> = ({
       <Box sx={{ position: 'relative', zIndex: 1, height: '100%' }}>{children}</Box>
     </Box>
   );
-};
+}
 
 export default BackgroundBox;

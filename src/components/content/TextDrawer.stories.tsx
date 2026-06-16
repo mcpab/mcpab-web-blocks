@@ -8,7 +8,7 @@ import { TextTreeRendererContext } from './TextTreeRenderContext';
 import type { TextTreeRendererContextType } from './TextTreeRenderContext';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { DefaultLinkLike } from '../../core/link';
+import { DefaultLinkLike } from '../../core/link/linkExtensions';
 
 const textTree = {
   id: 'root',

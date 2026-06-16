@@ -2,7 +2,7 @@ import Box, { type BoxProps } from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
 import { Fragment, useState } from 'react';
-import { SubsectionTitle } from '../typography';
+import { SubsectionTitle } from '../typography/Title';
 import type { RichTextBlock } from './defaultTextRegistries';
 import { RichText } from './RichText';
 import { useTextTreeRendererContext } from './TextTreeRenderContext';

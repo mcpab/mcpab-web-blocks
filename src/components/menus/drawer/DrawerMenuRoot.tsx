@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import { Fragment, useMemo, useState } from 'react';
 
-import { DefaultLinkLike } from '../../../core/link';
-import type { LinkTypeComponent } from '../../../core/link';
+import { DefaultLinkLike } from '../../../core/link/linkExtensions';
+import type { LinkTypeComponent } from '../../../core/link/linkExtensions';
 import type { DrawerMenuTree } from './DrawerMenuTreeTypes';
 import { getDrawerMenuSelectors } from './DrawerMenuSelectors';
 import { defaultRenderDrawerMenuNode } from './defaultDrawerMenuRegistry';
@@ -19,8 +19,9 @@ import { DrawerMenuRenderContext } from './DrawerMenuRenderContext';
 import type { DrawerMenuRenderContextType } from './DrawerMenuRenderContext';
 import { createDrawerMenuStore, getInitialDrawerMenuStoreState } from './drawerMenuStore';
 import Drawer, { type DrawerProps } from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
+import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { IconPickerProps } from '../../../lib/icon/IconPicker';
 
 export type DrawerMenuRootProps = {
   currentPath: string;
@@ -31,6 +32,8 @@ export type DrawerMenuRootProps = {
   basePadding?: number;
   LinkComponent?: LinkTypeComponent;
   anchor?: DrawerProps['anchor'];
+  menuButtonProps?: IconButtonProps;
+  iconPickerPros?: IconPickerProps;
 };
 
 export function DrawerMenuRoot({
@@ -42,6 +45,7 @@ export function DrawerMenuRoot({
   basePadding = 2,
   LinkComponent = DefaultLinkLike,
   anchor,
+  menuButtonProps,
 }: DrawerMenuRootProps) {
   //
 
@@ -108,7 +112,7 @@ export function DrawerMenuRoot({
                   })}
                 </List>
               </Drawer>
-              <IconButton onClick={toggleDrawer(true)} aria-label="Open menu">
+              <IconButton onClick={toggleDrawer(true)} aria-label="Open menu" {...menuButtonProps}>
                 <MenuIcon />
               </IconButton>
             </MenuDepthContext.Provider>

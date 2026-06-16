@@ -2,8 +2,8 @@ import type { Story } from '@ladle/react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import { HtmlImage } from '../../core/image/image-types';
-import { DefaultLinkLike } from '../../core/link';
+import { HtmlImage } from '../../core/image/imageExtensions';
+import { DefaultLinkLike } from '../../core/link/linkExtensions';
 import type { DrawerMenuRootProps } from '../menus/drawer/DrawerMenuRoot';
 import type { DrawerMenuTree } from '../menus/drawer/DrawerMenuTreeTypes';
 import { defaultRenderDropDownMenuNode } from '../menus/dropDown/defaultDropDownMenuRegistry';

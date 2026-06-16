@@ -13,6 +13,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import InfoIcon from '@mui/icons-material/Info';
 import PeopleIcon from '@mui/icons-material/People';
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
+import type { SvgIconProps } from '@mui/material/SvgIcon';
 
 /**
  * Renders a Material icon resolved from a normalized semantic key.
@@ -20,11 +21,8 @@ import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
  * Returns `null` when no key match exists.
  */
 export type IconPickerProps = {
-  /** Prefer a semantic key (e.g. "home", "settings", "privacy-policy") over display label. */
   name: string;
-  /** Optional icon size override (falls back to MUI default). */
-  fontSize?: 'inherit' | 'small' | 'medium' | 'large';
-};
+} & Omit<SvgIconProps, 'children'>;
 
 /**
  * Normalize a string to a stable lookup key:
@@ -83,13 +81,19 @@ function isIconName(value: string): value is IconName {
   return value in ICONS_BY_KEY;
 }
 
-/** Icon renderer from semantic names. */
-export const IconPicker: React.FC<IconPickerProps> = ({ name, fontSize = 'medium' }) => {
+
+export const IconPicker: React.FC<IconPickerProps> = ({
+  name,
+  fontSize = 'medium',
+  ...iconProps
+}) => {
   const key = normalizeKey(name);
 
   if (!isIconName(key)) return null;
+
   const Icon = ICONS_BY_KEY[key];
-  return <Icon fontSize={fontSize} />;
+
+  return <Icon fontSize={fontSize} {...iconProps} />;
 };
 
 export default IconPicker;

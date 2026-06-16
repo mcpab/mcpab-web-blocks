@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { IconPicker } from '../../../lib/icon';
+import { IconPicker } from '../../../lib/icon/IconPicker';
 import type {
   AnyDrawerMenuNode,
   DrawerMenuNodeKind,

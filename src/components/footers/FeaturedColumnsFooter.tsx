@@ -1,5 +1,6 @@
-import type { DiagnosticEntry, LayoutRenderOverrideFor } from '@mcpab/gridcss';
-import { CSSLayout, getLayoutFromCatalog, GridCssMuiRenderer } from '@mcpab/gridcss';
+import type { DiagnosticEntry } from '@mcpab/gridcss';
+import { GridCssMuiRenderer, LayoutRenderOverrideFor } from '@mcpab/gridcss/mui';
+import { CSSLayout, getLayoutFromCatalog } from '@mcpab/gridcss';
 import { Box } from '@mui/system';
 
 /** Props for {@link FeaturedColumnsFooter}. All slots are optional. */
