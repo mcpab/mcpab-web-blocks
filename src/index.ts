@@ -13,7 +13,11 @@ export { HeaderLogo, type HeaderLogoProps } from './components/header/HeaderLogo
 export { HeaderMinimal, type HeaderMinimalProps } from './components/header/HeaderMinimal';
 
 export { HeroBlock, type HeroBlockProps } from './components/layout/sections/HeroBlock/HeroBlock';
-export { BackgroundBox, type BackgroundBoxProps } from './components/layout/BackgroundBox';
+export {
+  BackgroundBox,
+  type BackgroundBoxProps,
+  type ImageConf,
+} from './components/layout/BackgroundBox';
 
 export { PageLayout, type PageLayoutProps } from './components/layout/PageLayout';
 
@@ -22,7 +26,7 @@ export type * from './components/menus/drawer/DrawerMenuTreeTypes';
 
 export {
   MediaText,
-  MediaAndTextNoMessage,
+  type MediaAndTextNoMessage,
   type MediaAndTextProps,
 } from './components/layout/sections/MediaText/MediaText';
 export {
