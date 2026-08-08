@@ -1,10 +1,19 @@
 {
   "name": "@mcpab/web-blocks",
+  "description": "Reusable React and MUI blocks, navigation primitives, and hierarchy utilities.",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
-  "version": "0.1.2",
+  "version": "0.2.2",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcpab/mcpab-web-blocks.git"
+  },
+  "homepage": "https://github.com/mcpab/mcpab-web-blocks#readme",
+  "bugs": {
+    "url": "https://github.com/mcpab/mcpab-web-blocks/issues"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -38,7 +47,6 @@
     "build": "tsup --config tsup.config.ts",
     "build:all": "pnpm -r build",
     "prepack": "pnpm build",
-    "prepare": "pnpm build",
     "dev": "tsup --config tsup.config.ts --watch",
     "typecheck": "tsc -p tsconfig.build.json --noEmit",
     "check:internal-imports": "bash scripts/check-internal-imports.sh",
@@ -47,7 +55,7 @@
     "format:write": "prettier -w \"src/**/*.{ts,tsx,md,json}\"",
     "ladle": "ladle serve",
     "ladle:build": "ladle build",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
     "docs": "typedoc",
     "docs:watch": "typedoc --watch"
   },
@@ -94,6 +102,7 @@
     "vite": "^6.4.3"
   },
   "dependencies": {
-    "@mcpab/gridcss": "workspace:*"
-  }
+    "@mcpab/gridcss": "^0.4.1"
+  },
+  "packageManager": "pnpm@11.5.2"
 }

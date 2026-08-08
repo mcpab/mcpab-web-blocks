@@ -1,0 +1,7 @@
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+  msw: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@mcpab/gridcss@0.4.1'
