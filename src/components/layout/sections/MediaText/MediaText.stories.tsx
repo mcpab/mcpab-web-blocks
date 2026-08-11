@@ -76,7 +76,9 @@ export const Playground: Story<PlaygroundArgs> = (args) => (
       pad={args.pad}
       backgroundColor={args.backgroundColor}
       textSplit={{ preset: args.preset }}
-      {...(args.media === 'video' ? { video: 'dQw4w9WgXcQ' } : { image: args.media === 'imageB' ? mediaB : mediaA })}
+      {...(args.media === 'video'
+        ? { video: 'dQw4w9WgXcQ' }
+        : { image: args.media === 'imageB' ? mediaB : mediaA })}
       sx={{ minHeight: 420, borderRadius: 2, overflow: 'hidden' }}
     />
   </Box>
@@ -120,6 +122,21 @@ export const ReversedImage: Story = () => (
 );
 
 ReversedImage.storyName = 'Reversed image';
+
+export const CaptionedImage: Story = () => (
+  <Box sx={{ minHeight: 460, p: { xs: 1, md: 2 }, bgcolor: '#f8fafc' }}>
+    <MediaText
+      ImageComponent={HtmlImage}
+      image={mediaA}
+      message={Message}
+      caption="Figure 1. An example image paired with editorial text."
+      textSplit={{ preset: '50-50' }}
+      sx={{ minHeight: 420 }}
+    />
+  </Box>
+);
+
+CaptionedImage.storyName = 'Captioned image';
 
 export const VideoEmbed: Story = () => (
   <Box sx={{ minHeight: 460, p: { xs: 1, md: 2 }, bgcolor: '#f1f5f9' }}>

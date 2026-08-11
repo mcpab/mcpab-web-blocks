@@ -3,6 +3,7 @@ import { CSSLayout } from '@mcpab/gridcss';
 import { GridCssMuiRenderer } from '@mcpab/gridcss/mui';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import type {
   ImageComponentLike,
@@ -40,6 +41,9 @@ export type TextProps = {
  */
 type BaseProps = {
   message: React.ReactNode;
+
+  /** Optional semantic caption rendered directly beneath the media. */
+  caption?: React.ReactNode;
 
   backgroundColor?: string;
 
@@ -244,7 +248,7 @@ export function MediaText(props: MediaAndTextProps) {
     );
   }
 
-  const mediaSlot = (
+  const mediaFrame = (
     <Box
       sx={[
         {
@@ -258,6 +262,23 @@ export function MediaText(props: MediaAndTextProps) {
     >
       {media}
     </Box>
+  );
+
+  const hasCaption = props.caption !== undefined && props.caption !== null;
+  const mediaSlot = hasCaption ? (
+    <Box component="figure" sx={{ width: '100%', m: 0 }}>
+      {mediaFrame}
+      <Typography
+        component="figcaption"
+        variant="caption"
+        color="text.secondary"
+        sx={{ display: 'block', mt: 1, lineHeight: 1.5 }}
+      >
+        {props.caption}
+      </Typography>
+    </Box>
+  ) : (
+    mediaFrame
   );
 
   const messageSlot = <Box sx={props.messageSx}>{props.message}</Box>;
@@ -275,11 +296,11 @@ export function MediaText(props: MediaAndTextProps) {
 
   const rendered = GridCssMuiRenderer({
     layoutAbsolute: layoutAbsolute,
-    layoutRendering: renderer, 
+    layoutRendering: renderer,
     diagnostics: [],
-    gridOptionsOverride:{
-          gap: props.gap  ,
-    }
+    gridOptionsOverride: {
+      gap: props.gap,
+    },
   });
 
   // ========================================================================
